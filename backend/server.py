@@ -321,7 +321,7 @@ async def admin_list_users(admin: User = Depends(get_admin_user), search: Option
 
 @api.patch("/admin/users/{user_id}")
 async def admin_update_user(user_id: str, payload: AdminUserRoleUpdate, admin: User = Depends(get_admin_user)):
-    """Update user role/ban/plan (admin only)."""
+    """Update user role/ban/plan (admin only). Returns the updated user document."""
     updates = {k: v for k, v in payload.model_dump().items() if v is not None}
     if not updates:
         raise HTTPException(status_code=400, detail="Nicio modificare validă")
@@ -335,7 +335,13 @@ async def admin_update_user(user_id: str, payload: AdminUserRoleUpdate, admin: U
         "details": {"target_user_id": user_id, "updates": updates},
         "created_at": datetime.now(timezone.utc).isoformat(),
     })
-    return {"ok": True, "user_id": user_id, "updates": updates}
+    updated = await db.users.find_one(
+        {"user_id": user_id},
+        {"_id": 0, "password_hash": 0, "gmail_app_password": 0, "qes_credentials": 0},
+    )
+    if updated:
+        updated["gmail_configured"] = bool(updated.get("gmail_user"))
+    return {"ok": True, "user_id": user_id, "updates": updates, "user": updated}
 
 
 @api.get("/admin/stats")

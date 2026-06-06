@@ -1,46 +1,110 @@
-# Energy Project Design — V5.3
+# Energy Project Design — PRD
 
-## Status
-Consolidare codbase finalizată + implementare profundă Fotovoltaice (ANRE).
+## Product Vision
+B2B SaaS pentru proiectare în energie/infrastructură. Centralizează proiectarea ANRE, calcule tehnice (fotovoltaic, gaze, electric), generare automată documentație, semnătură digitală QES și marketplace de subdomenii (12 industrii + 158 subdomenii planificate).
 
-## Original problem statement
-Aplicație B2B SaaS pentru proiectare energetică (gaze naturale, fotovoltaice etc.). Documentații automate cu DOCX placeholder, calcule tehnice inteligente, SEO, autentificare, plăți Stripe.
-
-## Implementat (06.06.2026)
-- **Calc Engine — Gaz fittings (port complet din V3 legacy)**: nr_teu_derivatie, nr_mufe_electrofuziune (ceil(L/6)+1), nr_coliere_priza (ceil(L/30)+1), nr_robineti_bransament, nr_reductii (dacă D≠D), nr_coturi_90 (ceil(L/25)), material_recomandat.
-- **Fotovoltaic deep — modul nou `/app/backend/photovoltaic.py`**:
-  * 4 categorii ANRE (C1≤10.8, C2≤27, C3≤200, C4>200) cu tip racord, aviz, regim, compensare cantitativă
-  * Calcul nr. panouri (default 450Wp), configurare string (Voc rece -10°C, n_serie_max, n_string)
-  * Dimensionare invertor (raport DC/AC, min/max/recomandat)
-  * Secțiune cablu DC (formula S = 2LIρ/ΔU, H1Z2Z2-K, cădere <1%)
-  * Secțiune cablu AC mono/trifazat (cădere <1.5%, CYY-F/N2XH)
-  * Listă protecții obligatorii (DC fuse, SPD DC+AC, RCD tip B, MCB, releu rețea, smart-meter, celulă MT pt C4)
-  * Producție anuală + factor utilizare (PVGIS-SARAH3, PR=0.78, 6 zone România)
-- **Endpoint-uri noi**:
-  * `POST /api/photovoltaic/calculate`
-  * `GET /api/photovoltaic`
-  * `GET /api/photovoltaic/categories` (public)
-- **Smart placeholders DOCX cu IF/ELSE**: `{IF var<10: text X ELSE text Y}` — operatori < <= > >= == !=, suport string și numeric.
-- **`/api/project/placeholders` integrare fv_***: adaugă automat fv_p_kwp, fv_categorie_anre, fv_n_panouri, fv_invertor_kw, fv_cablu_dc_mm2, fv_protectii_lista etc.
-- **Curățenie**: `/tmp/repo2` șters complet — single source of truth = `/app/`.
+Limba interfeței: **Română**.
 
 ## Tech Stack
-- Backend: FastAPI (port 8001), MongoDB (DB_NAME din .env), python-docx, Pydantic v2
-- Frontend: React 18 + Tailwind + shadcn/ui (port 3000)
-- Integrări: Stripe, Gmail SMTP, GitHub PAT
+- **Backend**: FastAPI 0.110+, Python 3.11, Motor (MongoDB async), Pydantic v2, ReportLab (PDF), python-docx (DOCX), Gmail SMTP.
+- **Frontend**: React 18, React Router 6, Tailwind CSS, Shadcn UI, lucide-react icons, sonner toasts.
+- **DB**: MongoDB (collections: users, projects, documents, templates, stamps, certificates, payment_transactions, forum_threads, action_logs, admin_config).
+- **Integrări**: Stripe (payments), Gmail SMTP (email), Emergent LLM (AI assistant), ReportLab (PDF), ANRE catalog.
 
-## Completat ulterior (06.06.2026 — sesiune curentă)
-- **P1 FE Fotovoltaic UI** — `/app/frontend/src/pages/PhotovoltaicCalc.jsx` validat end-to-end (form p_kwp/zonă/cabluri + card categorie ANRE + grid 6 metrici + tabel cabluri + listă protecții + export JSON). Test live cu admin: 8 kWp Sud → C1, 18 panouri, invertor 7.6 kW, 9048 kWh/an. Toast persist OK pe MongoDB.
-- **P2 Template-uri DOCX FV** — system_templates.py seed-uit cu IF/ELSE placeholders (fix `NameError _build_cerere_racordare_fv`).
+## User Personas
+1. **Proiectant autorizat ANRE** — generează documentație tehnică pentru proiecte de gaze/electric/fotovoltaic.
+2. **Firmă executantă** — primește documentația semnată QES și o transmite autorităților.
+3. **Verificator VGD/RTE** — analizează și parafează documente; folosește forumul.
+4. **Admin platformă** — configurare globală, gestionare utilizatori, monitorizare.
 
-## Backlog (P2-P3)
-- **P2**: Secondary Business Email capability + Admin-Only Configuration UI
-- **P2**: Deep website develop — polish global pe baza prompt-urilor existente (Industrii, Forum, FeaturesHub etc.)
-- **P3**: Buton "Generează Ofertă Tehnică FV PDF" direct (skip DOCX → PDF)
-- **P3**: Verificare automată ANRE — apel API distribuitor pentru ATR
+## Architecture
+- All backend routes prefixed `/api`. Frontend uses `REACT_APP_BACKEND_URL` env var.
+- Routing: protected routes wrap auth check. Sidebar in `AppShell` is role-aware (developers/admins see Admin Config + Developer Plan).
+- DOCX generation pipeline: template (.docx) + data dict → docxtpl → response file.
+- PDF generation: ReportLab `SimpleDocTemplate` with custom `_header`, themed palette (`#FFB300`/`#0A0A0A`/`#16A34A`).
+- Email pipeline: per-user Gmail App Password → SMTP_SSL 465 with automatic CC to user's `secondary_email` based on global admin flag.
 
-## Sources
-- ANRE Ord. 34/2024 (prosumatori), Ord. 89/2018 (gaze)
-- SR EN 50618, IEC 62548, I7-2011
-- PVGIS-SARAH3 (JRC) — iradiație România
-- SR 6790, SR EN 1775 (gaze naturale)
+## Implemented Features (cumulative — see CHANGELOG via PROGRESS_LOG.md)
+
+### Core (V1-V5.3)
+- Auth (email/password JWT + Google OAuth)
+- Project management (CRUD, active project, technical data, photovoltaic data)
+- Template/stamp/certificate library
+- DOCX document generation
+- PDF export (generic project report)
+- Gmail SMTP email with attachment
+- Stripe checkout flows
+- Photovoltaic calculation engine (ANRE Ord. 34/2024 compliant)
+- QES providers config (CertSign, DigiSign, Trans Sped)
+- Forum (threads, replies, likes, industry filtering)
+- AI Assistant (Emergent LLM-powered)
+- 12 industries hub + per-industry pages
+
+### V5.4 (2026-02-06) — Admin & Polish Release
+- **Secondary Business Email**: `User.secondary_email` field; auto-CC on all outgoing email when `admin_config.smtp_cc_secondary_default=True`.
+- **Admin-Only Configuration UI** at `/admin/config`:
+  - Maintenance mode toggle + message
+  - Announcement banner (info/success/warning/danger)
+  - Global SMTP fallback (from name, Gmail, App Password — write-only)
+  - 6 feature flags (forum, email, PDF, photovoltaic, AI, payments)
+  - User management (search, promote/demote admin, ban/unban)
+  - Live platform stats
+- **Audit log**: every admin action persisted in `db.action_logs`.
+- **Public banner endpoint**: `/api/system/banner` (no auth) — clients can poll for maintenance + announcement.
+- **Generate Tech Offer FV PDF**: button on Photovoltaic Calc page → `/api/photovoltaic/tech-offer-pdf` returns a commercial-grade A4 PDF (hero kWp, ANRE category, full component config, energy estimation, normative compliance, commercial terms, signature blocks).
+- **Deep UX polish** on FeaturesHub, IndustriesHub, Forum: glass-morphism heroes, dot/grid patterns, status badges, search + filters, progress bars, hover glow.
+
+## Roadmap
+
+### P0 (next iteration)
+- Refactor `server.py` (2060 lines) — extract `/admin/*` into `backend/routes/admin.py` (similar to existing forum.py pattern).
+- Consolidate `is_developer` → `is_admin` mapping into `_user_from_doc` only.
+- Propagate `/api/system/banner` data into `AppShell` (show maintenance banner globally).
+
+### P1 (planned)
+- SEAP/SICAP alerts AI agent.
+- 4 specialized AI agents (Producer/User/Client/Developer).
+- Subscribers/contracts CRM with recurring fees.
+- Job marketplace for autorizati ANRE.
+- Automated reports + ANAF e-Factura integration.
+- Legal document automation (contracts, notary submissions).
+- Brand merchandise + partner network.
+- Voluntariat (CSR tracking).
+- Developer SDK + API access tier.
+
+### P2 (futurist — opt-in)
+- Mobile apps (iOS + Android).
+- Real-time collaborative design canvas.
+- BIM integration (Revit/AutoCAD).
+
+## Key DB Schema (current)
+```
+users           : { user_id, email, name, password_hash?, auth_provider, plan, gmail_user?, gmail_app_password?, secondary_email?, is_developer, is_admin, is_banned, qes_provider?, qes_credentials?, active_project_id?, gdpr_consent, created_at }
+projects        : { project_id, user_id, name, beneficiar, ..., photovoltaic_data?, photovoltaic_results?, technical_data?, created_at }
+admin_config    : { config_id:"global", smtp_from_name, smtp_global_user?, smtp_global_password?, smtp_cc_secondary_default, feature_*_enabled (6 flags), maintenance_mode, maintenance_message, announcement_banner, announcement_level, updated_at, updated_by }
+action_logs     : { log_id, user_id, action, details, created_at }
+forum_threads   : { thread_id, author_id, author_name, industry, title, body, tags, pinned, is_developer_post, reply_count, likes, views, last_activity_at }
+documents       : { doc_id, user_id, project_id, name, content_bytes, created_at }
+payment_transactions : { tx_id, user_id, stripe_session_id, plan, amount, status, created_at }
+```
+
+## Key API Endpoints (V5.4 admin)
+| Method | Path | Auth | Notes |
+| --- | --- | --- | --- |
+| `GET` | `/api/admin/config` | admin | Read global config |
+| `PUT` | `/api/admin/config` | admin | Update + audit-log |
+| `GET` | `/api/admin/stats` | admin | Counters |
+| `GET` | `/api/admin/users` | admin | List/search (limit, search) |
+| `PATCH` | `/api/admin/users/{id}` | admin | Updates + returns updated user |
+| `GET` | `/api/system/banner` | public | Maintenance + announcement |
+| `GET` | `/api/photovoltaic/tech-offer-pdf` | user | Premium PDF download |
+| `PATCH` | `/api/users/me` | user | Now accepts `secondary_email` |
+| `GET` | `/api/users/me/email-config` | user | Now returns `secondary_email` |
+
+## Test Credentials
+See `/app/memory/test_credentials.md` — admin (`dragosserban95@gmail.com` / `Test12345`).
+
+## Known Gaps / Mocked
+- Forum is functional but lightly populated.
+- AI Assistant uses Emergent LLM key — budget should be monitored via Profile → Universal Key.
+- Mobile responsive review for AdminConfig table not yet pixel-tuned (works, but could be denser at <640px).
