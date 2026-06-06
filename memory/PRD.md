@@ -29,11 +29,14 @@ Aplicație B2B SaaS pentru proiectare energetică (gaze naturale, fotovoltaice e
 - Frontend: React 18 + Tailwind + shadcn/ui (port 3000)
 - Integrări: Stripe, Gmail SMTP, GitHub PAT
 
-## Backlog (P1-P3)
-- **P1**: Update Master Audit Document cu noul flow Fotovoltaic
-- **P1**: Frontend UI dedicat pt. modulul Fotovoltaic (form p_kwp, zona, etc. + display rezultate calcul)
+## Completat ulterior (06.06.2026 — sesiune curentă)
+- **P1 FE Fotovoltaic UI** — `/app/frontend/src/pages/PhotovoltaicCalc.jsx` validat end-to-end (form p_kwp/zonă/cabluri + card categorie ANRE + grid 6 metrici + tabel cabluri + listă protecții + export JSON). Test live cu admin: 8 kWp Sud → C1, 18 panouri, invertor 7.6 kW, 9048 kWh/an. Toast persist OK pe MongoDB.
+- **P2 Template-uri DOCX FV** — system_templates.py seed-uit cu IF/ELSE placeholders (fix `NameError _build_cerere_racordare_fv`).
+
+## Backlog (P2-P3)
 - **P2**: Secondary Business Email capability + Admin-Only Configuration UI
-- **P2**: Template-uri DOCX Fotovoltaice ready-to-use cu IF-uri configurate
+- **P2**: Deep website develop — polish global pe baza prompt-urilor existente (Industrii, Forum, FeaturesHub etc.)
+- **P3**: Buton "Generează Ofertă Tehnică FV PDF" direct (skip DOCX → PDF)
 - **P3**: Verificare automată ANRE — apel API distribuitor pentru ATR
 
 ## Sources

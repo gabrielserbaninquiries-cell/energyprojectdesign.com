@@ -6,7 +6,7 @@ import {
   LayoutDashboard, ClipboardList, Settings2, Calculator, FileText, FileCheck2,
   Stamp, ShieldCheck, Mail, BadgeCheck, GaugeCircle, CreditCard, Settings, LogOut,
   Sparkles, Wrench, ListChecks, Flame, ChevronRight, FolderKanban, Github, Banknote, MessageSquare, Building2,
-  Layers, Compass, BarChart3,
+  Layers, Compass, BarChart3, Sun,
 } from 'lucide-react';
 
 const SECTIONS = [
@@ -20,6 +20,7 @@ const SECTIONS = [
       { to: '/proiect', label: 'Date proiect activ', icon: ClipboardList, tid: 'nav-proiect' },
       { to: '/tehnice', label: 'Date tehnice', icon: Settings2, tid: 'nav-tehnice' },
       { to: '/calcul', label: 'Calcul inteligent', icon: Calculator, tid: 'nav-calcul' },
+      { to: '/fotovoltaic', label: 'Calcul fotovoltaic', icon: Sun, tid: 'nav-fotovoltaic' },
     ],
   },
   {

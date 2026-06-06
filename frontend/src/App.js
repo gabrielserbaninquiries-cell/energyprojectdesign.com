@@ -18,6 +18,7 @@ import AuditLogs from './pages/AuditLogs';
 import ProjectData from './pages/ProjectData';
 import TechnicalData from './pages/TechnicalData';
 import SmartCalc from './pages/SmartCalc';
+import PhotovoltaicCalc from './pages/PhotovoltaicCalc';
 import Verification from './pages/Verification';
 import AIAssistantPage from './pages/AIAssistantPage';
 import AuditPage from './pages/AuditPage';
@@ -74,6 +75,7 @@ function AppRouter() {
       <Route path="/proiect" element={<ProtectedRoute><ProjectData /></ProtectedRoute>} />
       <Route path="/tehnice" element={<ProtectedRoute><TechnicalData /></ProtectedRoute>} />
       <Route path="/calcul" element={<ProtectedRoute><SmartCalc /></ProtectedRoute>} />
+      <Route path="/fotovoltaic" element={<ProtectedRoute><PhotovoltaicCalc /></ProtectedRoute>} />
       <Route path="/verifica" element={<ProtectedRoute><Verification /></ProtectedRoute>} />
       <Route path="/ai" element={<ProtectedRoute><AIAssistantPage /></ProtectedRoute>} />
       <Route path="/audit" element={<ProtectedRoute><AuditPage /></ProtectedRoute>} />
