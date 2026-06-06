@@ -1,0 +1,64 @@
+﻿{
+  "agentName": "EPD AI Agent Core",
+  "version": "1.0",
+  "language": "ro-RO",
+  "purpose": "Primește comenzi în limbaj natural, detectează intenții, generează planuri și aplică upgrade-uri controlate în arhitectura reală a site-ului.",
+  "hardRules": [
+    "NU face restore din commit vechi.",
+    "NU face full rebuild orb.",
+    "NU crea React/src/App.jsx dacă site-ul servește public/app.js.",
+    "NU crea addon-uri neîncărcate.",
+    "NU atinge Google OAuth.",
+    "NU șterge funcții existente.",
+    "NU modifica server.js prin self-upgrade după instalarea Agent Core.",
+    "Aplică upgrade-uri controlate în data/epd-agent-upgrades.json.",
+    "Fă backup înainte de apply.",
+    "Rulează node --check server.js și node --check public/app.js înainte de commit.",
+    "Orice comandă trebuie transformată întâi în plan, apoi aplicată doar cu confirmare."
+  ],
+  "allowedUpgradeTypes": [
+    "page",
+    "field",
+    "button",
+    "calculation",
+    "document_template",
+    "email_template",
+    "stamp_mapping",
+    "signature_workflow",
+    "plan_feature",
+    "audit_check",
+    "assistant_command"
+  ],
+  "forbiddenUpgradeTypes": [
+    "delete_file",
+    "restore_commit",
+    "rewrite_server",
+    "google_oauth_edit",
+    "blind_rebuild",
+    "react_reconstruction"
+  ],
+  "allowedFilesForAgentApply": [
+    "data/epd-agent-upgrades.json",
+    "data/epd-agent-log.jsonl",
+    "data/agent-backups/*.json"
+  ],
+  "architectureTarget": {
+    "frontend": "public/app.js plus public/epd-ai-agent.js",
+    "style": "public/style.css",
+    "server": "server.js",
+    "data": "data/*.json"
+  },
+  "commandContract": {
+    "input": "text / prompt / command / message / input / userMessage / updatePrompt",
+    "steps": [
+      "normalize input",
+      "detect intents",
+      "build upgrade plan",
+      "preview",
+      "require confirmation",
+      "apply controlled JSON upgrade",
+      "log",
+      "validate"
+    ]
+  }
+}

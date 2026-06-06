@@ -1,0 +1,14 @@
+﻿{
+  "version": "EPD V5.0 Sellable",
+  "pages": {
+    "Login": ["email_utilizator","parola","rol_utilizator","plan_utilizator","status_cont"],
+    "Date proiect": ["beneficiar","adresa_lucrare","localitate","judet","telefon","email","osd","tip_lucrare","numar_contract","data_contract","proiectant","executant"],
+    "Date tehnice": ["debit_instalat","presiune_regim","diametru_conducta","material_conducta","lungime_bransament","punct_racordare","contor","putere_instalata_kw","risc_presiune"],
+    "Documentație": ["tip_document","continut_document","previzualizare_document","data_document","stampila_proiectant","stampila_vgd","stampila_rte"],
+    "Ștampile": ["stampila_proiectant","stampila_vgd","stampila_rte"],
+    "Email-uri": ["email_destinatar","email_subiect","email_continut","mailto"],
+    "Semnături digitale": ["semnatura_proiectant","semnatura_vgd","semnatura_rte","certificat_intern"],
+    "Planuri": ["plan_id","departament","pret","features","purchase_intent"],
+    "Audit": ["audit_login","audit_pagini","audit_butoane","audit_backend","audit_frontend","audit_vandabilitate"]
+  }
+}

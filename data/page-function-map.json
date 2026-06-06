@@ -1,0 +1,27 @@
+﻿{
+  "product": "Energy Project Design Services",
+  "site": "https://energy-project-design-services.onrender.com",
+  "version": "intelligent-layer-1.0.0",
+  "principle": "Update inteligent modular, fără rescriere public/app.js sau server.js.",
+  "pages": {
+    "Panou principal": ["rezumat proiect", "status profil", "status plan", "scor completare"],
+    "Date proiect": ["beneficiar", "adresă lucrare", "OSD", "proiectant", "VGD", "RTE"],
+    "Date tehnice": ["debit instalat", "presiune regim", "diametru", "material", "lungime", "traseu"],
+    "Documentație": ["generator documente", "placeholder-e", "previzualizare", "salvare"],
+    "Șabloane OSD": ["bibliotecă OSD", "șabloane operator", "mapare documente"],
+    "Calcul": ["debit", "presiune", "pierdere presiune", "estimare materiale"],
+    "Ștampile": ["proiectant", "VGD", "RTE", "placeholder-e ștampile"],
+    "Email-uri": ["ofertare", "date lipsă", "transmitere OSD", "VGD", "RTE"],
+    "Verificări": ["validare", "VGD", "RTE", "documente autorizare"],
+    "Checklist": ["date proiect", "date tehnice", "documente", "ștampile", "VGD", "RTE", "export"],
+    "Registru proiecte": ["istoric", "status", "dată salvare"],
+    "Import / Export": ["import JSON", "export JSON", "reguli plan"],
+    "Planuri și licențe": ["Free", "Trial", "Basic", "Developer", "Inside"],
+    "Marketplace / Module": ["module premium", "OCR", "șabloane", "planuri/scheme"],
+    "Asistent utilizator": ["ajutor flux", "câmpuri lipsă", "VGD/RTE"],
+    "AI Developer": ["chat", "analiză", "prompt update", "Run Update"],
+    "Diagnostic": ["health", "OpenAI", "GitHub", "profil", "plan"],
+    "Actualizări": ["upload prompt", "listă prompturi", "Run Update"],
+    "Construire / Lansare": ["link public", "repository", "Render deploy"]
+  }
+}

@@ -1,0 +1,79 @@
+﻿{
+    "product":  "Energy Project Design Services",
+    "site":  "https://energy-project-design-services.onrender.com",
+    "version":  "Global Repair Direct Update",
+    "rules":  [
+                  "UI în limba română.",
+                  "Text salvat UTF-8 fără corupere.",
+                  "Frontend curat, fără fragmente duplicate.",
+                  "Run Update aplică direct în GitHub prin backend, fără ZIP manual.",
+                  "Nu se aplică fișiere în afara zonelor permise.",
+                  "Serverul trebuie să păstreze /api/health și app.listen.",
+                  "NO RESTORE pentru update-uri funcționale.",
+                  "NO FULL REBUILD fără cerere explicită.",
+                  "Funcția permanentă audit validation and reconstruction + implement trebuie să fie aditivă, cu backup, raport și validare.",
+                  "Workflow-ul principal este Date proiect, Date tehnice, Ștampile, Email-uri și Verifică documentație.",
+                  "Pagina Placeholders este disponibilă doar Developer / Inside.",
+                  "Documentele trebuie să poată fi generate cu placeholder-e înlocuite.",
+                  "Ștampilele trebuie să poată fi mapate în documente.",
+                  "Email-urile trebuie să poată fi pregătite și trimise prin client email / SMTP-ready.",
+                  "Semnăturile digitale au workflow intern și sunt pregătite pentru provider calificat.",
+                  "Planurile trebuie să permită alocarea funcțiilor și prețului pe departament.",
+                  "Purchasing trebuie să existe ca purchase intent până la conectarea providerului real de plată."
+              ],
+    "pages":  [
+                  "Panou principal",
+                  "Date proiect",
+                  "Date tehnice",
+                  "Documentație",
+                  "Șabloane OSD",
+                  "Calcul",
+                  "Ștampile",
+                  "Email-uri",
+                  "Verificări",
+                  "Checklist",
+                  "Registru proiecte",
+                  "Import / Export",
+                  "Planuri și licențe",
+                  "Marketplace / Module",
+                  "Asistent utilizator",
+                  "AI Developer",
+                  "Inside",
+                  "Diagnostic",
+                  "Actualizări",
+                  "Construire / Lansare",
+                  "Placeholders",
+                  "Verifică documentație",
+                  "Audit",
+                  "Audit interfață",
+                  "Generare documente",
+                  "Semnături digitale",
+                  "Asistent comenzi",
+                  "Planuri departamente",
+                  "Purchasing"
+              ],
+    "deepValidationPatch":  {
+                                "generatedAt":  "2026-06-04T21:55:13",
+                                "workflowCore":  [
+                                                     "Date proiect",
+                                                     "Date tehnice",
+                                                     "Ștampile",
+                                                     "Email-uri",
+                                                     "Verifică documentație",
+                                                     "Documentație",
+                                                     "Calcul"
+                                                 ],
+                                "developerOnlyPages":  [
+                                                           "AI Developer",
+                                                           "Placeholders",
+                                                           "Inside"
+                                                       ],
+                                "interpretationRules":  [
+                                                            "Când utilizatorul cere adăugare de funcții, AI Developer verifică mai întâi funcțiile lipsă/incomplete ale paginii.",
+                                                            "Date proiect și Date tehnice sunt nucleul workflow-ului.",
+                                                            "Ștampile, Email-uri și Verifică documentație sunt pagini obligatorii în fluxul final.",
+                                                            "Placeholders trebuie menținut pe pagini și exportabil Developer-only.",
+                                                            "Patch-urile sunt aditive, cu backup și raport."
+                                                        ]
+                            }
+}

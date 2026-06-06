@@ -2,114 +2,150 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9FAFB;
+  --bg-tertiary: #F3F4F6;
+  --text-primary: #0A0A0A;
+  --text-secondary: #4B5563;
+  --text-tertiary: #6B7280;
+  --accent: #FFB300;
+  --accent-hover: #FFA000;
+  --accent-secondary: #2563EB;
+  --danger: #DC2626;
+  --success: #16A34A;
+  --border: #E5E7EB;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
 body {
-    margin: 0;
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-primary);
+  background: var(--bg-primary);
 }
 
-code {
-    font-family:
-        source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+code, .mono {
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
 }
 
-@layer base {
-    :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 3.9%;
-        --primary: 0 0% 9%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 0 0% 96.1%;
-        --secondary-foreground: 0 0% 9%;
-        --muted: 0 0% 96.1%;
-        --muted-foreground: 0 0% 45.1%;
-        --accent: 0 0% 96.1%;
-        --accent-foreground: 0 0% 9%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 89.8%;
-        --input: 0 0% 89.8%;
-        --ring: 0 0% 3.9%;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
-    }
-    .dark {
-        --background: 0 0% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 0 0% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 0 0% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 0 0% 9%;
-        --secondary: 0 0% 14.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 0 0% 14.9%;
-        --muted-foreground: 0 0% 63.9%;
-        --accent: 0 0% 14.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 0 0% 14.9%;
-        --input: 0 0% 14.9%;
-        --ring: 0 0% 83.1%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-    }
+::selection {
+  background: var(--accent);
+  color: #000;
+}
+
+/* Grid skeleton borders */
+.grid-skeleton > * {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Subtle noise overlay */
+.noise-overlay {
+  position: relative;
+}
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 @layer base {
-    * {
-        @apply border-border;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 42 100% 50%;
+    --accent-foreground: 0 0% 4%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 42 100% 50%;
+    --radius: 0.125rem;
+  }
 }
 
 @layer base {
-    [data-debug-wrapper="true"] {
-        display: contents !important;
-    }
-
-    [data-debug-wrapper="true"] > * {
-        margin-left: inherit;
-        margin-right: inherit;
-        margin-top: inherit;
-        margin-bottom: inherit;
-        padding-left: inherit;
-        padding-right: inherit;
-        padding-top: inherit;
-        padding-bottom: inherit;
-        column-gap: inherit;
-        row-gap: inherit;
-        gap: inherit;
-        border-left-width: inherit;
-        border-right-width: inherit;
-        border-top-width: inherit;
-        border-bottom-width: inherit;
-        border-left-style: inherit;
-        border-right-style: inherit;
-        border-top-style: inherit;
-        border-bottom-style: inherit;
-        border-left-color: inherit;
-        border-right-color: inherit;
-        border-top-color: inherit;
-        border-bottom-color: inherit;
-    }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; font-feature-settings: "rlig" 1, "calt" 1; }
 }
+
+/* Page enter animation */
+.page-enter {
+  animation: pageEnter 0.5s ease-out;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger reveal */
+.stagger > * {
+  opacity: 0;
+  animation: pageEnter 0.6s ease-out forwards;
+}
+.stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger > *:nth-child(2) { animation-delay: 0.12s; }
+.stagger > *:nth-child(3) { animation-delay: 0.2s; }
+.stagger > *:nth-child(4) { animation-delay: 0.28s; }
+.stagger > *:nth-child(5) { animation-delay: 0.36s; }
+.stagger > *:nth-child(6) { animation-delay: 0.44s; }
+
+.amber-btn {
+  @apply inline-flex items-center justify-center gap-2 bg-[#FFB300] text-black hover:bg-[#FFA000] font-semibold px-6 py-3 transition-all shadow-sm rounded-sm hover:-translate-y-px hover:shadow-md;
+}
+.ghost-btn {
+  @apply inline-flex items-center justify-center gap-2 bg-transparent text-gray-700 hover:bg-gray-100 hover:text-black transition-colors px-4 py-2 rounded-sm;
+}
+.outline-btn {
+  @apply inline-flex items-center justify-center gap-2 bg-white text-black border border-gray-200 hover:bg-gray-50 px-5 py-2.5 transition-colors rounded-sm;
+}
+.label {
+  @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500;
+}
+
+/* Forum markdown styles */
+.forum-md p { margin: 0.5em 0; }
+.forum-md p:first-child { margin-top: 0; }
+.forum-md p:last-child { margin-bottom: 0; }
+.forum-md strong { font-weight: 700; }
+.forum-md em { font-style: italic; }
+.forum-md a { color: #FFB300; text-decoration: underline; }
+.forum-md a:hover { color: #000; }
+.forum-md code { background: #F3F4F6; padding: 1px 5px; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; border-radius: 2px; }
+.forum-md pre { background: #1F2937; color: #F9FAFB; padding: 12px; overflow-x: auto; margin: 0.8em 0; font-size: 0.85em; }
+.forum-md pre code { background: transparent; color: inherit; padding: 0; }
+.forum-md ul, .forum-md ol { padding-left: 1.5em; margin: 0.5em 0; }
+.forum-md ul { list-style: disc; }
+.forum-md ol { list-style: decimal; }
+.forum-md li { margin: 0.2em 0; }
+.forum-md blockquote { border-left: 3px solid #FFB300; padding-left: 1em; color: #6B7280; margin: 0.8em 0; font-style: italic; }
+.forum-md h1, .forum-md h2, .forum-md h3, .forum-md h4 { font-weight: 700; margin: 0.8em 0 0.4em; }
+.forum-md h1 { font-size: 1.4em; }
+.forum-md h2 { font-size: 1.25em; }
+.forum-md h3 { font-size: 1.1em; }
+.forum-md h4 { font-size: 1em; }
+.forum-md hr { border: 0; border-top: 1px solid #E5E7EB; margin: 1em 0; }
+.forum-md table { border-collapse: collapse; margin: 0.8em 0; }
+.forum-md th, .forum-md td { border: 1px solid #D1D5DB; padding: 4px 8px; text-align: left; }
+.forum-md th { background: #F3F4F6; font-weight: 600; }

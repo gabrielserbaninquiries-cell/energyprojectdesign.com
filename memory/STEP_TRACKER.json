@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "app": "Energy Project Design Services",
+    "repo": "https://github.com/dragosserban95/Energy-Project-Design",
+    "branch": "main",
+    "version": "5.0-emergent-rebuild",
+    "vision_file": "/app/VISION_MANIFEST.md",
+    "prd_file": "/app/memory/PRD.md",
+    "resume_prompt": "/app/memory/RESUME_PROMPT.md",
+    "updated_at": "2026-06-06T12:36:00Z",
+    "created_at": "2026-06-06T12:21:00Z"
+  },
+  "phases": [
+    {
+      "id": "phase_1",
+      "name": "Import & Bootstrap",
+      "status": "completed",
+      "started_at": "2026-06-06T12:21:00Z",
+      "completed_at": "2026-06-06T12:34:00Z",
+      "steps": [
+        {"id": "1.1", "name": "Read Feat-uri.docx (12 industries)", "status": "completed"},
+        {"id": "1.2", "name": "Clone GitHub repo to /tmp/epd_repo", "status": "completed"},
+        {"id": "1.3", "name": "rsync to /app/ (preserve .env)", "status": "completed"},
+        {"id": "1.4", "name": "Configure backend/.env (Mongo + Emergent LLM + Stripe test)", "status": "completed"},
+        {"id": "1.5", "name": "pip install -r requirements.txt", "status": "completed"},
+        {"id": "1.6", "name": "yarn install + yarn add marked dompurify", "status": "completed"},
+        {"id": "1.7", "name": "supervisorctl restart backend frontend", "status": "completed"},
+        {"id": "1.8", "name": "Verify /api/ returns 200 + /api/industries returns 13", "status": "completed"}
+      ]
+    },
+    {
+      "id": "phase_2",
+      "name": "Tracking System + 4 Lists",
+      "status": "completed",
+      "started_at": "2026-06-06T12:36:00Z",
+      "completed_at": "2026-06-06T12:42:00Z",
+      "steps": [
+        {"id": "2.1", "name": "Create COMMAND_LOG.md (append-only)", "status": "completed"},
+        {"id": "2.2", "name": "Create STEP_TRACKER.json", "status": "completed"},
+        {"id": "2.3", "name": "Create RESUME_PROMPT.md (single-prompt resume)", "status": "completed"},
+        {"id": "2.4", "name": "Create LIST_1_TODO.md", "status": "completed"},
+        {"id": "2.5", "name": "Create LIST_2_SUGGESTED.md", "status": "completed"},
+        {"id": "2.6", "name": "Create LIST_3_FUTURISTIC.md", "status": "completed"},
+        {"id": "2.7", "name": "Create LIST_4_BIG_UPDATE_WEB_RESEARCH.md", "status": "completed"},
+        {"id": "2.8", "name": "Add backend endpoint GET /api/dev/progress", "status": "completed"}
+      ]
+    },
+    {
+      "id": "phase_3",
+      "name": "Industries Hub + Per-industry Skeleton Pages (12 industries)",
+      "status": "completed",
+      "completed_at": "2026-06-06T12:48:00Z",
+      "steps": [
+        {"id": "3.1", "name": "Add route /industrii (Hub)", "status": "completed"},
+        {"id": "3.2", "name": "Add route /industrii/:industryId (skeleton)", "status": "completed"},
+        {"id": "3.3", "name": "Hook into existing GET /api/industries", "status": "completed"}
+      ]
+    },
+    {
+      "id": "phase_4",
+      "name": "Features Hub (Feat-uri vision skeleton pages)",
+      "status": "completed",
+      "completed_at": "2026-06-06T12:48:00Z",
+      "steps": [
+        {"id": "4.1", "name": "Route /feat-uri (Hub)", "status": "completed"},
+        {"id": "4.2", "name": "Route /feat-uri/seap (SEAP alerts placeholder)", "status": "completed"},
+        {"id": "4.3", "name": "Route /feat-uri/subscribers (subscriber DB placeholder)", "status": "completed"},
+        {"id": "4.4", "name": "Route /feat-uri/jobs (jobs marketplace placeholder)", "status": "completed"},
+        {"id": "4.5", "name": "Route /feat-uri/ai-agents (4 AI agents placeholder)", "status": "completed"},
+        {"id": "4.6", "name": "Route /feat-uri/partners (brand/inspirational partnerships)", "status": "completed"},
+        {"id": "4.7", "name": "Route /feat-uri/reports (monthly activity reports)", "status": "completed"},
+        {"id": "4.8", "name": "Route /feat-uri/legal-automation", "status": "completed"},
+        {"id": "4.9", "name": "Route /feat-uri/volunteering", "status": "completed"},
+        {"id": "4.10", "name": "Route /feat-uri/developer-plan + /feat-uri/community", "status": "completed"}
+      ]
+    },
+    {
+      "id": "phase_5",
+      "name": "Backend stubs (feat_status, ai_agents, dev endpoints)",
+      "status": "completed",
+      "completed_at": "2026-06-06T12:48:00Z",
+      "steps": [
+        {"id": "5.1", "name": "GET /api/feat/status (10 features with status)", "status": "completed"},
+        {"id": "5.2", "name": "GET /api/ai/agents (registry of 4 agents)", "status": "completed"},
+        {"id": "5.3", "name": "GET /api/dev/progress (reads STEP_TRACKER.json)", "status": "completed"},
+        {"id": "5.4", "name": "GET /api/dev/list/{id} (reads list .md files)", "status": "completed"},
+        {"id": "5.5", "name": "POST /api/dev/list/{id}/append (append-only)", "status": "completed"},
+        {"id": "5.6", "name": "Subscribers/contracts/jobs collections", "status": "pending", "notes": "Moved to LIST_1_TODO P1 (next iteration)"}
+      ]
+    },
+    {
+      "id": "phase_6",
+      "name": "Testing",
+      "status": "completed",
+      "completed_at": "2026-06-06T12:55:00Z",
+      "steps": [
+        {"id": "6.1", "name": "testing_agent_v3 backend tests (14 cases)", "status": "completed", "result": "100% pass (14/14)"},
+        {"id": "6.2", "name": "testing_agent_v3 frontend smoke test (7 pages)", "status": "completed", "result": "85% pass; 1 flaky timing issue on /industrii (confirmed working via fresh playwright screenshot - 13 cards rendered)"}
+      ]
+    },
+    {
+      "id": "phase_7",
+      "name": "GitHub Backup + HANDOFF Upgrade",
+      "status": "in_progress",
+      "started_at": "2026-06-06T12:55:00Z",
+      "steps": [
+        {"id": "7.1", "name": "Update HANDOFF_FOR_NEXT_EMERGENT.md with one-liner resume prompt", "status": "in_progress"},
+        {"id": "7.2", "name": "Commit lists + tracker + handoff to GitHub", "status": "pending", "notes": "Needs GITHUB_TOKEN from user OR manual commit via /api/dev/github/push from UI"},
+        {"id": "7.3", "name": "Append v1.5.0 in VISION_MANIFEST.md (NON-DESTRUCTIVE)", "status": "completed"}
+      ]
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "checkpoint_1",
+      "name": "App boots successfully with imported repo",
+      "verified": true,
+      "verified_at": "2026-06-06T12:34:00Z",
+      "verification": "curl http://localhost:8001/api/ → {status:'ok'} | curl /api/industries → 13 industries"
+    },
+    {
+      "id": "checkpoint_2",
+      "name": "Tracking system + 4 lists in place",
+      "verified": true,
+      "verified_at": "2026-06-06T12:42:00Z",
+      "verification": "ls /app/memory/ shows COMMAND_LOG, STEP_TRACKER.json, RESUME_PROMPT, LIST_1..4"
+    },
+    {
+      "id": "checkpoint_3",
+      "name": "Industries Hub + Features Hub + Progres page accessible from UI",
+      "verified": true,
+      "verified_at": "2026-06-06T12:49:00Z",
+      "verification": "Screenshots show /industrii (13 cards), /feat-uri (10 cards), /developer/progres (7 phases + 4 tabs)"
+    },
+    {
+      "id": "checkpoint_4",
+      "name": "Backend dev endpoints work",
+      "verified": true,
+      "verified_at": "2026-06-06T12:54:00Z",
+      "verification": "testing_agent_v3: 14/14 backend tests pass incl. /dev/progress, /dev/list/{id}, /feat/status, /ai/agents"
+    }
+  ],
+  "last_emergent_account_command": {
+    "commit_sha": "53b748e62d34961c5f62c660b6a0863d5498b09b",
+    "date": "2026-06-06T11:24Z",
+    "message": "BATCH 2: /logs page cu filtre + export JSON. Document Versioning UI grupare pe nume. Company Profile logo+stamp upload base64. Fix critic: Documents.jsx folosea localStorage.getItem auth_token (regresie auth refactor) - acum cookies httpOnly via credentials: include."
+  },
+  "current_emergent_session": {
+    "started": "2026-06-06T12:21Z",
+    "goal": "Implementare structură de bază (12 industrii + features-uri viziune) + sistem tracking + 4 liste + handoff upgrade"
+  }
+}

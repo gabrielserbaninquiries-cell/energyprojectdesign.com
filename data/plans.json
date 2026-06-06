@@ -1,0 +1,16 @@
+﻿{
+  "currency": "EUR",
+  "version": "EPD V5.0 Sellable",
+  "plans": [
+    {"id":"basic_99","name":"Basic","department":"Introducere date","price":99,"period":"lună","features":["login","date_proiect","date_tehnice_basic","document_preview","assistant_user"],"exportAllowed":false},
+    {"id":"projectant_149","name":"Proiectant","department":"Proiectare","price":149,"period":"lună","features":["date_proiect","date_tehnice","calcul_tehnic","document_generate","placeholder_replace","stamp_proiectant","email_prepare","export"],"exportAllowed":true},
+    {"id":"executant_149","name":"Executant","department":"Execuție","price":149,"period":"lună","features":["date_tehnice","checklist","document_generate","stamp_executant","email_prepare","registru"],"exportAllowed":true},
+    {"id":"avize_129","name":"Avize","department":"Avize / OSD","price":129,"period":"lună","features":["osd_templates","adresa_osd","email_osd","document_check"],"exportAllowed":true},
+    {"id":"ofertare_119","name":"Ofertare","department":"Ofertare","price":119,"period":"lună","features":["oferta","estimare_cost","email_client","purchase_intent"],"exportAllowed":true},
+    {"id":"contabilitate_119","name":"Contabilitate","department":"Contabilitate","price":119,"period":"lună","features":["client_data","contract_data","purchase_intent","invoice_ready"],"exportAllowed":false},
+    {"id":"vgd_199","name":"VGD","department":"Verificator documentație","price":199,"period":"lună","features":["vgd_check","stamp_vgd","signature_certify","document_authorize","document_check","export"],"exportAllowed":true},
+    {"id":"rte_199","name":"RTE","department":"Responsabil tehnic execuție","price":199,"period":"lună","features":["rte_check","stamp_rte","signature_certify","document_authorize","document_check","export"],"exportAllowed":true},
+    {"id":"societate_399","name":"Societate","department":"Societate completă","price":399,"period":"lună","features":["all_departments","all_documents","all_stamps","all_emails","all_signatures","audit","purchase_intent"],"exportAllowed":true},
+    {"id":"developer_lifetime","name":"Developer","department":"Developer","price":0,"period":"intern","features":["developer_audit","deep_scan","placeholders","patch_plan","run_update","all_features"],"exportAllowed":true}
+  ]
+}

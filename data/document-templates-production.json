@@ -1,0 +1,29 @@
+﻿{
+  "templates": [
+    {
+      "id": "cerere_racordare",
+      "name": "Cerere racordare",
+      "body": "CERERE RACORDARE\n\nBeneficiar: <beneficiar>\nAdresă lucrare: <adresa_lucrare>, <localitate>, <judet>\nOSD: <osd>\nTip lucrare: <tip_lucrare>\nDebit instalat: <debit_instalat> mc/h\nPresiune regim: <presiune_regim>\n\nData: <data_document>\nProiectant: <proiectant>\n<stampila_proiectant>"
+    },
+    {
+      "id": "memoriu_tehnic",
+      "name": "Memoriu tehnic",
+      "body": "MEMORIU TEHNIC\n\nLucrare: <tip_lucrare>\nBeneficiar: <beneficiar>\nAmplasament: <adresa_lucrare>, <localitate>, <judet>\nConductă: <material_conducta>, DN <diametru_conducta>\nLungime branșament: <lungime_bransament> m\nPunct racordare: <punct_racordare>\nContor: <contor>\nRezultat calcul: <rezultat_calcul>\n\n<stampila_proiectant>\n<stampila_vgd>\n<stampila_rte>"
+    },
+    {
+      "id": "fisa_date_tehnice",
+      "name": "Fișă date tehnice",
+      "body": "FIȘĂ DATE TEHNICE\n\nBeneficiar: <beneficiar>\nDebit instalat: <debit_instalat>\nDebit calculat: <debit_calculat_mc_h>\nDebit recomandat: <debit_recomandat_mc_h>\nPutere instalată: <putere_instalata_kw>\nRisc presiune: <risc_presiune>\nEstimare materiale: <estimare_materiale>\nEstimare cost: <estimare_cost>"
+    },
+    {
+      "id": "certificare_vgd",
+      "name": "Certificare VGD",
+      "body": "CERTIFICARE INTERNĂ VGD\n\nVerificator: <verificator_vgd>\nAtestat: <atestat_vgd>\nStatus: <status_vgd>\nData: <data_document>\n\n<stampila_vgd>\nSemnătură: <semnatura_vgd>"
+    },
+    {
+      "id": "certificare_rte",
+      "name": "Certificare RTE",
+      "body": "CERTIFICARE INTERNĂ RTE\n\nResponsabil RTE: <responsabil_rte>\nAutorizație: <autorizatie_rte>\nStatus: <status_rte>\nData: <data_document>\n\n<stampila_rte>\nSemnătură: <semnatura_rte>"
+    }
+  ]
+}

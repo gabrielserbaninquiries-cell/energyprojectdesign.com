@@ -1,0 +1,7 @@
+{
+  "project": ["beneficiar","adresa_lucrare","localitate","judet","telefon","email","osd","tip_lucrare","industrie","numar_contract","data_contract","proiectant","executant","verificator_vgd","responsabil_rte","observatii"],
+  "technical": ["debit_instalat","presiune_regim","diametru_conducta","material_conducta","lungime_bransament","punct_racordare","post_reglare","contor","categorie_consumator","traseu","observatii_tehnice"],
+  "vgd": ["verificator_vgd","atestat_vgd","data_verificare_vgd","status_vgd","observatii_vgd"],
+  "rte": ["responsabil_rte","autorizatie_rte","data_verificare_rte","status_rte","observatii_rte"],
+  "calcul": ["calcul_debit","calcul_presiune","pierdere_presiune","rezultat_calcul","observatii_calcul"]
+}
