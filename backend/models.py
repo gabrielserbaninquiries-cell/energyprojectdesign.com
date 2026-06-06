@@ -202,9 +202,6 @@ class EmailSendRequest(BaseModel):
     recipients: List[EmailStr]
     subject: str
     body: str
-    cc: Optional[List[EmailStr]] = None
-    bcc: Optional[List[EmailStr]] = None
-    use_business_account: bool = True  # default: send from business email if configured
 
 
 # ---- Subscription / Stripe ----

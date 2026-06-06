@@ -1,0 +1,21 @@
+﻿{
+    "name":  "epd-site-v3-backend-ready",
+    "version":  "3.0.0",
+    "description":  "Energy Project Design - site enterprise cu backend local, upload prompturi, AI Developer Č™i run update.",
+    "main":  "server.js",
+    "type":  "module",
+    "scripts":  {
+                    "dev":  "node server.js",
+                    "start":  "node server.js"
+                },
+    "dependencies":  {
+                         "openai":  "latest",
+                         "cors":  "latest",
+                         "dotenv":  "latest",
+                         "express":  "latest",
+                         "multer":  "latest",
+                         "jszip":  "latest",
+                         "uuid":  "latest",
+                         "pg":  "^8.13.1"
+                     }
+}

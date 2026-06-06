@@ -83,11 +83,10 @@ class TestIndustries:
     def test_gas_active_others_coming_soon(self, s):
         data = s.get(f"{API}/industries").json()
         by_id = {d["id"]: d for d in data}
-        # v5+: gas remains active; others may also be active (8 industries activated)
         assert by_id["gas_engineering"]["status"] == "active"
-        # Ensure all industries have a valid status value
-        for d in data:
-            assert d["status"] in ("active", "coming_soon", "planned"), d
+        for other in ["electrical_engineering", "water_sewage",
+                      "civil_engineering", "telecom"]:
+            assert by_id[other]["status"] == "coming_soon", f"{other} should be coming_soon"
 
     def test_gas_subdomains_active(self, s):
         data = s.get(f"{API}/industries").json()
@@ -126,10 +125,7 @@ class TestSystemTemplates:
         r = s.get(f"{API}/system-templates", params={"industry": "gas_engineering"})
         assert r.status_code == 200
         data = r.json()
-        # v5+: catalogue expanded from 4 to 6+ gas templates
-        assert len(data) >= 4
-        for d in data:
-            assert d["industry"] == "gas_engineering"
+        assert len(data) == 4
 
     def test_clone_system_template(self, s, regular_headers):
         r = s.post(f"{API}/system-templates/sys_cerere_racordare_gaz/clone",

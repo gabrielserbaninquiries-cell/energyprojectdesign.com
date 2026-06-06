@@ -33,7 +33,7 @@ from auth import (
 )
 from docx_processor import extract_placeholders, replace_placeholders, insert_stamp
 from signing import parse_p12, sign_document
-from email_sender import send_email_with_attachment, send_simple_email
+from email_sender import send_email_with_attachment
 import qes_provider
 import plans as plans_module
 import calc_engine
@@ -214,8 +214,7 @@ async def logout(request: Request, response: Response):
 @api.patch("/users/me", response_model=User)
 async def update_me(payload: dict, user: User = Depends(get_current_user)):
     """Update user profile / Gmail / QES settings."""
-    allowed = {"name", "company", "gmail_user", "gmail_app_password", "qes_provider",
-               "business_email", "business_email_password", "business_from_name", "business_reply_to"}
+    allowed = {"name", "company", "gmail_user", "gmail_app_password", "qes_provider"}
     updates = {k: v for k, v in payload.items() if k in allowed}
     if not updates:
         raise HTTPException(status_code=400, detail="Nicio modificare validă")
@@ -226,21 +225,10 @@ async def update_me(payload: dict, user: User = Depends(get_current_user)):
 
 @api.get("/users/me/email-config")
 async def email_config(user: User = Depends(get_current_user)):
-    """Return whether Gmail / business email is configured (never expose passwords)."""
-    doc = await db.users.find_one(
-        {"user_id": user.user_id},
-        {"_id": 0, "gmail_user": 1, "gmail_app_password": 1,
-         "business_email": 1, "business_email_password": 1,
-         "business_from_name": 1, "business_reply_to": 1},
-    ) or {}
-    return {
-        "configured": bool(doc.get("gmail_user") and doc.get("gmail_app_password")),
-        "gmail_user": doc.get("gmail_user"),
-        "business_configured": bool(doc.get("business_email") and doc.get("business_email_password")),
-        "business_email": doc.get("business_email"),
-        "business_from_name": doc.get("business_from_name"),
-        "business_reply_to": doc.get("business_reply_to"),
-    }
+    """Return whether Gmail is configured (never expose the password)."""
+    doc = await db.users.find_one({"user_id": user.user_id}, {"_id": 0, "gmail_user": 1, "gmail_app_password": 1})
+    configured = bool(doc and doc.get("gmail_user") and doc.get("gmail_app_password"))
+    return {"configured": configured, "gmail_user": doc.get("gmail_user") if doc else None}
 
 
 # ====================== QES PROVIDERS ======================
@@ -514,24 +502,10 @@ async def email_document(req: EmailSendRequest, user: User = Depends(get_current
         sig_name = doc["name"].rsplit(".docx", 1)[0] + ".p7s"
         extras.append((sig_name, base64.b64decode(doc["signature_b64"]), "application/pkcs7-signature"))
 
-    # Fetch user's Gmail credentials — prefer business email if configured and enabled
-    user_doc = await db.users.find_one(
-        {"user_id": user.user_id},
-        {"_id": 0, "gmail_user": 1, "gmail_app_password": 1,
-         "business_email": 1, "business_email_password": 1,
-         "business_from_name": 1, "business_reply_to": 1, "company": 1},
-    ) or {}
-    use_biz = req.use_business_account and bool(user_doc.get("business_email") and user_doc.get("business_email_password"))
-    if use_biz:
-        gmail_user = user_doc["business_email"]
-        gmail_pass = user_doc["business_email_password"]
-        from_name = user_doc.get("business_from_name") or user_doc.get("company") or None
-        reply_to = user_doc.get("business_reply_to") or None
-    else:
-        gmail_user = user_doc.get("gmail_user", "") or ""
-        gmail_pass = user_doc.get("gmail_app_password", "") or ""
-        from_name = user_doc.get("company") or None
-        reply_to = None
+    # Fetch user's Gmail credentials
+    user_doc = await db.users.find_one({"user_id": user.user_id}, {"_id": 0, "gmail_user": 1, "gmail_app_password": 1})
+    gmail_user = (user_doc or {}).get("gmail_user", "") or ""
+    gmail_pass = (user_doc or {}).get("gmail_app_password", "") or ""
 
     result = send_email_with_attachment(
         gmail_user=gmail_user,
@@ -542,10 +516,6 @@ async def email_document(req: EmailSendRequest, user: User = Depends(get_current
         attachment_name=doc["name"],
         attachment_bytes=data,
         extra_attachments=extras,
-        from_name=from_name,
-        reply_to=reply_to,
-        cc=req.cc,
-        bcc=req.bcc,
     )
     await db.email_logs.insert_one({
         "log_id": new_id("log_"),
@@ -1506,137 +1476,6 @@ async def list_ai_agents():
     return {"agents": AI_AGENTS_REGISTRY, "count": len(AI_AGENTS_REGISTRY)}
 
 
-# ====================== SEAP (skeleton — vision module) ======================
-import seap_integration  # noqa: E402
-
-
-@api.get("/seap/tenders")
-async def seap_tenders(
-    industry: Optional[str] = None,
-    limit: int = 20,
-    user: User = Depends(get_current_user),
-):
-    """STUB — returns synthetic tenders so the UI/feature can be wired before real SEAP API."""
-    tenders = seap_integration.fetch_tenders_stub(industry=industry, limit=limit)
-    return {"mode": "STUB", "count": len(tenders), "tenders": tenders}
-
-
-@api.get("/seap/status")
-async def seap_status(user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    return seap_integration.integration_status()
-
-
-# ====================== Subscribers / Contracts / Jobs (developer-only minimal CRUD) ======================
-def _strip_oid(doc: dict) -> dict:
-    doc.pop("_id", None)
-    return doc
-
-
-@api.get("/dev/subscribers")
-async def dev_list_subscribers(user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    docs = await db.subscribers.find().sort("created_at", -1).to_list(length=500)
-    return [_strip_oid(d) for d in docs]
-
-
-@api.post("/dev/subscribers")
-async def dev_create_subscriber(payload: dict, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    doc = {
-        "id": new_id("sub_"),
-        "name": (payload.get("name") or "").strip(),
-        "email": (payload.get("email") or "").strip(),
-        "phone": (payload.get("phone") or "").strip(),
-        "industry": payload.get("industry"),
-        "tags": payload.get("tags") or [],
-        "notes": payload.get("notes") or "",
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    }
-    await db.subscribers.insert_one(doc)
-    return _strip_oid(doc)
-
-
-@api.delete("/dev/subscribers/{sub_id}")
-async def dev_delete_subscriber(sub_id: str, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    r = await db.subscribers.delete_one({"id": sub_id})
-    return {"deleted": r.deleted_count}
-
-
-@api.get("/dev/contracts")
-async def dev_list_contracts(user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    docs = await db.contracts.find().sort("created_at", -1).to_list(length=500)
-    return [_strip_oid(d) for d in docs]
-
-
-@api.post("/dev/contracts")
-async def dev_create_contract(payload: dict, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    doc = {
-        "id": new_id("ctr_"),
-        "subscriber_id": payload.get("subscriber_id"),
-        "title": (payload.get("title") or "").strip(),
-        "value_eur": float(payload.get("value_eur") or 0),
-        "status": payload.get("status") or "draft",
-        "start_date": payload.get("start_date"),
-        "end_date": payload.get("end_date"),
-        "notes": payload.get("notes") or "",
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    }
-    await db.contracts.insert_one(doc)
-    return _strip_oid(doc)
-
-
-@api.delete("/dev/contracts/{ctr_id}")
-async def dev_delete_contract(ctr_id: str, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    r = await db.contracts.delete_one({"id": ctr_id})
-    return {"deleted": r.deleted_count}
-
-
-@api.get("/dev/jobs")
-async def dev_list_jobs(user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    docs = await db.jobs.find().sort("created_at", -1).to_list(length=500)
-    return [_strip_oid(d) for d in docs]
-
-
-@api.post("/dev/jobs")
-async def dev_create_job(payload: dict, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    doc = {
-        "id": new_id("job_"),
-        "title": (payload.get("title") or "").strip(),
-        "industry": payload.get("industry"),
-        "location": payload.get("location") or "",
-        "type": payload.get("type") or "full_time",
-        "description": payload.get("description") or "",
-        "is_public": bool(payload.get("is_public", True)),
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    }
-    await db.jobs.insert_one(doc)
-    return _strip_oid(doc)
-
-
-@api.delete("/dev/jobs/{job_id}")
-async def dev_delete_job(job_id: str, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    r = await db.jobs.delete_one({"id": job_id})
-    return {"deleted": r.deleted_count}
-
-
-@api.get("/jobs")
-async def public_list_jobs(industry: Optional[str] = None, limit: int = 50):
-    """Public listing of jobs marked as public."""
-    q: dict = {"is_public": True}
-    if industry:
-        q["industry"] = industry
-    docs = await db.jobs.find(q).sort("created_at", -1).to_list(length=limit)
-    return [_strip_oid(d) for d in docs]
-
-
 # ====================== ROOT ======================
 @api.get("/")
 async def root():
@@ -1920,13 +1759,6 @@ async def get_company_placeholders(user: User = Depends(get_current_user)):
     """Returns the placeholder map derived from the company profile."""
     profile = await company_module.get_profile(user.user_id)
     return company_module.placeholders_from_profile(profile)
-
-
-# ====================== AI CHATBOT (removed — superseded by AI Assistant + AI Developer) ======================
-# The standalone chatbot endpoints were removed. Inline AI guidance is provided
-# via `ai_assistant.parse()` (intent parser) for end-users, and `ai_developer.py`
-# for admin/developer commands. A future Voice Support page (clients) will live
-# under `/feat-uri` as a separate module.
 
 
 app.include_router(api)
