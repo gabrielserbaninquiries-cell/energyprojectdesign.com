@@ -265,108 +265,9 @@ async def email_config(user: User = Depends(get_current_user)):
 
 
 # ====================== ADMIN-ONLY CONFIGURATION ======================
-@api.get("/admin/config")
-async def admin_get_config(admin: User = Depends(get_admin_user)):
-    """Return global platform configuration (admin only)."""
-    cfg = await _get_admin_config()
-    # Strip the platform SMTP password from the response (write-only)
-    safe = {k: v for k, v in cfg.items() if k not in ("smtp_global_password", "_id")}
-    safe["smtp_global_password_set"] = bool(cfg.get("smtp_global_password"))
-    return safe
-
-
-@api.put("/admin/config")
-async def admin_update_config(payload: AdminConfigUpdate, admin: User = Depends(get_admin_user)):
-    """Update global platform configuration (admin only)."""
-    updates = {k: v for k, v in payload.model_dump().items() if v is not None}
-    if not updates:
-        raise HTTPException(status_code=400, detail="Nicio modificare validă")
-    # Don't overwrite password with empty string accidentally
-    if updates.get("smtp_global_password") == "":
-        del updates["smtp_global_password"]
-    updates["updated_at"] = datetime.now(timezone.utc).isoformat()
-    updates["updated_by"] = admin.user_id
-    await db.admin_config.update_one(
-        {"config_id": "global"},
-        {"$set": updates, "$setOnInsert": {"config_id": "global"}},
-        upsert=True,
-    )
-    cfg = await _get_admin_config()
-    safe = {k: v for k, v in cfg.items() if k not in ("smtp_global_password", "_id")}
-    safe["smtp_global_password_set"] = bool(cfg.get("smtp_global_password"))
-    await db.action_logs.insert_one({
-        "log_id": new_id("log_"), "user_id": admin.user_id,
-        "action": "admin_config_update",
-        "details": {"keys": list(updates.keys())},
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    })
-    return safe
-
-
-@api.get("/admin/users")
-async def admin_list_users(admin: User = Depends(get_admin_user), search: Optional[str] = None, limit: int = 100):
-    """List all platform users (admin only)."""
-    q = {}
-    if search:
-        q = {"$or": [
-            {"email": {"$regex": search, "$options": "i"}},
-            {"name": {"$regex": search, "$options": "i"}},
-            {"company": {"$regex": search, "$options": "i"}},
-        ]}
-    cursor = db.users.find(q, {"_id": 0, "password_hash": 0, "gmail_app_password": 0, "qes_credentials": 0}).limit(limit)
-    users = []
-    async for u in cursor:
-        u["gmail_configured"] = bool(u.get("gmail_user"))
-        users.append(u)
-    return {"users": users, "count": len(users)}
-
-
-@api.patch("/admin/users/{user_id}")
-async def admin_update_user(user_id: str, payload: AdminUserRoleUpdate, admin: User = Depends(get_admin_user)):
-    """Update user role/ban/plan (admin only). Returns the updated user document."""
-    updates = {k: v for k, v in payload.model_dump().items() if v is not None}
-    if not updates:
-        raise HTTPException(status_code=400, detail="Nicio modificare validă")
-    target = await db.users.find_one({"user_id": user_id}, {"_id": 0})
-    if not target:
-        raise HTTPException(status_code=404, detail="Utilizator inexistent")
-    await db.users.update_one({"user_id": user_id}, {"$set": updates})
-    await db.action_logs.insert_one({
-        "log_id": new_id("log_"), "user_id": admin.user_id,
-        "action": "admin_user_update",
-        "details": {"target_user_id": user_id, "updates": updates},
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    })
-    updated = await db.users.find_one(
-        {"user_id": user_id},
-        {"_id": 0, "password_hash": 0, "gmail_app_password": 0, "qes_credentials": 0},
-    )
-    if updated:
-        updated["gmail_configured"] = bool(updated.get("gmail_user"))
-    return {"ok": True, "user_id": user_id, "updates": updates, "user": updated}
-
-
-@api.get("/admin/stats")
-async def admin_stats(admin: User = Depends(get_admin_user)):
-    """Quick platform statistics (admin only)."""
-    users = await db.users.count_documents({})
-    projects = await db.projects.count_documents({})
-    documents = await db.documents.count_documents({})
-    emails = await db.email_logs.count_documents({})
-    threads = 0
-    try:
-        threads = await db.forum_threads.count_documents({})
-    except Exception:
-        pass
-    admins = await db.users.count_documents({"$or": [{"is_admin": True}, {"is_developer": True}]})
-    return {
-        "users_total": users,
-        "admins_total": admins,
-        "projects_total": projects,
-        "documents_total": documents,
-        "emails_sent": emails,
-        "forum_threads": threads,
-    }
+# ====================== ADMIN ENDPOINTS — moved to admin_routes.py ======================
+# Routes /api/admin/* are now registered via the `admin_routes.router` APIRouter included at end of file.
+# This keeps server.py focused on auth, projects, AI, and core business logic.
 
 
 @api.get("/system/banner")
@@ -424,14 +325,7 @@ async def public_status():
     }
 
 
-@api.get("/admin/audit-logs")
-async def admin_audit_logs(admin: User = Depends(get_admin_user), limit: int = 100):
-    """Return recent platform audit events (admin only)."""
-    limit = max(1, min(500, int(limit)))
-    logs: List[dict] = []
-    async for log in db.action_logs.find({}, {"_id": 0}).sort("created_at", -1).limit(limit):
-        logs.append(log)
-    return {"logs": logs, "count": len(logs)}
+# /admin/audit-logs moved to admin_routes.router
 
 
 # ====================== AI AGENTS (4 specialists) ======================
@@ -2056,52 +1950,7 @@ async def get_active_payment_account():
     }
 
 
-@api.get("/admin/payment-accounts")
-async def admin_list_payment_accounts(include_disabled: bool = False, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    return await pay_accounts.list_accounts(include_disabled=include_disabled)
-
-
-@api.post("/admin/payment-accounts")
-async def admin_create_payment_account(payload: pay_accounts.PaymentAccountIn, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    account_id = new_id("acc_")
-    doc = await pay_accounts.create_account(payload, account_id)
-    await db.action_logs.insert_one({
-        "log_id": new_id("log_"), "user_id": user.user_id, "action": "admin.payment_accounts.create",
-        "meta": {"account_id": account_id, "iban_last4": doc["iban"][-4:], "status": doc["status"]},
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    })
-    return doc
-
-
-@api.patch("/admin/payment-accounts/{account_id}")
-async def admin_update_payment_account(account_id: str, payload: dict, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    res = await pay_accounts.update_account(account_id, payload)
-    if not res:
-        raise HTTPException(status_code=404, detail="Cont inexistent")
-    await db.action_logs.insert_one({
-        "log_id": new_id("log_"), "user_id": user.user_id, "action": "admin.payment_accounts.update",
-        "meta": {"account_id": account_id, "fields": list(payload.keys())},
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    })
-    return res
-
-
-@api.delete("/admin/payment-accounts/{account_id}")
-async def admin_delete_payment_account(account_id: str, user: User = Depends(get_current_user)):
-    _ensure_developer(user)
-    ok = await pay_accounts.delete_account(account_id)
-    if not ok:
-        raise HTTPException(status_code=404, detail="Cont inexistent")
-    await db.action_logs.insert_one({
-        "log_id": new_id("log_"), "user_id": user.user_id, "action": "admin.payment_accounts.delete",
-        "meta": {"account_id": account_id},
-        "created_at": datetime.now(timezone.utc).isoformat(),
-    })
-    return {"deleted": True}
-
+# Payment accounts admin endpoints moved to admin_routes.router
 
 # Forum routes appended below — include_router moved to end of file.
 
@@ -2357,6 +2206,12 @@ async def chatbot_delete(session_id: str, user: User = Depends(get_current_user)
 
 
 app.include_router(api)
+
+# ====================== Refactored modular routers ======================
+from admin_routes import router as admin_router
+from marketplace_routes import router as marketplace_router
+app.include_router(admin_router)
+app.include_router(marketplace_router)
 
 
 # CORS: when credentials are required, browsers reject "*" origin. Use a regex

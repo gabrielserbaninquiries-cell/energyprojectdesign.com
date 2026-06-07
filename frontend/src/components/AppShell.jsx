@@ -52,6 +52,8 @@ const SECTIONS = [
     title: 'Business',
     items: [
       { to: '/crm-abonati', label: 'CRM Abonați', icon: UsersIcon, tid: 'nav-crm' },
+      { to: '/contracts', label: 'Contracte CRM', icon: FileText, tid: 'nav-contracts' },
+      { to: '/jobs', label: 'Job Board ANRE', icon: BadgeCheck, tid: 'nav-jobs' },
       { to: '/anaf-efactura', label: 'ANAF e-Factura', icon: Receipt, tid: 'nav-anaf' },
     ],
   },

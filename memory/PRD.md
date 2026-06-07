@@ -54,6 +54,19 @@ Limba interfeței: **Română**.
 - **Generate Tech Offer FV PDF**: button on Photovoltaic Calc page → `/api/photovoltaic/tech-offer-pdf` returns a commercial-grade A4 PDF (hero kWp, ANRE category, full component config, energy estimation, normative compliance, commercial terms, signature blocks).
 - **Deep UX polish** on FeaturesHub, IndustriesHub, Forum: glass-morphism heroes, dot/grid patterns, status badges, search + filters, progress bars, hover glow.
 
+### V5.6 (2026-02-07) — Repository Unification + Marketplace Recovery
+- **Comandă fondatoare**: "Acces fără excepție la toate fișierele, integrare a tuturor update-urilor de pe toate URL-urile" → consemnată în `/app/memory/VISION_MANIFEST.md`.
+- **Restaurat din commit `933d02c`** (Marketplace pierdut):
+  - `/api/dev/jobs` (admin CRUD) + `/api/jobs` (public, no auth) — Job Board ANRE
+  - `/api/dev/contracts` (admin CRUD) — Contracte CRM cu legături la abonați
+  - `/api/seap/status` — integration health
+- **Refactor `server.py`**: mutat în `backend/admin_routes.py`:
+  - `/admin/config` (GET/PUT), `/admin/users` (GET/PATCH), `/admin/stats`, `/admin/audit-logs`, `/admin/payment-accounts/*`
+  - server.py redus de la 2406 la ~2150 linii
+- **Nou modul**: `backend/marketplace_routes.py` cu APIRouter pentru jobs + contracts + seap status
+- **Frontend nou**: `Jobs.jsx` + `Contracts.jsx` cu testid-uri și forma de creare admin
+- **Sidebar updates**: 2 link-uri noi în secțiunea Business
+
 ### V5.5 (2026-02-07) — Repository Unification + Lost Features Recovery
 - **Deep repository audit**: scanned all 244 commits across `main`, `gh/main`, `gh2/main` for ever-implemented files; confirmed local copy is strictly ahead.
 - **EnergyAdvisor (Claude Sonnet 4.6) restored** from commit `81b3b77` (lost in a regression):
@@ -114,6 +127,16 @@ payment_transactions : { tx_id, user_id, stripe_session_id, plan, amount, status
 | `POST` | `/api/chatbot/sessions` | user | Create empty session |
 | `GET` | `/api/chatbot/sessions/{id}` | user | Get session with messages |
 | `DELETE` | `/api/chatbot/sessions/{id}` | user | Delete session |
+| `GET/POST` | `/api/dev/jobs` | admin | Job Board ANRE CRUD |
+| `DELETE` | `/api/dev/jobs/{job_id}` | admin | Delete job posting |
+| `GET` | `/api/jobs` | public | Public jobs feed (no auth) |
+| `GET/POST` | `/api/dev/contracts` | admin | Contracts CRM CRUD |
+| `DELETE` | `/api/dev/contracts/{ctr_id}` | admin | Delete contract |
+| `GET` | `/api/seap/status` | admin | SEAP integration health |
+| `GET/PUT` | `/api/admin/config` | admin | **Moved to admin_routes.py** |
+| `GET/PATCH` | `/api/admin/users` | admin | **Moved to admin_routes.py** |
+| `GET` | `/api/admin/stats` | admin | **Moved to admin_routes.py** |
+| `*` | `/api/admin/payment-accounts/*` | admin | **Moved to admin_routes.py** |
 
 ## Test Credentials
 See `/app/memory/test_credentials.md` — admin (`dragosserban95@gmail.com` / `Test12345`).

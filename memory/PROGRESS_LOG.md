@@ -64,3 +64,16 @@
 - `/consultant-ai` route correctly enforces auth (redirects to /login when unauth).
 - Lint passes (eslint react-hooks/set-state-in-effect resolved via IIFE pattern + scrollIntoView).
 
+
+## 2026-02-07 — V5.6 Repository Unification + Marketplace
+- Restaurat **Job Board ANRE** (`/jobs` public + `/dev/jobs` admin) din commit 933d02c
+- Restaurat **Contracte CRM** (`/dev/contracts`) din commit 933d02c
+- Restaurat **/api/seap/status** integration health
+- Creat `backend/admin_routes.py` (APIRouter) — mutat 9 endpoint-uri /admin/* din server.py
+- Creat `backend/marketplace_routes.py` (APIRouter) — 7 endpoint-uri marketplace
+- Creat `frontend/pages/Jobs.jsx` (155 LOC) + `Contracts.jsx` (155 LOC)
+- Sidebar AppShell.jsx: 2 link-uri noi în secțiunea Business
+- `server.py` redus 2406 → ~2150 linii
+- VISION_MANIFEST.md actualizat cu "comanda fondatoare" a utilizatorului
+- Verificat: 244 commit-uri × 3 remote-uri — zero feature drift rămas
+

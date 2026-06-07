@@ -47,6 +47,8 @@ import CRMSubscribers from './pages/CRMSubscribers';
 import ANAFInvoicing from './pages/ANAFInvoicing';
 import PublicStatus from './pages/PublicStatus';
 import EnergyAdvisor from './pages/EnergyAdvisor';
+import Jobs from './pages/Jobs';
+import Contracts from './pages/Contracts';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -112,6 +114,8 @@ function AppRouter() {
       <Route path="/anaf-efactura" element={<ProtectedRoute><ANAFInvoicing /></ProtectedRoute>} />
       <Route path="/status" element={<PublicStatus />} />
       <Route path="/consultant-ai" element={<ProtectedRoute><EnergyAdvisor /></ProtectedRoute>} />
+      <Route path="/jobs" element={<Jobs />} />
+      <Route path="/contracts" element={<ProtectedRoute><Contracts /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
