@@ -1,0 +1,555 @@
+      self.focus_force()
+>>         except Exception:
+>>             Path("logs").mkdir(exist_ok=True)
+>>             Path("logs/post_login_error.log").write_text(traceback.format_exc(), encoding="utf-8")
+>>             messagebox.showerror(
+>>                 "EPD - eroare dupa login",
+>>                 "Login-ul a trecut, dar interfata principala nu s-a putut incarca.\\n\\nVezi logs/post_login_error.log"
+>>             )
+>>             raise'''
+>>
+>> if old_show in text and "post_login_error.log" not in text:
+>>     text = text.replace(old_show, new_show, 1)
+>>
+>> app_path.write_text(text, encoding="utf-8")
+>>
+>> for rel in ["app.py", "services/plan_engine_service.py", "ui/startup_login_dialog.py"]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> print("PATCH_FORCE_MAIN_WINDOW_AFTER_LOGIN_OK")
+>> '@ | Set-Content -Path ".\tools_force_main_window_after_login.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_force_main_window_after_login.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_force_main_window_after_login.py", line 51, in <module>
+    py_compile.compile(str(base / rel), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\post_login_error.log -Raw
+Get-Content : Cannot find path 'C:\Users\40735\Desktop\Energy Project Design - Bransamente
+2.0\logs\post_login_error.log' because it does not exist.
+At line:1 char:1
++ Get-Content .\logs\post_login_error.log -Raw
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\40735\...login_error.log:String) [Get-Content], ItemNotFoundEx
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -c "from services.backup_service import BackupService; BackupService().create_backup('before_force_main_window_after_login')"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>>
+>> base = Path.cwd()
+>> app_path = base / "app.py"
+>> text = app_path.read_text(encoding="utf-8").replace("`r`n", "\n").replace("`n", "\n")
+>>
+>> # Asigura imports pentru log post-login
+>> if "import traceback" not in text:
+>>     text = text.replace("import os", "import os\nimport traceback\nfrom pathlib import Path")
+>>
+>> # Dupa login reusit, fortam afisarea ferestrei principale
+>> old = '''        self.deiconify()
+>>
+>>         self.configure(fg_color=COLOR_BG)'''
+>>
+>> new = '''        self.deiconify()
+>>         self.update_idletasks()
+>>         self.lift()
+>>         self.focus_force()
+>>
+>>         self.configure(fg_color=COLOR_BG)'''
+>>
+>> if old in text:
+>>     text = text.replace(old, new)
+>>
+>> # Daca show_page Acasa nu este inca protejat, il protejam
+>> old_show = '''        self.show_page("Acasa")'''
+>>
+>> new_show = '''        try:
+>>             self.show_page("Acasa")
+>>             self.deiconify()
+>>             self.update_idletasks()
+>>             self.lift()
+>>             self.focus_force()
+>>         except Exception:
+>>             Path("logs").mkdir(exist_ok=True)
+>>             Path("logs/post_login_error.log").write_text(traceback.format_exc(), encoding="utf-8")
+>>             messagebox.showerror(
+>>                 "EPD - eroare dupa login",
+>>                 "Login-ul a trecut, dar interfata principala nu s-a putut incarca.\\n\\nVezi logs/post_login_error.log"
+>>             )
+>>             raise'''
+>>
+>> if old_show in text and "post_login_error.log" not in text:
+>>     text = text.replace(old_show, new_show, 1)
+>>
+>> app_path.write_text(text, encoding="utf-8")
+>>
+>> for rel in ["app.py", "services/plan_engine_service.py", "ui/startup_login_dialog.py"]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> print("PATCH_FORCE_MAIN_WINDOW_AFTER_LOGIN_OK")
+>> '@ | Set-Content -Path ".\tools_force_main_window_after_login.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_force_main_window_after_login.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_force_main_window_after_login.py", line 51, in <module>
+    py_compile.compile(str(base / rel), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Aplicatia nu a putut porni. Vezi logs/startup_error.log
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+Apasa Enter pentru inchidere...Test-Path .\logs\post_login_error.log
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Aplicatia nu a putut porni. Vezi logs/startup_error.log
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+Apasa Enter pentru inchidere...
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\post_login_error.log -Raw
+Get-Content : Cannot find path 'C:\Users\40735\Desktop\Energy Project Design - Bransamente
+2.0\logs\post_login_error.log' because it does not exist.
+At line:1 char:1
++ Get-Content .\logs\post_login_error.log -Raw
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\40735\...login_error.log:String) [Get-Content], ItemNotFoundEx
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>> import shutil
+>>
+>> base = Path.cwd()
+>> app_path = base / "app.py"
+>>
+>> # Backup brut inainte de reparatie
+>> backup_path = base / "app_backup_before_fix_literal_slash_n_corruption.py"
+>> shutil.copy2(app_path, backup_path)
+>>
+>> # Citire cu utf-8-sig ca sa eliminam BOM-ul din fata lui import
+>> text = app_path.read_text(encoding="utf-8-sig")
+>>
+>> # Reparare: in app.py au ajuns secvente literale \n in loc de newline real
+>> text = text.replace("\\r\\n", "\n")
+>> text = text.replace("\\n", "\n")
+>>
+>> # Curatare newline-uri multiple ciudate doar la inceput, daca exista
+>> text = text.lstrip("\ufeff")
+>>
+>> # Asigura importurile necesare, dar cu newline real
+>> if "import traceback" not in text:
+>>     text = text.replace("import os", "import os\nimport traceback\nfrom pathlib import Path", 1)
+>> elif "from pathlib import Path" not in text:
+>>     text = text.replace("import traceback", "import traceback\nfrom pathlib import Path", 1)
+>>
+>> # Scriere inapoi fara BOM
+>> app_path.write_text(text, encoding="utf-8")
+>>
+>> # Test compilare
+>> py_compile.compile(str(app_path), doraise=True)
+>>
+>> print("FIX_APP_LITERAL_SLASH_N_OK")
+>> print(f"Backup creat: {backup_path}")
+>> '@ | Set-Content -Path ".\tools_fix_app_literal_slash_n.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_fix_app_literal_slash_n.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_fix_app_literal_slash_n.py", line 32, in <module>
+    py_compile.compile(str(app_path), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>> import shutil
+>>
+>> base = Path.cwd()
+>> app_path = base / "app.py"
+>>
+>> # Backup brut inainte de reparatie
+>> backup_path = base / "app_backup_before_fix_literal_slash_n_corruption.py"
+>> shutil.copy2(app_path, backup_path)
+>>
+>> # Citire cu utf-8-sig ca sa eliminam BOM-ul din fata lui import
+>> text = app_path.read_text(encoding="utf-8-sig")
+>>
+>> # Reparare: in app.py au ajuns secvente literale \n in loc de newline real
+>> text = text.replace("\\r\\n", "\n")
+>> text = text.replace("\\n", "\n")
+>>
+>> # Curatare newline-uri multiple ciudate doar la inceput, daca exista
+>> text = text.lstrip("\ufeff")
+>>
+>> # Asigura importurile necesare, dar cu newline real
+>> if "import traceback" not in text:
+>>     text = text.replace("import os", "import os\nimport traceback\nfrom pathlib import Path", 1)
+>> elif "from pathlib import Path" not in text:
+>>     text = text.replace("import traceback", "import traceback\nfrom pathlib import Path", 1)
+>>
+>> # Scriere inapoi fara BOM
+>> app_path.write_text(text, encoding="utf-8")
+>>
+>> # Test compilare
+>> py_compile.compile(str(app_path), doraise=True)
+>>
+>> print("FIX_APP_LITERAL_SLASH_N_OK")
+>> print(f"Backup creat: {backup_path}")
+>> '@ | Set-Content -Path ".\tools_fix_app_literal_slash_n.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_fix_app_literal_slash_n.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_fix_app_literal_slash_n.py", line 32, in <module>
+    py_compile.compile(str(app_path), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\startup_error.log -Raw
+
+
+================================================================================
+[2026-06-01 02:22:44]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 14, in <module>
+    from pages.assistant_ai import AssistantAIPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\assistant_ai.py", line 7, in <module>
+    from services.developer_service import (
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\developer_service.py", line 5, in <module>
+    from services.backup_service import backup_project_snapshot, backup_files
+ImportError: cannot import name 'backup_project_snapshot' from 'services.backup_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\backup_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:23:05]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 14, in <module>
+    from pages.assistant_ai import AssistantAIPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\assistant_ai.py", line 7, in <module>
+    from services.developer_service import (
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\developer_service.py", line 5, in <module>
+    from services.backup_service import backup_project_snapshot, backup_files
+ImportError: cannot import name 'backup_project_snapshot' from 'services.backup_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\backup_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:24:03]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 17, in <module>
+    from pages.verifiers import VerifiersPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\verifiers.py", line 6, in <module>
+    from services.license_service import (
+ImportError: cannot import name 'set_active_role' from 'services.license_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\license_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:25:47]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 17, in <module>
+    from pages.verifiers import VerifiersPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\verifiers.py", line 6, in <module>
+    from services.license_service import (
+ImportError: cannot import name 'set_active_role' from 'services.license_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\license_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:26:13]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 17, in <module>
+    from pages.verifiers import VerifiersPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\verifiers.py", line 6, in <module>
+    from services.license_service import (
+ImportError: cannot import name 'set_active_role' from 'services.license_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\license_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:27:04]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 17, in <module>
+    from pages.verifiers import VerifiersPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\verifiers.py", line 6, in <module>
+    from services.license_service import (
+ImportError: cannot import name 'license_status_text' from 'services.license_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\license_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:27:26]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 17, in <module>
+    from pages.verifiers import VerifiersPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\verifiers.py", line 6, in <module>
+    from services.license_service import (
+ImportError: cannot import name 'license_status_text' from 'services.license_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\license_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:28:12]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 17, in <module>
+    from pages.verifiers import VerifiersPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\verifiers.py", line 17, in <module>
+    from services.project_validator_service import (
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\project_validator_service.py", line 1, in <module>
+    from services.license_service import (
+ImportError: cannot import name 'can_use_vgd' from 'services.license_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\license_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:29:24]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 17, in <module>
+    from pages.verifiers import VerifiersPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\verifiers.py", line 17, in <module>
+    from services.project_validator_service import (
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\project_validator_service.py", line 1, in <module>
+    from services.license_service import (
+ImportError: cannot import name 'can_use_vgd' from 'services.license_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\license_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:30:08]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 17, in <module>
+    from pages.verifiers import VerifiersPage
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\pages\verifiers.py", line 17, in <module>
+    from services.project_validator_service import (
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\project_validator_service.py", line 1, in <module>
+    from services.license_service import (
+ImportError: cannot import name 'can_authorize_project' from 'services.license_service' (C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\services\license_service.py)
+
+
+
+================================================================================
+[2026-06-01 02:34:31]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 758
+    if page_name == "Acasa":`n            HomePage(self.content, self)
+                            ^
+SyntaxError: invalid syntax
+
+
+
+================================================================================
+[2026-06-01 02:48:49]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 794
+    elif page_name == "VerificaCarteTehnica":`r`n            VerifyTechnicalBookPage(self.content, self)
+                                             ^
+SyntaxError: invalid syntax
+
+
+
+================================================================================
+[2026-06-01 03:22:12]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 92, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 157, in mainloop
+    self._windows_set_titlebar_color(self._get_appearance_mode())
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 281, in _windows_set_titlebar_color
+    self.focused_widget_before_widthdraw = self.focus_get()
+                                           ^^^^^^^^^^^^^^^^
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 803, in focus_get
+    name = self.tk.call('focus')
+           ^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: can't invoke "focus" command: application has been destroyed
+
+
+
+================================================================================
+[2026-06-01 03:57:53]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 92, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 157, in mainloop
+    self._windows_set_titlebar_color(self._get_appearance_mode())
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 281, in _windows_set_titlebar_color
+    self.focused_widget_before_widthdraw = self.focus_get()
+                                           ^^^^^^^^^^^^^^^^
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 803, in focus_get
+    name = self.tk.call('focus')
+           ^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: can't invoke "focus" command: application has been destroyed
+
+
+
+================================================================================
+[2026-06-01 05:09:21]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 92, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 157, in mainloop
+    self._windows_set_titlebar_color(self._get_appearance_mode())
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 281, in _windows_set_titlebar_color
+    self.focused_widget_before_widthdraw = self.focus_get()
+                                           ^^^^^^^^^^^^^^^^
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 803, in focus_get
+    name = self.tk.call('focus')
+           ^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: can't invoke "focus" command: application has been destroyed
+
+
+
+================================================================================
+[2026-06-01 05:22:24]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+
+
+================================================================================
+[2026-06-01 05:23:26]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+
+
+================================================================================
+[2026-06-01 05:23:48]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character

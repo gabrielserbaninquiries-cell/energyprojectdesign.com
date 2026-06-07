@@ -1,0 +1,610 @@
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_fix_professional_verifier_core.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 489
+    f"Nu am gasit o comanda potrivita pentru:
+    ^
+SyntaxError: unterminated string literal (detected at line 489)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_fix_professional_verifier_core.py", line 70, in <module>
+    py_compile.compile(str(app_path), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 489
+    f"Nu am gasit o comanda potrivita pentru:
+    ^
+SyntaxError: unterminated string literal (detected at line 489)
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+  File ".\app.py", line 489
+    f"Nu am gasit o comanda potrivita pentru:
+    ^
+SyntaxError: unterminated string literal (detected at line 489)
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\start.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Aplicatia nu a putut porni. Vezi logs/startup_error.log
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 489
+    f"Nu am gasit o comanda potrivita pentru:
+    ^
+SyntaxError: unterminated string literal (detected at line 489)
+
+Apasa Enter pentru inchidere...
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+  File ".\app.py", line 489
+    f"Nu am gasit o comanda potrivita pentru:
+    ^
+SyntaxError: unterminated string literal (detected at line 489)
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>> import shutil
+>> import time
+>> import re
+>>
+>> base = Path.cwd()
+>> logs = base / "logs"
+>> logs.mkdir(exist_ok=True)
+>>
+>> app_path = base / "app.py"
+>> stamp = time.strftime("%Y%m%d_%H%M%S")
+>> backup = base / f"app_backup_before_general_diagnosis_{stamp}.py"
+>> shutil.copy2(app_path, backup)
+>>
+>> report = []
+>> report.append("=== EPD GENERAL APP.PY DIAGNOSIS ===")
+>> report.append(f"Backup: {backup.name}")
+>>
+>> def read_app():
+>>     return app_path.read_text(encoding="utf-8-sig", errors="replace")
+>>
+>> def write_app(text):
+>>     app_path.write_text(text, encoding="utf-8")
+>>
+>> def compile_app():
+>>     try:
+>>         py_compile.compile(str(app_path), doraise=True)
+>>         return True, ""
+>>     except py_compile.PyCompileError as exc:
+>>         return False, str(exc)
+>>
+>> def extract_error_line(err):
+>>     m = re.search(r'File ".*?", line (\d+)', err)
+>>     if not m:
+>>         return None
+>>     return int(m.group(1))
+>>
+>> def clean_basic_corruption(text):
+>>     text = text.replace("\ufeff", "")
+>>     text = text.replace("ï»¿", "")
+>>     text = text.replace("ď»ż", "")
+>>
+>>     if text.startswith("import os\\nimport traceback\\nfrom pathlib import Path"):
+>>         text = text.replace(
+>>             "import os\\nimport traceback\\nfrom pathlib import Path",
+>>             "import os\nimport traceback\nfrom pathlib import Path",
+>>             1
+>>         )
+>>
+>>     text = text.replace("`r`n", "\n")
+>>     text = text.replace("`n", "\n")
+>>     return text
+>>
+>> def count_unescaped_quotes(line, quote):
+>>     escaped = False
+>>     count = 0
+>>     for ch in line:
+>>         if escaped:
+>>             escaped = False
+>>             continue
+>>         if ch == "\\":
+>>             escaped = True
+>>             continue
+>>         if ch == quote:
+>>             count += 1
+>>     return count
+>>
+>> def detect_broken_quote(line):
+>>     # Cauta inceput de string simplu/dublu, inclusiv f-string.
+>>     for quote in ['"', "'"]:
+>>         if quote in line and count_unescaped_quotes(line, quote) % 2 == 1:
+>>             return quote
+>>     return None
+>>
+>> def fix_unterminated_string_at(lines, lineno):
+>>     idx = lineno - 1
+>>     if idx < 0 or idx >= len(lines):
+>>         return lines, False, "linie invalida"
+>>
+>>     first = lines[idx]
+>>     quote = detect_broken_quote(first)
+>>     if not quote:
+>>         return lines, False, "nu pare string rupt"
+>>
+>>     qpos = first.find(quote)
+>>     prefix = first[:qpos]
+>>     first_content = first[qpos + 1:]
+>>
+>>     content_parts = [first_content]
+>>     suffix = ""
+>>     j = idx + 1
+>>     found_closing = False
+>>
+>>     while j < len(lines):
+>>         current = lines[j]
+>>
+>>         # Daca gasim ghilimea de inchidere pe o linie ulterioara, pastram ce urmeaza dupa ea.
+>>         q = current.find(quote)
+>>         if q != -1:
+>>             content_parts.append(current[:q])
+>>             suffix = current[q + 1:]
+>>             found_closing = True
+>>             j += 1
+>>             break
+>>
+>>         # Daca am ajuns la final de apel/parametru fara ghilimea, inchidem noi stringul.
+>>         if current.strip() in [")", "],", "]", "}", "},"]:
+>>             break
+>>
+>>         content_parts.append(current)
+>>         j += 1
+>>
+>>     joined = "\\n".join(part.strip() for part in content_parts if part is not None)
+>>
+>>     # Escapam doar caracterul de ghilimea folosit si backslash-ul.
+>>     joined = joined.replace("\\", "\\\\")
+>>     if quote == '"':
+>>         joined = joined.replace('"', '\\"')
+>>     else:
+>>         joined = joined.replace("'", "\\'")
+>>
+>>     new_line = prefix + quote + joined + quote
+>>
+>>     if found_closing:
+>>         new_line += suffix
+>>         new_lines = lines[:idx] + [new_line] + lines[j:]
+>>     else:
+>>         # Nu consumam linia de inchidere, doar inlocuim linia de start + fragmentele de continut.
+>>         new_lines = lines[:idx] + [new_line] + lines[j:]
+>>
+>>     return new_lines, True, f"reparat linia {lineno}"
+>>
+>> # 1. Curatare de baza
+>> text = clean_basic_corruption(read_app())
+>> write_app(text)
+>>
+>> # 2. Repara iterativ toate SyntaxError: unterminated string literal
+>> for round_no in range(1, 51):
+>>     ok, err = compile_app()
+>>     if ok:
+>>         report.append(f"[OK] app.py compileaza dupa {round_no - 1} reparatii.")
+>>         break
+>>
+>>     report.append(f"[ROUND {round_no}] Eroare compilare:")
+>>     report.append(err[:900])
+>>
+>>     if "unterminated string literal" not in err:
+>>         report.append("[STOP] Eroarea nu este unterminated string literal. Necesita interventie separata.")
+>>         break
+>>
+>>     lineno = extract_error_line(err)
+>>     if not lineno:
+>>         report.append("[STOP] Nu am putut extrage linia erorii.")
+>>         break
+>>
+>>     lines = read_app().splitlines()
+>>     start = max(0, lineno - 4)
+>>     end = min(len(lines), lineno + 5)
+>>     report.append(f"[CONTEXT line {lineno}]")
+>>     for n in range(start, end):
+>>         report.append(f"{n+1}: {lines[n]}")
+>>
+>>     new_lines, changed, msg = fix_unterminated_string_at(lines, lineno)
+>>     report.append(f"[FIX] {msg}")
+>>
+>>     if not changed:
+>>         break
+>>
+>>     write_app("\n".join(new_lines) + "\n")
+>> else:
+>>     report.append("[STOP] Prea multe reparatii. Oprire pentru siguranta.")
+>>
+>> # 3. Verificare start.py si servicii principale
+>> for rel in [
+>>     "app.py",
+>>     "start.py",
+>>     "services/plan_engine_service.py",
+>>     "services/startup_auth_service.py",
+>>     "ui/startup_login_dialog.py",
+>> ]:
+>>     path = base / rel
+>>     try:
+>>         py_compile.compile(str(path), doraise=True)
+>>         report.append(f"[OK] {rel}")
+>>     except Exception as exc:
+>>         report.append(f"[FAIL] {rel}")
+>>         report.append(str(exc)[:900])
+>>
+>> (logs / "app_general_diagnosis.txt").write_text("\n".join(report), encoding="utf-8")
+>>
+>> print("GENERAL_DIAGNOSIS_DONE")
+>> print("Raport: logs/app_general_diagnosis.txt")
+>> print(f"Backup app.py: {backup.name}")
+>> '@ | Set-Content -Path ".\tools_general_diagnose_and_fix_app.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_general_diagnose_and_fix_app.py
+GENERAL_DIAGNOSIS_DONE
+Raport: logs/app_general_diagnosis.txt
+Backup app.py: app_backup_before_general_diagnosis_20260601_054324.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\start.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 113, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 98, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>> import shutil
+>> import time
+>>
+>> base = Path.cwd()
+>> stamp = time.strftime("%Y%m%d_%H%M%S")
+>> logs = base / "logs"
+>> logs.mkdir(exist_ok=True)
+>>
+>> def backup(path):
+>>     dst = path.with_name(path.stem + f"_backup_before_secret_login_guard_{stamp}" + path.suffix)
+>>     shutil.copy2(path, dst)
+>>     return dst
+>>
+>> def replace_method(text, method_name, new_method):
+>>     start = text.find(f"    def {method_name}(")
+>>     if start == -1:
+>>         return text + "\n\n" + new_method + "\n"
+>>
+>>     end = text.find("\n    def ", start + 5)
+>>     if end == -1:
+>>         end = len(text)
+>>
+>>     return text[:start] + new_method + text[end:]
+>>
+>>
+>> # ============================================================
+>> # 1. Patch services/plan_engine_service.py
+>> # ============================================================
+>>
+>> plan_path = base / "services" / "plan_engine_service.py"
+>> backup(plan_path)
+>> plan_text = plan_path.read_text(encoding="utf-8-sig", errors="replace")
+>>
+>> secret_method = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verificare parola Inside Full.
+>>         Nu se afiseaza si nu se salveaza in clar.
+>>         Accepta modelul stabilit: caractere doar '*' si '/', exact un '/', cu slash-ul in orice pozitie.
+>>         """
+>>         raw = str(password or "").strip()
+>>
+>>         if not raw:
+>>             return False
+>>
+>>         if any(ch not in "*/" for ch in raw):
+>>             return False
+>>
+>>         if raw.count("/") != 1:
+>>             return False
+>>
+>>         # Acceptam modelul stabilit, inclusiv variantele cu slash in orice pozitie.
+>>         return raw.count("*") >= 29
+>> '''
+>>
+>> plan_text = replace_method(plan_text, "_is_secret_inside_password", secret_method)
+>>
+>> # Patch in authenticate: asigura flaguri separate pentru Developer normal vs Inside Full
+>> plan_text = plan_text.replace(
+>>     '"inside_full_unlocked": inside_full,',
+>>     '"inside_full_unlocked": inside_full,\n                "full_app_modify_unlocked": inside_full,\n                "confidential_access_unlocked": inside_full,'
+>> )
+>>
+>> plan_path.write_text(plan_text, encoding="utf-8")
+>>
+>>
+>> # ============================================================
+>> # 2. Patch services/inside_access_service.py
+>> # ============================================================
+>>
+>> inside_path = base / "services" / "inside_access_service.py"
+>> if inside_path.exists():
+>>     backup(inside_path)
+>>     inside_text = inside_path.read_text(encoding="utf-8-sig", errors="replace")
+>>
+>>     star_method = '''    def _is_star_secret(self, text):
+>>         """
+>>         Verifica modelul secret Inside fara afisare.
+>>         Accepta slash-ul in orice pozitie.
+>>         """
+>>         raw = str(text or "").strip()
+>>
+>>         if not raw:
+>>             return False
+>>
+>>         if any(ch not in "*/" for ch in raw):
+>>             return False
+>>
+>>         if raw.count("/") != 1:
+>>             return False
+>>
+>>         return raw.count("*") >= 29
+>> '''
+>>     inside_text = replace_method(inside_text, "_is_star_secret", star_method)
+>>     inside_path.write_text(inside_text, encoding="utf-8")
+>>
+>>
+>> # ============================================================
+>> # 3. Patch app.py: log clar daca pica dupa login / Acasa
+>> # ============================================================
+>>
+>> app_path = base / "app.py"
+>> backup(app_path)
+>> app_text = app_path.read_text(encoding="utf-8-sig", errors="replace")
+>>
+>> # Curata urme BOM/mojibake, dar fara replace global pe \\n
+>> app_text = app_text.replace("\ufeff", "").replace("ï»¿", "").replace("ď»ż", "")
+>>
+>> if app_text.startswith("import os\\nimport traceback\\nfrom pathlib import Path"):
+>>     app_text = app_text.replace(
+>>         "import os\\nimport traceback\\nfrom pathlib import Path",
+>>         "import os\nimport traceback\nfrom pathlib import Path",
+>>         1
+>>     )
+>>
+>> if "import traceback" not in app_text:
+>>     app_text = app_text.replace("import os", "import os\nimport traceback", 1)
+>>
+>> if "from pathlib import Path" not in app_text:
+>>     if "import traceback" in app_text:
+>>         app_text = app_text.replace("import traceback", "import traceback\nfrom pathlib import Path", 1)
+>>     else:
+>>         app_text = app_text.replace("import os", "import os\nfrom pathlib import Path", 1)
+>>
+>> lines = app_text.splitlines()
+>> out = []
+>> i = 0
+>>
+>> while i < len(lines):
+>>     line = lines[i]
+>>
+>>     # Inlocuieste prima aparitie simpla self.show_page("Acasa") cu bloc protejat,
+>>     # dar numai daca nu este deja intr-un try de post-login.
+>>     if line.strip() == 'self.show_page("Acasa")':
+>>         previous = "\n".join(out[-5:])
+>>         if "post_login_error.log" not in previous and "try:" not in previous:
+>>             indent = line[:len(line) - len(line.lstrip())]
+>>             out.extend([
+>>                 indent + "try:",
+>>                 indent + '    self.show_page("Acasa")',
+>>                 indent + "except Exception:",
+>>                 indent + "    Path('logs').mkdir(exist_ok=True)",
+>>                 indent + "    Path('logs/post_login_error.log').write_text(traceback.format_exc(), encoding='utf-8')",
+>>                 indent + "    messagebox.showerror(",
+>>                 indent + '        "EPD - eroare dupa login",',
+>>                 indent + '        "Login-ul a trecut, dar interfata principala nu s-a putut incarca.\\\\n\\\\nVezi logs/post_login_error.log"',
+>>                 indent + "    )",
+>>                 indent + "    raise",
+>>             ])
+>>             i += 1
+>>             continue
+>>
+>>     out.append(line)
+>>     i += 1
+>>
+>> app_path.write_text("\n".join(out) + "\n", encoding="utf-8")
+>>
+>>
+>> # ============================================================
+>> # 4. Patch start.py: nu intra in mainloop daca root-ul a fost distrus
+>> # ============================================================
+>>
+>> start_path = base / "start.py"
+>> backup(start_path)
+>> start_text = start_path.read_text(encoding="utf-8-sig", errors="replace")
+>>
+>> if "import tkinter as tk" not in start_text:
+>>     if "import traceback" in start_text:
+>>         start_text = start_text.replace("import traceback", "import traceback\nimport tkinter as tk", 1)
+>>     else:
+>>         start_text = start_text.replace("import sys", "import sys\nimport tkinter as tk", 1)
+>>
+>> # Repara bloc mainloop simplu, daca exista.
+>> if "instance.mainloop()" in start_text and "application has been destroyed" not in start_text:
+>>     start_text = start_text.replace(
+>>         "    instance.mainloop()",
+>>         '''    try:
+>>         if instance.winfo_exists():
+>>             instance.mainloop()
+>>     except tk.TclError as exc:
+>>         if "application has been destroyed" not in str(exc):
+>>             raise''',
+>>         1
+>>     )
+>>
+>> start_path.write_text(start_text, encoding="utf-8")
+>>
+>>
+>> # ============================================================
+>> # 5. Teste
+>> # ============================================================
+>>
+>> for rel in [
+>>     "services/plan_engine_service.py",
+>>     "services/inside_access_service.py",
+>>     "ui/startup_login_dialog.py",
+>>     "app.py",
+>>     "start.py",
+>> ]:
+>>     path = base / rel
+>>     if path.exists():
+>>         py_compile.compile(str(path), doraise=True)
+>>
+>> from services.plan_engine_service import PlanEngineService
+>>
+>> engine = PlanEngineService(base)
+>>
+>> normal = engine.authenticate("developer", "Amodilema_99")
+>>
+>> # Testam cateva variante generate intern, fara afisarea parolelor.
+>> secret_tests_ok = True
+>> for slash_pos in [0, 1, 14, 28, 29]:
+>>     candidate = "*" * slash_pos + "/" + "*" * (29 - slash_pos)
+>>     result = engine.authenticate("developer", candidate)
+>>     if not result.get("success") or not result.get("inside_full_unlocked"):
+>>         secret_tests_ok = False
+>>
+>> print("PATCH_SECRET_AND_LOGIN_GUARD_OK")
+>> print("Developer normal login:", normal.get("success"), "InsideFull:", normal.get("inside_full_unlocked"))
+>> print("Secret variants internal test:", secret_tests_ok)
+>> print("Daca aplicatia pica dupa login, citeste logs/post_login_error.log")
+>> '@ | Set-Content -Path ".\tools_patch_secret_and_login_guard.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_patch_secret_and_login_guard.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 100
+    if instance.winfo_exists():
+IndentationError: expected an indented block after 'try' statement on line 99
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_patch_secret_and_login_guard.py", line 203, in <module>
+    py_compile.compile(str(path), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError: Sorry: IndentationError: expected an indented block after 'try' statement on line 99 (start.py, line 100)
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\start.py
+Sorry: IndentationError: expected an indented block after 'try' statement on line 99 (start.py, line 100)
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 100
+    if instance.winfo_exists():
+IndentationError: expected an indented block after 'try' statement on line 99
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\post_login_error.log -Raw
+Get-Content : Cannot find path 'C:\Users\40735\Desktop\Energy Project Design - Bransamente
+2.0\logs\post_login_error.log' because it does not exist.
+At line:1 char:1
++ Get-Content .\logs\post_login_error.log -Raw
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\40735\...login_error.log:String) [Get-Content], ItemNotFoundEx
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\startup_error.log -Tail 80
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+
+
+================================================================================
+[2026-06-01 05:23:48]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+
+
+================================================================================
+[2026-06-01 05:30:10]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+
+
+================================================================================
+[2026-06-01 05:30:18]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+
+
+================================================================================
+[2026-06-01 05:37:47]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
+
+
+
+================================================================================
+[2026-06-01 05:39:12]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
+
+
+
+================================================================================
+[2026-06-01 05:40:35]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 489
+    f"Nu am gasit o comanda potrivita pentru:
+    ^
+SyntaxError: unterminated string literal (detected at line 489)

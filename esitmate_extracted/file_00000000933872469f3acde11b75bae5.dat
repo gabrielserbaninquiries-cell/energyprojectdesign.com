@@ -1,0 +1,165 @@
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Name              Length
+Name : The term 'Name' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ Name              Length
++ ~~~~
+    + CategoryInfo          : ObjectNotFound: (Name:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> ----              ------
+>> __pycache__
+At line:1 char:25
++ ----              ------
++                         ~
+Missing expression after unary operator '--'.
+At line:2 char:1
++ __pycache__
++ ~~~~~~~~~~~
+Unexpected token '__pycache__' in expression or statement.
+At line:1 char:3
++ ----              ------
++   ~~~~~~~~~~~~~~~~~~~~~~
+The '--' operator works only on variables or on properties.
+At line:1 char:19
++ ----              ------
++                   ~~~~~~
+The '--' operator works only on variables or on properties.
+At line:1 char:21
++ ----              ------
++                     ~~~~
+The '--' operator works only on variables or on properties.
+At line:1 char:23
++ ----              ------
++                       ~~
+The '--' operator works only on variables or on properties.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingExpressionAfterOperator
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> assistant_ai.py   234
+assistant_ai.py : The term 'assistant_ai.py' is not recognized as the name of a cmdlet, function, script file, or
+operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try
+again.
+At line:1 char:1
++ assistant_ai.py   234
++ ~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (assistant_ai.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> assistant_user.py 246
+assistant_user.py : The term 'assistant_user.py' is not recognized as the name of a cmdlet, function, script file, or
+operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try
+again.
+At line:1 char:1
++ assistant_user.py 246
++ ~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (assistant_user.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> base.py           2296
+base.py : The term 'base.py' is not recognized as the name of a cmdlet, function, script file, or operable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ base.py           2296
++ ~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (base.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+
+Suggestion [3,General]: The command base.py was not found, but does exist in the current location. Windows PowerShell does not load commands from the current location by default. If you trust this command, instead type: ".\base.py". See "get-help about_Command_Precedence" for more details.
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> contact.py        226
+contact.py : The term 'contact.py' is not recognized as the name of a cmdlet, function, script file, or operable
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ contact.py        226
++ ~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (contact.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> documentation.py  946
+documentation.py : The term 'documentation.py' is not recognized as the name of a cmdlet, function, script file, or
+operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try
+again.
+At line:1 char:1
++ documentation.py  946
++ ~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (documentation.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> emails.py         248
+emails.py : The term 'emails.py' is not recognized as the name of a cmdlet, function, script file, or operable
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ emails.py         248
++ ~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (emails.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> home.py           236
+home.py : The term 'home.py' is not recognized as the name of a cmdlet, function, script file, or operable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ home.py           236
++ ~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (home.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> products.py       227
+products.py : The term 'products.py' is not recognized as the name of a cmdlet, function, script file, or operable
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ products.py       227
++ ~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (products.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> project.py        0
+project.py : The term 'project.py' is not recognized as the name of a cmdlet, function, script file, or operable
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ project.py        0
++ ~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (project.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+
+Suggestion [3,General]: The command project.py was not found, but does exist in the current location. Windows PowerShell does not load commands from the current location by default. If you trust this command, instead type: ".\project.py". See "get-help about_Command_Precedence" for more details.
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> stamps.py         247
+stamps.py : The term 'stamps.py' is not recognized as the name of a cmdlet, function, script file, or operable
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ stamps.py         247
++ ~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (stamps.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> technical.py      0
+technical.py : The term 'technical.py' is not recognized as the name of a cmdlet, function, script file, or operable
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ technical.py      0
++ ~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (technical.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> user.py           237
+user.py : The term 'user.py' is not recognized as the name of a cmdlet, function, script file, or operable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ user.py           237
++ ~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (user.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> __init__.py       0
+__init__.py : The term '__init__.py' is not recognized as the name of a cmdlet, function, script file, or operable
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ __init__.py       0
++ ~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (__init__.py:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>

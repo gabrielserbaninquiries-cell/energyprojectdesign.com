@@ -32,23 +32,23 @@ export default function Login() {
   return (
     <div className="min-h-screen grid md:grid-cols-2">
       <div className="hidden md:block bg-black text-white p-12 relative overflow-hidden">
-        <Link to="/" className="flex items-center gap-2.5">
+        <Link to="/" className="flex items-center gap-2.5" data-testid="login-brand-link">
           <div className="w-8 h-8 bg-[#FFB300] text-black flex items-center justify-center"><Flame className="w-4 h-4" strokeWidth={2.5} /></div>
-          <div className="font-bold tracking-tight">StampDoc<span className="text-[#FFB300]">.ro</span></div>
+          <div className="font-bold tracking-tight" data-testid="login-brand-name">Energy Project Design<span className="text-[#FFB300]">.</span></div>
         </Link>
         <div className="absolute bottom-12 left-12 right-12">
-          <div className="label text-[#FFB300] mb-3">// Pentru ingineri</div>
-          <h2 className="text-3xl font-bold tracking-tighter leading-tight">Documentația ANRE, fără bătăi de cap.</h2>
-          <p className="text-gray-400 mt-4 text-sm max-w-sm">Șabloane, ștampile și semnătură digitală — într-o singură aplicație gândită pentru firmele de instalații gaze.</p>
+          <div className="label text-[#FFB300] mb-3">// International electronic technical documentation</div>
+          <h2 className="text-3xl font-bold tracking-tighter leading-tight" data-testid="login-brand-tagline">Energy Project Design — international electronic technical documentation, certified and digitally stamped.</h2>
+          <p className="text-gray-400 mt-4 text-sm max-w-sm">Șabloane, ștampile și semnătură digitală — într-o singură platformă pentru ingineri, proiectanți și firme de instalații gaze, energie și construcții.</p>
         </div>
       </div>
 
       <div className="flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="md:hidden mb-8">
-            <Link to="/" className="flex items-center gap-2.5">
+            <Link to="/" className="flex items-center gap-2.5" data-testid="login-brand-link-mobile">
               <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center"><Flame className="w-4 h-4" strokeWidth={2.5} /></div>
-              <div className="font-bold tracking-tight">StampDoc.ro</div>
+              <div className="font-bold tracking-tight">Energy Project Design</div>
             </Link>
           </div>
           <div className="label mb-2">// Autentificare</div>

@@ -42,32 +42,33 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 stagger">
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500 mb-6">
-              <span className="w-8 h-px bg-[#FFB300]" /> Platformă pentru documentații tehnice gaze naturale
+              <span className="w-8 h-px bg-[#FFB300]" /> International electronic technical documentation
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tighter leading-[1.05] mb-6">
-              Documentații tehnice gaze naturale, <span className="bg-[#FFB300] px-2">automatizate</span> de la introducere date până la trimitere.
+              Energy Project Design — <span className="bg-[#FFB300] px-2">certified</span> & digitally stamped technical documentation.
             </h1>
             <p className="text-lg text-gray-600 max-w-xl mb-8 leading-relaxed">
-              Energy Project Design Services — platformă completă pentru branșamente, extinderi conducte, instalații de utilizare. Date proiect, calcul inteligent, generare documente, ștampile autorizate, certificări VGD/RTE, email-uri către OSD și beneficiar.
+              Platformă B2B multi-industrie (gaze, electric, fotovoltaice, telecom, HVAC, apă-canal, construcții, feroviar, drumuri) și multi-rol (Client, User, Angajat, Developer, Admin). Documentație inteligentă, calcul automat, ștampilă & semnătură electronică calificată (QES), AI Assistant + AI Developer, marketplace șabloane, SEAP alerts, contracte.
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <Link to="/register" className="amber-btn" data-testid="hero-cta-register">
                 Începe gratuit <ArrowRight className="w-4 h-4" />
               </Link>
               <Link to="/pricing" className="outline-btn" data-testid="hero-cta-pricing">Vezi tarifele</Link>
+              <Link to="/industrii" className="text-sm text-gray-600 underline hover:text-black" data-testid="hero-cta-industrii">13 industrii →</Link>
             </div>
             <div className="mt-10 grid grid-cols-3 gap-6 max-w-md">
               <div>
-                <div className="text-3xl font-bold tracking-tight">200+</div>
-                <div className="text-xs uppercase tracking-[0.15em] text-gray-500 mt-1">Firme</div>
+                <div className="text-3xl font-bold tracking-tight">13</div>
+                <div className="text-xs uppercase tracking-[0.15em] text-gray-500 mt-1">Industrii</div>
               </div>
               <div>
-                <div className="text-3xl font-bold tracking-tight">15K</div>
-                <div className="text-xs uppercase tracking-[0.15em] text-gray-500 mt-1">Documente</div>
+                <div className="text-3xl font-bold tracking-tight">56+</div>
+                <div className="text-xs uppercase tracking-[0.15em] text-gray-500 mt-1">Subdomenii</div>
               </div>
               <div>
-                <div className="text-3xl font-bold tracking-tight">PKI</div>
-                <div className="text-xs uppercase tracking-[0.15em] text-gray-500 mt-1">Semnătură</div>
+                <div className="text-3xl font-bold tracking-tight">QES</div>
+                <div className="text-xs uppercase tracking-[0.15em] text-gray-500 mt-1">eIDAS</div>
               </div>
             </div>
           </div>
@@ -111,6 +112,36 @@ export default function Landing() {
               <h3 className="text-xl font-semibold mb-2">Trimitere directă pe email</h3>
               <p className="text-gray-600 text-sm leading-relaxed">Adăugați destinatari, subiect și mesaj — documentul stampilat și semnătura <span className="mono">.p7s</span> sunt atașate automat.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Personas (roluri) */}
+      <section className="py-20 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="label mb-3">// Pentru cine</div>
+          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-2 max-w-3xl">O platformă, 5 perspective.</h2>
+          <p className="text-gray-600 mb-10 max-w-2xl">Clienți, utilizatori, angajați, developeri, admin — fiecare rol primește exact ce are nevoie.</p>
+          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-px bg-gray-200 border border-gray-200">
+            {[
+              { slug: 'clienti', title: 'Clienți', desc: 'Beneficiari, primării, dezvoltatori', color: '#0EA5E9' },
+              { slug: 'utilizatori', title: 'Utilizatori', desc: 'Proiectanți, VGD, RTE, arhitecți', color: '#FFB300' },
+              { slug: 'angajati', title: 'Angajați', desc: 'Operatori, contabilitate, juridic', color: '#10B981' },
+              { slug: 'developeri', title: 'Developeri', desc: 'Parteneri tehnici cu acces extins', color: '#8B5CF6' },
+              { slug: 'admin', title: 'Admin', desc: 'Control total ENERGY PROJECT DESIGN', color: '#EF4444' },
+            ].map((p) => (
+              <Link
+                key={p.slug}
+                to={`/pentru/${p.slug}`}
+                data-testid={`landing-persona-${p.slug}`}
+                className="bg-white p-6 hover:bg-gray-50 group"
+              >
+                <div className="w-10 h-1.5 mb-4" style={{ backgroundColor: p.color }} />
+                <div className="font-semibold mb-1">{p.title}</div>
+                <div className="text-xs text-gray-500 leading-relaxed mb-3">{p.desc}</div>
+                <span className="text-xs uppercase tracking-[0.18em] text-gray-400 group-hover:text-black">Vezi →</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

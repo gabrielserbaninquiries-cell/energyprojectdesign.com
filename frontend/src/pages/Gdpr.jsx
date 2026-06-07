@@ -19,7 +19,7 @@ export default function Gdpr() {
   return (
     <LegalLayout title="GDPR — Protecția Datelor" eyebrow="// Regulamentul (UE) 2016/679">
       <p>
-        StampDoc.ro respectă Regulamentul General privind Protecția Datelor (GDPR). Această pagină vă explică drepturile dvs. și cum le puteți exercita.
+        Energy Project Design respectă Regulamentul General privind Protecția Datelor (GDPR). Această pagină vă explică drepturile dvs. și cum le puteți exercita.
       </p>
 
       <div className="grid md:grid-cols-2 gap-px bg-gray-200 border border-gray-200 not-prose my-8">

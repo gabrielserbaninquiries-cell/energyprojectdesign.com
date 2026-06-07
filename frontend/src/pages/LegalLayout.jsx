@@ -8,7 +8,7 @@ export default function LegalLayout({ title, eyebrow, children }) {
         <div className="max-w-4xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center"><Flame className="w-4 h-4" strokeWidth={2.5} /></div>
-            <div className="font-bold tracking-tight">StampDoc<span className="text-[#FFB300]">.ro</span></div>
+            <div className="font-bold tracking-tight">Energy Project Design<span className="text-[#FFB300]">.</span></div>
           </Link>
           <Link to="/" className="ghost-btn text-sm"><ArrowLeft className="w-4 h-4" /> Înapoi</Link>
         </div>
@@ -26,7 +26,7 @@ export default function LegalLayout({ title, eyebrow, children }) {
 
       <footer className="border-t border-gray-200 py-10 mt-10">
         <div className="max-w-4xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <div>© {new Date().getFullYear()} StampDoc România.</div>
+          <div>© {new Date().getFullYear()} Energy Project Design SRL · International electronic technical documentation, certified and digitally stamped.</div>
           <div className="flex gap-6">
             <Link to="/termeni">Termeni</Link>
             <Link to="/confidentialitate">Confidențialitate</Link>

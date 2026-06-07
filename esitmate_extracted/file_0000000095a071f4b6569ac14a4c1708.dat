@@ -1,0 +1,1391 @@
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_patch_plan_based_licensing_inside.py
+PATCH_PLAN_BASED_LICENSING_INSIDE_OK
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Aplicatia nu a putut porni. Vezi logs/startup_error.log
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 92, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 157, in mainloop
+    self._windows_set_titlebar_color(self._get_appearance_mode())
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 281, in _windows_set_titlebar_color
+    self.focused_widget_before_widthdraw = self.focus_get()
+                                           ^^^^^^^^^^^^^^^^
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 803, in focus_get
+    name = self.tk.call('focus')
+           ^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: can't invoke "focus" command: application has been destroyed
+
+Apasa Enter pentru inchidere...bgerror failed to handle background error.
+    Original error: invalid command name "2459099710080update"
+    Error in bgerror: can't invoke "tk" command: application has been destroyed
+bgerror failed to handle background error.
+    Original error: invalid command name "2459099710144check_dpi_scaling"
+    Error in bgerror: can't invoke "tk" command: application has been destroyed
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 107, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 92, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -c "from services.backup_service import BackupService; BackupService().create_backup('before_fix_register_scroll_activation_inside_guard')"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>>
+>> base = Path.cwd()
+>> (base / "services").mkdir(exist_ok=True)
+>> (base / "ui").mkdir(exist_ok=True)
+>> (base / "config").mkdir(exist_ok=True)
+>> (base / "emails" / "outbox").mkdir(parents=True, exist_ok=True)
+>>
+>> # ============================================================
+>> # services/confidentiality_guard_service.py
+>> # ============================================================
+>>
+>> (base / "services" / "confidentiality_guard_service.py").write_text(r'''
+>> from pathlib import Path
+>> import json
+>>
+>>
+>> class ConfidentialityGuardService:
+>>     """
+>>     Guard local pentru informatii confidentiale Energy Project Design.
+>>     Nu divulga structura programului, secrete, parole, raspunsuri secrete
+>>     sau detalii interne fara sesiune Developer + Inside Full.
+>>     """
+>>
+>>     PROTECTED_TOPICS = [
+>>         "energy project design",
+>>         "structura programului",
+>>         "scheletul programului",
+>>         "secrete",
+>>         "parole",
+>>         "inside",
+>>         "ai developer",
+>>         "cod sursa",
+>>         "confidential",
+>>         "societate",
+>>         "business logic",
+>>         "mecanism intern"
+>>     ]
+>>
+>>     def __init__(self, base_path=None):
+>>         self.base_path = Path(base_path or Path.cwd())
+>>         self.session_file = self.base_path / "config" / "startup_session.json"
+>>
+>>     def _load_session(self):
+>>         try:
+>>             if self.session_file.exists():
+>>                 return json.loads(self.session_file.read_text(encoding="utf-8"))
+>>         except Exception:
+>>             pass
+>>         return {}
+>>
+>>     def is_inside_full_unlocked(self):
+>>         session = self._load_session()
+>>         return session.get("inside_full_unlocked") is True
+>>
+>>     def can_access_confidential(self):
+>>         session = self._load_session()
+>>         return session.get("is_developer") is True and session.get("inside_full_unlocked") is True
+>>
+>>     def should_block_topic(self, text):
+>>         if self.can_access_confidential():
+>>             return False
+>>
+>>         t = str(text or "").lower()
+>>         return any(topic in t for topic in self.PROTECTED_TOPICS)
+>>
+>>     def safe_refusal(self):
+>>         return (
+>>             "Aceste informatii sunt confidentiale si necesita autorizare Developer + Inside. "
+>>             "Nu pot furniza detalii despre structura interna, secretele, mecanismele de protectie "
+>>             "sau informatiile interne ale societatii/programului fara autorizare completa."
+>>         )
+>> ''', encoding="utf-8")
+>>
+>>
+>> # ============================================================
+>> # Patch services/plan_engine_service.py
+>> # - plan account model
+>> # - activation email local
+>> # - secret developer full unlock
+>> # ============================================================
+>>
+>> plan_path = base / "services" / "plan_engine_service.py"
+>> text = plan_path.read_text(encoding="utf-8")
+>>
+>> # Add imports if missing
+>> if "import secrets" not in text:
+>>     text = text.replace("import hashlib", "import hashlib\nimport secrets")
+>> if "import re" not in text:
+>>     text = text.replace("import hashlib\nimport secrets", "import hashlib\nimport secrets\nimport re")
+>>
+>> # Add files after active_plan_file assignment
+>> old = '        self.active_plan_file = self.config_dir / "active_plan.json"\n\n        self._ensure_defaults()'
+>> new = '''        self.active_plan_file = self.config_dir / "active_plan.json"
+>>         self.activation_file = self.config_dir / "account_activations.json"
+>>         self.outbox_dir = self.base_path / "emails" / "outbox"
+>>         self.outbox_dir.mkdir(parents=True, exist_ok=True)
+>>
+>>         self._ensure_defaults()'''
+>> text = text.replace(old, new)
+>>
+>> # Add helper methods before create_trial_account
+>> marker = "    def create_trial_account(self, first_name, last_name, email, password, function=\"\", company=\"\"):"
+>> idx = text.find(marker)
+>> helpers = r'''
+>>     def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: exact 30 caractere, 29 '*' si un singur '/'.
+>>         """
+>>         raw = str(password or "").strip()
+>>         return len(raw) == 30 and raw.count("*") == 29 and raw.count("/") == 1
+>>
+>>     def _activation_code(self):
+>>         return secrets.token_hex(3).upper()
+>>
+>>     def _load_activations(self):
+>>         return self._load_json(self.activation_file, {"activations": []})
+>>
+>>     def _save_activations(self, activations):
+>>         self._save_json(self.activation_file, {"activations": activations})
+>>
+>>     def _write_activation_email(self, email, code):
+>>         safe_email = str(email or "unknown").replace("@", "_at_").replace(".", "_")
+>>         path = self.outbox_dir / f"activation_{safe_email}_{code}.txt"
+>>         body = (
+>>             "Energy Project Design - Activare cont\\n\\n"
+>>             f"Email: {email}\\n"
+>>             f"Cod activare: {code}\\n\\n"
+>>             "Introdu acest cod in fereastra de login pentru activarea contului.\\n"
+>>             "Acesta este un email local generat de aplicatie. Trimiterea SMTP/backend va fi conectata ulterior.\\n"
+>>         )
+>>         path.write_text(body, encoding="utf-8")
+>>         return str(path)
+>>
+>>     def activate_account(self, email, code):
+>>         email = str(email or "").strip().lower()
+>>         code = str(code or "").strip().upper()
+>>
+>>         data = self._load_activations()
+>>         activations = data.get("activations", [])
+>>
+>>         found = None
+>>         for item in activations:
+>>             if str(item.get("email", "")).lower() == email and str(item.get("code", "")).upper() == code:
+>>                 found = item
+>>                 break
+>>
+>>         if not found:
+>>             return {"success": False, "message": "Cod de activare invalid."}
+>>
+>>         accounts_data = self._load_json(self.accounts_file, {"accounts": []})
+>>         accounts = accounts_data.get("accounts", [])
+>>
+>>         for account in accounts:
+>>             if str(account.get("email", "")).lower() == email:
+>>                 account["account_status"] = "active"
+>>                 account["activated_at"] = datetime.now().isoformat()
+>>                 self._save_json(self.accounts_file, {"accounts": accounts})
+>>
+>>                 found["used"] = True
+>>                 found["used_at"] = datetime.now().isoformat()
+>>                 self._save_activations(activations)
+>>
+>>                 return {"success": True, "message": "Cont activat cu succes."}
+>>
+>>         return {"success": False, "message": "Contul nu exista."}
+>>
+>> '''
+>> if idx != -1 and "_is_secret_inside_password" not in text:
+>>     text = text[:idx] + helpers + text[idx:]
+>>
+>> # Replace create_trial_account
+>> start = text.find("    def create_trial_account(")
+>> end = text.find("\n    def authenticate(", start)
+>> if start != -1 and end != -1:
+>>     new_create = r'''    def create_trial_account(self, first_name, last_name, email, password, function="", company=""):
+>>         email = str(email or "").strip().lower()
+>>         if not email:
+>>             return {"success": False, "message": "Email obligatoriu."}
+>>
+>>         if not password:
+>>             return {"success": False, "message": "Parola obligatorie."}
+>>
+>>         data = self._load_json(self.accounts_file, {"accounts": []})
+>>         accounts = data.get("accounts", [])
+>>
+>>         if any(str(a.get("email", "")).lower() == email for a in accounts):
+>>             return {"success": False, "message": "Exista deja un cont cu acest email."}
+>>
+>>         now = datetime.now()
+>>         expires = now + timedelta(days=10)
+>>
+>>         account = {
+>>             "username": email,
+>>             "email": email,
+>>             "password_hash": self._hash_password(password),
+>>             "display_name": f"{first_name} {last_name}".strip() or email,
+>>             "first_name": first_name,
+>>             "last_name": last_name,
+>>             "company": company,
+>>             "function": function,
+>>             "role": "Trial",
+>>             "active_plan_id": "trial_10_days",
+>>             "plan_started_at": now.isoformat(),
+>>             "plan_expires_at": expires.isoformat(),
+>>             "plan_status": "active",
+>>             "account_status": "pending_activation",
+>>             "created_at": now.isoformat()
+>>         }
+>>
+>>         accounts.append(account)
+>>         self._save_json(self.accounts_file, {"accounts": accounts})
+>>
+>>         code = self._activation_code()
+>>         activations_data = self._load_activations()
+>>         activations = activations_data.get("activations", [])
+>>         activations.append({
+>>             "email": email,
+>>             "code": code,
+>>             "created_at": now.isoformat(),
+>>             "used": False
+>>         })
+>>         self._save_activations(activations)
+>>
+>>         email_file = self._write_activation_email(email, code)
+>>
+>>         return {
+>>             "success": True,
+>>             "message": "Cont trial creat. Este necesara activarea contului.",
+>>             "email": email,
+>>             "plan_id": "trial_10_days",
+>>             "activation_code": code,
+>>             "activation_email_file": email_file
+>>         }
+>>
+>> '''
+>>     text = text[:start] + new_create + text[end+1:]
+>>
+>> # Replace authenticate
+>> start = text.find("    def authenticate(self, login, password):")
+>> end = text.find("\n    def assign_plan_to_account", start)
+>> if start != -1 and end != -1:
+>>     new_auth = r'''    def authenticate(self, login, password):
+>>         login = str(login or "").strip().lower()
+>>         password_raw = str(password or "")
+>>         password_hash = self._hash_password(password_raw)
+>>
+>>         self.ensure_developer_account()
+>>
+>>         accounts = self._load_json(self.accounts_file, {"accounts": []}).get("accounts", [])
+>>
+>>         for account in accounts:
+>>             if login not in [str(account.get("username", "")).lower(), str(account.get("email", "")).lower()]:
+>>                 continue
+>>
+>>             is_developer = account.get("active_plan_id") == "Developer" or account.get("role") == "Developer"
+>>
+>>             if is_developer:
+>>                 password_ok = (
+>>                     account.get("password_hash") == password_hash
+>>                     or self._is_secret_inside_password(password_raw)
+>>                 )
+>>             else:
+>>                 password_ok = account.get("password_hash") == password_hash
+>>
+>>             if not password_ok:
+>>                 continue
+>>
+>>             if account.get("account_status") == "pending_activation" and not is_developer:
+>>                 return {
+>>                     "success": False,
+>>                     "message": "Contul necesita activare pe email. Introdu codul de activare."
+>>                 }
+>>
+>>             plan = self.get_plan(account.get("active_plan_id"))
+>>             if not plan:
+>>                 return {"success": False, "message": "Contul nu are plan valid."}
+>>
+>>             if account.get("active_plan_id") != "Developer":
+>>                 try:
+>>                     if datetime.now() > datetime.fromisoformat(account.get("plan_expires_at")):
+>>                         return {"success": False, "message": "Planul contului este expirat."}
+>>                 except Exception:
+>>                     return {"success": False, "message": "Data de expirare plan invalida."}
+>>
+>>             inside_full = bool(is_developer and self._is_secret_inside_password(password_raw))
+>>
+>>             session = {
+>>                 "success": True,
+>>                 "username": account.get("username"),
+>>                 "email": account.get("email"),
+>>                 "display_name": account.get("display_name"),
+>>                 "role": account.get("role"),
+>>                 "active_plan_id": account.get("active_plan_id"),
+>>                 "plan_name": plan.get("name"),
+>>                 "license_type": account.get("active_plan_id"),
+>>                 "roles": plan.get("roles", []),
+>>                 "features": plan.get("features", []),
+>>                 "is_developer": is_developer,
+>>                 "inside_full_unlocked": inside_full,
+>>                 "logged_at": datetime.now().isoformat()
+>>             }
+>>
+>>             self._save_json(self.session_file, session)
+>>             self._save_json(self.active_plan_file, {
+>>                 "active_plan": plan,
+>>                 "account": {
+>>                     "email": account.get("email"),
+>>                     "display_name": account.get("display_name"),
+>>                     "role": account.get("role")
+>>                 }
+>>             })
+>>
+>>             return session
+>>
+>>         return {"success": False, "message": "Email/user sau parola incorecta."}
+>>
+>> '''
+>>     text = text[:start] + new_auth + text[end+1:]
+>>
+>> plan_path.write_text(text, encoding="utf-8")
+>>
+>>
+>> # ============================================================
+>> # services/startup_auth_service.py update activate_account
+>> # ============================================================
+>>
+>> (base / "services" / "startup_auth_service.py").write_text(r'''
+>> from services.plan_engine_service import PlanEngineService
+>>
+>>
+>> class StartupAuthService:
+>>     def __init__(self, base_path=None):
+>>         self.engine = PlanEngineService(base_path=base_path)
+>>         self.engine.ensure_developer_account()
+>>
+>>     def authenticate(self, login, password, license_key=None):
+>>         return self.engine.authenticate(login, password)
+>>
+>>     def register_trial(self, first_name, last_name, email, password, function="", company=""):
+>>         return self.engine.create_trial_account(
+>>             first_name=first_name,
+>>             last_name=last_name,
+>>             email=email,
+>>             password=password,
+>>             function=function,
+>>             company=company
+>>         )
+>>
+>>     def activate_account(self, email, code):
+>>         return self.engine.activate_account(email, code)
+>>
+>>     def get_session(self):
+>>         return self.engine.get_session()
+>>
+>>     def logout(self):
+>>         return {"success": True}
+>> ''', encoding="utf-8")
+>>
+>>
+>> # ============================================================
+>> # ui/startup_login_dialog.py scrollable register + activation + google placeholder
+>> # ============================================================
+>>
+>> (base / "ui" / "startup_login_dialog.py").write_text(r'''
+>> import customtkinter as ctk
+>> from tkinter import messagebox
+>>
+>>
+>> COLOR_BG = "#F5FAF8"
+>> COLOR_PANEL = "#FFFFFF"
+>> COLOR_TEXT = "#0D1B2A"
+>> COLOR_MUTED = "#64748B"
+>> COLOR_GREEN = "#008E5A"
+>> COLOR_GREEN_DARK = "#006D47"
+>> COLOR_BORDER = "#DDE7E3"
+>>
+>>
+>> class StartupLoginDialog:
+>>     def __init__(self, root, auth_service):
+>>         self.root = root
+>>         self.auth_service = auth_service
+>>         self.result = {"success": False}
+>>
+>>     def show(self):
+>>         self.dialog = ctk.CTkToplevel(self.root)
+>>         self.dialog.title("Energy Project Design - Login")
+>>         self.dialog.geometry("780x570")
+>>         self.dialog.resizable(False, False)
+>>         self.dialog.configure(fg_color=COLOR_BG)
+>>         self.dialog.grab_set()
+>>         self.dialog.protocol("WM_DELETE_WINDOW", self._cancel)
+>>         try:
+>>             self.dialog.transient(self.root)
+>>         except Exception:
+>>             pass
+>>
+>>         self.shell = ctk.CTkFrame(self.dialog, fg_color=COLOR_PANEL, corner_radius=18, border_width=1, border_color=COLOR_BORDER)
+>>         self.shell.pack(fill="both", expand=True, padx=22, pady=22)
+>>         self.shell.grid_columnconfigure(0, weight=0)
+>>         self.shell.grid_columnconfigure(1, weight=1)
+>>
+>>         self._left()
+>>         self.right = ctk.CTkFrame(self.shell, fg_color="transparent")
+>>         self.right.grid(row=0, column=1, sticky="nsew", padx=(18, 22), pady=22)
+>>
+>>         self._login()
+>>         self.root.wait_window(self.dialog)
+>>         return self.result
+>>
+>>     def _left(self):
+>>         left = ctk.CTkFrame(self.shell, width=240, fg_color="#062A2E", corner_radius=16)
+>>         left.grid(row=0, column=0, sticky="nsw", padx=12, pady=12)
+>>         left.grid_propagate(False)
+>>
+>>         ctk.CTkLabel(left, text="EPD", font=("Segoe UI", 34, "bold"), text_color="#FFFFFF").pack(anchor="w", padx=22, pady=(28, 4))
+>>         ctk.CTkLabel(left, text="ENERGY\nPROJECT\nDESIGN", font=("Segoe UI", 18, "bold"), text_color="#FFFFFF", justify="left").pack(anchor="w", padx=22, pady=(4, 8))
+>>         ctk.CTkLabel(left, text="Plan licensing", font=("Segoe UI", 12), text_color="#BCEBDD").pack(anchor="w", padx=22, pady=(0, 18))
+>>         ctk.CTkFrame(left, height=1, fg_color="#0B8F5A").pack(fill="x", padx=22, pady=(6, 16))
+>>         ctk.CTkLabel(
+>>             left,
+>>             text="Login cu email si parola\nPlan afiliat contului\nTrial 10 zile\nActivare cont pe email",
+>>             font=("Segoe UI", 12),
+>>             text_color="#D9FFF2",
+>>             justify="left"
+>>         ).pack(anchor="w", padx=22, pady=(0, 20))
+>>
+>>     def _clear(self):
+>>         for w in self.right.winfo_children():
+>>             w.destroy()
+>>
+>>     def _login(self):
+>>         self._clear()
+>>         ctk.CTkLabel(self.right, text="Autentificare", font=("Segoe UI", 25, "bold"), text_color=COLOR_TEXT).pack(anchor="w", pady=(2, 4))
+>>         ctk.CTkLabel(self.right, text="Intra cu email/user si parola. Planul este afiliat contului.", font=("Segoe UI", 13), text_color=COLOR_MUTED).pack(anchor="w", pady=(0, 18))
+>>
+>>         ctk.CTkLabel(self.right, text="Email / user", font=("Segoe UI", 12, "bold")).pack(anchor="w")
+>>         self.login_entry = ctk.CTkEntry(self.right, height=34, corner_radius=8, border_color=COLOR_BORDER)
+>>         self.login_entry.pack(fill="x", pady=(5, 10))
+>>         self.login_entry.insert(0, "developer")
+>>
+>>         ctk.CTkLabel(self.right, text="Parola", font=("Segoe UI", 12, "bold")).pack(anchor="w")
+>>         self.password_entry = ctk.CTkEntry(self.right, height=34, corner_radius=8, show="*", border_color=COLOR_BORDER)
+>>         self.password_entry.pack(fill="x", pady=(5, 16))
+>>         self.password_entry.insert(0, "Amodilema_99")
+>>
+>>         row = ctk.CTkFrame(self.right, fg_color="transparent")
+>>         row.pack(fill="x", pady=(4, 8))
+>>
+>>         ctk.CTkButton(row, text="Login", height=34, corner_radius=8, fg_color=COLOR_GREEN, hover_color=COLOR_GREEN_DARK, command=self._do_login).pack(side="left", fill="x", expand=True, padx=(0, 6))
+>>         ctk.CTkButton(row, text="Start gratuit 10 zile", height=34, corner_radius=8, fg_color="#2563EB", hover_color="#1D4ED8", command=self._register).pack(side="right", fill="x", expand=True, padx=(6, 0))
+>>
+>>         ctk.CTkButton(self.right, text="Creeaza cont / Register", height=30, corner_radius=8, fg_color="transparent", text_color=COLOR_GREEN_DARK, command=self._register).pack(anchor="w", pady=(6, 0))
+>>         ctk.CTkButton(self.right, text="Activeaza cont cu cod email", height=30, corner_radius=8, fg_color="transparent", text_color="#2563EB", command=self._activate).pack(anchor="w", pady=(2, 0))
+>>         ctk.CTkButton(self.right, text="Login cu Google", height=30, corner_radius=8, fg_color="transparent", text_color="#64748B", command=self._google_info).pack(anchor="w", pady=(2, 0))
+>>         ctk.CTkButton(self.right, text="Inchide", height=30, corner_radius=8, fg_color="transparent", text_color="#64748B", command=self._cancel).pack(anchor="w", pady=(4, 0))
+>>
+>>         self.dialog.bind("<Return>", lambda e: self._do_login())
+>>
+>>     def _register(self):
+>>         self._clear()
+>>         scroll = ctk.CTkScrollableFrame(self.right, fg_color="transparent")
+>>         scroll.pack(fill="both", expand=True)
+>>
+>>         ctk.CTkLabel(scroll, text="Creeaza cont", font=("Segoe UI", 25, "bold"), text_color=COLOR_TEXT).pack(anchor="w", pady=(2, 4))
+>>         ctk.CTkLabel(scroll, text="Creeaza cont si primesti automat plan Trial 10 zile. Contul trebuie activat cu codul primit pe email.", font=("Segoe UI", 13), text_color=COLOR_MUTED, wraplength=440, justify="left").pack(anchor="w", pady=(0, 14))
+>>
+>>         self.reg_first = self._entry(scroll, "Nume")
+>>         self.reg_last = self._entry(scroll, "Prenume")
+>>         self.reg_company = self._entry(scroll, "Societate optional")
+>>         self.reg_email = self._entry(scroll, "Email")
+>>         self.reg_password = self._entry(scroll, "Parola cont", show="*")
+>>         self.reg_function = self._entry(scroll, "Functie")
+>>
+>>         row = ctk.CTkFrame(scroll, fg_color="transparent")
+>>         row.pack(fill="x", pady=(8, 10))
+>>         ctk.CTkButton(row, text="Creeaza cont + Trial", height=34, corner_radius=8, fg_color=COLOR_GREEN, hover_color=COLOR_GREEN_DARK, command=self._do_register).pack(side="left", fill="x", expand=True, padx=(0, 6))
+>>         ctk.CTkButton(row, text="Inapoi", height=34, corner_radius=8, fg_color="#64748B", hover_color="#475569", command=self._login).pack(side="right", fill="x", expand=True, padx=(6, 0))
+>>
+>>     def _activate(self):
+>>         self._clear()
+>>         ctk.CTkLabel(self.right, text="Activeaza cont", font=("Segoe UI", 25, "bold"), text_color=COLOR_TEXT).pack(anchor="w", pady=(2, 4))
+>>         ctk.CTkLabel(self.right, text="Introdu emailul si codul primit. In etapa locala, emailul este salvat in emails/outbox.", font=("Segoe UI", 13), text_color=COLOR_MUTED, wraplength=440, justify="left").pack(anchor="w", pady=(0, 14))
+>>
+>>         self.act_email = self._entry(self.right, "Email")
+>>         self.act_code = self._entry(self.right, "Cod activare")
+>>
+>>         row = ctk.CTkFrame(self.right, fg_color="transparent")
+>>         row.pack(fill="x", pady=(8, 10))
+>>         ctk.CTkButton(row, text="Activeaza", height=34, corner_radius=8, fg_color=COLOR_GREEN, hover_color=COLOR_GREEN_DARK, command=self._do_activate).pack(side="left", fill="x", expand=True, padx=(0, 6))
+>>         ctk.CTkButton(row, text="Inapoi", height=34, corner_radius=8, fg_color="#64748B", hover_color="#475569", command=self._login).pack(side="right", fill="x", expand=True, padx=(6, 0))
+>>
+>>     def _entry(self, parent, label, show=None):
+>>         ctk.CTkLabel(parent, text=label, font=("Segoe UI", 11, "bold")).pack(anchor="w")
+>>         e = ctk.CTkEntry(parent, height=30, corner_radius=8, show=show, border_color=COLOR_BORDER)
+>>         e.pack(fill="x", pady=(3, 7))
+>>         return e
+>>
+>>     def _do_login(self):
+>>         try:
+>>             result = self.auth_service.authenticate(self.login_entry.get(), self.password_entry.get())
+>>         except Exception as exc:
+>>             messagebox.showerror("EPD Login", f"Eroare login:\n{exc}")
+>>             return
+>>
+>>         if not result.get("success"):
+>>             messagebox.showerror("EPD Login", result.get("message", "Login esuat."))
+>>             return
+>>
+>>         self.result = result
+>>         self.dialog.destroy()
+>>
+>>     def _do_register(self):
+>>         try:
+>>             result = self.auth_service.register_trial(
+>>                 first_name=self.reg_first.get(),
+>>                 last_name=self.reg_last.get(),
+>>                 email=self.reg_email.get(),
+>>                 password=self.reg_password.get(),
+>>                 function=self.reg_function.get(),
+>>                 company=self.reg_company.get()
+>>             )
+>>         except Exception as exc:
+>>             messagebox.showerror("Register", f"Eroare register:\n{exc}")
+>>             return
+>>
+>>         if not result.get("success"):
+>>             messagebox.showerror("Register", result.get("message", "Register esuat."))
+>>             return
+>>
+>>         messagebox.showinfo(
+>>             "Trial creat",
+>>             "Cont creat si email de activare generat local.\n\n"
+>>             f"Fisier email: {result.get('activation_email_file')}\n\n"
+>>             "Deschide fisierul din emails/outbox, copiaza codul si activeaza contul."
+>>         )
+>>         self._activate()
+>>         self.act_email.delete(0, "end")
+>>         self.act_email.insert(0, result.get("email", ""))
+>>
+>>     def _do_activate(self):
+>>         try:
+>>             result = self.auth_service.activate_account(self.act_email.get(), self.act_code.get())
+>>         except Exception as exc:
+>>             messagebox.showerror("Activare cont", f"Eroare activare:\n{exc}")
+>>             return
+>>
+>>         if not result.get("success"):
+>>             messagebox.showerror("Activare cont", result.get("message", "Activare esuata."))
+>>             return
+>>
+>>         messagebox.showinfo("Activare cont", result.get("message", "Cont activat."))
+>>         self._login()
+>>         self.login_entry.delete(0, "end")
+>>         self.login_entry.insert(0, self.act_email.get())
+>>
+>>     def _google_info(self):
+>>         messagebox.showinfo(
+>>             "Login cu Google",
+>>             "Login-ul Google necesita configurare OAuth Google Cloud: Client ID, Client Secret si redirect URI.\n\n"
+>>             "Nu il activez fals local. Il vom conecta dupa ce exista site/backend sau setari OAuth."
+>>         )
+>>
+>>     def _cancel(self):
+>>         self.result = {"success": False, "message": "Login anulat."}
+>>         self.dialog.destroy()
+>> ''', encoding="utf-8")
+>>
+>>
+>> # ============================================================
+>> # Init/compile
+>> # ============================================================
+>>
+>> from services.plan_engine_service import PlanEngineService
+>> engine = PlanEngineService(base)
+>> engine.ensure_developer_account()
+>>
+>> for rel in [
+>>     "services/plan_engine_service.py",
+>>     "services/startup_auth_service.py",
+>>     "services/confidentiality_guard_service.py",
+>>     "ui/startup_login_dialog.py",
+>>     "app.py",
+>> ]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> print("PATCH_REGISTER_SCROLL_ACTIVATION_SECRET_LOGIN_OK")
+>> '@ | Set-Content -Path ".\tools_patch_register_scroll_activation_secret_login.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_patch_register_scroll_activation_secret_login.py
+PATCH_REGISTER_SCROLL_ACTIVATION_SECRET_LOGIN_OK
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 107, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 92, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 107, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 92, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import traceback
+>> import json
+>>
+>> print("=== EPD LOGIN/UI DIAGNOSTIC ===")
+>>
+>> base = Path.cwd()
+>>
+>> try:
+>>     from services.plan_engine_service import PlanEngineService
+>>     engine = PlanEngineService(base)
+>>     engine.ensure_developer_account()
+>>     print("[OK] PlanEngineService loaded")
+>>
+>>     for password_name, password in [
+>>         ("normal", "Amodilema_99"),
+>>         ("secret_pattern", "**************/***************")
+>>     ]:
+>>         result = engine.authenticate("developer", password)
+>>         print(f"[LOGIN {password_name}]", result.get("success"), result.get("message", ""))
+>>         print("  role:", result.get("role"))
+>>         print("  plan:", result.get("active_plan_id"))
+>>         print("  inside_full:", result.get("inside_full_unlocked"))
+>>
+>> except Exception:
+>>     print("[ERROR] Login engine failed")
+>>     traceback.print_exc()
+>>
+>> try:
+>>     from services.startup_auth_service import StartupAuthService
+>>     auth = StartupAuthService(base)
+>>     result = auth.authenticate("developer", "Amodilema_99")
+>>     print("[OK] StartupAuthService login:", result.get("success"))
+>> except Exception:
+>>     print("[ERROR] StartupAuthService failed")
+>>     traceback.print_exc()
+>>
+>> try:
+>>     import app
+>>     print("[OK] app imported")
+>> except Exception:
+>>     print("[ERROR] app import failed")
+>>     traceback.print_exc()
+>>
+>> try:
+>>     session_file = base / "config" / "startup_session.json"
+>>     if session_file.exists():
+>>         print("[SESSION]", session_file.read_text(encoding="utf-8")[:1000])
+>> except Exception:
+>>     print("[ERROR] session read failed")
+>>     traceback.print_exc()
+>>
+>> print("=== END DIAGNOSTIC ===")
+>> '@ | Set-Content -Path ".\tools_diagnose_login_shutdown.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_diagnose_login_shutdown.py
+=== EPD LOGIN/UI DIAGNOSTIC ===
+[OK] PlanEngineService loaded
+[LOGIN normal] True
+  role: Developer
+  plan: Developer
+  inside_full: False
+[LOGIN secret_pattern] True
+  role: Developer
+  plan: Developer
+  inside_full: True
+[OK] StartupAuthService login: True
+[OK] app imported
+[SESSION] {
+  "success": true,
+  "username": "developer",
+  "email": "developer",
+  "display_name": "Developer",
+  "role": "Developer",
+  "active_plan_id": "Developer",
+  "plan_name": "Developer Infinite",
+  "license_type": "Developer",
+  "roles": [
+    "Developer",
+    "Societate",
+    "VGD",
+    "RTE",
+    "operator_introducere_date",
+    "proiectant",
+    "executant",
+    "avize",
+    "contabilitate",
+    "ofertare"
+  ],
+  "features": [
+    "all",
+    "developer_access",
+    "ai_developer_access",
+    "plan_management",
+    "inside_access"
+  ],
+  "is_developer": true,
+  "inside_full_unlocked": false,
+  "logged_at": "2026-06-01T05:19:53.870606"
+}
+=== END DIAGNOSTIC ===
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -c "from services.backup_service import BackupService; BackupService().create_backup('before_fix_post_login_shutdown_and_secret_password')"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>>
+>> base = Path.cwd()
+>>
+>> # ============================================================
+>> # 1. Fix secret password check in plan_engine_service.py
+>> # ============================================================
+>>
+>> plan_path = base / "services" / "plan_engine_service.py"
+>> text = plan_path.read_text(encoding="utf-8")
+>>
+>> old = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: exact 30 caractere, 29 '*' si un singur '/'.
+>>         """
+>>         raw = str(password or "").strip()
+>>         return len(raw) == 30 and raw.count("*") == 29 and raw.count("/") == 1
+>> '''
+>>
+>> new = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: contine doar '*' si '/', are exact un '/', iar numarul de stele este 29.
+>>         Slash-ul poate fi oriunde.
+>>         """
+>>         raw = str(password or "").strip()
+>>         if not raw:
+>>             return False
+>>         if any(ch not in "*/" for ch in raw):
+>>             return False
+>>         return raw.count("/") == 1 and raw.count("*") == 29
+>> '''
+>>
+>> if old in text:
+>>     text = text.replace(old, new)
+>> elif "def _is_secret_inside_password" in text:
+>>     start = text.find("    def _is_secret_inside_password")
+>>     end = text.find("\n    def ", start + 5)
+>>     if end == -1:
+>>         end = len(text)
+>>     text = text[:start] + new + text[end:]
+>>
+>> plan_path.write_text(text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 2. Patch app.py to log post-login UI errors
+>> # ============================================================
+>>
+>> app_path = base / "app.py"
+>> app_text = app_path.read_text(encoding="utf-8").replace("`r`n", "\\n").replace("`n", "\\n")
+>>
+>> if "import traceback" not in app_text:
+>>     app_text = app_text.replace("import os", "import os\\nimport traceback\\nfrom pathlib import Path")
+>>
+>> # Ensure logs dir exists in app startup after title/geometry area.
+>> # More importantly, wrap self.show_page("Acasa") if not already wrapped.
+>> old_show = '''        self.show_page("Acasa")'''
+>>
+>> new_show = '''        try:
+>>             self.show_page("Acasa")
+>>         except Exception as exc:
+>>             try:
+>>                 Path("logs").mkdir(exist_ok=True)
+>>                 Path("logs/post_login_error.log").write_text(traceback.format_exc(), encoding="utf-8")
+>>             except Exception:
+>>                 pass
+>>             messagebox.showerror(
+>>                 "EPD - eroare dupa login",
+>>                 "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.\\n\\n"
+>>                 "Vezi logs/post_login_error.log"
+>>             )
+>>             raise'''
+>>
+>> if old_show in app_text and "post_login_error.log" not in app_text:
+>>     app_text = app_text.replace(old_show, new_show, 1)
+>>
+>> app_path.write_text(app_text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 3. Compile + quick login test
+>> # ============================================================
+>>
+>> for rel in [
+>>     "services/plan_engine_service.py",
+>>     "services/startup_auth_service.py",
+>>     "ui/startup_login_dialog.py",
+>>     "app.py",
+>> ]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> from services.plan_engine_service import PlanEngineService
+>> engine = PlanEngineService(base)
+>> print("normal login:", engine.authenticate("developer", "Amodilema_99").get("success"))
+>> print("secret login:", engine.authenticate("developer", "**************/***************").get("success"))
+>>
+>> print("PATCH_POST_LOGIN_DEBUG_SECRET_OK")
+>> '@ | Set-Content -Path ".\tools_fix_post_login_shutdown_secret.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_fix_post_login_shutdown_secret.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_fix_post_login_shutdown_secret.py", line 91, in <module>
+    py_compile.compile(str(base / rel), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -c "from services.backup_service import BackupService; BackupService().create_backup('before_fix_post_login_shutdown_and_secret_password')"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>>
+>> base = Path.cwd()
+>>
+>> # ============================================================
+>> # 1. Fix secret password check in plan_engine_service.py
+>> # ============================================================
+>>
+>> plan_path = base / "services" / "plan_engine_service.py"
+>> text = plan_path.read_text(encoding="utf-8")
+>>
+>> old = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: exact 30 caractere, 29 '*' si un singur '/'.
+>>         """
+>>         raw = str(password or "").strip()
+>>         return len(raw) == 30 and raw.count("*") == 29 and raw.count("/") == 1
+>> '''
+>>
+>> new = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: contine doar '*' si '/', are exact un '/', iar numarul de stele este 29.
+>>         Slash-ul poate fi oriunde.
+>>         """
+>>         raw = str(password or "").strip()
+>>         if not raw:
+>>             return False
+>>         if any(ch not in "*/" for ch in raw):
+>>             return False
+>>         return raw.count("/") == 1 and raw.count("*") == 29
+>> '''
+>>
+>> if old in text:
+>>     text = text.replace(old, new)
+>> elif "def _is_secret_inside_password" in text:
+>>     start = text.find("    def _is_secret_inside_password")
+>>     end = text.find("\n    def ", start + 5)
+>>     if end == -1:
+>>         end = len(text)
+>>     text = text[:start] + new + text[end:]
+>>
+>> plan_path.write_text(text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 2. Patch app.py to log post-login UI errors
+>> # ============================================================
+>>
+>> app_path = base / "app.py"
+>> app_text = app_path.read_text(encoding="utf-8").replace("`r`n", "\\n").replace("`n", "\\n")
+>>
+>> if "import traceback" not in app_text:
+>>     app_text = app_text.replace("import os", "import os\\nimport traceback\\nfrom pathlib import Path")
+>>
+>> # Ensure logs dir exists in app startup after title/geometry area.
+>> # More importantly, wrap self.show_page("Acasa") if not already wrapped.
+>> old_show = '''        self.show_page("Acasa")'''
+>>
+>> new_show = '''        try:
+>>             self.show_page("Acasa")
+>>         except Exception as exc:
+>>             try:
+>>                 Path("logs").mkdir(exist_ok=True)
+>>                 Path("logs/post_login_error.log").write_text(traceback.format_exc(), encoding="utf-8")
+>>             except Exception:
+>>                 pass
+>>             messagebox.showerror(
+>>                 "EPD - eroare dupa login",
+>>                 "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.\\n\\n"
+>>                 "Vezi logs/post_login_error.log"
+>>             )
+>>             raise'''
+>>
+>> if old_show in app_text and "post_login_error.log" not in app_text:
+>>     app_text = app_text.replace(old_show, new_show, 1)
+>>
+>> app_path.write_text(app_text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 3. Compile + quick login test
+>> # ============================================================
+>>
+>> for rel in [
+>>     "services/plan_engine_service.py",
+>>     "services/startup_auth_service.py",
+>>     "ui/startup_login_dialog.py",
+>>     "app.py",
+>> ]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> from services.plan_engine_service import PlanEngineService
+>> engine = PlanEngineService(base)
+>> print("normal login:", engine.authenticate("developer", "Amodilema_99").get("success"))
+>> print("secret login:", engine.authenticate("developer", "**************/***************").get("success"))
+>>
+>> print("PATCH_POST_LOGIN_DEBUG_SECRET_OK")
+>> '@ | Set-Content -Path ".\tools_fix_post_login_shutdown_secret.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_fix_post_login_shutdown_secret.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_fix_post_login_shutdown_secret.py", line 91, in <module>
+    py_compile.compile(str(base / rel), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -c "from services.backup_service import BackupService; BackupService().create_backup('before_fix_post_login_shutdown_and_secret_password')"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>>
+>> base = Path.cwd()
+>>
+>> # ============================================================
+>> # 1. Fix secret password check in plan_engine_service.py
+>> # ============================================================
+>>
+>> plan_path = base / "services" / "plan_engine_service.py"
+>> text = plan_path.read_text(encoding="utf-8")
+>>
+>> old = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: exact 30 caractere, 29 '*' si un singur '/'.
+>>         """
+>>         raw = str(password or "").strip()
+>>         return len(raw) == 30 and raw.count("*") == 29 and raw.count("/") == 1
+>> '''
+>>
+>> new = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: contine doar '*' si '/', are exact un '/', iar numarul de stele este 29.
+>>         Slash-ul poate fi oriunde.
+>>         """
+>>         raw = str(password or "").strip()
+>>         if not raw:
+>>             return False
+>>         if any(ch not in "*/" for ch in raw):
+>>             return False
+>>         return raw.count("/") == 1 and raw.count("*") == 29
+>> '''
+>>
+>> if old in text:
+>>     text = text.replace(old, new)
+>> elif "def _is_secret_inside_password" in text:
+>>     start = text.find("    def _is_secret_inside_password")
+>>     end = text.find("\n    def ", start + 5)
+>>     if end == -1:
+>>         end = len(text)
+>>     text = text[:start] + new + text[end:]
+>>
+>> plan_path.write_text(text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 2. Patch app.py to log post-login UI errors
+>> # ============================================================
+>>
+>> app_path = base / "app.py"
+>> app_text = app_path.read_text(encoding="utf-8").replace("`r`n", "\\n").replace("`n", "\\n")
+>>
+>> if "import traceback" not in app_text:
+>>     app_text = app_text.replace("import os", "import os\\nimport traceback\\nfrom pathlib import Path")
+>>
+>> # Ensure logs dir exists in app startup after title/geometry area.
+>> # More importantly, wrap self.show_page("Acasa") if not already wrapped.
+>> old_show = '''        self.show_page("Acasa")'''
+>>
+>> new_show = '''        try:
+>>             self.show_page("Acasa")
+>>         except Exception as exc:
+>>             try:
+>>                 Path("logs").mkdir(exist_ok=True)
+>>                 Path("logs/post_login_error.log").write_text(traceback.format_exc(), encoding="utf-8")
+>>             except Exception:
+>>                 pass
+>>             messagebox.showerror(
+>>                 "EPD - eroare dupa login",
+>>                 "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.\\n\\n"
+>>                 "Vezi logs/post_login_error.log"
+>>             )
+>>             raise'''
+>>
+>> if old_show in app_text and "post_login_error.log" not in app_text:
+>>     app_text = app_text.replace(old_show, new_show, 1)
+>>
+>> app_path.write_text(app_text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 3. Compile + quick login test
+>> # ============================================================
+>>
+>> for rel in [
+>>     "services/plan_engine_service.py",
+>>     "services/startup_auth_service.py",
+>>     "ui/startup_login_dialog.py",
+>>     "app.py",
+>> ]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> from services.plan_engine_service import PlanEngineService
+>> engine = PlanEngineService(base)
+>> print("normal login:", engine.authenticate("developer", "Amodilema_99").get("success"))
+>> print("secret login:", engine.authenticate("developer", "**************/***************").get("success"))
+>>
+>> print("PATCH_POST_LOGIN_DEBUG_SECRET_OK")
+>> '@ | Set-Content -Path ".\tools_fix_post_login_shutdown_secret.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_fix_post_login_shutdown_secret.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_fix_post_login_shutdown_secret.py", line 91, in <module>
+    py_compile.compile(str(base / rel), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Aplicatia nu a putut porni. Vezi logs/startup_error.log
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+Apasa Enter pentru inchidere...
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\post_login_error.log -Raw
+Get-Content : Cannot find path 'C:\Users\40735\Desktop\Energy Project Design - Bransamente
+2.0\logs\post_login_error.log' because it does not exist.
+At line:1 char:1
++ Get-Content .\logs\post_login_error.log -Raw
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\40735\...login_error.log:String) [Get-Content], ItemNotFoundEx
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -c "from services.backup_service import BackupService; BackupService().create_backup('before_force_main_window_after_login')"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>>
+>> base = Path.cwd()
+>> app_path = base / "app.py"
+>> text = app_path.read_text(encoding="utf-8").replace("`r`n", "\n").replace("`n", "\n")
+>>
+>> # Asigura imports pentru log post-login
+>> if "import traceback" not in text:
+>>     text = text.replace("import os", "import os\nimport traceback\nfrom pathlib import Path")
+>>
+>> # Dupa login reusit, fortam afisarea ferestrei principale
+>> old = '''        self.deiconify()
+>>
+>>         self.configure(fg_color=COLOR_BG)'''
+>>
+>> new = '''        self.deiconify()
+>>         self.update_idletasks()
+>>         self.lift()
+>>         self.focus_force()
+>>
+>>         self.configure(fg_color=COLOR_BG)'''
+>>
+>> if old in text:
+>>     text = text.replace(old, new)
+>>
+>> # Daca show_page Acasa nu este inca protejat, il protejam
+>> old_show = '''        self.show_page("Acasa")'''
+>>
+>> new_show = '''        try:
+>>             self.show_page("Acasa")
+>>             self.deiconify()
+>>             self.update_idletasks()
+>>             self.lift()
+>>             self.focus_force()
+>>         except Exception:
+>>             Path("logs").mkdir(exist_ok=True)
+>>             Path("logs/post_login_error.log").write_text(traceback.format_exc(), encoding="utf-8")
+>>             messagebox.showerror(
+>>                 "EPD - eroare dupa login",
+>>                 "Login-ul a trecut, dar interfata principala nu s-a putut incarca.\\n\\nVezi logs/post_login_error.log"
+>>             )
+>>             raise'''
+>>
+>> if old_show in text and "post_login_error.log" not in text:
+>>     text = text.replace(old_show, new_show, 1)
+>>
+>> app_path.write_text(text, encoding="utf-8")
+>>
+>> for rel in ["app.py", "services/plan_engine_service.py", "ui/startup_login_dialog.py"]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> print("PATCH_FORCE_MAIN_WINDOW_AFTER_LOGIN_OK")
+>> '@ | Set-Content -Path ".\tools_force_main_window_after_login.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_force_main_window_after_login.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_force_main_window_after_login.py", line 51, in <module>
+    py_compile.compile(str(base / rel), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\post_login_error.log -Raw
+Get-Content : Cannot find path 'C:\Users\40735\Desktop\Energy Project Design - Bransamente
+2.0\logs\post_login_error.log' because it does not exist.
+At line:1 char:1
++ Get-Content .\logs\post_login_error.log -Raw
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\40735\...login_error.log:String) [Get-Content], ItemNotFoundEx
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -c "from services.backup_service import BackupService; BackupService().create_backup('before_force_main_window_after_login')"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>>
+>> base = Path.cwd()
+>> app_path = base / "app.py"
+>> text = app_path.read_text(encoding="utf-8").replace("`r`n", "\n").replace("`n", "\n")
+>>
+>> # Asigura imports pentru log post-login
+>> if "import traceback" not in text:
+>>     text = text.replace("import os", "import os\nimport traceback\nfrom pathlib import Path")
+>>
+>> # Dupa login reusit, fortam afisarea ferestrei principale
+>> old = '''        self.deiconify()
+>>
+>>         self.configure(fg_color=COLOR_BG)'''
+>>
+>> new = '''        self.deiconify()
+>>         self.update_idletasks()
+>>         self.lift()
+>>         self.focus_force()
+>>
+>>         self.configure(fg_color=COLOR_BG)'''
+>>
+>> if old in text:
+>>     text = text.replace(old, new)
+>>
+>> # Daca show_page Acasa nu este inca protejat, il protejam
+>> old_show = '''        self.show_page("Acasa")'''
+>>
+>> new_show = '''        try:
+>>             self.show_page("Acasa")
+>>             self.deiconify()
+>>             self.update_idletasks()
+>>             self.lift()
+>>             self.focus_force()
+>>         except Exception:
+>>             Path("logs").mkdir(exist_ok=True)
+>>             Path("logs/post_login_error.log").write_text(traceback.format_exc(), encoding="utf-8")
+>>             messagebox.showerror(
+>>                 "EPD - eroare dupa login",
+>>                 "Login-ul a trecut, dar interfata principala nu s-a putut incarca.\\n\\nVezi logs/post_login_error.log"
+>>             )
+>>             raise'''
+>>
+>> if old_show in text and "post_login_error.log" not in text:
+>>     text = text.replace(old_show, new_show, 1)
+>>
+>> app_path.write_text(text, encoding="utf-8")
+>>
+>> for rel in ["app.py", "services/plan_engine_service.py", "ui/startup_login_dialog.py"]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> print("PATCH_FORCE_MAIN_WINDOW_AFTER_LOGIN_OK")
+>> '@ | Set-Content -Path ".\tools_force_main_window_after_login.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_force_main_window_after_login.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_force_main_window_after_login.py", line 51, in <module>
+    py_compile.compile(str(base / rel), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Aplicatia nu a putut porni. Vezi logs/startup_error.log
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+Apasa Enter pentru inchidere...Test-Path .\logs\post_login_error.log
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Aplicatia nu a putut porni. Vezi logs/startup_error.log
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+Apasa Enter pentru inchidere...
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\post_login_error.log -Raw
+Get-Content : Cannot find path 'C:\Users\40735\Desktop\Energy Project Design - Bransamente
+2.0\logs\post_login_error.log' because it does not exist.
+At line:1 char:1
++ Get-Content .\logs\post_login_error.log -Raw
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\40735\...login_error.log:String) [Get-Content], ItemNotFoundEx
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand

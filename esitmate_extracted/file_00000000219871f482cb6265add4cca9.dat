@@ -1,0 +1,211 @@
+
+import customtkinter as ctk
+from tkinter import messagebox, filedialog
+from docx import Document
+from fpdf import FPDF
+import json, os, sys
+
+ctk.set_appearance_mode("dark")
+
+class App(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+
+        self.title("Energy Pro Design")
+        self.geometry("1700x950")
+
+        self.vars = {}
+        self.consumatori = []
+
+        self.build_ui()
+
+    def build_ui(self):
+        self.grid_columnconfigure(1, weight=1)
+
+        # Sidebar
+        sidebar = ctk.CTkFrame(self, width=260)
+        sidebar.grid(row=0, column=0, sticky="ns")
+
+        ctk.CTkLabel(sidebar, text="ENERGY PRO", font=("Arial",20,"bold")).pack(pady=20)
+
+        ctk.CTkButton(sidebar, text="Modificare Proiect",
+                      command=self.page_proiect).pack(pady=8)
+
+        ctk.CTkButton(sidebar, text="Consumatori",
+                      command=self.page_consumatori).pack(pady=8)
+
+        ctk.CTkButton(sidebar, text="Documentatie",
+                      command=self.page_documentatie).pack(pady=8)
+
+        # Content
+        self.content = ctk.CTkFrame(self)
+        self.content.grid(row=0, column=1, sticky="nsew")
+
+        self.page_proiect()
+
+    def clear(self):
+        for w in self.content.winfo_children():
+            w.destroy()
+
+    def entry(self, parent, name, r, c):
+        e = ctk.CTkEntry(parent, placeholder_text=name)
+        e.grid(row=r, column=c, padx=6, pady=6, sticky="ew")
+        self.vars[name] = e
+        return e
+
+    def combo(self, parent, name, values, r, c):
+        cbox = ctk.CTkComboBox(parent, values=values)
+        cbox.grid(row=r, column=c, padx=6, pady=6, sticky="ew")
+        self.vars[name] = cbox
+        return cbox
+
+    # ================= PROIECT =================
+    def page_proiect(self):
+        self.clear()
+
+        main = ctk.CTkScrollableFrame(self.content)
+        main.pack(fill="both", expand=True)
+
+        main.grid_columnconfigure((0,1,2), weight=1)
+
+        # DATE GENERALE
+        f1 = ctk.CTkFrame(main)
+        f1.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+        ctk.CTkLabel(f1,text="DATE GENERALE",font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f1,"Nume OSD",1,0)
+        self.entry(f1,"Nume beneficiar",1,1)
+        self.entry(f1,"Adresa lucrare",2,0)
+        self.combo(f1,"Tip lucrare",["subteran","aerian","ramificat"],2,1)
+
+        # BRANSAMENT
+        f2 = ctk.CTkFrame(main)
+        f2.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+
+        ctk.CTkLabel(f2,text="BRANSAMENT",font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=2)
+
+        diam = self.combo(f2,"Diametru bransament",
+        ["Dn 32mm","Dn 40mm","Dn 63mm","Dn 90mm","Ø1","Ø1 1/4","Ø1 1/2","Ø2"],1,0)
+
+        sant = self.entry(f2,"Latime sant",1,1)
+
+        def calc(e=None):
+            v=diam.get()
+            sant.delete(0,"end")
+            if any(x in v for x in ["32","40","63"]):
+                sant.insert(0,"0.4")
+            else:
+                sant.insert(0,"0.6")
+
+        diam.bind("<<ComboboxSelected>>",calc)
+
+        self.entry(f2,"Lungime bransament",2,0)
+
+        # PROTECTII
+        f3 = ctk.CTkFrame(main)
+        f3.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
+
+        ctk.CTkLabel(f3,text="PROTECTII",font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=2)
+
+        tub = self.combo(f3,"Tub protectie",["DA","NU"],1,0)
+        diam_tub = self.entry(f3,"Diametru tub protectie",1,1)
+        diam_tub.configure(state="disabled")
+
+        def toggle(e=None):
+            if tub.get()=="DA":
+                diam_tub.configure(state="normal")
+            else:
+                diam_tub.delete(0,"end")
+                diam_tub.configure(state="disabled")
+
+        tub.bind("<<ComboboxSelected>>",toggle)
+
+    # ================= CONSUMATORI =================
+    def page_consumatori(self):
+        self.clear()
+
+        frame = ctk.CTkFrame(self.content)
+        frame.pack(fill="both", expand=True)
+
+        self.consum_frame = ctk.CTkFrame(frame)
+        self.consum_frame.pack(pady=20)
+
+        ctk.CTkButton(frame,text="Adauga consumator",
+        command=self.add_consumator).pack()
+
+    def add_consumator(self):
+        e = ctk.CTkEntry(self.consum_frame,
+        placeholder_text="Consumator + debit")
+        e.pack(pady=3)
+        self.consumatori.append(e)
+
+    # ================= DOCUMENTATIE =================
+    def page_documentatie(self):
+        self.clear()
+
+        frame = ctk.CTkFrame(self.content)
+        frame.pack(fill="both", expand=True)
+
+        ctk.CTkButton(frame,text="Genereaza DOCX",
+        command=self.doc).pack(pady=5)
+
+        ctk.CTkButton(frame,text="Genereaza PDF",
+        command=self.pdf).pack(pady=5)
+
+        ctk.CTkButton(frame,text="Salveaza",
+        command=self.save).pack(pady=5)
+
+        ctk.CTkButton(frame,text="Incarca",
+        command=self.load).pack(pady=5)
+
+    def save(self):
+        data = {k:v.get() for k,v in self.vars.items()}
+        data["consumatori"] = [c.get() for c in self.consumatori]
+
+        with open("project.json","w") as f:
+            json.dump(data,f)
+
+        messagebox.showinfo("OK","Salvat")
+
+    def load(self):
+        path = filedialog.askopenfilename()
+        if not path:
+            return
+
+        with open(path) as f:
+            data = json.load(f)
+
+        for k,v in data.items():
+            if k in self.vars:
+                self.vars[k].delete(0,"end")
+                self.vars[k].insert(0,v)
+
+    def doc(self):
+        doc = Document()
+        doc.add_heading("Proiect",0)
+
+        for k,v in self.vars.items():
+            doc.add_paragraph(f"{k}: {v.get()}")
+
+        for c in self.consumatori:
+            doc.add_paragraph(f"Consumator: {c.get()}")
+
+        doc.save("proiect.docx")
+        messagebox.showinfo("OK","DOCX generat")
+
+    def pdf(self):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial",size=10)
+
+        for k,v in self.vars.items():
+            pdf.cell(200,10,txt=f"{k}: {v.get()}",ln=True)
+
+        pdf.output("proiect.pdf")
+        messagebox.showinfo("OK","PDF generat")
+
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()

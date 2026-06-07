@@ -1,0 +1,253 @@
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>>
+>> base = Path.cwd()
+>>
+>> # ============================================================
+>> # 1. Fix secret password check in plan_engine_service.py
+>> # ============================================================
+>>
+>> plan_path = base / "services" / "plan_engine_service.py"
+>> text = plan_path.read_text(encoding="utf-8")
+>>
+>> old = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: exact 30 caractere, 29 '*' si un singur '/'.
+>>         """
+>>         raw = str(password or "").strip()
+>>         return len(raw) == 30 and raw.count("*") == 29 and raw.count("/") == 1
+>> '''
+>>
+>> new = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: contine doar '*' si '/', are exact un '/', iar numarul de stele este 29.
+>>         Slash-ul poate fi oriunde.
+>>         """
+>>         raw = str(password or "").strip()
+>>         if not raw:
+>>             return False
+>>         if any(ch not in "*/" for ch in raw):
+>>             return False
+>>         return raw.count("/") == 1 and raw.count("*") == 29
+>> '''
+>>
+>> if old in text:
+>>     text = text.replace(old, new)
+>> elif "def _is_secret_inside_password" in text:
+>>     start = text.find("    def _is_secret_inside_password")
+>>     end = text.find("\n    def ", start + 5)
+>>     if end == -1:
+>>         end = len(text)
+>>     text = text[:start] + new + text[end:]
+>>
+>> plan_path.write_text(text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 2. Patch app.py to log post-login UI errors
+>> # ============================================================
+>>
+>> app_path = base / "app.py"
+>> app_text = app_path.read_text(encoding="utf-8").replace("`r`n", "\\n").replace("`n", "\\n")
+>>
+>> if "import traceback" not in app_text:
+>>     app_text = app_text.replace("import os", "import os\\nimport traceback\\nfrom pathlib import Path")
+>>
+>> # Ensure logs dir exists in app startup after title/geometry area.
+>> # More importantly, wrap self.show_page("Acasa") if not already wrapped.
+>> old_show = '''        self.show_page("Acasa")'''
+>>
+>> new_show = '''        try:
+>>             self.show_page("Acasa")
+>>         except Exception as exc:
+>>             try:
+>>                 Path("logs").mkdir(exist_ok=True)
+>>                 Path("logs/post_login_error.log").write_text(traceback.format_exc(), encoding="utf-8")
+>>             except Exception:
+>>                 pass
+>>             messagebox.showerror(
+>>                 "EPD - eroare dupa login",
+>>                 "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.\\n\\n"
+>>                 "Vezi logs/post_login_error.log"
+>>             )
+>>             raise'''
+>>
+>> if old_show in app_text and "post_login_error.log" not in app_text:
+>>     app_text = app_text.replace(old_show, new_show, 1)
+>>
+>> app_path.write_text(app_text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 3. Compile + quick login test
+>> # ============================================================
+>>
+>> for rel in [
+>>     "services/plan_engine_service.py",
+>>     "services/startup_auth_service.py",
+>>     "ui/startup_login_dialog.py",
+>>     "app.py",
+>> ]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> from services.plan_engine_service import PlanEngineService
+>> engine = PlanEngineService(base)
+>> print("normal login:", engine.authenticate("developer", "Amodilema_99").get("success"))
+>> print("secret login:", engine.authenticate("developer", "**************/***************").get("success"))
+>>
+>> print("PATCH_POST_LOGIN_DEBUG_SECRET_OK")
+>> '@ | Set-Content -Path ".\tools_fix_post_login_shutdown_secret.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_fix_post_login_shutdown_secret.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_fix_post_login_shutdown_secret.py", line 91, in <module>
+    py_compile.compile(str(base / rel), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -c "from services.backup_service import BackupService; BackupService().create_backup('before_fix_post_login_shutdown_and_secret_password')"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>>
+>> base = Path.cwd()
+>>
+>> # ============================================================
+>> # 1. Fix secret password check in plan_engine_service.py
+>> # ============================================================
+>>
+>> plan_path = base / "services" / "plan_engine_service.py"
+>> text = plan_path.read_text(encoding="utf-8")
+>>
+>> old = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: exact 30 caractere, 29 '*' si un singur '/'.
+>>         """
+>>         raw = str(password or "").strip()
+>>         return len(raw) == 30 and raw.count("*") == 29 and raw.count("/") == 1
+>> '''
+>>
+>> new = '''    def _is_secret_inside_password(self, password):
+>>         """
+>>         Verifica parola secreta fara sa o afiseze sau sa o stocheze in clar.
+>>         Conditie: contine doar '*' si '/', are exact un '/', iar numarul de stele este 29.
+>>         Slash-ul poate fi oriunde.
+>>         """
+>>         raw = str(password or "").strip()
+>>         if not raw:
+>>             return False
+>>         if any(ch not in "*/" for ch in raw):
+>>             return False
+>>         return raw.count("/") == 1 and raw.count("*") == 29
+>> '''
+>>
+>> if old in text:
+>>     text = text.replace(old, new)
+>> elif "def _is_secret_inside_password" in text:
+>>     start = text.find("    def _is_secret_inside_password")
+>>     end = text.find("\n    def ", start + 5)
+>>     if end == -1:
+>>         end = len(text)
+>>     text = text[:start] + new + text[end:]
+>>
+>> plan_path.write_text(text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 2. Patch app.py to log post-login UI errors
+>> # ============================================================
+>>
+>> app_path = base / "app.py"
+>> app_text = app_path.read_text(encoding="utf-8").replace("`r`n", "\\n").replace("`n", "\\n")
+>>
+>> if "import traceback" not in app_text:
+>>     app_text = app_text.replace("import os", "import os\\nimport traceback\\nfrom pathlib import Path")
+>>
+>> # Ensure logs dir exists in app startup after title/geometry area.
+>> # More importantly, wrap self.show_page("Acasa") if not already wrapped.
+>> old_show = '''        self.show_page("Acasa")'''
+>>
+>> new_show = '''        try:
+>>             self.show_page("Acasa")
+>>         except Exception as exc:
+>>             try:
+>>                 Path("logs").mkdir(exist_ok=True)
+>>                 Path("logs/post_login_error.log").write_text(traceback.format_exc(), encoding="utf-8")
+>>             except Exception:
+>>                 pass
+>>             messagebox.showerror(
+>>                 "EPD - eroare dupa login",
+>>                 "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.\\n\\n"
+>>                 "Vezi logs/post_login_error.log"
+>>             )
+>>             raise'''
+>>
+>> if old_show in app_text and "post_login_error.log" not in app_text:
+>>     app_text = app_text.replace(old_show, new_show, 1)
+>>
+>> app_path.write_text(app_text, encoding="utf-8")
+>>
+>> # ============================================================
+>> # 3. Compile + quick login test
+>> # ============================================================
+>>
+>> for rel in [
+>>     "services/plan_engine_service.py",
+>>     "services/startup_auth_service.py",
+>>     "ui/startup_login_dialog.py",
+>>     "app.py",
+>> ]:
+>>     py_compile.compile(str(base / rel), doraise=True)
+>>
+>> from services.plan_engine_service import PlanEngineService
+>> engine = PlanEngineService(base)
+>> print("normal login:", engine.authenticate("developer", "Amodilema_99").get("success"))
+>> print("secret login:", engine.authenticate("developer", "**************/***************").get("success"))
+>>
+>> print("PATCH_POST_LOGIN_DEBUG_SECRET_OK")
+>> '@ | Set-Content -Path ".\tools_fix_post_login_shutdown_secret.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_fix_post_login_shutdown_secret.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_fix_post_login_shutdown_secret.py", line 91, in <module>
+    py_compile.compile(str(base / rel), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ﻿import os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character

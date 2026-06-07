@@ -1,0 +1,247 @@
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start_final.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Process python -ErrorAction SilentlyContinue | Stop-Process -Force
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>> import traceback
+>> import json
+>> import importlib.util
+>> import sys
+>>
+>> base = Path.cwd()
+>> logs = base / "logs"
+>> logs.mkdir(exist_ok=True)
+>>
+>> report = {
+>>     "compile": {},
+>>     "import": None,
+>>     "store": {},
+>>     "app_methods": {},
+>>     "errors": []
+>> }
+>>
+>> def add_error(stage, exc):
+>>     report["errors"].append({
+>>         "stage": stage,
+>>         "error": str(exc),
+>>         "traceback": traceback.format_exc()
+>>     })
+>>
+>> try:
+>>     for rel in ["epd_enterprise_final.py", "start_final.py"]:
+>>         try:
+>>             py_compile.compile(str(base / rel), doraise=True)
+>>             report["compile"][rel] = "OK"
+>>         except Exception as exc:
+>>             report["compile"][rel] = "FAIL"
+>>             add_error(f"compile {rel}", exc)
+>>
+>>     try:
+>>         spec = importlib.util.spec_from_file_location("epd_enterprise_final", base / "epd_enterprise_final.py")
+>>         mod = importlib.util.module_from_spec(spec)
+>>         sys.modules["epd_enterprise_final"] = mod
+>>         spec.loader.exec_module(mod)
+>>         report["import"] = "OK"
+>>     except Exception as exc:
+>>         report["import"] = "FAIL"
+>>         add_error("import epd_enterprise_final", exc)
+>>         raise SystemExit
+>>
+>>     try:
+>>         store = mod.Store()
+>>
+>>         login = store.login("developer", "Amodilema_99")
+>>         report["store"]["developer_login"] = login.get("success")
+>>
+>>         sample = {
+>>             "beneficiar": "Beneficiar Test",
+>>             "localitate": "Bucuresti",
+>>             "adresa_lucrare": "Strada Test 1",
+>>             "tip_lucrare": "Bransament gaze",
+>>             "faza_proiect": "DTAC",
+>>             "osd": "OSD Test",
+>>             "email_destinatar": "test@example.com",
+>>             "stampila_societate": "Stampila Test",
+>>             "verificator_vgd": "VGD Test",
+>>             "verificator_rte": "RTE Test",
+>>             "debit_instalat": "8",
+>>             "putere_termica": "70",
+>>             "lungime_branșament": "20"
+>>         }
+>>
+>>         store.save_project(sample)
+>>
+>>         validation = store.validate()
+>>         report["store"]["validation_ok"] = validation.get("ok")
+>>         report["store"]["validation_errors"] = validation.get("errors", [])
+>>         report["store"]["validation_warnings"] = validation.get("warnings", [])
+>>
+>>         report["store"]["calculations"] = store.calculations()
+>>
+>>         generated = []
+>>         for template_id in getattr(mod, "TEMPLATES", {}).keys():
+>>             try:
+>>                 generated.append({
+>>                     "template": template_id,
+>>                     "result": store.generate_doc(template_id)
+>>                 })
+>>             except Exception as exc:
+>>                 generated.append({
+>>                     "template": template_id,
+>>                     "result": "FAIL",
+>>                     "error": str(exc)
+>>                 })
+>>                 add_error(f"generate_doc {template_id}", exc)
+>>
+>>         report["store"]["generated_templates"] = generated
+>>
+>>         try:
+>>             report["store"]["export_json"] = store.export_json()
+>>         except Exception as exc:
+>>             report["store"]["export_json"] = "FAIL"
+>>             add_error("export_json", exc)
+>>
+>>         try:
+>>             report["store"]["export_zip"] = store.export_zip()
+>>         except Exception as exc:
+>>             report["store"]["export_zip"] = "FAIL"
+>>             add_error("export_zip", exc)
+>>
+>>     except Exception as exc:
+>>         add_error("store tests", exc)
+>>
+>>     try:
+>>         required_methods = [
+>>             "p_dashboard",
+>>             "p_date_proiect",
+>>             "p_date_tehnice",
+>>             "p_departamente",
+>>             "p_documentatie",
+>>             "p_stampile",
+>>             "p_email_uri",
+>>             "p_verificari",
+>>             "p_checklist",
+>>             "p_templates",
+>>             "p_calcul",
+>>             "p_registru_proiecte",
+>>             "p_import__export",
+>>             "p_licensing",
+>>             "p_assistant_user",
+>>             "p_ai_developer",
+>>             "p_inside",
+>>             "p_diagnostic",
+>>             "p_contact",
+>>             "p_core_mission",
+>>             "p_update_center",
+>>             "p_marketplace",
+>>             "p_build__release",
+>>             "p_logs__integrity"
+>>         ]
+>>
+>>         for method in required_methods:
+>>             report["app_methods"][method] = hasattr(mod.App, method)
+>>
+>>     except Exception as exc:
+>>         add_error("app method check", exc)
+>>
+>> finally:
+>>     (logs / "program_test_now.json").write_text(
+>>         json.dumps(report, ensure_ascii=False, indent=2),
+>>         encoding="utf-8"
+>>     )
+>>
+>>     lines = []
+>>     lines.append("=== EPD PROGRAM TEST NOW ===")
+>>     lines.append("")
+>>     lines.append("COMPILE:")
+>>     for k, v in report["compile"].items():
+>>         lines.append(f"- {k}: {v}")
+>>
+>>     lines.append("")
+>>     lines.append(f"IMPORT: {report['import']}")
+>>
+>>     lines.append("")
+>>     lines.append("STORE:")
+>>     for k, v in report["store"].items():
+>>         short = str(v)
+>>         if len(short) > 500:
+>>             short = short[:500] + "..."
+>>         lines.append(f"- {k}: {short}")
+>>
+>>     lines.append("")
+>>     lines.append("APP METHODS:")
+>>     for k, v in report["app_methods"].items():
+>>         lines.append(f"- {k}: {'OK' if v else 'MISSING'}")
+>>
+>>     lines.append("")
+>>     lines.append(f"ERRORS: {len(report['errors'])}")
+>>
+>>     if report["errors"]:
+>>         lines.append("")
+>>         lines.append("ERROR DETAILS:")
+>>         for item in report["errors"]:
+>>             lines.append(f"--- {item['stage']} ---")
+>>             lines.append(item["traceback"])
+>>
+>>     text = "\n".join(lines)
+>>     (logs / "program_test_now.log").write_text(text, encoding="utf-8")
+>>
+>>     print(text)
+>>     print("")
+>>     print("LOG:", logs / "program_test_now.log")
+>>     print("JSON:", logs / "program_test_now.json")
+>> '@ | Set-Content -Path ".\tools_test_program_now.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_test_program_now.py
+=== EPD PROGRAM TEST NOW ===
+
+COMPILE:
+- epd_enterprise_final.py: OK
+- start_final.py: OK
+
+IMPORT: OK
+
+STORE:
+- developer_login: True
+- validation_ok: True
+- validation_errors: []
+- validation_warnings: []
+- calculations: {'debit_din_putere_kw': 6.54, 'debit_recomandat_mc_h': 8.0, 'contor_orientativ': 'G6', 'risc_presiune': 'normal', 'nota': 'Calcul orientativ pentru workflow intern; dimensionarea finală se verifică tehnic conform normativelor aplicabile.'}
+- generated_templates: [{'template': 'fisa_tehnica_proiect', 'result': 'Document generat: C:\\Users\\40735\\Desktop\\Energy Project Design - Bransamente 2.0\\documents\\generated\\fisa_tehnica_proiect_20260601_093040.txt'}, {'template': 'borderou_documentatie', 'result': 'Document generat: C:\\Users\\40735\\Desktop\\Energy Project Design - Bransamente 2.0\\documents\\generated\\borderou_documentatie_20260601_093040.txt'}, {'template': 'adresa_avize', 'result': 'Document generat: C:\\Users\\40735\\Desktop\\Energy Proje...
+- export_json: Export JSON creat: C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\exports\EPD_SIGNED_EXPORT_20260601_093040.json
+- export_zip: Pachet ZIP creat: C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\exports\EPD_PACKAGE_20260601_093040.zip
+
+APP METHODS:
+- p_dashboard: OK
+- p_date_proiect: OK
+- p_date_tehnice: OK
+- p_departamente: OK
+- p_documentatie: OK
+- p_stampile: OK
+- p_email_uri: OK
+- p_verificari: OK
+- p_checklist: OK
+- p_templates: OK
+- p_calcul: OK
+- p_registru_proiecte: OK
+- p_import__export: OK
+- p_licensing: OK
+- p_assistant_user: OK
+- p_ai_developer: OK
+- p_inside: OK
+- p_diagnostic: OK
+- p_contact: OK
+- p_core_mission: MISSING
+- p_update_center: MISSING
+- p_marketplace: MISSING
+- p_build__release: MISSING
+- p_logs__integrity: MISSING
+
+ERRORS: 0
+
+LOG: C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\logs\program_test_now.log
+JSON: C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\logs\program_test_now.json
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design

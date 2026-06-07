@@ -1,0 +1,164 @@
+
+import customtkinter as ctk
+from tkinter import messagebox, filedialog
+from docx import Document
+from fpdf import FPDF
+import json, os
+
+ctk.set_appearance_mode("dark")
+
+class EnergyPro(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+
+        self.title("Energy Pro Industrial")
+        self.geometry("1800x1000")
+
+        self.vars = {}
+        self.consumatori = []
+
+        self.build_ui()
+
+    # ================= UI =================
+    def build_ui(self):
+        self.grid_columnconfigure(1, weight=1)
+
+        sidebar = ctk.CTkFrame(self, width=250)
+        sidebar.grid(row=0, column=0, sticky="ns")
+
+        ctk.CTkLabel(sidebar, text="ENERGY PRO", font=("Arial",20,"bold")).pack(pady=20)
+
+        ctk.CTkButton(sidebar, text="Modificare Proiect", command=self.page_proiect).pack(pady=5)
+        ctk.CTkButton(sidebar, text="Consumatori", command=self.page_consumatori).pack(pady=5)
+        ctk.CTkButton(sidebar, text="Documentatie", command=self.page_doc).pack(pady=5)
+
+        self.content = ctk.CTkFrame(self)
+        self.content.grid(row=0, column=1, sticky="nsew")
+
+        self.page_proiect()
+
+    def clear(self):
+        for w in self.content.winfo_children():
+            w.destroy()
+
+    def entry(self, parent, name, r, c):
+        e = ctk.CTkEntry(parent, placeholder_text=name)
+        e.grid(row=r, column=c, padx=5, pady=5, sticky="ew")
+        self.vars[name] = e
+        return e
+
+    def combo(self, parent, name, vals, r, c):
+        cb = ctk.CTkComboBox(parent, values=vals)
+        cb.grid(row=r, column=c, padx=5, pady=5, sticky="ew")
+        self.vars[name] = cb
+        return cb
+
+    # ================= PAGE PROIECT =================
+    def page_proiect(self):
+        self.clear()
+
+        main = ctk.CTkScrollableFrame(self.content)
+        main.pack(fill="both", expand=True)
+        main.grid_columnconfigure((0,1,2), weight=1)
+
+        sections = [
+            "DATE GENERALE","BRANSAMENT","VANE","PRESIUNI",
+            "CONDUCTA","PROTECTII","DOCUMENTE","REGULATOR",
+            "PARAMETRI","EXECUTIE","VERIFICARI","OBSERVATII"
+        ]
+
+        for i, sec in enumerate(sections):
+            f = ctk.CTkFrame(main)
+            f.grid(row=i, column=0, padx=10, pady=10, sticky="nsew")
+
+            ctk.CTkLabel(f, text=sec, font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+            self.entry(f, f"{sec} camp 1", 1, 0)
+            self.entry(f, f"{sec} camp 2", 1, 1)
+            self.entry(f, f"{sec} camp 3", 2, 0)
+            self.combo(f, f"{sec} optiune", ["DA","NU"], 2, 1)
+
+        # LOGIC EXEMPLU
+        diam = self.combo(main, "Diametru conducta", ["32","40","63","90"], 20, 0)
+        sant = self.entry(main, "Latime sant", 20, 1)
+
+        def calc(e=None):
+            if diam.get() in ["32","40","63"]:
+                sant.delete(0,"end")
+                sant.insert(0,"0.4")
+            else:
+                sant.delete(0,"end")
+                sant.insert(0,"0.6")
+
+        diam.bind("<<ComboboxSelected>>", calc)
+
+    # ================= CONSUMATORI =================
+    def page_consumatori(self):
+        self.clear()
+
+        frame = ctk.CTkFrame(self.content)
+        frame.pack(fill="both", expand=True)
+
+        self.consum_frame = ctk.CTkFrame(frame)
+        self.consum_frame.pack(pady=20)
+
+        ctk.CTkButton(frame, text="Adauga consumator", command=self.add_consumator).pack()
+
+    def add_consumator(self):
+        e = ctk.CTkEntry(self.consum_frame, placeholder_text="Consumator + debit")
+        e.pack(pady=3)
+        self.consumatori.append(e)
+
+    # ================= DOCUMENTATIE =================
+    def page_doc(self):
+        self.clear()
+
+        frame = ctk.CTkFrame(self.content)
+        frame.pack(fill="both", expand=True)
+
+        ctk.CTkButton(frame, text="Documentatie proiectare", command=self.doc).pack(pady=5)
+        ctk.CTkButton(frame, text="Documentatie avizare", command=self.doc).pack(pady=5)
+        ctk.CTkButton(frame, text="Genereaza PDF", command=self.pdf).pack(pady=5)
+        ctk.CTkButton(frame, text="Salveaza", command=self.save).pack(pady=5)
+        ctk.CTkButton(frame, text="Incarca", command=self.load).pack(pady=5)
+
+    # ================= LOGICA =================
+    def save(self):
+        data = {k:v.get() for k,v in self.vars.items()}
+        data["consumatori"] = [c.get() for c in self.consumatori]
+        with open("project.json","w") as f:
+            json.dump(data,f)
+        messagebox.showinfo("OK","Salvat")
+
+    def load(self):
+        path = filedialog.askopenfilename()
+        if not path:
+            return
+        with open(path) as f:
+            data = json.load(f)
+        for k,v in data.items():
+            if k in self.vars:
+                self.vars[k].delete(0,"end")
+                self.vars[k].insert(0,v)
+
+    def doc(self):
+        doc = Document()
+        doc.add_heading("Proiect",0)
+        for k,v in self.vars.items():
+            doc.add_paragraph(f"{k}: {v.get()}")
+        doc.save("proiect.docx")
+        messagebox.showinfo("OK","DOCX generat")
+
+    def pdf(self):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial",size=10)
+        for k,v in self.vars.items():
+            pdf.cell(200,10,txt=f"{k}: {v.get()}",ln=True)
+        pdf.output("proiect.pdf")
+        messagebox.showinfo("OK","PDF generat")
+
+
+if __name__ == "__main__":
+    app = EnergyPro()
+    app.mainloop()

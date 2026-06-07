@@ -192,7 +192,7 @@ export default function Settings() {
             <li>Mergeți la <a href="https://myaccount.google.com/security" target="_blank" rel="noreferrer" className="underline font-medium inline-flex items-center gap-1">myaccount.google.com/security <ExternalLink className="w-3 h-3" /></a></li>
             <li>Activați <strong>verificarea în 2 pași</strong> (dacă nu e deja).</li>
             <li>În aceeași pagină, accesați <strong>App passwords</strong> (sau <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noreferrer" className="underline">myaccount.google.com/apppasswords</a>).</li>
-            <li>Creați parolă nouă pentru aplicația &bdquo;StampDoc&rdquo;. Veți primi 16 caractere — copiați-le și lipiți-le mai jos.</li>
+            <li>Creați parolă nouă pentru aplicația &bdquo;Energy Project Design&rdquo;. Veți primi 16 caractere — copiați-le și lipiți-le mai jos.</li>
             <li>Salvați. Gata!</li>
           </ol>
         </details>

@@ -1,0 +1,235 @@
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> import py_compile
+>> import shutil
+>> import time
+>>
+>> base = Path.cwd()
+>> app_path = base / "app.py"
+>> backup = base / f"app_backup_before_runtime_crash_logger_{time.strftime('%Y%m%d_%H%M%S')}.py"
+>> shutil.copy2(app_path, backup)
+>>
+>> text = app_path.read_text(encoding="utf-8-sig", errors="replace")
+>>
+>> # Asigura importurile necesare
+>> if "import traceback" not in text:
+>>     text = text.replace("import os", "import os\nimport traceback", 1)
+>>
+>> if "from pathlib import Path" not in text:
+>>     if "import traceback" in text:
+>>         text = text.replace("import traceback", "import traceback\nfrom pathlib import Path", 1)
+>>     else:
+>>         text = text.replace("import os", "import os\nfrom pathlib import Path", 1)
+>>
+>> # Adauga metoda Tkinter exception handler in clasa principala daca nu exista
+>> if "def report_callback_exception" not in text:
+>>     marker = "    def show_page(self, page_name):"
+>>     method = '''    def report_callback_exception(self, exc, val, tb):
+>>         """
+>>         Captureaza erorile aparute in callback-uri Tkinter/CustomTkinter.
+>>         """
+>>         try:
+>>             Path("logs").mkdir(exist_ok=True)
+>>             Path("logs/runtime_callback_error.log").write_text(
+>>                 "".join(traceback.format_exception(exc, val, tb)),
+>>                 encoding="utf-8"
+>>             )
+>>         except Exception:
+>>             pass
+>>
+>>         try:
+>>             from tkinter import messagebox
+>>             messagebox.showerror(
+>>                 "EPD - eroare runtime",
+>>                 "A aparut o eroare in interfata aplicatiei.\\n\\nVezi logs/runtime_callback_error.log"
+>>             )
+>>         except Exception:
+>>             pass
+>>
+>> '''
+>>     if marker in text:
+>>         text = text.replace(marker, method + marker, 1)
+>>
+>> app_path.write_text(text, encoding="utf-8")
+>>
+>> py_compile.compile(str(app_path), doraise=True)
+>>
+>> print("RUNTIME_CRASH_LOGGER_OK")
+>> print(f"Backup app.py: {backup.name}")
+>> '@ | Set-Content -Path ".\tools_add_runtime_crash_logger.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_add_runtime_crash_logger.py
+RUNTIME_CRASH_LOGGER_OK
+Backup app.py: app_backup_before_runtime_crash_logger_20260601_060225.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 116, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 95, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\runtime_callback_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\startup_error.log
+True
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\runtime_callback_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\startup_error.logpython start.py
+Test-Path : A positional parameter cannot be found that accepts argument 'start.py'.
+At line:1 char:1
++ Test-Path .\logs\startup_error.logpython start.py
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Test-Path], ParameterBindingException
+    + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Commands.TestPathCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 116, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 95, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\runtime_callback_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\startup_error.logif (Test-Path .\logs\runtime_callback_error.log) { Get-Content .\logs\runtime_callback_error.log -Raw }
+Test-Path : A positional parameter cannot be found that accepts argument 'False'.
+At line:1 char:1
++ Test-Path .\logs\startup_error.logif (Test-Path .\logs\runtime_callba ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Test-Path], ParameterBindingException
+    + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Commands.TestPathCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> if (Test-Path .\logs\post_login_error.log) { Get-Content .\logs\post_login_error.log -Raw }
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\startup_error.log -Tail 100if (Test-Path .\logs\runtime_callback_error.log) { Get-Content .\logs\runtime_callback_error.log -Raw }
+Get-Content : Cannot bind parameter 'Tail'. Cannot convert value "100if" to type "System.Int32". Error: "Input string was not in a correct format."
+At line:1 char:44
++ Get-Content .\logs\startup_error.log -Tail 100if (Test-Path .\logs\ru ...
++                                            ~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-Content], ParameterBindingException
+    + FullyQualifiedErrorId : CannotConvertArgumentNoMessage,Microsoft.PowerShell.Commands.GetContentCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> if (Test-Path .\logs\post_login_error.log) { Get-Content .\logs\post_login_error.log -Raw }
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\startup_error.log -Tail 100
+    name = self.tk.call('focus')
+           ^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: can't invoke "focus" command: application has been destroyed
+
+
+
+================================================================================
+[2026-06-01 05:22:24]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+
+
+================================================================================
+[2026-06-01 05:23:26]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+
+
+================================================================================
+[2026-06-01 05:23:48]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+
+
+================================================================================
+[2026-06-01 05:30:10]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+
+
+================================================================================
+[2026-06-01 05:30:18]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+
+
+================================================================================
+[2026-06-01 05:37:47]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
+
+
+
+================================================================================
+[2026-06-01 05:39:12]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
+
+
+
+================================================================================
+[2026-06-01 05:40:35]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 489
+    f"Nu am gasit o comanda potrivita pentru:
+    ^
+SyntaxError: unterminated string literal (detected at line 489)
+
+(.venv) PS C:\Users\40735\Desktop\

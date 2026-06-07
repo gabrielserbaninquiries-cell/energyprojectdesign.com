@@ -1,0 +1,608 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\40735> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\start.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 116, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 95, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> from services.plan_engine_service import PlanEngineService
+>>
+>> base = Path.cwd()
+>> engine = PlanEngineService(base)
+>>
+>> email = "trial@test.local"
+>> password = "Test_1234"
+>>
+>> # Daca exista deja contul, il lasam si ii realocam plan Trial.
+>> result = engine.create_trial_account(
+>>     first_name="Trial",
+>>     last_name="User",
+>>     email=email,
+>>     password=password,
+>>     function="test user",
+>>     company="EPD Test"
+>> )
+>>
+>> if not result.get("success") and "Exista deja" in result.get("message", ""):
+>>     assign = engine.assign_plan_to_account(
+>>         email=email,
+>>         plan_id="trial_10_days",
+>>         duration_label="1 luna",
+>>         custom_price_eur=0
+>>     )
+>>     print("Contul exista deja. Plan Trial realocat:", assign.get("success"))
+>> else:
+>>     print("Cont trial creat:", result.get("success"))
+>>     print(result.get("message"))
+>>
+>> # Activam contul direct pentru test local, fara cod email.
+>> accounts_file = base / "config" / "accounts.json"
+>> import json
+>>
+>> data = json.loads(accounts_file.read_text(encoding="utf-8"))
+>> for account in data.get("accounts", []):
+>>     if account.get("email") == email:
+>>         account["account_status"] = "active"
+>>         account["role"] = "Trial"
+>>         account["active_plan_id"] = "trial_10_days"
+>>
+>> accounts_file.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+>>
+>> # Test login
+>> login = engine.authenticate(email, password)
+>>
+>> print("")
+>> print("=== DATE TEST USER ===")
+>> print("Email/user:", email)
+>> print("Parola:", password)
+>> print("Plan:", "Trial 10 zile")
+>> print("Login OK:", login.get("success"))
+>> print("Role:", login.get("role"))
+>> print("Plan activ:", login.get("active_plan_id"))
+>> print("Inside full:", login.get("inside_full_unlocked"))
+>> '@ | Set-Content -Path ".\tools_create_trial_test_user.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_create_trial_test_user.py
+Cont trial creat: True
+Cont trial creat. Este necesara activarea contului.
+
+=== DATE TEST USER ===
+Email/user: trial@test.local
+Parola: Test_1234
+Plan: Trial 10 zile
+Login OK: True
+Role: Trial
+Plan activ: trial_10_days
+Inside full: False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 116, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 95, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Start-Process python -ArgumentList "start.py" -WorkingDirectory "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Start-Process python -ArgumentList "start.py" -WorkingDirectory "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Process python | Select-Object Id, ProcessName, MainWindowTitle
+
+   Id ProcessName MainWindowTitle
+   -- ----------- ---------------
+16420 python      C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Scripts\python.exe
+16528 python
+
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\runtime_callback_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\config\startup_session.json -Raw
+{
+  "success": true,
+  "username": "developer",
+  "email": "developer",
+  "display_name": "Developer",
+  "role": "Developer",
+  "active_plan_id": "Developer",
+  "plan_name": "Developer Infinite",
+  "license_type": "Developer",
+  "roles": [
+    "Developer",
+    "Societate",
+    "VGD",
+    "RTE",
+    "operator_introducere_date",
+    "proiectant",
+    "executant",
+    "avize",
+    "contabilitate",
+    "ofertare"
+  ],
+  "features": [
+    "all",
+    "developer_access",
+    "ai_developer_access",
+    "plan_management",
+    "inside_access"
+  ],
+  "is_developer": true,
+  "inside_full_unlocked": false,
+  "full_app_modify_unlocked": false,
+  "confidential_access_unlocked": false,
+  "logged_at": "2026-06-01T06:31:37.078134"
+}
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Windows PowerShell
+Windows : The term 'Windows' is not recognized as the name of a cmdlet, function, script file, or operable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ Windows PowerShell
++ ~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Windows:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Copyright (C) Microsoft Corporation. All rights reserved.
+C : The term 'C' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:12
++ Copyright (C) Microsoft Corporation. All rights reserved.
++            ~
+    + CategoryInfo          : ObjectNotFound: (C:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+Install : The term 'Install' is not recognized as the name of a cmdlet, function, script file, or operable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ Install the latest PowerShell for new features and improvements! http ...
++ ~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Install:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> PS C:\Users\40735> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+Get-Process : A positional parameter cannot be found that accepts argument 'cd'.
+At line:1 char:1
++ PS C:\Users\40735> cd "$env:USERPROFILE\Desktop\Energy Project Design ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-Process], ParameterBindingException
+    + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Commands.GetProcessCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+Get-Process : A positional parameter cannot be found that accepts argument 'Project'.
+At line:1 char:1
++ PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-Process], ParameterBindingException
+    + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Commands.GetProcessCommand
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+At line:1 char:9
++ (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente ...
++         ~~
+Unexpected token 'PS' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\start.py
+At line:1 char:9
++ (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente ...
++         ~~
+Unexpected token 'PS' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+At line:1 char:9
++ (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente ...
++         ~~
+Unexpected token 'PS' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Traceback (most recent call last):
+most : The term 'most' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:12
++ Traceback (most recent call last):
++            ~~~~
+    + CategoryInfo          : ObjectNotFound: (most:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 116, in <module>
+At line:1 char:96
++ ... rgy Project Design - Bransamente 2.0\start.py", line 116, in <module>
++                                                                  ~
+The '<' operator is reserved for future use.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : RedirectionNotSupported
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>     main()
+At line:1 char:10
++     main()
++          ~
+An expression was expected after '('.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : ExpectedExpression
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 95, in main
+File : The term 'File' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:3
++   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2. ...
++   ~~~~
+    + CategoryInfo          : ObjectNotFound: (File:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>     instance.mainloop()
+At line:1 char:23
++     instance.mainloop()
++                       ~
+An expression was expected after '('.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : ExpectedExpression
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+File : The term 'File' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:3
++   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2. ...
++   ~~~~
+    + CategoryInfo          : ObjectNotFound: (File:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>     super().mainloop(*args, **kwargs)
+At line:1 char:11
++     super().mainloop(*args, **kwargs)
++           ~
+An expression was expected after '('.
+At line:1 char:22
++     super().mainloop(*args, **kwargs)
++                      ~
+Missing ')' in method call.
+At line:1 char:37
++     super().mainloop(*args, **kwargs)
++                                     ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : ExpectedExpression
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>   File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+File : The term 'File' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:3
++   File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tk ...
++   ~~~~
+    + CategoryInfo          : ObjectNotFound: (File:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>     self.tk.mainloop(n)
+n : The term 'n' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:22
++     self.tk.mainloop(n)
++                      ~
+    + CategoryInfo          : ObjectNotFound: (n:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>   File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+File : The term 'File' is not recognized as the name of a cmdlet, function, script file, or operable program. Check
+the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:3
++   File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tk ...
++   ~~~~
+    + CategoryInfo          : ObjectNotFound: (File:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>     def __call__(self, *args):
+At line:1 char:22
++     def __call__(self, *args):
++                      ~
+Missing argument in parameter list.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingArgument
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> KeyboardInterrupt
+KeyboardInterrupt : The term 'KeyboardInterrupt' is not recognized as the name of a cmdlet, function, script file, or
+operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try
+again.
+At line:1 char:1
++ KeyboardInterrupt
++ ~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (KeyboardInterrupt:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+At line:1 char:9
++ (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente ...
++         ~~
+Unexpected token 'PS' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+At line:1 char:9
++ (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente ...
++         ~~
+Unexpected token 'PS' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> >> from pathlib import Path
+>> >> from services.plan_engine_service import PlanEngineService
+>> >>
+>> >> base = Path.cwd()
+>> >> engine = PlanEngineService(base)
+>> >>
+>> >> email = "trial@test.local"
+>> >> password = "Test_1234"
+>> >>
+>> >> # Daca exista deja contul, il lasam si ii realocam plan Trial.
+>> >> result = engine.create_trial_account(
+>> >>     first_name="Trial",
+>> >>     last_name="User",
+>> >>     email=email,
+>> >>     password=password,
+>> >>     function="test user",
+>> >>     company="EPD Test"
+>> >> )
+>> >>
+>> >> if not result.get("success") and "Exista deja" in result.get("message", ""):
+>> >>     assign = engine.assign_plan_to_account(
+>> >>         email=email,
+>> >>         plan_id="trial_10_days",
+>> >>         duration_label="1 luna",
+>> >>         custom_price_eur=0
+>> >>     )
+>> >>     print("Contul exista deja. Plan Trial realocat:", assign.get("success"))
+>> >> else:
+>> >>     print("Cont trial creat:", result.get("success"))
+>> >>     print(result.get("message"))
+>> >>
+>> >> # Activam contul direct pentru test local, fara cod email.
+>> >> accounts_file = base / "config" / "accounts.json"
+>> >> import json
+>> >>
+>> >> data = json.loads(accounts_file.read_text(encoding="utf-8"))
+>> >> for account in data.get("accounts", []):
+>> >>     if account.get("email") == email:
+>> >>         account["account_status"] = "active"
+>> >>         account["role"] = "Trial"
+>> >>         account["active_plan_id"] = "trial_10_days"
+>> >>
+>> >> accounts_file.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+>> >>
+>> >> # Test login
+>> >> login = engine.authenticate(email, password)
+>> >>
+>> >> print("")
+>> >> print("=== DATE TEST USER ===")
+>> >> print("Email/user:", email)
+>> >> print("Parola:", password)
+>> >> print("Plan:", "Trial 10 zile")
+>> >> print("Login OK:", login.get("success"))
+>> >> print("Role:", login.get("role"))
+>> >> print("Plan activ:", login.get("active_plan_id"))
+>> >> print("Inside full:", login.get("inside_full_unlocked"))
+>> >> '@ | Set-Content -Path ".\tools_create_trial_test_user.py" -Encoding UTF8
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_create_trial_test_user.py
+>> Cont trial creat: True
+>> Cont trial creat. Este necesara activarea contului.
+>>
+>> === DATE TEST USER ===
+>> Email/user: trial@test.local
+>> Parola: Test_1234
+>> Plan: Trial 10 zile
+>> Login OK: True
+>> Role: Trial
+>> Plan activ: trial_10_days
+>> Inside full: False
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+>> Traceback (most recent call last):
+>>   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 116, in <module>
+>>     main()
+>>   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 95, in main
+>>     instance.mainloop()
+>>   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+>>     super().mainloop(*args, **kwargs)
+>>   File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+>>     self.tk.mainloop(n)
+>>   File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+>>     def __call__(self, *args):
+>>
+>> KeyboardInterrupt
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Start-Process python -ArgumentList "start.py" -WorkingDirectory "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Start-Process python -ArgumentList "start.py" -WorkingDirectory "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Process python | Select-Object Id, ProcessName, MainWindowTitle
+>>
+>>    Id ProcessName MainWindowTitle
+>>    -- ----------- ---------------
+>> 16420 python      C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Scripts\python.exe
+>> 16528 python
+>>
+>>
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\runtime_callback_error.log
+>> False
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+>> False
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\config\startup_session.json -Raw
+>> {
+>>   "success": true,
+>>   "username": "developer",
+>>   "email": "developer",
+>>   "display_name": "Developer",
+>>   "role": "Developer",
+>>   "active_plan_id": "Developer",
+>>   "plan_name": "Developer Infinite",
+>>   "license_type": "Developer",
+>>   "roles": [
+>>     "Developer",
+>>     "Societate",
+>>     "VGD",
+>>     "RTE",
+>>     "operator_introducere_date",
+>>     "proiectant",
+>>     "executant",
+>>     "avize",
+>>     "contabilitate",
+>>     "ofertare"
+>>   ],
+>>   "features": [
+>>     "all",
+>>     "developer_access",
+>>     "ai_developer_access",
+>>     "plan_management",
+>>     "inside_access"
+>>   ],
+>>   "is_developer": true,
+>>   "inside_full_unlocked": false,
+>>   "full_app_modify_unlocked": false,
+>>   "confidential_access_unlocked": false,
+>>   "logged_at": "2026-06-01T06:31:37.078134"
+>> }
+>> (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+>> Get-Process python -ErrorAction SilentlyContinue
+>> Get-Process python -ErrorAction SilentlyContinue
+>> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+>>
+>> @'
+>> from pathlib import Path
+>> import py_compile
+>> import shutil
+>> import time
+>>
+>> base = Path.cwd()
+>> app_path = base / "app.py"
+>> backup = base / f"app_backup_before_visible_login_flow_{time.strftime('%Y%m%d_%H%M%S')}.py"
+>> shutil.copy2(app_path, backup)
+>>
+>> text = app_path.read_text(encoding="utf-8-sig", errors="replace")
+>>
+>> # 1. Dezactiveaza ascunderea root-ului inainte de login.
+>> text = text.replace(
+>>     "        self.withdraw()\n",
+>>     "        # self.withdraw()  # Dezactivat: root-ul ramanea ascuns dupa login.\n"
+>> )
+>>
+>> # 2. Dupa login reusit, forteaza vizibilitatea ferestrei principale.
+>> targets = [
+>>     """        self.deiconify()
+>>
+>>         self.configure(fg_color=COLOR_BG)""",
+>>     """        self.deiconify()
+>>         self.after(150, lambda: self.deiconify())
+>>         self.after(200, lambda: self.lift())
+>>         self.after(250, lambda: self.focus_force())
+>>
+>>         self.configure(fg_color=COLOR_BG)"""
+>> ]
+>>
+>> replacement = """        self.deiconify()
+>>         self.state("normal")
+>>         self.update_idletasks()
+>>         self.lift()
+>>         self.attributes("-topmost", True)
+>>         self.after(1000, lambda: self.attributes("-topmost", False))
+>>         self.focus_force()
+>>
+>>         self.configure(fg_color=COLOR_BG)"""
+>>
+>> for target in targets:
+>>     if target in text:
+>>         text = text.replace(target, replacement, 1)
+>>
+>> # 3. Scrie log dupa login ca sa stim ca fereastra a fost afisata.
+>> marker = "        self.configure(fg_color=COLOR_BG)"
+>> log_block = """        self.configure(fg_color=COLOR_BG)
+>>
+>>         try:
+>>             Path("logs").mkdir(exist_ok=True)
+>>             Path("logs/after_login_visible.log").write_text(
+>>                 f"after_login_ok=1\\nstate={self.state()}\\ngeometry={self.geometry()}\\n",
+>>                 encoding="utf-8"
+>>             )
+>>         except Exception:
+>>             pass"""
+>>
+>> if marker in text and "after_login_visible.log" not in text:
+>>     text = text.replace(marker, log_block, 1)
+>>
+>> # 4. Asigura import Path.
+>> if "from pathlib import Path" not in text:
+>>     if "import traceback" in text:
+>>         text = text.replace("import traceback", "import traceback\nfrom pathlib import Path", 1)
+>>     else:
+>>         text = text.replace("import os", "import os\nfrom pathlib import Path", 1)
+>>
+>> app_path.write_text(text, encoding="utf-8")
+>> py_compile.compile(str(app_path), doraise=True)
+>>
+>> print("VISIBLE_LOGIN_FLOW_OK")
+>> print(f"Backup app.py: {backup.name}")
+>> '@ | Set-Content -Path ".\tools_visible_login_flow.py" -Encoding UTF8
+At line:1 char:9
++ (.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente ...
++         ~~
+Unexpected token 'PS' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_visible_login_flow.py
+C:\Users\40735\AppData\Local\Programs\Python\Python311\python.exe: can't open file 'C:\\Users\\40735\\Desktop\\Energy Project Design - Bransamente 2.0\\tools_visible_login_flow.py': [Errno 2] No such file or directory
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\start.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 116, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 95, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>

@@ -1,0 +1,408 @@
+{
+  "export_files": [
+    {
+      "path": "chat.html",
+      "size_bytes": 5147948
+    },
+    {
+      "path": "conversation_asset_file_names.json",
+      "size_bytes": 592
+    },
+    {
+      "path": "conversations.json",
+      "size_bytes": 6204491
+    },
+    {
+      "path": "file_0000000000bc720a9c29f5779d1507b4.dat",
+      "size_bytes": 84161
+    },
+    {
+      "path": "file_0000000002b071f4970d1fb9eca61954.dat",
+      "size_bytes": 12019
+    },
+    {
+      "path": "file_000000000d9c720abbc1551c5dbe52e7.dat",
+      "size_bytes": 5394
+    },
+    {
+      "path": "file_000000000dfc71f4a05954916d460299.dat",
+      "size_bytes": 37046
+    },
+    {
+      "path": "file_000000002004720a84d8fee0399a7ddc.dat",
+      "size_bytes": 1780828
+    },
+    {
+      "path": "file_00000000209071f496935282104ef42b.dat",
+      "size_bytes": 7573
+    },
+    {
+      "path": "file_00000000219871f482cb6265add4cca9.dat",
+      "size_bytes": 6180
+    },
+    {
+      "path": "file_0000000021b071f49e67243f7ab54771.dat",
+      "size_bytes": 37761
+    },
+    {
+      "path": "file_000000002788720ab1e57082002a3265.dat",
+      "size_bytes": 38904
+    },
+    {
+      "path": "file_000000002a8471f4a64fce22145624ca.dat",
+      "size_bytes": 12019
+    },
+    {
+      "path": "file_000000002fa8720aae6c94a58fa25d5b.dat",
+      "size_bytes": 1780828
+    },
+    {
+      "path": "file_00000000339071f48f131550b3696f12.dat",
+      "size_bytes": 30023
+    },
+    {
+      "path": "file_0000000034cc71f4b7c493ad431192a4.dat",
+      "size_bytes": 36205
+    },
+    {
+      "path": "file_00000000363c720ab100a0bcdd86c1ba.dat",
+      "size_bytes": 8347
+    },
+    {
+      "path": "file_0000000042d471f4b20366793169cf0b.dat",
+      "size_bytes": 9336
+    },
+    {
+      "path": "file_000000004aac720a9a9544e3d074cb40.dat",
+      "size_bytes": 32976
+    },
+    {
+      "path": "file_000000005e7871f4a8c295c5eb28a75b.dat",
+      "size_bytes": 12019
+    },
+    {
+      "path": "file_000000006534720aab6f0304cc7cb5ef.dat",
+      "size_bytes": 11885
+    },
+    {
+      "path": "file_000000006bec71f4b57762082bd3d871.dat",
+      "size_bytes": 50820
+    },
+    {
+      "path": "file_000000006e08720ab377953b2d0d3478.dat",
+      "size_bytes": 5290
+    },
+    {
+      "path": "file_0000000072c871f4a93fb77a397078cd.dat",
+      "size_bytes": 11979
+    },
+    {
+      "path": "file_0000000073b0720a99f5a9e6357493c5.dat",
+      "size_bytes": 62085
+    },
+    {
+      "path": "file_0000000076b47246ac63cbf4d57a6c28.dat",
+      "size_bytes": 15673
+    },
+    {
+      "path": "file_0000000078f0720aba831cad8ebb66fa.dat",
+      "size_bytes": 2327499
+    },
+    {
+      "path": "file_00000000933872469f3acde11b75bae5.dat",
+      "size_bytes": 9502
+    },
+    {
+      "path": "file_0000000095a071f4b6569ac14a4c1708.dat",
+      "size_bytes": 66399
+    },
+    {
+      "path": "file_00000000b2d0720a92933dd78a5702a6.dat",
+      "size_bytes": 1780828
+    },
+    {
+      "path": "file_00000000bab071f48e5bcc81855af9e2.dat",
+      "size_bytes": 9774
+    },
+    {
+      "path": "file_00000000c42071f4b4a9f5901d625cca.dat",
+      "size_bytes": 2327499
+    },
+    {
+      "path": "file_00000000ce58720a9d1635b34235673f.dat",
+      "size_bytes": 11935
+    },
+    {
+      "path": "file_00000000d6e0720abb8b904a1edfe3a1.dat",
+      "size_bytes": 76012
+    },
+    {
+      "path": "file_00000000ee8c724690d6b2187eeb76ef.dat",
+      "size_bytes": 25711
+    },
+    {
+      "path": "file_00000000f188720aa3ac244b5a4f4d12.dat",
+      "size_bytes": 30753
+    },
+    {
+      "path": "library_files.json",
+      "size_bytes": 85530
+    },
+    {
+      "path": "shared_conversations.json",
+      "size_bytes": 590
+    },
+    {
+      "path": "user.json",
+      "size_bytes": 148
+    },
+    {
+      "path": "user_settings.json",
+      "size_bytes": 1706
+    }
+  ],
+  "logical_files": {
+    "chat.html": {
+      "files": [
+        "chat.html"
+      ],
+      "sharded": false
+    },
+    "conversation_asset_file_names.json": {
+      "files": [
+        "conversation_asset_file_names.json"
+      ],
+      "sharded": false
+    },
+    "conversations.json": {
+      "files": [
+        "conversations.json"
+      ],
+      "sharded": false
+    },
+    "file_0000000000bc720a9c29f5779d1507b4.dat": {
+      "files": [
+        "file_0000000000bc720a9c29f5779d1507b4.dat"
+      ],
+      "sharded": false
+    },
+    "file_0000000002b071f4970d1fb9eca61954.dat": {
+      "files": [
+        "file_0000000002b071f4970d1fb9eca61954.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000000d9c720abbc1551c5dbe52e7.dat": {
+      "files": [
+        "file_000000000d9c720abbc1551c5dbe52e7.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000000dfc71f4a05954916d460299.dat": {
+      "files": [
+        "file_000000000dfc71f4a05954916d460299.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000002004720a84d8fee0399a7ddc.dat": {
+      "files": [
+        "file_000000002004720a84d8fee0399a7ddc.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000209071f496935282104ef42b.dat": {
+      "files": [
+        "file_00000000209071f496935282104ef42b.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000219871f482cb6265add4cca9.dat": {
+      "files": [
+        "file_00000000219871f482cb6265add4cca9.dat"
+      ],
+      "sharded": false
+    },
+    "file_0000000021b071f49e67243f7ab54771.dat": {
+      "files": [
+        "file_0000000021b071f49e67243f7ab54771.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000002788720ab1e57082002a3265.dat": {
+      "files": [
+        "file_000000002788720ab1e57082002a3265.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000002a8471f4a64fce22145624ca.dat": {
+      "files": [
+        "file_000000002a8471f4a64fce22145624ca.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000002fa8720aae6c94a58fa25d5b.dat": {
+      "files": [
+        "file_000000002fa8720aae6c94a58fa25d5b.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000339071f48f131550b3696f12.dat": {
+      "files": [
+        "file_00000000339071f48f131550b3696f12.dat"
+      ],
+      "sharded": false
+    },
+    "file_0000000034cc71f4b7c493ad431192a4.dat": {
+      "files": [
+        "file_0000000034cc71f4b7c493ad431192a4.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000363c720ab100a0bcdd86c1ba.dat": {
+      "files": [
+        "file_00000000363c720ab100a0bcdd86c1ba.dat"
+      ],
+      "sharded": false
+    },
+    "file_0000000042d471f4b20366793169cf0b.dat": {
+      "files": [
+        "file_0000000042d471f4b20366793169cf0b.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000004aac720a9a9544e3d074cb40.dat": {
+      "files": [
+        "file_000000004aac720a9a9544e3d074cb40.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000005e7871f4a8c295c5eb28a75b.dat": {
+      "files": [
+        "file_000000005e7871f4a8c295c5eb28a75b.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000006534720aab6f0304cc7cb5ef.dat": {
+      "files": [
+        "file_000000006534720aab6f0304cc7cb5ef.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000006bec71f4b57762082bd3d871.dat": {
+      "files": [
+        "file_000000006bec71f4b57762082bd3d871.dat"
+      ],
+      "sharded": false
+    },
+    "file_000000006e08720ab377953b2d0d3478.dat": {
+      "files": [
+        "file_000000006e08720ab377953b2d0d3478.dat"
+      ],
+      "sharded": false
+    },
+    "file_0000000072c871f4a93fb77a397078cd.dat": {
+      "files": [
+        "file_0000000072c871f4a93fb77a397078cd.dat"
+      ],
+      "sharded": false
+    },
+    "file_0000000073b0720a99f5a9e6357493c5.dat": {
+      "files": [
+        "file_0000000073b0720a99f5a9e6357493c5.dat"
+      ],
+      "sharded": false
+    },
+    "file_0000000076b47246ac63cbf4d57a6c28.dat": {
+      "files": [
+        "file_0000000076b47246ac63cbf4d57a6c28.dat"
+      ],
+      "sharded": false
+    },
+    "file_0000000078f0720aba831cad8ebb66fa.dat": {
+      "files": [
+        "file_0000000078f0720aba831cad8ebb66fa.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000933872469f3acde11b75bae5.dat": {
+      "files": [
+        "file_00000000933872469f3acde11b75bae5.dat"
+      ],
+      "sharded": false
+    },
+    "file_0000000095a071f4b6569ac14a4c1708.dat": {
+      "files": [
+        "file_0000000095a071f4b6569ac14a4c1708.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000b2d0720a92933dd78a5702a6.dat": {
+      "files": [
+        "file_00000000b2d0720a92933dd78a5702a6.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000bab071f48e5bcc81855af9e2.dat": {
+      "files": [
+        "file_00000000bab071f48e5bcc81855af9e2.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000c42071f4b4a9f5901d625cca.dat": {
+      "files": [
+        "file_00000000c42071f4b4a9f5901d625cca.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000ce58720a9d1635b34235673f.dat": {
+      "files": [
+        "file_00000000ce58720a9d1635b34235673f.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000d6e0720abb8b904a1edfe3a1.dat": {
+      "files": [
+        "file_00000000d6e0720abb8b904a1edfe3a1.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000ee8c724690d6b2187eeb76ef.dat": {
+      "files": [
+        "file_00000000ee8c724690d6b2187eeb76ef.dat"
+      ],
+      "sharded": false
+    },
+    "file_00000000f188720aa3ac244b5a4f4d12.dat": {
+      "files": [
+        "file_00000000f188720aa3ac244b5a4f4d12.dat"
+      ],
+      "sharded": false
+    },
+    "library_files.json": {
+      "files": [
+        "library_files.json"
+      ],
+      "sharded": false
+    },
+    "shared_conversations.json": {
+      "files": [
+        "shared_conversations.json"
+      ],
+      "sharded": false
+    },
+    "user.json": {
+      "files": [
+        "user.json"
+      ],
+      "sharded": false
+    },
+    "user_settings.json": {
+      "files": [
+        "user_settings.json"
+      ],
+      "sharded": false
+    }
+  },
+  "manifest_file": "export_manifest.json",
+  "version": 1
+}

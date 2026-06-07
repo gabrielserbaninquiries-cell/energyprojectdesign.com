@@ -1,0 +1,165 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\40735> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\start.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 116, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 95, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> @'
+>> from pathlib import Path
+>> from services.plan_engine_service import PlanEngineService
+>>
+>> base = Path.cwd()
+>> engine = PlanEngineService(base)
+>>
+>> email = "trial@test.local"
+>> password = "Test_1234"
+>>
+>> # Daca exista deja contul, il lasam si ii realocam plan Trial.
+>> result = engine.create_trial_account(
+>>     first_name="Trial",
+>>     last_name="User",
+>>     email=email,
+>>     password=password,
+>>     function="test user",
+>>     company="EPD Test"
+>> )
+>>
+>> if not result.get("success") and "Exista deja" in result.get("message", ""):
+>>     assign = engine.assign_plan_to_account(
+>>         email=email,
+>>         plan_id="trial_10_days",
+>>         duration_label="1 luna",
+>>         custom_price_eur=0
+>>     )
+>>     print("Contul exista deja. Plan Trial realocat:", assign.get("success"))
+>> else:
+>>     print("Cont trial creat:", result.get("success"))
+>>     print(result.get("message"))
+>>
+>> # Activam contul direct pentru test local, fara cod email.
+>> accounts_file = base / "config" / "accounts.json"
+>> import json
+>>
+>> data = json.loads(accounts_file.read_text(encoding="utf-8"))
+>> for account in data.get("accounts", []):
+>>     if account.get("email") == email:
+>>         account["account_status"] = "active"
+>>         account["role"] = "Trial"
+>>         account["active_plan_id"] = "trial_10_days"
+>>
+>> accounts_file.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+>>
+>> # Test login
+>> login = engine.authenticate(email, password)
+>>
+>> print("")
+>> print("=== DATE TEST USER ===")
+>> print("Email/user:", email)
+>> print("Parola:", password)
+>> print("Plan:", "Trial 10 zile")
+>> print("Login OK:", login.get("success"))
+>> print("Role:", login.get("role"))
+>> print("Plan activ:", login.get("active_plan_id"))
+>> print("Inside full:", login.get("inside_full_unlocked"))
+>> '@ | Set-Content -Path ".\tools_create_trial_test_user.py" -Encoding UTF8
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_create_trial_test_user.py
+Cont trial creat: True
+Cont trial creat. Este necesara activarea contului.
+
+=== DATE TEST USER ===
+Email/user: trial@test.local
+Parola: Test_1234
+Plan: Trial 10 zile
+Login OK: True
+Role: Trial
+Plan activ: trial_10_days
+Inside full: False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 116, in <module>
+    main()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 95, in main
+    instance.mainloop()
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Lib\site-packages\customtkinter\windows\ctk_tk.py", line 165, in mainloop
+    super().mainloop(*args, **kwargs)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1485, in mainloop
+    self.tk.mainloop(n)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\tkinter\__init__.py", line 1943, in __call__
+    def __call__(self, *args):
+
+KeyboardInterrupt
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Start-Process python -ArgumentList "start.py" -WorkingDirectory "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> .\.venv\Scripts\Activate.ps1
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Start-Process python -ArgumentList "start.py" -WorkingDirectory "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Process python | Select-Object Id, ProcessName, MainWindowTitle
+
+   Id ProcessName MainWindowTitle
+   -- ----------- ---------------
+16420 python      C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\.venv\Scripts\python.exe
+16528 python
+
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\runtime_callback_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Test-Path .\logs\post_login_error.log
+False
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\config\startup_session.json -Raw
+{
+  "success": true,
+  "username": "developer",
+  "email": "developer",
+  "display_name": "Developer",
+  "role": "Developer",
+  "active_plan_id": "Developer",
+  "plan_name": "Developer Infinite",
+  "license_type": "Developer",
+  "roles": [
+    "Developer",
+    "Societate",
+    "VGD",
+    "RTE",
+    "operator_introducere_date",
+    "proiectant",
+    "executant",
+    "avize",
+    "contabilitate",
+    "ofertare"
+  ],
+  "features": [
+    "all",
+    "developer_access",
+    "ai_developer_access",
+    "plan_management",
+    "inside_access"
+  ],
+  "is_developer": true,
+  "inside_full_unlocked": false,
+  "full_app_modify_unlocked": false,
+  "confidential_access_unlocked": false,
+  "logged_at": "2026-06-01T06:31:37.078134"
+}
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>

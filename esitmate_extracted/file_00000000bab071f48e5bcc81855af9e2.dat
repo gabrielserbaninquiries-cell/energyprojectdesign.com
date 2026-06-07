@@ -1,0 +1,230 @@
+
+import customtkinter as ctk
+from tkinter import messagebox, filedialog
+from docx import Document
+from fpdf import FPDF
+import json, os
+
+ctk.set_appearance_mode("dark")
+
+class EnergyApp(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("Energy Pro Enterprise")
+        self.geometry("1800x1000")
+
+        self.vars = {}
+        self.consumatori = []
+
+        self.init_ui()
+
+    def init_ui(self):
+        self.grid_columnconfigure(1, weight=1)
+
+        self.sidebar = ctk.CTkFrame(self, width=260)
+        self.sidebar.grid(row=0, column=0, sticky="ns")
+
+        ctk.CTkLabel(self.sidebar, text="ENERGY PRO", font=("Arial",20,"bold")).pack(pady=20)
+
+        ctk.CTkButton(self.sidebar, text="Modificare Proiect", command=self.page_proiect).pack(pady=6)
+        ctk.CTkButton(self.sidebar, text="Consumatori", command=self.page_consumatori).pack(pady=6)
+        ctk.CTkButton(self.sidebar, text="Documentatie", command=self.page_doc).pack(pady=6)
+
+        self.content = ctk.CTkFrame(self)
+        self.content.grid(row=0, column=1, sticky="nsew")
+
+        self.page_proiect()
+
+    def clear(self):
+        for w in self.content.winfo_children():
+            w.destroy()
+
+    def entry(self, parent, name, r, c):
+        e = ctk.CTkEntry(parent, placeholder_text=name)
+        e.grid(row=r, column=c, padx=5, pady=5, sticky="ew")
+        self.vars[name] = e
+        return e
+
+    def combo(self, parent, name, vals, r, c):
+        cb = ctk.CTkComboBox(parent, values=vals)
+        cb.grid(row=r, column=c, padx=5, pady=5, sticky="ew")
+        self.vars[name] = cb
+        return cb
+
+    def page_proiect(self):
+        self.clear()
+
+        main = ctk.CTkScrollableFrame(self.content)
+        main.pack(fill="both", expand=True)
+        main.grid_columnconfigure((0,1,2), weight=1)
+
+        # MULTIPLE PROFESSIONAL SECTIONS
+
+        f_DATE_GENERALE = ctk.CTkFrame(main)
+        f_DATE_GENERALE.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_DATE_GENERALE, text="DATE GENERALE", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_DATE_GENERALE, "DATE GENERALE Camp 1", 1, 0)
+        self.entry(f_DATE_GENERALE, "DATE GENERALE Camp 2", 1, 1)
+        self.entry(f_DATE_GENERALE, "DATE GENERALE Camp 3", 2, 0)
+        self.combo(f_DATE_GENERALE, "DATE GENERALE Optiune", ["DA","NU"], 2, 1)
+    
+        f_BRANSAMENT = ctk.CTkFrame(main)
+        f_BRANSAMENT.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_BRANSAMENT, text="BRANSAMENT", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_BRANSAMENT, "BRANSAMENT Camp 1", 1, 0)
+        self.entry(f_BRANSAMENT, "BRANSAMENT Camp 2", 1, 1)
+        self.entry(f_BRANSAMENT, "BRANSAMENT Camp 3", 2, 0)
+        self.combo(f_BRANSAMENT, "BRANSAMENT Optiune", ["DA","NU"], 2, 1)
+    
+        f_VANE = ctk.CTkFrame(main)
+        f_VANE.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_VANE, text="VANE", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_VANE, "VANE Camp 1", 1, 0)
+        self.entry(f_VANE, "VANE Camp 2", 1, 1)
+        self.entry(f_VANE, "VANE Camp 3", 2, 0)
+        self.combo(f_VANE, "VANE Optiune", ["DA","NU"], 2, 1)
+    
+        f_PRESIUNI = ctk.CTkFrame(main)
+        f_PRESIUNI.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_PRESIUNI, text="PRESIUNI", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_PRESIUNI, "PRESIUNI Camp 1", 1, 0)
+        self.entry(f_PRESIUNI, "PRESIUNI Camp 2", 1, 1)
+        self.entry(f_PRESIUNI, "PRESIUNI Camp 3", 2, 0)
+        self.combo(f_PRESIUNI, "PRESIUNI Optiune", ["DA","NU"], 2, 1)
+    
+        f_CONDUCTA = ctk.CTkFrame(main)
+        f_CONDUCTA.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_CONDUCTA, text="CONDUCTA", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_CONDUCTA, "CONDUCTA Camp 1", 1, 0)
+        self.entry(f_CONDUCTA, "CONDUCTA Camp 2", 1, 1)
+        self.entry(f_CONDUCTA, "CONDUCTA Camp 3", 2, 0)
+        self.combo(f_CONDUCTA, "CONDUCTA Optiune", ["DA","NU"], 2, 1)
+    
+        f_PROTECTII = ctk.CTkFrame(main)
+        f_PROTECTII.grid(row=5, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_PROTECTII, text="PROTECTII", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_PROTECTII, "PROTECTII Camp 1", 1, 0)
+        self.entry(f_PROTECTII, "PROTECTII Camp 2", 1, 1)
+        self.entry(f_PROTECTII, "PROTECTII Camp 3", 2, 0)
+        self.combo(f_PROTECTII, "PROTECTII Optiune", ["DA","NU"], 2, 1)
+    
+        f_DOCUMENTE = ctk.CTkFrame(main)
+        f_DOCUMENTE.grid(row=6, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_DOCUMENTE, text="DOCUMENTE", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_DOCUMENTE, "DOCUMENTE Camp 1", 1, 0)
+        self.entry(f_DOCUMENTE, "DOCUMENTE Camp 2", 1, 1)
+        self.entry(f_DOCUMENTE, "DOCUMENTE Camp 3", 2, 0)
+        self.combo(f_DOCUMENTE, "DOCUMENTE Optiune", ["DA","NU"], 2, 1)
+    
+        f_REGULATOR = ctk.CTkFrame(main)
+        f_REGULATOR.grid(row=7, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_REGULATOR, text="REGULATOR", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_REGULATOR, "REGULATOR Camp 1", 1, 0)
+        self.entry(f_REGULATOR, "REGULATOR Camp 2", 1, 1)
+        self.entry(f_REGULATOR, "REGULATOR Camp 3", 2, 0)
+        self.combo(f_REGULATOR, "REGULATOR Optiune", ["DA","NU"], 2, 1)
+    
+        f_PARAMETRI_TEHNICI = ctk.CTkFrame(main)
+        f_PARAMETRI_TEHNICI.grid(row=8, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_PARAMETRI_TEHNICI, text="PARAMETRI TEHNICI", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_PARAMETRI_TEHNICI, "PARAMETRI TEHNICI Camp 1", 1, 0)
+        self.entry(f_PARAMETRI_TEHNICI, "PARAMETRI TEHNICI Camp 2", 1, 1)
+        self.entry(f_PARAMETRI_TEHNICI, "PARAMETRI TEHNICI Camp 3", 2, 0)
+        self.combo(f_PARAMETRI_TEHNICI, "PARAMETRI TEHNICI Optiune", ["DA","NU"], 2, 1)
+    
+        f_EXECUTIE = ctk.CTkFrame(main)
+        f_EXECUTIE.grid(row=9, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_EXECUTIE, text="EXECUTIE", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_EXECUTIE, "EXECUTIE Camp 1", 1, 0)
+        self.entry(f_EXECUTIE, "EXECUTIE Camp 2", 1, 1)
+        self.entry(f_EXECUTIE, "EXECUTIE Camp 3", 2, 0)
+        self.combo(f_EXECUTIE, "EXECUTIE Optiune", ["DA","NU"], 2, 1)
+    
+        f_VERIFICARI = ctk.CTkFrame(main)
+        f_VERIFICARI.grid(row=10, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_VERIFICARI, text="VERIFICARI", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_VERIFICARI, "VERIFICARI Camp 1", 1, 0)
+        self.entry(f_VERIFICARI, "VERIFICARI Camp 2", 1, 1)
+        self.entry(f_VERIFICARI, "VERIFICARI Camp 3", 2, 0)
+        self.combo(f_VERIFICARI, "VERIFICARI Optiune", ["DA","NU"], 2, 1)
+    
+        f_OBSERVATII = ctk.CTkFrame(main)
+        f_OBSERVATII.grid(row=11, column=0, padx=10, pady=10, sticky="nsew")
+        ctk.CTkLabel(f_OBSERVATII, text="OBSERVATII", font=("Arial",14,"bold")).grid(row=0,column=0,columnspan=3)
+
+        self.entry(f_OBSERVATII, "OBSERVATII Camp 1", 1, 0)
+        self.entry(f_OBSERVATII, "OBSERVATII Camp 2", 1, 1)
+        self.entry(f_OBSERVATII, "OBSERVATII Camp 3", 2, 0)
+        self.combo(f_OBSERVATII, "OBSERVATII Optiune", ["DA","NU"], 2, 1)
+    
+    def page_consumatori(self):
+        self.clear()
+        frame = ctk.CTkFrame(self.content)
+        frame.pack(fill="both", expand=True)
+
+        self.consum_frame = ctk.CTkFrame(frame)
+        self.consum_frame.pack(pady=20)
+
+        ctk.CTkButton(frame, text="Adauga consumator", command=self.add_consumator).pack()
+
+    def add_consumator(self):
+        e = ctk.CTkEntry(self.consum_frame, placeholder_text="Consumator + debit")
+        e.pack(pady=3)
+        self.consumatori.append(e)
+
+    def page_doc(self):
+        self.clear()
+        frame = ctk.CTkFrame(self.content)
+        frame.pack(fill="both", expand=True)
+
+        ctk.CTkButton(frame, text="Documentatie proiectare", command=self.doc).pack(pady=5)
+        ctk.CTkButton(frame, text="Documentatie avizare", command=self.doc).pack(pady=5)
+        ctk.CTkButton(frame, text="Genereaza PDF", command=self.pdf).pack(pady=5)
+        ctk.CTkButton(frame, text="Salveaza", command=self.save).pack(pady=5)
+        ctk.CTkButton(frame, text="Incarca", command=self.load).pack(pady=5)
+
+    def save(self):
+        data = {k:v.get() for k,v in self.vars.items()}
+        data["consumatori"] = [c.get() for c in self.consumatori]
+        with open("project.json","w") as f:
+            json.dump(data,f)
+
+    def load(self):
+        path = filedialog.askopenfilename()
+        if not path: return
+        with open(path) as f:
+            data = json.load(f)
+        for k,v in data.items():
+            if k in self.vars:
+                self.vars[k].delete(0,"end")
+                self.vars[k].insert(0,v)
+
+    def doc(self):
+        doc = Document()
+        doc.add_heading("Proiect",0)
+        for k,v in self.vars.items():
+            doc.add_paragraph(f"{k}: {v.get()}")
+        doc.save("proiect.docx")
+
+    def pdf(self):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial",size=10)
+        for k,v in self.vars.items():
+            pdf.cell(200,10,txt=f"{k}: {v.get()}",ln=True)
+        pdf.output("proiect.pdf")
+
+if __name__ == "__main__":
+    app = EnergyApp()
+    app.mainloop()

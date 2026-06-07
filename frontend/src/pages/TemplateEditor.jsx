@@ -23,7 +23,7 @@ export default function TemplateEditor() {
 
   // email
   const [recipients, setRecipients] = useState('');
-  const [subject, setSubject] = useState('Document de la StampDoc');
+  const [subject, setSubject] = useState('Document de la Energy Project Design');
   const [body, setBody] = useState('Bună ziua,\n\nVă transmitem documentul atașat.\n\nCu stimă,');
 
   useEffect(() => {

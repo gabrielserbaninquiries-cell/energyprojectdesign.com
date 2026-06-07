@@ -1,0 +1,634 @@
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Select-String -Path .\app.py -Pattern "HomePage|home|Acasa|Acasă|pages\.home|page" -CaseSensitive:$false
+
+app.py:8:from pages.user import UserPage
+app.py:9:from pages.project import ProjectPage
+app.py:10:from pages.documentation import DocumentationPage
+app.py:11:from pages.stamps import StampsPage
+app.py:12:from pages.emails import EmailsPage
+app.py:13:from pages.assistant_user import AssistantUserPage
+app.py:14:from pages.assistant_ai import AssistantAIPage
+app.py:15:from pages.products import ProductsPage
+app.py:16:from pages.contact import ContactPage
+app.py:17:from pages.verifiers import VerifiersPage
+app.py:84:        self.show_page("Acasa")
+app.py:140:            ("Acasa", "Acasa"),
+app.py:156:        for text, page in nav_items:
+app.py:167:                command=lambda p=page: self.show_page(p)
+app.py:170:            self.nav_buttons[page] = btn
+app.py:196:            command=lambda: self.show_page("Contact")
+app.py:435:        if command_id == "open_home":
+app.py:436:            self.show_page("Acasa")
+app.py:440:            self.show_page("User")
+app.py:444:            self.show_page("Proiect")
+app.py:449:            self.show_page("Documentatie")
+app.py:454:            self.show_page("CartiTehnice")
+app.py:458:            self.show_page("Verificatori")
+app.py:462:            self.show_page("Stampile")
+app.py:466:            self.show_page("Emailuri")
+app.py:470:            self.show_page("AssistantUser")
+app.py:474:            self.show_page("Produse")
+app.py:478:            self.show_page("Colaborari")
+app.py:482:            self.show_page("Contact")
+app.py:510:            self.show_page("Verificatori")
+app.py:518:            self.show_page("Verificatori")
+app.py:527:            self.show_page("Documentatie")
+app.py:535:            self.show_page("Stampile")
+app.py:543:            self.show_page("Verificatori")
+app.py:551:            self.show_page("Emailuri")
+app.py:702:            self.show_page("Proiect")
+app.py:743:    def set_active_nav(self, page_name):
+app.py:746:        if page_name in self.nav_buttons:
+app.py:747:            self.nav_buttons[page_name].configure(
+app.py:753:    def show_page(self, page_name):
+app.py:755:        self.set_active_nav(page_name)
+app.py:757:        if page_name == "Acasa":
+app.py:758:            HomeDashboardPage(self.content, self)
+app.py:760:        elif page_name == "User":
+app.py:761:            UserPage(self.content, self)
+app.py:763:        elif page_name == "Proiect":
+app.py:764:            ProjectPage(self.content, self)
+app.py:766:        elif page_name == "Documentatie":
+app.py:768:                HomeDashboardPage(self.content, self)
+app.py:771:                    "Ruleaza comanda 'deschide documentatie' sau foloseste actiunile din Acasa."
+app.py:774:                DocumentationPage(self.content, self)
+app.py:776:        elif page_name == "CartiTehnice":
+app.py:777:            TechnicalBooksPage(self.content, self)
+app.py:779:        elif page_name == "Verificatori":
+app.py:780:            VerifiersPage(self.content, self)
+app.py:782:        elif page_name == "Stampile":
+app.py:783:            StampsPage(self.content, self)
+app.py:785:        elif page_name == "Emailuri":
+app.py:786:            EmailsPage(self.content, self)
+app.py:788:        elif page_name == "AssistantUser":
+app.py:789:            AssistantUserPage(self.content, self)
+app.py:791:        elif page_name == "AssistantAI":
+app.py:792:            AssistantAIPage(self.content, self)
+app.py:794:        elif page_name == "Produse":
+app.py:795:            ProductsPage(self.content, self)
+app.py:797:        elif page_name == "Colaborari":
+app.py:798:            CollaborationPage(self.content, self)
+app.py:800:        elif page_name == "Contact":
+app.py:801:            ContactPage(self.content, self)
+app.py:804:class HomeDashboardPage(ctk.CTkFrame):
+app.py:1011:                command=lambda c=command_id: self.app.run_app_command(c, source="home_control")
+app.py:1026:            command=lambda: self.app.run_app_command(command_id, source="home_action_tile")
+app.py:1093:class TechnicalBooksPage(ctk.CTkFrame):
+app.py:1148:class CollaborationPage(ctk.CTkFrame):
+
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> cd "$env:USERPROFILE\Desktop\Energy Project Design - Bransamente 2.0"
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Select-String -Path .\app.py -Pattern "HomePage|home|Acasa|Acasă|pages\.home|page" -CaseSensitive:$false
+
+app.py:8:from pages.user import UserPage
+app.py:9:from pages.project import ProjectPage
+app.py:10:from pages.documentation import DocumentationPage
+app.py:11:from pages.stamps import StampsPage
+app.py:12:from pages.emails import EmailsPage
+app.py:13:from pages.assistant_user import AssistantUserPage
+app.py:14:from pages.assistant_ai import AssistantAIPage
+app.py:15:from pages.products import ProductsPage
+app.py:16:from pages.contact import ContactPage
+app.py:17:from pages.verifiers import VerifiersPage
+app.py:84:        self.show_page("Acasa")
+app.py:140:            ("Acasa", "Acasa"),
+app.py:156:        for text, page in nav_items:
+app.py:167:                command=lambda p=page: self.show_page(p)
+app.py:170:            self.nav_buttons[page] = btn
+app.py:196:            command=lambda: self.show_page("Contact")
+app.py:435:        if command_id == "open_home":
+app.py:436:            self.show_page("Acasa")
+app.py:440:            self.show_page("User")
+app.py:444:            self.show_page("Proiect")
+app.py:449:            self.show_page("Documentatie")
+app.py:454:            self.show_page("CartiTehnice")
+app.py:458:            self.show_page("Verificatori")
+app.py:462:            self.show_page("Stampile")
+app.py:466:            self.show_page("Emailuri")
+app.py:470:            self.show_page("AssistantUser")
+app.py:474:            self.show_page("Produse")
+app.py:478:            self.show_page("Colaborari")
+app.py:482:            self.show_page("Contact")
+app.py:510:            self.show_page("Verificatori")
+app.py:518:            self.show_page("Verificatori")
+app.py:527:            self.show_page("Documentatie")
+app.py:535:            self.show_page("Stampile")
+app.py:543:            self.show_page("Verificatori")
+app.py:551:            self.show_page("Emailuri")
+app.py:702:            self.show_page("Proiect")
+app.py:743:    def set_active_nav(self, page_name):
+app.py:746:        if page_name in self.nav_buttons:
+app.py:747:            self.nav_buttons[page_name].configure(
+app.py:753:    def show_page(self, page_name):
+app.py:755:        self.set_active_nav(page_name)
+app.py:757:        if page_name == "Acasa":
+app.py:758:            HomeDashboardPage(self.content, self)
+app.py:760:        elif page_name == "User":
+app.py:761:            UserPage(self.content, self)
+app.py:763:        elif page_name == "Proiect":
+app.py:764:            ProjectPage(self.content, self)
+app.py:766:        elif page_name == "Documentatie":
+app.py:768:                HomeDashboardPage(self.content, self)
+app.py:771:                    "Ruleaza comanda 'deschide documentatie' sau foloseste actiunile din Acasa."
+app.py:774:                DocumentationPage(self.content, self)
+app.py:776:        elif page_name == "CartiTehnice":
+app.py:777:            TechnicalBooksPage(self.content, self)
+app.py:779:        elif page_name == "Verificatori":
+app.py:780:            VerifiersPage(self.content, self)
+app.py:782:        elif page_name == "Stampile":
+app.py:783:            StampsPage(self.content, self)
+app.py:785:        elif page_name == "Emailuri":
+app.py:786:            EmailsPage(self.content, self)
+app.py:788:        elif page_name == "AssistantUser":
+app.py:789:            AssistantUserPage(self.content, self)
+app.py:791:        elif page_name == "AssistantAI":
+app.py:792:            AssistantAIPage(self.content, self)
+app.py:794:        elif page_name == "Produse":
+app.py:795:            ProductsPage(self.content, self)
+app.py:797:        elif page_name == "Colaborari":
+app.py:798:            CollaborationPage(self.content, self)
+app.py:800:        elif page_name == "Contact":
+app.py:801:            ContactPage(self.content, self)
+app.py:804:class HomeDashboardPage(ctk.CTkFrame):
+app.py:1011:                command=lambda c=command_id: self.app.run_app_command(c, source="home_control")
+app.py:1026:            command=lambda: self.app.run_app_command(command_id, source="home_action_tile")
+app.py:1093:class TechnicalBooksPage(ctk.CTkFrame):
+app.py:1148:class CollaborationPage(ctk.CTkFrame):
+
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\app.py -TotalCount 220
+import os
+import customtkinter as ctk
+from PIL import Image
+from tkinter import messagebox, filedialog
+
+from core.app_state import AppState
+
+from pages.user import UserPage
+from pages.project import ProjectPage
+from pages.documentation import DocumentationPage
+from pages.stamps import StampsPage
+from pages.emails import EmailsPage
+from pages.assistant_user import AssistantUserPage
+from pages.assistant_ai import AssistantAIPage
+from pages.products import ProductsPage
+from pages.contact import ContactPage
+from pages.verifiers import VerifiersPage
+
+from services.command_registry import find_command, ensure_registry
+from services.document_service import (
+    bulk_generate_word_documents,
+    create_zip_from_generated,
+    create_generation_report,
+)
+from services.project_service import register_project_snapshot
+from services.validation_service import validate_project
+from services.project_io_service import (
+    save_epd_project,
+    load_epd_project,
+    apply_epd_to_state,
+)
+
+
+ctk.set_appearance_mode("light")
+ctk.set_default_color_theme("green")
+
+
+APP_NAME = "Energy Project Design - Bransamente 2.0"
+
+FONT_MAIN = "Segoe UI"
+
+COLOR_BG = "#F5FAF8"
+COLOR_PANEL = "#FFFFFF"
+COLOR_PANEL_SOFT = "#F8FCFB"
+COLOR_SIDEBAR = "#FFFFFF"
+
+COLOR_TEXT = "#0D1B2A"
+COLOR_MUTED = "#64748B"
+COLOR_BORDER = "#DDE7E3"
+
+COLOR_GREEN = "#008E5A"
+COLOR_GREEN_LIGHT = "#E1F6EE"
+COLOR_GREEN_DARK = "#006D47"
+
+COLOR_VIOLET = "#7B61FF"
+COLOR_VIOLET_SOFT = "#F0ECFF"
+
+
+class EnergyProjectDesign(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+
+        self.title(APP_NAME)
+        self.geometry("1760x980")
+        self.minsize(1320, 780)
+
+        ensure_registry()
+
+        self.app_state = AppState()
+
+        self.configure(fg_color=COLOR_BG)
+
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)
+
+        self.nav_buttons = {}
+
+        self.build_sidebar()
+        self.build_main_area()
+        self.build_bottom_status()
+
+        self.show_page("Acasa")
+
+    # ======================================================
+    # SIDEBAR
+    # ======================================================
+
+    def build_sidebar(self):
+        self.sidebar = ctk.CTkFrame(
+            self,
+            width=292,
+            corner_radius=0,
+            fg_color=COLOR_SIDEBAR
+        )
+        self.sidebar.grid(row=0, column=0, rowspan=2, sticky="ns")
+        self.sidebar.grid_propagate(False)
+
+        brand = ctk.CTkFrame(self.sidebar, fg_color="transparent")
+        brand.pack(fill="x", padx=22, pady=(22, 14))
+
+        logo_path = self.get_logo_path()
+
+        if logo_path:
+            try:
+                logo = ctk.CTkImage(
+                    light_image=Image.open(logo_path),
+                    dark_image=Image.open(logo_path),
+                    size=(54, 54)
+                )
+                ctk.CTkLabel(
+                    brand,
+                    image=logo,
+                    text=""
+                ).grid(row=0, column=0, rowspan=2, padx=(0, 12), sticky="w")
+            except Exception:
+                self.fallback_logo(brand)
+        else:
+            self.fallback_logo(brand)
+
+        ctk.CTkLabel(
+            brand,
+            text="ENERGY PROJECT DESIGN",
+            font=(FONT_MAIN, 18, "bold"),
+            text_color=COLOR_TEXT
+        ).grid(row=0, column=1, sticky="w")
+
+        ctk.CTkLabel(
+            brand,
+            text="Bransamente gaze naturale 2.0",
+            font=(FONT_MAIN, 12),
+            text_color=COLOR_MUTED
+        ).grid(row=1, column=1, sticky="w", pady=(1, 0))
+
+        nav = ctk.CTkFrame(self.sidebar, fg_color="transparent")
+        nav.pack(fill="both", expand=True, padx=16, pady=(6, 4))
+
+        nav_items = [
+            ("Acasa", "Acasa"),
+            ("User", "User"),
+            ("Date Proiect", "Proiect"),
+            ("Date Tehnice", "Proiect"),
+            ("Documentatie", "Documentatie"),
+            ("Carti Tehnice", "CartiTehnice"),
+            ("Verificatori VGD/RTE", "Verificatori"),
+            ("Stampile", "Stampile"),
+            ("Email-uri", "Emailuri"),
+            ("Assistant User", "AssistantUser"),
+            ("Assistant AI Developer", "AssistantAI"),
+            ("Produse & Licente", "Produse"),
+            ("Colaborari", "Colaborari"),
+            ("Contact & Sugestii", "Contact"),
+        ]
+
+        for text, page in nav_items:
+            btn = ctk.CTkButton(
+                nav,
+                text=text,
+                height=41,
+                corner_radius=15,
+                anchor="w",
+                fg_color="transparent",
+                hover_color=COLOR_GREEN_LIGHT,
+                text_color=COLOR_TEXT,
+                font=(FONT_MAIN, 12, "bold"),
+                command=lambda p=page: self.show_page(p)
+            )
+            btn.pack(fill="x", pady=2)
+            self.nav_buttons[page] = btn
+
+        support = ctk.CTkFrame(
+            self.sidebar,
+            fg_color=COLOR_PANEL_SOFT,
+            corner_radius=18,
+            border_width=1,
+            border_color=COLOR_BORDER
+        )
+        support.pack(fill="x", padx=18, pady=(8, 12))
+
+        ctk.CTkLabel(
+            support,
+            text="Asistenta rapida",
+            font=(FONT_MAIN, 12, "bold"),
+            text_color=COLOR_TEXT
+        ).pack(anchor="w", padx=15, pady=(12, 0))
+
+        ctk.CTkButton(
+            support,
+            text="Deschide suport",
+            height=30,
+            fg_color="transparent",
+            hover_color=COLOR_GREEN_LIGHT,
+            text_color=COLOR_GREEN_DARK,
+            font=(FONT_MAIN, 11, "bold"),
+            command=lambda: self.show_page("Contact")
+        ).pack(anchor="w", padx=9, pady=(4, 10))
+
+        license_card = ctk.CTkFrame(
+            self.sidebar,
+            fg_color=COLOR_GREEN_LIGHT,
+            corner_radius=18,
+            border_width=1,
+            border_color="#BCEBDD"
+        )
+        license_card.pack(fill="x", padx=18, pady=(0, 18))
+
+        ctk.CTkLabel(
+            license_card,
+            text="Licenta activa",
+            font=(FONT_MAIN, 13, "bold"),
+            text_color=COLOR_GREEN_DARK
+        ).pack(anchor="w", padx=15, pady=(12, 0))
+
+        ctk.CTkLabel(
+            license_card,
+            text="Professional / Verifier Core\nUpdate + EPD Project ready",
+            font=(FONT_MAIN, 11),
+            text_color=COLOR_TEXT
+        ).pack(anchor="w", padx=15, pady=(3, 12))
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Select-String -Path .\pages\*.py -Pattern "Acasa|Acasă|HomePage|title\(|Proiect nou|Salveaza|Export|Load Project" -CaseSensitive:$false
+
+pages\assistant_ai.py:35:        self.title("Assistant AI Developer - OpenAI Direct Apply")
+pages\assistant_ai.py:54:        self.section_title(card, "Acces Developer", 0, 0, 2)
+pages\assistant_ai.py:119:        self.section_title(chat_card, "Developer Chat", 0, 0, 2)
+pages\assistant_ai.py:159:        self.section_title(settings_card, "OpenAI Settings", 0, 0, 2)
+pages\assistant_ai.py:197:            "Salveaza OpenAI",
+pages\assistant_ai.py:213:            "Cheia API se salveaza local in config/ai_settings.json. Pentru distributie
+enterprise, ulterior o mutam intr-un sistem securizat/backend.",
+pages\assistant_ai.py:219:        self.section_title(tools_card, "Developer Tools", 0, 0, 2)
+pages\assistant_ai_backup_developer_core.py:11:        self.title("Assistant AI Developer - configurare controlata")
+pages\assistant_ai_backup_developer_core.py:21:        self.section_title(left, "Comanda dezvoltare", 0, 0, 2)
+pages\assistant_ai_backup_developer_core.py:61:        self.section_title(right, "Propunere generata", 0, 0, 2)
+pages\assistant_ai_backup_functional.py:7:        self.title("Assistant AI Developer")
+pages\assistant_ai_backup_openai_core.py:28:        self.title("Assistant AI Developer")
+pages\assistant_ai_backup_openai_core.py:47:        self.section_title(card, "Acces Developer", 0, 0, 2)
+pages\assistant_ai_backup_openai_core.py:108:        self.section_title(command, "Comanda dezvoltare aplicatie", 0, 0,
+2)
+pages\assistant_ai_backup_openai_core.py:141:        self.section_title(left, "Propunere / Output", 0, 0, 2)
+pages\assistant_ai_backup_openai_core.py:168:        self.section_title(right, "Context AI local", 0, 0, 2)
+pages\assistant_ai_backup_openai_core.py:189:            "Salveaza context",
+pages\assistant_user.py:15:        self.title("Assistant User - comenzi aplicatie")
+pages\assistant_user.py:26:        self.section_title(command_card, "Type command and press Enter", 0, 0, 2)
+pages\assistant_user.py:51:        self.section_title(left, "Comenzi disponibile", 0, 0, 2)
+pages\assistant_user.py:62:        self.section_title(right, "Jurnal Assistant", 0, 0, 2)
+pages\assistant_user_backup_automation_core.py:15:        self.title("Assistant User - comenzi aplicatie")
+pages\assistant_user_backup_automation_core.py:26:        self.section_title(command_card, "Type command and enter",
+0, 0, 2)
+pages\assistant_user_backup_automation_core.py:51:        self.section_title(left, "Comenzi disponibile", 0, 0, 2)
+pages\assistant_user_backup_automation_core.py:62:        self.section_title(right, "Jurnal Assistant", 0, 0, 2)
+pages\assistant_user_backup_developer_core.py:11:        self.title("Assistant User - comenzi proiect")
+pages\assistant_user_backup_developer_core.py:22:        self.section_title(command_card, "Bara de comenzi", 0, 0, 2)
+pages\assistant_user_backup_developer_core.py:45:        self.section_title(left, "Comenzi rapide", 0, 0, 2)
+pages\assistant_user_backup_developer_core.py:66:        self.section_title(right, "Jurnal Assistant", 0, 0, 2)
+pages\assistant_user_backup_full.py:22:        self.title("Assistant User - comenzi aplicatie")
+pages\assistant_user_backup_full.py:33:        self.section_title(command_card, "Type command and enter", 0, 0, 2)
+pages\assistant_user_backup_full.py:58:        self.section_title(left, "Comenzi disponibile", 0, 0, 2)
+pages\assistant_user_backup_full.py:69:        self.section_title(right, "Jurnal Assistant", 0, 0, 2)
+pages\assistant_user_backup_full.py:215:        window.title(title)
+pages\assistant_user_backup_functional.py:7:        self.title("Assistant User - comenzi proiect")
+pages\base.py:35:    def title(self, text):
+pages\base.py:45:    def section_title(self, parent, text, row=0, column=0, columnspan=2):
+pages\base_backup_premium.py:10:    def title(self, text):
+pages\base_backup_ui_selected.py:43:    def title(self, text):
+pages\base_backup_ui_selected.py:53:    def subtitle(self, parent, text):
+pages\base_backup_ui_selected.py:63:    def section_title(self, parent, text, row=0, column=0, columnspan=2):
+pages\contact.py:19:        self.title("Contact + Sugestii")
+pages\contact.py:29:        self.section_title(form, "Trimite mesaj catre developer", 0, 0, 2)
+pages\contact.py:53:            "Salveaza solicitare",
+pages\contact.py:60:        self.section_title(info, "Informatii suport", 0, 0, 2)
+pages\contact_backup_functional.py:7:        self.title("Contact + Sugestii")
+pages\documentation.py:21:        self.title("Documentatie")
+pages\documentation.py:124:        dialog.title("Acces administrator")
+pages\documentation.py:278:        window.title(title)
+pages\documentation_backup_2.py:31:        self.title("Documentatie")
+pages\documentation_backup_placeholder_scan.py:15:        self.title("Documentatie")
+pages\documentation_backup_placeholder_scan.py:110:        dialog.title("Acces administrator")
+pages\emails.py:21:        self.title("Email-uri - destinatari si texte generice")
+pages\emails.py:28:        self.section_title(login, "Cont email utilizator", 0, 0, 2)
+pages\emails.py:36:            "Salveaza cont email",
+pages\emails.py:44:        self.section_title(internal, "Mail-uri interne firma", 0, 0, 2)
+pages\emails.py:53:            "Salveaza emailuri interne",
+pages\emails.py:65:            self.section_title(card, section, 0, 0, 2)
+pages\emails.py:97:                "Salveaza setari sectiune",
+pages\emails_backup_functional.py:7:        self.title("Email-uri - destinatari si texte generice")
+pages\home.py:15:from controllers.export_ui_controller import ExportUIController
+pages\home.py:22:class HomePage(BasePage):
+pages\home.py:24:    Pagina Acasa - EPD 2.0.2.
+pages\home.py:31:    - export JSON/PDF/pachet;
+pages\home.py:32:    - export bulk;
+pages\home.py:48:        self.export_controller = ExportUIController()
+pages\home.py:52:        self.title("Acasa - EPD 2.0.2")
+pages\home.py:154:            text="Proiect nou test",
+pages\home.py:162:            text="Salveaza proiect",
+pages\home.py:170:            text="Load Project",
+pages\home.py:176:        self.btn_export_package = ctk.CTkButton(
+pages\home.py:178:            text="Export pachet EPD",
+pages\home.py:180:            command=self.on_export_package
+pages\home.py:182:        self.btn_export_package.grid(row=1, column=0, padx=6, pady=6, sticky="ew")
+pages\home.py:184:        self.btn_export_json = ctk.CTkButton(
+pages\home.py:186:            text="Export JSON EPD",
+pages\home.py:188:            command=self.on_export_json
+pages\home.py:190:        self.btn_export_json.grid(row=1, column=1, padx=6, pady=6, sticky="ew")
+pages\home.py:192:        self.btn_export_pdf = ctk.CTkButton(
+pages\home.py:194:            text="Export PDF EPD",
+pages\home.py:196:            command=self.on_export_pdf
+pages\home.py:198:        self.btn_export_pdf.grid(row=1, column=2, padx=6, pady=6, sticky="ew")
+pages\home.py:200:        self.btn_export_bulk = ctk.CTkButton(
+pages\home.py:202:            text="Export bulk",
+pages\home.py:204:            command=self.on_export_bulk
+pages\home.py:206:        self.btn_export_bulk.grid(row=2, column=0, padx=6, pady=6, sticky="ew")
+pages\home.py:219:        self.export_status_title = ctk.CTkLabel(
+pages\home.py:221:            text="Status export",
+pages\home.py:224:        self.export_status_title.pack(anchor="w", padx=12, pady=(12, 4))
+pages\home.py:226:        self.export_status_label = ctk.CTkLabel(
+pages\home.py:228:            text="Exportul va fi disponibil dupa salvarea/incarcarea unui proiect.",
+pages\home.py:232:        self.export_status_label.pack(fill="x", padx=12, pady=(0, 12))
+pages\home.py:255:            label = tk.Label(self, text="Acasa EPD 2.0.2 - Export conectat")
+pages\home.py:258:            btn = tk.Button(self, text="Export pachet EPD", command=self.on_export_package)
+pages\home.py:310:        self._refresh_export_status()
+pages\home.py:334:    def _refresh_export_status(self):
+pages\home.py:336:            state = self.export_controller.get_export_button_state(self.current_project_data)
+pages\home.py:338:                f"Export sus disponibil: {state.get('topbar_export_visible')}\n"
+pages\home.py:339:                f"Export final configurare disponibil: {state.get('final_step_export_visible')}\n"
+pages\home.py:341:                "Format export: JSON EPD semnat + PDF EPD semnat placeholder + manifest."
+pages\home.py:344:            text = f"Eroare status export: {exc}"
+pages\home.py:347:            self.export_status_label.configure(text=text)
+pages\home.py:379:        self._notify("EPD", "Proiect test creat in memorie. Apasa Salveaza proiect.")
+pages\home.py:426:    # Export actions
+pages\home.py:429:    def _require_project_for_export(self):
+pages\home.py:434:                "Export EPD",
+pages\home.py:435:                "Nu exista proiect curent. Creeaza/incarca/salveaza un proiect inainte de export.",
+pages\home.py:442:    def on_export_package(self):
+pages\home.py:443:        data = self._require_project_for_export()
+pages\home.py:447:        result = self.export_controller.export_package_current_project(data)
+pages\home.py:448:        self._handle_export_result(result)
+pages\home.py:451:    def on_export_json(self):
+pages\home.py:452:        data = self._require_project_for_export()
+pages\home.py:456:        result = self.export_controller.export_json_current_project(data)
+pages\home.py:457:        self._handle_export_result(result)
+pages\home.py:460:    def on_export_pdf(self):
+pages\home.py:461:        data = self._require_project_for_export()
+pages\home.py:465:        result = self.export_controller.export_pdf_current_project(data)
+pages\home.py:466:        self._handle_export_result(result)
+pages\home.py:469:    def on_export_bulk(self):
+pages\home.py:470:        result = self.export_controller.export_bulk_projects(
+pages\home.py:476:                "Export bulk EPD",
+pages\home.py:480:                    f"Exportate: {result.get('exported_count')}\n"
+pages\home.py:486:                "Export bulk EPD - eroare",
+pages\home.py:487:                result.get("message", "Export bulk esuat."),
+pages\home.py:493:    def _handle_export_result(self, result):
+pages\home.py:496:                "Export EPD - eroare",
+pages\home.py:497:                result.get("message", "Export esuat."),
+pages\home.py:502:        details = [result.get("message", "Export finalizat.")]
+pages\home.py:516:        self._notify("Export EPD", "\n\n".join(details))
+pages\home_backup_before_export_ui_patch.py:15:from controllers.export_ui_controller import ExportUIController
+pages\home_backup_before_export_ui_patch.py:22:class HomePage(BasePage):
+pages\home_backup_before_export_ui_patch.py:24:    Pagina Acasa - EPD 2.0.2.
+pages\home_backup_before_export_ui_patch.py:31:    - export JSON/PDF/pachet;
+pages\home_backup_before_export_ui_patch.py:32:    - export bulk;
+pages\home_backup_before_export_ui_patch.py:48:        self.export_controller = ExportUIController()
+pages\home_backup_before_export_ui_patch.py:52:        self.title("Acasa - EPD 2.0.2")
+pages\home_backup_before_export_ui_patch.py:154:            text="Proiect nou test",
+pages\home_backup_before_export_ui_patch.py:162:            text="Salveaza proiect",
+pages\home_backup_before_export_ui_patch.py:170:            text="Load Project",
+pages\home_backup_before_export_ui_patch.py:176:        self.btn_export_package = ctk.CTkButton(
+pages\home_backup_before_export_ui_patch.py:178:            text="Export pachet EPD",
+pages\home_backup_before_export_ui_patch.py:180:            command=self.on_export_package
+pages\home_backup_before_export_ui_patch.py:182:        self.btn_export_package.grid(row=1, column=0, padx=6, pady=6,
+sticky="ew")
+pages\home_backup_before_export_ui_patch.py:184:        self.btn_export_json = ctk.CTkButton(
+pages\home_backup_before_export_ui_patch.py:186:            text="Export JSON EPD",
+pages\home_backup_before_export_ui_patch.py:188:            command=self.on_export_json
+pages\home_backup_before_export_ui_patch.py:190:        self.btn_export_json.grid(row=1, column=1, padx=6, pady=6,
+sticky="ew")
+pages\home_backup_before_export_ui_patch.py:192:        self.btn_export_pdf = ctk.CTkButton(
+pages\home_backup_before_export_ui_patch.py:194:            text="Export PDF EPD",
+pages\home_backup_before_export_ui_patch.py:196:            command=self.on_export_pdf
+pages\home_backup_before_export_ui_patch.py:198:        self.btn_export_pdf.grid(row=1, column=2, padx=6, pady=6,
+sticky="ew")
+pages\home_backup_before_export_ui_patch.py:200:        self.btn_export_bulk = ctk.CTkButton(
+pages\home_backup_before_export_ui_patch.py:202:            text="Export bulk",
+pages\home_backup_before_export_ui_patch.py:204:            command=self.on_export_bulk
+pages\home_backup_before_export_ui_patch.py:206:        self.btn_export_bulk.grid(row=2, column=0, padx=6, pady=6,
+sticky="ew")
+pages\home_backup_before_export_ui_patch.py:219:        self.export_status_title = ctk.CTkLabel(
+pages\home_backup_before_export_ui_patch.py:221:            text="Status export",
+pages\home_backup_before_export_ui_patch.py:224:        self.export_status_title.pack(anchor="w", padx=12, pady=(12,
+4))
+pages\home_backup_before_export_ui_patch.py:226:        self.export_status_label = ctk.CTkLabel(
+pages\home_backup_before_export_ui_patch.py:228:            text="Exportul va fi disponibil dupa salvarea/incarcarea
+unui proiect.",
+pages\home_backup_before_export_ui_patch.py:232:        self.export_status_label.pack(fill="x", padx=12, pady=(0, 12))
+pages\home_backup_before_export_ui_patch.py:255:            label = tk.Label(self, text="Acasa EPD 2.0.2 - Export
+conectat")
+pages\home_backup_before_export_ui_patch.py:258:            btn = tk.Button(self, text="Export pachet EPD",
+command=self.on_export_package)
+pages\home_backup_before_export_ui_patch.py:310:        self._refresh_export_status()
+pages\home_backup_before_export_ui_patch.py:334:    def _refresh_export_status(self):
+pages\home_backup_before_export_ui_patch.py:336:            state =
+self.export_controller.get_export_button_state(self.current_project_data)
+pages\home_backup_before_export_ui_patch.py:338:                f"Export sus disponibil:
+{state.get('topbar_export_visible')}\n"
+pages\home_backup_before_export_ui_patch.py:339:                f"Export final configurare disponibil:
+{state.get('final_step_export_visible')}\n"
+pages\home_backup_before_export_ui_patch.py:341:                "Format export: JSON EPD semnat + PDF EPD semnat
+placeholder + manifest."
+pages\home_backup_before_export_ui_patch.py:344:            text = f"Eroare status export: {exc}"
+pages\home_backup_before_export_ui_patch.py:347:            self.export_status_label.configure(text=text)
+pages\home_backup_before_export_ui_patch.py:379:        self._notify("EPD", "Proiect test creat in memorie. Apasa
+Salveaza proiect.")
+pages\home_backup_before_export_ui_patch.py:426:    # Export actions
+pages\home_backup_before_export_ui_patch.py:429:    def _require_project_for_export(self):
+pages\home_backup_before_export_ui_patch.py:434:                "Export EPD",
+pages\home_backup_before_export_ui_patch.py:435:                "Nu exista proiect curent. Creeaza/incarca/salveaza un
+proiect inainte de export.",
+pages\home_backup_before_export_ui_patch.py:442:    def on_export_package(self):
+pages\home_backup_before_export_ui_patch.py:443:        data = self._require_project_for_export()
+pages\home_backup_before_export_ui_patch.py:447:        result =
+self.export_controller.export_package_current_project(data)
+pages\home_backup_before_export_ui_patch.py:448:        self._handle_export_result(result)
+pages\home_backup_before_export_ui_patch.py:451:    def on_export_json(self):
+pages\home_backup_before_export_ui_patch.py:452:        data = self._require_project_for_export()
+pages\home_backup_before_export_ui_patch.py:456:        result =
+self.export_controller.export_json_current_project(data)
+pages\home_backup_before_export_ui_patch.py:457:        self._handle_export_result(result)
+pages\home_backup_before_export_ui_patch.py:460:    def on_export_pdf(self):
+pages\home_backup_before_export_ui_patch.py:461:        data = self._require_project_for_export()
+pages\home_backup_before_export_ui_patch.py:465:        result =
+self.export_controller.export_pdf_current_project(data)
+pages\home_backup_before_export_ui_patch.py:466:        self._handle_export_result(result)
+pages\home_backup_before_export_ui_patch.py:469:    def on_export_bulk(self):
+pages\home_backup_before_export_ui_patch.py:470:        result = self.export_controller.export_bulk_projects(
+pages\home_backup_before_export_ui_patch.py:476:                "Export bulk EPD",
+pages\home_backup_before_export_ui_patch.py:480:                    f"Exportate: {result.get('exported_count')}\n"
+pages\home_backup_before_export_ui_patch.py:486:                "Export bulk EPD - eroare",
+pages\home_backup_before_export_ui_patch.py:487:                result.get("message", "Export bulk esuat."),
+pages\home_backup_before_export_ui_patch.py:493:    def _handle_export_result(self, result):
+pages\home_backup_before_export_ui_patch.py:496:                "Export EPD - eroare",
+pages\home_backup_before_export_ui_patch.py:497:                result.get("message", "Export esuat."),
+pages\home_backup_before_export_ui_patch.py:502:        details = [result.get("message", "Export finalizat.")]
+pages\home_backup_before_export_ui_patch.py:516:        self._notify("Export EPD", "\n\n".join(details))
+pages\products.py:13:        self.title("Produse, Licente si Update Center")
+pages\products.py:39:            self.section_title(card, name, 0, 0, 2)
+pages\products.py:66:        self.section_title(license_card, "Status licenta curenta", 0, 0, 2)
+pages\products.py:86:        self.section_title(update_card, "Update Center - patch-uri aplicatie", 0, 0, 2)
+pages\products_backup_functional.py:7:        self.title("Produse si Licente")
+pages\project.py:14:        self.title("Date Proiect + Date Tehnice")
+pages\project.py:33:        self.section_title(actions, "Actiuni proiect", 0, 0, 2)
+pages\project.py:37:            "Salveaza proiect EPD",
+pages\project.py:61:        self.section_title(parent, title, 0, 0, 2)
+pages\project_backup_dynamic_fields.py:10:        self.title("Date Proiect + Date Tehnice")
+pages\stamps.py:25:        self.title("Stampile - biblioteca, detectare si autorizare")
+pages\stamps.py:36:        self.section_title(left, "Actiuni stampile", 0, 0, 2)
+pages\stamps.py:82:        self.section_title(right, "Registru stampile", 0, 0, 2)
+pages\stamps_backup_automation_core.py:18:        self.title("Stampile - biblioteca si autorizare interna")
+pages\stamps_backup_automation_core.py:29:        self.section_title(left, "Actiuni stampile", 0, 0, 2)
+pages\stamps_backup_automation_core.py:75:        self.section_title(right, "Lista stampile", 0, 0, 2)
+pages\stamps_backup_functional.py:7:        self.title("Stampile - upload, autorizare, watermark")
+pages\user.py:11:        self.title("User - Utilizatori si preferinte")
+pages\user.py:20:        self.section_title(profile, "Profil utilizator", 0, 0, 2)
+pages\user.py:31:            "Salveaza profil utilizator",
+pages\user.py:38:        self.section_title(prefs, "Preferinte implicite", 0, 0, 2)
+pages\user.py:48:            "Salveaza preferinte",
+pages\user.py:58:        self.section_title(info, "Status cont", 0, 0, 2)
+pages\user_backup_functional.py:7:        self.title("User - Utilizatori si preferinte")
+pages\verifiers.py:29:        self.title("Verificatori - VGD / RTE")
+pages\verifiers.py:50:        self.section_title(self.profile_card, "Profil verificator", 0, 0, 2)
+pages\verifiers.py:62:            "Salveaza / activeaza verificator",
+pages\verifiers.py:88:        self.section_title(self.action_card, "Autorizare proiect", 0, 0, 2)
+pages\verifiers.py:147:        self.section_title(self.registry_card, "Registru verificatori", 0, 0, 2)
+pages\verifiers.py:207:                "Salveaza/selecteaza mai intai un verificator."
+
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0>

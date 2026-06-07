@@ -1,5 +1,17 @@
 # Energy Project Design — PRD
 
+
+## CHANGELOG — 2026-02-07 (V5.7)
+- **Branding global**: înlocuit "StampDoc.ro" cu "Energy Project Design" în Login, Register, LegalLayout, Gdpr, Settings, TemplateEditor.
+- **Login hero text**: "Energy Project Design — international electronic technical documentation, certified and digitally stamped." (cerere directă utilizator)
+- **SEO meta tags extinse** (`/app/frontend/public/index.html`): title nou, description bilingv multi-industrie, 50+ keywords (ANRE/ANRSC/ISCIR/NTPEE/VGD/RTE/QES/SEAP), 13 hashtag-uri ca `article:tag`, geo/locale RO+EN, theme-color #FFB300, OG + Twitter Cards aliniate la noul brand.
+- **Sitemap.xml** extins: 13 industrii + 5 persona pages + 5 subdomenii gaze + pagini funcționale (jobs, marketplace, ai-agents, anaf, crm, energy-advisor).
+- **Personas pages** noi (`/pentru/:role`) pentru Clienți, Utilizatori, Angajați, Developeri, Admin — fiecare cu beneficii, pagini utile, hashtag-uri. Component: `/app/frontend/src/pages/Personas.jsx`.
+- **Landing hero refăcut** pentru poziționare internațională multi-industrie (13 industrii / 56+ subdomenii / QES) + secțiune "5 perspective" cu link-uri către persona pages.
+- **Sidebar**: "Industrii (12)" → "Industrii (13)".
+- Surse: `/app/esitmate.rar` extras în `/app/esitmate_extracted/` (58 fișiere: site.docx, Feat-uri.docx, prompt nou.docx, etc.).
+
+
 ## Product Vision
 B2B SaaS pentru proiectare în energie/infrastructură. Centralizează proiectarea ANRE, calcule tehnice (fotovoltaic, gaze, electric), generare automată documentație, semnătură digitală QES și marketplace de subdomenii (12 industrii + 158 subdomenii planificate).
 

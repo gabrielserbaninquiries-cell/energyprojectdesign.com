@@ -49,6 +49,7 @@ import PublicStatus from './pages/PublicStatus';
 import EnergyAdvisor from './pages/EnergyAdvisor';
 import Jobs from './pages/Jobs';
 import Contracts from './pages/Contracts';
+import Personas from './pages/Personas';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -70,6 +71,7 @@ function AppRouter() {
       <Route path="/termeni" element={<Termeni />} />
       <Route path="/confidentialitate" element={<Confidentialitate />} />
       <Route path="/gdpr" element={<Gdpr />} />
+      <Route path="/pentru/:role" element={<Personas />} />
 
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/proiecte" element={<ProtectedRoute><Projects /></ProtectedRoute>} />

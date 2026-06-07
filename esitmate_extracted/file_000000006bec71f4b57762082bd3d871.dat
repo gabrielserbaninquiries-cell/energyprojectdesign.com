@@ -1,0 +1,1191 @@
+
+import customtkinter as ctk
+from tkinter import messagebox, filedialog
+from docx import Document
+from fpdf import FPDF
+import json, os
+
+ctk.set_appearance_mode("dark")
+
+class App(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("Energy Pro Industrial")
+        self.geometry("1800x1000")
+
+        self.vars = {}
+        self.consumatori = []
+
+        self.build_ui()
+
+    def build_ui(self):
+        self.grid_columnconfigure(1, weight=1)
+
+        self.sidebar = ctk.CTkFrame(self, width=250)
+        self.sidebar.grid(row=0, column=0, sticky="ns")
+
+        ctk.CTkLabel(self.sidebar, text="ENERGY PRO", font=("Arial",20,"bold")).pack(pady=20)
+
+        ctk.CTkButton(self.sidebar, text="Modificare Proiect", command=self.page_proiect).pack(pady=5)
+        ctk.CTkButton(self.sidebar, text="Consumatori", command=self.page_consumatori).pack(pady=5)
+        ctk.CTkButton(self.sidebar, text="Documentatie", command=self.page_documentatie).pack(pady=5)
+
+        self.content = ctk.CTkFrame(self)
+        self.content.grid(row=0, column=1, sticky="nsew")
+
+        self.page_proiect()
+
+    def clear(self):
+        for w in self.content.winfo_children():
+            w.destroy()
+
+    def entry(self, parent, name, r, c):
+        e = ctk.CTkEntry(parent, placeholder_text=name)
+        e.grid(row=r, column=c, padx=5, pady=5, sticky="ew")
+        self.vars[name] = e
+        return e
+
+    def combo(self, parent, name, vals, r, c):
+        cb = ctk.CTkComboBox(parent, values=vals)
+        cb.grid(row=r, column=c, padx=5, pady=5, sticky="ew")
+        self.vars[name] = cb
+        return cb
+
+    def page_proiect(self):
+        self.clear()
+        main = ctk.CTkScrollableFrame(self.content)
+        main.pack(fill="both", expand=True)
+        main.grid_columnconfigure((0,1,2), weight=1)
+
+
+        f1 = ctk.CTkFrame(main)
+        f1.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f1, text="Sectiune 1", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f1, "Camp_1_A", 1, 0)
+        self.entry(f1, "Camp_1_B", 1, 1)
+        self.entry(f1, "Camp_1_C", 2, 0)
+        self.combo(f1, "Optiune_1", ["DA","NU"], 2, 1)
+
+        f2 = ctk.CTkFrame(main)
+        f2.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f2, text="Sectiune 2", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f2, "Camp_2_A", 1, 0)
+        self.entry(f2, "Camp_2_B", 1, 1)
+        self.entry(f2, "Camp_2_C", 2, 0)
+        self.combo(f2, "Optiune_2", ["DA","NU"], 2, 1)
+
+        f3 = ctk.CTkFrame(main)
+        f3.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f3, text="Sectiune 3", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f3, "Camp_3_A", 1, 0)
+        self.entry(f3, "Camp_3_B", 1, 1)
+        self.entry(f3, "Camp_3_C", 2, 0)
+        self.combo(f3, "Optiune_3", ["DA","NU"], 2, 1)
+
+        f4 = ctk.CTkFrame(main)
+        f4.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f4, text="Sectiune 4", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f4, "Camp_4_A", 1, 0)
+        self.entry(f4, "Camp_4_B", 1, 1)
+        self.entry(f4, "Camp_4_C", 2, 0)
+        self.combo(f4, "Optiune_4", ["DA","NU"], 2, 1)
+
+        f5 = ctk.CTkFrame(main)
+        f5.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f5, text="Sectiune 5", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f5, "Camp_5_A", 1, 0)
+        self.entry(f5, "Camp_5_B", 1, 1)
+        self.entry(f5, "Camp_5_C", 2, 0)
+        self.combo(f5, "Optiune_5", ["DA","NU"], 2, 1)
+
+        f6 = ctk.CTkFrame(main)
+        f6.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f6, text="Sectiune 6", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f6, "Camp_6_A", 1, 0)
+        self.entry(f6, "Camp_6_B", 1, 1)
+        self.entry(f6, "Camp_6_C", 2, 0)
+        self.combo(f6, "Optiune_6", ["DA","NU"], 2, 1)
+
+        f7 = ctk.CTkFrame(main)
+        f7.grid(row=7, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f7, text="Sectiune 7", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f7, "Camp_7_A", 1, 0)
+        self.entry(f7, "Camp_7_B", 1, 1)
+        self.entry(f7, "Camp_7_C", 2, 0)
+        self.combo(f7, "Optiune_7", ["DA","NU"], 2, 1)
+
+        f8 = ctk.CTkFrame(main)
+        f8.grid(row=8, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f8, text="Sectiune 8", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f8, "Camp_8_A", 1, 0)
+        self.entry(f8, "Camp_8_B", 1, 1)
+        self.entry(f8, "Camp_8_C", 2, 0)
+        self.combo(f8, "Optiune_8", ["DA","NU"], 2, 1)
+
+        f9 = ctk.CTkFrame(main)
+        f9.grid(row=9, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f9, text="Sectiune 9", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f9, "Camp_9_A", 1, 0)
+        self.entry(f9, "Camp_9_B", 1, 1)
+        self.entry(f9, "Camp_9_C", 2, 0)
+        self.combo(f9, "Optiune_9", ["DA","NU"], 2, 1)
+
+        f10 = ctk.CTkFrame(main)
+        f10.grid(row=10, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f10, text="Sectiune 10", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f10, "Camp_10_A", 1, 0)
+        self.entry(f10, "Camp_10_B", 1, 1)
+        self.entry(f10, "Camp_10_C", 2, 0)
+        self.combo(f10, "Optiune_10", ["DA","NU"], 2, 1)
+
+        f11 = ctk.CTkFrame(main)
+        f11.grid(row=11, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f11, text="Sectiune 11", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f11, "Camp_11_A", 1, 0)
+        self.entry(f11, "Camp_11_B", 1, 1)
+        self.entry(f11, "Camp_11_C", 2, 0)
+        self.combo(f11, "Optiune_11", ["DA","NU"], 2, 1)
+
+        f12 = ctk.CTkFrame(main)
+        f12.grid(row=12, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f12, text="Sectiune 12", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f12, "Camp_12_A", 1, 0)
+        self.entry(f12, "Camp_12_B", 1, 1)
+        self.entry(f12, "Camp_12_C", 2, 0)
+        self.combo(f12, "Optiune_12", ["DA","NU"], 2, 1)
+
+        f13 = ctk.CTkFrame(main)
+        f13.grid(row=13, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f13, text="Sectiune 13", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f13, "Camp_13_A", 1, 0)
+        self.entry(f13, "Camp_13_B", 1, 1)
+        self.entry(f13, "Camp_13_C", 2, 0)
+        self.combo(f13, "Optiune_13", ["DA","NU"], 2, 1)
+
+        f14 = ctk.CTkFrame(main)
+        f14.grid(row=14, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f14, text="Sectiune 14", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f14, "Camp_14_A", 1, 0)
+        self.entry(f14, "Camp_14_B", 1, 1)
+        self.entry(f14, "Camp_14_C", 2, 0)
+        self.combo(f14, "Optiune_14", ["DA","NU"], 2, 1)
+
+        f15 = ctk.CTkFrame(main)
+        f15.grid(row=15, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f15, text="Sectiune 15", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f15, "Camp_15_A", 1, 0)
+        self.entry(f15, "Camp_15_B", 1, 1)
+        self.entry(f15, "Camp_15_C", 2, 0)
+        self.combo(f15, "Optiune_15", ["DA","NU"], 2, 1)
+
+        f16 = ctk.CTkFrame(main)
+        f16.grid(row=16, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f16, text="Sectiune 16", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f16, "Camp_16_A", 1, 0)
+        self.entry(f16, "Camp_16_B", 1, 1)
+        self.entry(f16, "Camp_16_C", 2, 0)
+        self.combo(f16, "Optiune_16", ["DA","NU"], 2, 1)
+
+        f17 = ctk.CTkFrame(main)
+        f17.grid(row=17, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f17, text="Sectiune 17", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f17, "Camp_17_A", 1, 0)
+        self.entry(f17, "Camp_17_B", 1, 1)
+        self.entry(f17, "Camp_17_C", 2, 0)
+        self.combo(f17, "Optiune_17", ["DA","NU"], 2, 1)
+
+        f18 = ctk.CTkFrame(main)
+        f18.grid(row=18, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f18, text="Sectiune 18", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f18, "Camp_18_A", 1, 0)
+        self.entry(f18, "Camp_18_B", 1, 1)
+        self.entry(f18, "Camp_18_C", 2, 0)
+        self.combo(f18, "Optiune_18", ["DA","NU"], 2, 1)
+
+        f19 = ctk.CTkFrame(main)
+        f19.grid(row=19, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f19, text="Sectiune 19", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f19, "Camp_19_A", 1, 0)
+        self.entry(f19, "Camp_19_B", 1, 1)
+        self.entry(f19, "Camp_19_C", 2, 0)
+        self.combo(f19, "Optiune_19", ["DA","NU"], 2, 1)
+
+        f20 = ctk.CTkFrame(main)
+        f20.grid(row=20, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f20, text="Sectiune 20", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f20, "Camp_20_A", 1, 0)
+        self.entry(f20, "Camp_20_B", 1, 1)
+        self.entry(f20, "Camp_20_C", 2, 0)
+        self.combo(f20, "Optiune_20", ["DA","NU"], 2, 1)
+
+        f21 = ctk.CTkFrame(main)
+        f21.grid(row=21, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f21, text="Sectiune 21", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f21, "Camp_21_A", 1, 0)
+        self.entry(f21, "Camp_21_B", 1, 1)
+        self.entry(f21, "Camp_21_C", 2, 0)
+        self.combo(f21, "Optiune_21", ["DA","NU"], 2, 1)
+
+        f22 = ctk.CTkFrame(main)
+        f22.grid(row=22, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f22, text="Sectiune 22", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f22, "Camp_22_A", 1, 0)
+        self.entry(f22, "Camp_22_B", 1, 1)
+        self.entry(f22, "Camp_22_C", 2, 0)
+        self.combo(f22, "Optiune_22", ["DA","NU"], 2, 1)
+
+        f23 = ctk.CTkFrame(main)
+        f23.grid(row=23, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f23, text="Sectiune 23", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f23, "Camp_23_A", 1, 0)
+        self.entry(f23, "Camp_23_B", 1, 1)
+        self.entry(f23, "Camp_23_C", 2, 0)
+        self.combo(f23, "Optiune_23", ["DA","NU"], 2, 1)
+
+        f24 = ctk.CTkFrame(main)
+        f24.grid(row=24, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f24, text="Sectiune 24", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f24, "Camp_24_A", 1, 0)
+        self.entry(f24, "Camp_24_B", 1, 1)
+        self.entry(f24, "Camp_24_C", 2, 0)
+        self.combo(f24, "Optiune_24", ["DA","NU"], 2, 1)
+
+        f25 = ctk.CTkFrame(main)
+        f25.grid(row=25, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f25, text="Sectiune 25", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f25, "Camp_25_A", 1, 0)
+        self.entry(f25, "Camp_25_B", 1, 1)
+        self.entry(f25, "Camp_25_C", 2, 0)
+        self.combo(f25, "Optiune_25", ["DA","NU"], 2, 1)
+
+        f26 = ctk.CTkFrame(main)
+        f26.grid(row=26, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f26, text="Sectiune 26", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f26, "Camp_26_A", 1, 0)
+        self.entry(f26, "Camp_26_B", 1, 1)
+        self.entry(f26, "Camp_26_C", 2, 0)
+        self.combo(f26, "Optiune_26", ["DA","NU"], 2, 1)
+
+        f27 = ctk.CTkFrame(main)
+        f27.grid(row=27, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f27, text="Sectiune 27", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f27, "Camp_27_A", 1, 0)
+        self.entry(f27, "Camp_27_B", 1, 1)
+        self.entry(f27, "Camp_27_C", 2, 0)
+        self.combo(f27, "Optiune_27", ["DA","NU"], 2, 1)
+
+        f28 = ctk.CTkFrame(main)
+        f28.grid(row=28, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f28, text="Sectiune 28", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f28, "Camp_28_A", 1, 0)
+        self.entry(f28, "Camp_28_B", 1, 1)
+        self.entry(f28, "Camp_28_C", 2, 0)
+        self.combo(f28, "Optiune_28", ["DA","NU"], 2, 1)
+
+        f29 = ctk.CTkFrame(main)
+        f29.grid(row=29, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f29, text="Sectiune 29", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f29, "Camp_29_A", 1, 0)
+        self.entry(f29, "Camp_29_B", 1, 1)
+        self.entry(f29, "Camp_29_C", 2, 0)
+        self.combo(f29, "Optiune_29", ["DA","NU"], 2, 1)
+
+        f30 = ctk.CTkFrame(main)
+        f30.grid(row=30, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f30, text="Sectiune 30", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f30, "Camp_30_A", 1, 0)
+        self.entry(f30, "Camp_30_B", 1, 1)
+        self.entry(f30, "Camp_30_C", 2, 0)
+        self.combo(f30, "Optiune_30", ["DA","NU"], 2, 1)
+
+        f31 = ctk.CTkFrame(main)
+        f31.grid(row=31, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f31, text="Sectiune 31", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f31, "Camp_31_A", 1, 0)
+        self.entry(f31, "Camp_31_B", 1, 1)
+        self.entry(f31, "Camp_31_C", 2, 0)
+        self.combo(f31, "Optiune_31", ["DA","NU"], 2, 1)
+
+        f32 = ctk.CTkFrame(main)
+        f32.grid(row=32, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f32, text="Sectiune 32", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f32, "Camp_32_A", 1, 0)
+        self.entry(f32, "Camp_32_B", 1, 1)
+        self.entry(f32, "Camp_32_C", 2, 0)
+        self.combo(f32, "Optiune_32", ["DA","NU"], 2, 1)
+
+        f33 = ctk.CTkFrame(main)
+        f33.grid(row=33, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f33, text="Sectiune 33", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f33, "Camp_33_A", 1, 0)
+        self.entry(f33, "Camp_33_B", 1, 1)
+        self.entry(f33, "Camp_33_C", 2, 0)
+        self.combo(f33, "Optiune_33", ["DA","NU"], 2, 1)
+
+        f34 = ctk.CTkFrame(main)
+        f34.grid(row=34, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f34, text="Sectiune 34", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f34, "Camp_34_A", 1, 0)
+        self.entry(f34, "Camp_34_B", 1, 1)
+        self.entry(f34, "Camp_34_C", 2, 0)
+        self.combo(f34, "Optiune_34", ["DA","NU"], 2, 1)
+
+        f35 = ctk.CTkFrame(main)
+        f35.grid(row=35, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f35, text="Sectiune 35", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f35, "Camp_35_A", 1, 0)
+        self.entry(f35, "Camp_35_B", 1, 1)
+        self.entry(f35, "Camp_35_C", 2, 0)
+        self.combo(f35, "Optiune_35", ["DA","NU"], 2, 1)
+
+        f36 = ctk.CTkFrame(main)
+        f36.grid(row=36, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f36, text="Sectiune 36", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f36, "Camp_36_A", 1, 0)
+        self.entry(f36, "Camp_36_B", 1, 1)
+        self.entry(f36, "Camp_36_C", 2, 0)
+        self.combo(f36, "Optiune_36", ["DA","NU"], 2, 1)
+
+        f37 = ctk.CTkFrame(main)
+        f37.grid(row=37, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f37, text="Sectiune 37", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f37, "Camp_37_A", 1, 0)
+        self.entry(f37, "Camp_37_B", 1, 1)
+        self.entry(f37, "Camp_37_C", 2, 0)
+        self.combo(f37, "Optiune_37", ["DA","NU"], 2, 1)
+
+        f38 = ctk.CTkFrame(main)
+        f38.grid(row=38, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f38, text="Sectiune 38", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f38, "Camp_38_A", 1, 0)
+        self.entry(f38, "Camp_38_B", 1, 1)
+        self.entry(f38, "Camp_38_C", 2, 0)
+        self.combo(f38, "Optiune_38", ["DA","NU"], 2, 1)
+
+        f39 = ctk.CTkFrame(main)
+        f39.grid(row=39, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f39, text="Sectiune 39", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f39, "Camp_39_A", 1, 0)
+        self.entry(f39, "Camp_39_B", 1, 1)
+        self.entry(f39, "Camp_39_C", 2, 0)
+        self.combo(f39, "Optiune_39", ["DA","NU"], 2, 1)
+
+        f40 = ctk.CTkFrame(main)
+        f40.grid(row=40, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f40, text="Sectiune 40", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f40, "Camp_40_A", 1, 0)
+        self.entry(f40, "Camp_40_B", 1, 1)
+        self.entry(f40, "Camp_40_C", 2, 0)
+        self.combo(f40, "Optiune_40", ["DA","NU"], 2, 1)
+
+        f41 = ctk.CTkFrame(main)
+        f41.grid(row=41, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f41, text="Sectiune 41", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f41, "Camp_41_A", 1, 0)
+        self.entry(f41, "Camp_41_B", 1, 1)
+        self.entry(f41, "Camp_41_C", 2, 0)
+        self.combo(f41, "Optiune_41", ["DA","NU"], 2, 1)
+
+        f42 = ctk.CTkFrame(main)
+        f42.grid(row=42, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f42, text="Sectiune 42", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f42, "Camp_42_A", 1, 0)
+        self.entry(f42, "Camp_42_B", 1, 1)
+        self.entry(f42, "Camp_42_C", 2, 0)
+        self.combo(f42, "Optiune_42", ["DA","NU"], 2, 1)
+
+        f43 = ctk.CTkFrame(main)
+        f43.grid(row=43, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f43, text="Sectiune 43", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f43, "Camp_43_A", 1, 0)
+        self.entry(f43, "Camp_43_B", 1, 1)
+        self.entry(f43, "Camp_43_C", 2, 0)
+        self.combo(f43, "Optiune_43", ["DA","NU"], 2, 1)
+
+        f44 = ctk.CTkFrame(main)
+        f44.grid(row=44, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f44, text="Sectiune 44", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f44, "Camp_44_A", 1, 0)
+        self.entry(f44, "Camp_44_B", 1, 1)
+        self.entry(f44, "Camp_44_C", 2, 0)
+        self.combo(f44, "Optiune_44", ["DA","NU"], 2, 1)
+
+        f45 = ctk.CTkFrame(main)
+        f45.grid(row=45, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f45, text="Sectiune 45", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f45, "Camp_45_A", 1, 0)
+        self.entry(f45, "Camp_45_B", 1, 1)
+        self.entry(f45, "Camp_45_C", 2, 0)
+        self.combo(f45, "Optiune_45", ["DA","NU"], 2, 1)
+
+        f46 = ctk.CTkFrame(main)
+        f46.grid(row=46, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f46, text="Sectiune 46", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f46, "Camp_46_A", 1, 0)
+        self.entry(f46, "Camp_46_B", 1, 1)
+        self.entry(f46, "Camp_46_C", 2, 0)
+        self.combo(f46, "Optiune_46", ["DA","NU"], 2, 1)
+
+        f47 = ctk.CTkFrame(main)
+        f47.grid(row=47, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f47, text="Sectiune 47", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f47, "Camp_47_A", 1, 0)
+        self.entry(f47, "Camp_47_B", 1, 1)
+        self.entry(f47, "Camp_47_C", 2, 0)
+        self.combo(f47, "Optiune_47", ["DA","NU"], 2, 1)
+
+        f48 = ctk.CTkFrame(main)
+        f48.grid(row=48, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f48, text="Sectiune 48", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f48, "Camp_48_A", 1, 0)
+        self.entry(f48, "Camp_48_B", 1, 1)
+        self.entry(f48, "Camp_48_C", 2, 0)
+        self.combo(f48, "Optiune_48", ["DA","NU"], 2, 1)
+
+        f49 = ctk.CTkFrame(main)
+        f49.grid(row=49, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f49, text="Sectiune 49", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f49, "Camp_49_A", 1, 0)
+        self.entry(f49, "Camp_49_B", 1, 1)
+        self.entry(f49, "Camp_49_C", 2, 0)
+        self.combo(f49, "Optiune_49", ["DA","NU"], 2, 1)
+
+        f50 = ctk.CTkFrame(main)
+        f50.grid(row=50, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f50, text="Sectiune 50", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f50, "Camp_50_A", 1, 0)
+        self.entry(f50, "Camp_50_B", 1, 1)
+        self.entry(f50, "Camp_50_C", 2, 0)
+        self.combo(f50, "Optiune_50", ["DA","NU"], 2, 1)
+
+        f51 = ctk.CTkFrame(main)
+        f51.grid(row=51, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f51, text="Sectiune 51", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f51, "Camp_51_A", 1, 0)
+        self.entry(f51, "Camp_51_B", 1, 1)
+        self.entry(f51, "Camp_51_C", 2, 0)
+        self.combo(f51, "Optiune_51", ["DA","NU"], 2, 1)
+
+        f52 = ctk.CTkFrame(main)
+        f52.grid(row=52, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f52, text="Sectiune 52", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f52, "Camp_52_A", 1, 0)
+        self.entry(f52, "Camp_52_B", 1, 1)
+        self.entry(f52, "Camp_52_C", 2, 0)
+        self.combo(f52, "Optiune_52", ["DA","NU"], 2, 1)
+
+        f53 = ctk.CTkFrame(main)
+        f53.grid(row=53, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f53, text="Sectiune 53", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f53, "Camp_53_A", 1, 0)
+        self.entry(f53, "Camp_53_B", 1, 1)
+        self.entry(f53, "Camp_53_C", 2, 0)
+        self.combo(f53, "Optiune_53", ["DA","NU"], 2, 1)
+
+        f54 = ctk.CTkFrame(main)
+        f54.grid(row=54, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f54, text="Sectiune 54", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f54, "Camp_54_A", 1, 0)
+        self.entry(f54, "Camp_54_B", 1, 1)
+        self.entry(f54, "Camp_54_C", 2, 0)
+        self.combo(f54, "Optiune_54", ["DA","NU"], 2, 1)
+
+        f55 = ctk.CTkFrame(main)
+        f55.grid(row=55, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f55, text="Sectiune 55", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f55, "Camp_55_A", 1, 0)
+        self.entry(f55, "Camp_55_B", 1, 1)
+        self.entry(f55, "Camp_55_C", 2, 0)
+        self.combo(f55, "Optiune_55", ["DA","NU"], 2, 1)
+
+        f56 = ctk.CTkFrame(main)
+        f56.grid(row=56, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f56, text="Sectiune 56", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f56, "Camp_56_A", 1, 0)
+        self.entry(f56, "Camp_56_B", 1, 1)
+        self.entry(f56, "Camp_56_C", 2, 0)
+        self.combo(f56, "Optiune_56", ["DA","NU"], 2, 1)
+
+        f57 = ctk.CTkFrame(main)
+        f57.grid(row=57, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f57, text="Sectiune 57", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f57, "Camp_57_A", 1, 0)
+        self.entry(f57, "Camp_57_B", 1, 1)
+        self.entry(f57, "Camp_57_C", 2, 0)
+        self.combo(f57, "Optiune_57", ["DA","NU"], 2, 1)
+
+        f58 = ctk.CTkFrame(main)
+        f58.grid(row=58, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f58, text="Sectiune 58", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f58, "Camp_58_A", 1, 0)
+        self.entry(f58, "Camp_58_B", 1, 1)
+        self.entry(f58, "Camp_58_C", 2, 0)
+        self.combo(f58, "Optiune_58", ["DA","NU"], 2, 1)
+
+        f59 = ctk.CTkFrame(main)
+        f59.grid(row=59, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f59, text="Sectiune 59", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f59, "Camp_59_A", 1, 0)
+        self.entry(f59, "Camp_59_B", 1, 1)
+        self.entry(f59, "Camp_59_C", 2, 0)
+        self.combo(f59, "Optiune_59", ["DA","NU"], 2, 1)
+
+        f60 = ctk.CTkFrame(main)
+        f60.grid(row=60, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f60, text="Sectiune 60", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f60, "Camp_60_A", 1, 0)
+        self.entry(f60, "Camp_60_B", 1, 1)
+        self.entry(f60, "Camp_60_C", 2, 0)
+        self.combo(f60, "Optiune_60", ["DA","NU"], 2, 1)
+
+        f61 = ctk.CTkFrame(main)
+        f61.grid(row=61, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f61, text="Sectiune 61", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f61, "Camp_61_A", 1, 0)
+        self.entry(f61, "Camp_61_B", 1, 1)
+        self.entry(f61, "Camp_61_C", 2, 0)
+        self.combo(f61, "Optiune_61", ["DA","NU"], 2, 1)
+
+        f62 = ctk.CTkFrame(main)
+        f62.grid(row=62, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f62, text="Sectiune 62", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f62, "Camp_62_A", 1, 0)
+        self.entry(f62, "Camp_62_B", 1, 1)
+        self.entry(f62, "Camp_62_C", 2, 0)
+        self.combo(f62, "Optiune_62", ["DA","NU"], 2, 1)
+
+        f63 = ctk.CTkFrame(main)
+        f63.grid(row=63, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f63, text="Sectiune 63", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f63, "Camp_63_A", 1, 0)
+        self.entry(f63, "Camp_63_B", 1, 1)
+        self.entry(f63, "Camp_63_C", 2, 0)
+        self.combo(f63, "Optiune_63", ["DA","NU"], 2, 1)
+
+        f64 = ctk.CTkFrame(main)
+        f64.grid(row=64, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f64, text="Sectiune 64", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f64, "Camp_64_A", 1, 0)
+        self.entry(f64, "Camp_64_B", 1, 1)
+        self.entry(f64, "Camp_64_C", 2, 0)
+        self.combo(f64, "Optiune_64", ["DA","NU"], 2, 1)
+
+        f65 = ctk.CTkFrame(main)
+        f65.grid(row=65, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f65, text="Sectiune 65", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f65, "Camp_65_A", 1, 0)
+        self.entry(f65, "Camp_65_B", 1, 1)
+        self.entry(f65, "Camp_65_C", 2, 0)
+        self.combo(f65, "Optiune_65", ["DA","NU"], 2, 1)
+
+        f66 = ctk.CTkFrame(main)
+        f66.grid(row=66, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f66, text="Sectiune 66", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f66, "Camp_66_A", 1, 0)
+        self.entry(f66, "Camp_66_B", 1, 1)
+        self.entry(f66, "Camp_66_C", 2, 0)
+        self.combo(f66, "Optiune_66", ["DA","NU"], 2, 1)
+
+        f67 = ctk.CTkFrame(main)
+        f67.grid(row=67, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f67, text="Sectiune 67", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f67, "Camp_67_A", 1, 0)
+        self.entry(f67, "Camp_67_B", 1, 1)
+        self.entry(f67, "Camp_67_C", 2, 0)
+        self.combo(f67, "Optiune_67", ["DA","NU"], 2, 1)
+
+        f68 = ctk.CTkFrame(main)
+        f68.grid(row=68, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f68, text="Sectiune 68", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f68, "Camp_68_A", 1, 0)
+        self.entry(f68, "Camp_68_B", 1, 1)
+        self.entry(f68, "Camp_68_C", 2, 0)
+        self.combo(f68, "Optiune_68", ["DA","NU"], 2, 1)
+
+        f69 = ctk.CTkFrame(main)
+        f69.grid(row=69, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f69, text="Sectiune 69", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f69, "Camp_69_A", 1, 0)
+        self.entry(f69, "Camp_69_B", 1, 1)
+        self.entry(f69, "Camp_69_C", 2, 0)
+        self.combo(f69, "Optiune_69", ["DA","NU"], 2, 1)
+
+        f70 = ctk.CTkFrame(main)
+        f70.grid(row=70, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f70, text="Sectiune 70", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f70, "Camp_70_A", 1, 0)
+        self.entry(f70, "Camp_70_B", 1, 1)
+        self.entry(f70, "Camp_70_C", 2, 0)
+        self.combo(f70, "Optiune_70", ["DA","NU"], 2, 1)
+
+        f71 = ctk.CTkFrame(main)
+        f71.grid(row=71, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f71, text="Sectiune 71", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f71, "Camp_71_A", 1, 0)
+        self.entry(f71, "Camp_71_B", 1, 1)
+        self.entry(f71, "Camp_71_C", 2, 0)
+        self.combo(f71, "Optiune_71", ["DA","NU"], 2, 1)
+
+        f72 = ctk.CTkFrame(main)
+        f72.grid(row=72, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f72, text="Sectiune 72", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f72, "Camp_72_A", 1, 0)
+        self.entry(f72, "Camp_72_B", 1, 1)
+        self.entry(f72, "Camp_72_C", 2, 0)
+        self.combo(f72, "Optiune_72", ["DA","NU"], 2, 1)
+
+        f73 = ctk.CTkFrame(main)
+        f73.grid(row=73, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f73, text="Sectiune 73", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f73, "Camp_73_A", 1, 0)
+        self.entry(f73, "Camp_73_B", 1, 1)
+        self.entry(f73, "Camp_73_C", 2, 0)
+        self.combo(f73, "Optiune_73", ["DA","NU"], 2, 1)
+
+        f74 = ctk.CTkFrame(main)
+        f74.grid(row=74, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f74, text="Sectiune 74", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f74, "Camp_74_A", 1, 0)
+        self.entry(f74, "Camp_74_B", 1, 1)
+        self.entry(f74, "Camp_74_C", 2, 0)
+        self.combo(f74, "Optiune_74", ["DA","NU"], 2, 1)
+
+        f75 = ctk.CTkFrame(main)
+        f75.grid(row=75, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f75, text="Sectiune 75", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f75, "Camp_75_A", 1, 0)
+        self.entry(f75, "Camp_75_B", 1, 1)
+        self.entry(f75, "Camp_75_C", 2, 0)
+        self.combo(f75, "Optiune_75", ["DA","NU"], 2, 1)
+
+        f76 = ctk.CTkFrame(main)
+        f76.grid(row=76, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f76, text="Sectiune 76", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f76, "Camp_76_A", 1, 0)
+        self.entry(f76, "Camp_76_B", 1, 1)
+        self.entry(f76, "Camp_76_C", 2, 0)
+        self.combo(f76, "Optiune_76", ["DA","NU"], 2, 1)
+
+        f77 = ctk.CTkFrame(main)
+        f77.grid(row=77, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f77, text="Sectiune 77", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f77, "Camp_77_A", 1, 0)
+        self.entry(f77, "Camp_77_B", 1, 1)
+        self.entry(f77, "Camp_77_C", 2, 0)
+        self.combo(f77, "Optiune_77", ["DA","NU"], 2, 1)
+
+        f78 = ctk.CTkFrame(main)
+        f78.grid(row=78, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f78, text="Sectiune 78", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f78, "Camp_78_A", 1, 0)
+        self.entry(f78, "Camp_78_B", 1, 1)
+        self.entry(f78, "Camp_78_C", 2, 0)
+        self.combo(f78, "Optiune_78", ["DA","NU"], 2, 1)
+
+        f79 = ctk.CTkFrame(main)
+        f79.grid(row=79, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f79, text="Sectiune 79", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f79, "Camp_79_A", 1, 0)
+        self.entry(f79, "Camp_79_B", 1, 1)
+        self.entry(f79, "Camp_79_C", 2, 0)
+        self.combo(f79, "Optiune_79", ["DA","NU"], 2, 1)
+
+        f80 = ctk.CTkFrame(main)
+        f80.grid(row=80, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f80, text="Sectiune 80", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f80, "Camp_80_A", 1, 0)
+        self.entry(f80, "Camp_80_B", 1, 1)
+        self.entry(f80, "Camp_80_C", 2, 0)
+        self.combo(f80, "Optiune_80", ["DA","NU"], 2, 1)
+
+        f81 = ctk.CTkFrame(main)
+        f81.grid(row=81, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f81, text="Sectiune 81", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f81, "Camp_81_A", 1, 0)
+        self.entry(f81, "Camp_81_B", 1, 1)
+        self.entry(f81, "Camp_81_C", 2, 0)
+        self.combo(f81, "Optiune_81", ["DA","NU"], 2, 1)
+
+        f82 = ctk.CTkFrame(main)
+        f82.grid(row=82, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f82, text="Sectiune 82", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f82, "Camp_82_A", 1, 0)
+        self.entry(f82, "Camp_82_B", 1, 1)
+        self.entry(f82, "Camp_82_C", 2, 0)
+        self.combo(f82, "Optiune_82", ["DA","NU"], 2, 1)
+
+        f83 = ctk.CTkFrame(main)
+        f83.grid(row=83, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f83, text="Sectiune 83", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f83, "Camp_83_A", 1, 0)
+        self.entry(f83, "Camp_83_B", 1, 1)
+        self.entry(f83, "Camp_83_C", 2, 0)
+        self.combo(f83, "Optiune_83", ["DA","NU"], 2, 1)
+
+        f84 = ctk.CTkFrame(main)
+        f84.grid(row=84, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f84, text="Sectiune 84", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f84, "Camp_84_A", 1, 0)
+        self.entry(f84, "Camp_84_B", 1, 1)
+        self.entry(f84, "Camp_84_C", 2, 0)
+        self.combo(f84, "Optiune_84", ["DA","NU"], 2, 1)
+
+        f85 = ctk.CTkFrame(main)
+        f85.grid(row=85, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f85, text="Sectiune 85", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f85, "Camp_85_A", 1, 0)
+        self.entry(f85, "Camp_85_B", 1, 1)
+        self.entry(f85, "Camp_85_C", 2, 0)
+        self.combo(f85, "Optiune_85", ["DA","NU"], 2, 1)
+
+        f86 = ctk.CTkFrame(main)
+        f86.grid(row=86, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f86, text="Sectiune 86", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f86, "Camp_86_A", 1, 0)
+        self.entry(f86, "Camp_86_B", 1, 1)
+        self.entry(f86, "Camp_86_C", 2, 0)
+        self.combo(f86, "Optiune_86", ["DA","NU"], 2, 1)
+
+        f87 = ctk.CTkFrame(main)
+        f87.grid(row=87, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f87, text="Sectiune 87", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f87, "Camp_87_A", 1, 0)
+        self.entry(f87, "Camp_87_B", 1, 1)
+        self.entry(f87, "Camp_87_C", 2, 0)
+        self.combo(f87, "Optiune_87", ["DA","NU"], 2, 1)
+
+        f88 = ctk.CTkFrame(main)
+        f88.grid(row=88, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f88, text="Sectiune 88", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f88, "Camp_88_A", 1, 0)
+        self.entry(f88, "Camp_88_B", 1, 1)
+        self.entry(f88, "Camp_88_C", 2, 0)
+        self.combo(f88, "Optiune_88", ["DA","NU"], 2, 1)
+
+        f89 = ctk.CTkFrame(main)
+        f89.grid(row=89, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f89, text="Sectiune 89", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f89, "Camp_89_A", 1, 0)
+        self.entry(f89, "Camp_89_B", 1, 1)
+        self.entry(f89, "Camp_89_C", 2, 0)
+        self.combo(f89, "Optiune_89", ["DA","NU"], 2, 1)
+
+        f90 = ctk.CTkFrame(main)
+        f90.grid(row=90, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f90, text="Sectiune 90", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f90, "Camp_90_A", 1, 0)
+        self.entry(f90, "Camp_90_B", 1, 1)
+        self.entry(f90, "Camp_90_C", 2, 0)
+        self.combo(f90, "Optiune_90", ["DA","NU"], 2, 1)
+
+        f91 = ctk.CTkFrame(main)
+        f91.grid(row=91, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f91, text="Sectiune 91", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f91, "Camp_91_A", 1, 0)
+        self.entry(f91, "Camp_91_B", 1, 1)
+        self.entry(f91, "Camp_91_C", 2, 0)
+        self.combo(f91, "Optiune_91", ["DA","NU"], 2, 1)
+
+        f92 = ctk.CTkFrame(main)
+        f92.grid(row=92, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f92, text="Sectiune 92", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f92, "Camp_92_A", 1, 0)
+        self.entry(f92, "Camp_92_B", 1, 1)
+        self.entry(f92, "Camp_92_C", 2, 0)
+        self.combo(f92, "Optiune_92", ["DA","NU"], 2, 1)
+
+        f93 = ctk.CTkFrame(main)
+        f93.grid(row=93, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f93, text="Sectiune 93", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f93, "Camp_93_A", 1, 0)
+        self.entry(f93, "Camp_93_B", 1, 1)
+        self.entry(f93, "Camp_93_C", 2, 0)
+        self.combo(f93, "Optiune_93", ["DA","NU"], 2, 1)
+
+        f94 = ctk.CTkFrame(main)
+        f94.grid(row=94, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f94, text="Sectiune 94", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f94, "Camp_94_A", 1, 0)
+        self.entry(f94, "Camp_94_B", 1, 1)
+        self.entry(f94, "Camp_94_C", 2, 0)
+        self.combo(f94, "Optiune_94", ["DA","NU"], 2, 1)
+
+        f95 = ctk.CTkFrame(main)
+        f95.grid(row=95, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f95, text="Sectiune 95", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f95, "Camp_95_A", 1, 0)
+        self.entry(f95, "Camp_95_B", 1, 1)
+        self.entry(f95, "Camp_95_C", 2, 0)
+        self.combo(f95, "Optiune_95", ["DA","NU"], 2, 1)
+
+        f96 = ctk.CTkFrame(main)
+        f96.grid(row=96, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f96, text="Sectiune 96", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f96, "Camp_96_A", 1, 0)
+        self.entry(f96, "Camp_96_B", 1, 1)
+        self.entry(f96, "Camp_96_C", 2, 0)
+        self.combo(f96, "Optiune_96", ["DA","NU"], 2, 1)
+
+        f97 = ctk.CTkFrame(main)
+        f97.grid(row=97, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f97, text="Sectiune 97", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f97, "Camp_97_A", 1, 0)
+        self.entry(f97, "Camp_97_B", 1, 1)
+        self.entry(f97, "Camp_97_C", 2, 0)
+        self.combo(f97, "Optiune_97", ["DA","NU"], 2, 1)
+
+        f98 = ctk.CTkFrame(main)
+        f98.grid(row=98, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f98, text="Sectiune 98", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f98, "Camp_98_A", 1, 0)
+        self.entry(f98, "Camp_98_B", 1, 1)
+        self.entry(f98, "Camp_98_C", 2, 0)
+        self.combo(f98, "Optiune_98", ["DA","NU"], 2, 1)
+
+        f99 = ctk.CTkFrame(main)
+        f99.grid(row=99, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f99, text="Sectiune 99", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f99, "Camp_99_A", 1, 0)
+        self.entry(f99, "Camp_99_B", 1, 1)
+        self.entry(f99, "Camp_99_C", 2, 0)
+        self.combo(f99, "Optiune_99", ["DA","NU"], 2, 1)
+
+        f100 = ctk.CTkFrame(main)
+        f100.grid(row=100, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f100, text="Sectiune 100", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f100, "Camp_100_A", 1, 0)
+        self.entry(f100, "Camp_100_B", 1, 1)
+        self.entry(f100, "Camp_100_C", 2, 0)
+        self.combo(f100, "Optiune_100", ["DA","NU"], 2, 1)
+
+        f101 = ctk.CTkFrame(main)
+        f101.grid(row=101, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f101, text="Sectiune 101", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f101, "Camp_101_A", 1, 0)
+        self.entry(f101, "Camp_101_B", 1, 1)
+        self.entry(f101, "Camp_101_C", 2, 0)
+        self.combo(f101, "Optiune_101", ["DA","NU"], 2, 1)
+
+        f102 = ctk.CTkFrame(main)
+        f102.grid(row=102, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f102, text="Sectiune 102", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f102, "Camp_102_A", 1, 0)
+        self.entry(f102, "Camp_102_B", 1, 1)
+        self.entry(f102, "Camp_102_C", 2, 0)
+        self.combo(f102, "Optiune_102", ["DA","NU"], 2, 1)
+
+        f103 = ctk.CTkFrame(main)
+        f103.grid(row=103, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f103, text="Sectiune 103", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f103, "Camp_103_A", 1, 0)
+        self.entry(f103, "Camp_103_B", 1, 1)
+        self.entry(f103, "Camp_103_C", 2, 0)
+        self.combo(f103, "Optiune_103", ["DA","NU"], 2, 1)
+
+        f104 = ctk.CTkFrame(main)
+        f104.grid(row=104, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f104, text="Sectiune 104", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f104, "Camp_104_A", 1, 0)
+        self.entry(f104, "Camp_104_B", 1, 1)
+        self.entry(f104, "Camp_104_C", 2, 0)
+        self.combo(f104, "Optiune_104", ["DA","NU"], 2, 1)
+
+        f105 = ctk.CTkFrame(main)
+        f105.grid(row=105, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f105, text="Sectiune 105", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f105, "Camp_105_A", 1, 0)
+        self.entry(f105, "Camp_105_B", 1, 1)
+        self.entry(f105, "Camp_105_C", 2, 0)
+        self.combo(f105, "Optiune_105", ["DA","NU"], 2, 1)
+
+        f106 = ctk.CTkFrame(main)
+        f106.grid(row=106, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f106, text="Sectiune 106", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f106, "Camp_106_A", 1, 0)
+        self.entry(f106, "Camp_106_B", 1, 1)
+        self.entry(f106, "Camp_106_C", 2, 0)
+        self.combo(f106, "Optiune_106", ["DA","NU"], 2, 1)
+
+        f107 = ctk.CTkFrame(main)
+        f107.grid(row=107, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f107, text="Sectiune 107", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f107, "Camp_107_A", 1, 0)
+        self.entry(f107, "Camp_107_B", 1, 1)
+        self.entry(f107, "Camp_107_C", 2, 0)
+        self.combo(f107, "Optiune_107", ["DA","NU"], 2, 1)
+
+        f108 = ctk.CTkFrame(main)
+        f108.grid(row=108, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f108, text="Sectiune 108", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f108, "Camp_108_A", 1, 0)
+        self.entry(f108, "Camp_108_B", 1, 1)
+        self.entry(f108, "Camp_108_C", 2, 0)
+        self.combo(f108, "Optiune_108", ["DA","NU"], 2, 1)
+
+        f109 = ctk.CTkFrame(main)
+        f109.grid(row=109, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f109, text="Sectiune 109", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f109, "Camp_109_A", 1, 0)
+        self.entry(f109, "Camp_109_B", 1, 1)
+        self.entry(f109, "Camp_109_C", 2, 0)
+        self.combo(f109, "Optiune_109", ["DA","NU"], 2, 1)
+
+        f110 = ctk.CTkFrame(main)
+        f110.grid(row=110, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f110, text="Sectiune 110", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f110, "Camp_110_A", 1, 0)
+        self.entry(f110, "Camp_110_B", 1, 1)
+        self.entry(f110, "Camp_110_C", 2, 0)
+        self.combo(f110, "Optiune_110", ["DA","NU"], 2, 1)
+
+        f111 = ctk.CTkFrame(main)
+        f111.grid(row=111, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f111, text="Sectiune 111", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f111, "Camp_111_A", 1, 0)
+        self.entry(f111, "Camp_111_B", 1, 1)
+        self.entry(f111, "Camp_111_C", 2, 0)
+        self.combo(f111, "Optiune_111", ["DA","NU"], 2, 1)
+
+        f112 = ctk.CTkFrame(main)
+        f112.grid(row=112, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f112, text="Sectiune 112", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f112, "Camp_112_A", 1, 0)
+        self.entry(f112, "Camp_112_B", 1, 1)
+        self.entry(f112, "Camp_112_C", 2, 0)
+        self.combo(f112, "Optiune_112", ["DA","NU"], 2, 1)
+
+        f113 = ctk.CTkFrame(main)
+        f113.grid(row=113, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f113, text="Sectiune 113", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f113, "Camp_113_A", 1, 0)
+        self.entry(f113, "Camp_113_B", 1, 1)
+        self.entry(f113, "Camp_113_C", 2, 0)
+        self.combo(f113, "Optiune_113", ["DA","NU"], 2, 1)
+
+        f114 = ctk.CTkFrame(main)
+        f114.grid(row=114, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f114, text="Sectiune 114", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f114, "Camp_114_A", 1, 0)
+        self.entry(f114, "Camp_114_B", 1, 1)
+        self.entry(f114, "Camp_114_C", 2, 0)
+        self.combo(f114, "Optiune_114", ["DA","NU"], 2, 1)
+
+        f115 = ctk.CTkFrame(main)
+        f115.grid(row=115, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f115, text="Sectiune 115", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f115, "Camp_115_A", 1, 0)
+        self.entry(f115, "Camp_115_B", 1, 1)
+        self.entry(f115, "Camp_115_C", 2, 0)
+        self.combo(f115, "Optiune_115", ["DA","NU"], 2, 1)
+
+        f116 = ctk.CTkFrame(main)
+        f116.grid(row=116, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f116, text="Sectiune 116", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f116, "Camp_116_A", 1, 0)
+        self.entry(f116, "Camp_116_B", 1, 1)
+        self.entry(f116, "Camp_116_C", 2, 0)
+        self.combo(f116, "Optiune_116", ["DA","NU"], 2, 1)
+
+        f117 = ctk.CTkFrame(main)
+        f117.grid(row=117, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f117, text="Sectiune 117", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f117, "Camp_117_A", 1, 0)
+        self.entry(f117, "Camp_117_B", 1, 1)
+        self.entry(f117, "Camp_117_C", 2, 0)
+        self.combo(f117, "Optiune_117", ["DA","NU"], 2, 1)
+
+        f118 = ctk.CTkFrame(main)
+        f118.grid(row=118, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f118, text="Sectiune 118", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f118, "Camp_118_A", 1, 0)
+        self.entry(f118, "Camp_118_B", 1, 1)
+        self.entry(f118, "Camp_118_C", 2, 0)
+        self.combo(f118, "Optiune_118", ["DA","NU"], 2, 1)
+
+        f119 = ctk.CTkFrame(main)
+        f119.grid(row=119, column=0, padx=5, pady=5, sticky="nsew")
+        ctk.CTkLabel(f119, text="Sectiune 119", font=("Arial",12,"bold")).grid(row=0,column=0,columnspan=2)
+
+        self.entry(f119, "Camp_119_A", 1, 0)
+        self.entry(f119, "Camp_119_B", 1, 1)
+        self.entry(f119, "Camp_119_C", 2, 0)
+        self.combo(f119, "Optiune_119", ["DA","NU"], 2, 1)
+
+    def page_consumatori(self):
+        self.clear()
+        frame = ctk.CTkFrame(self.content)
+        frame.pack(fill="both", expand=True)
+
+        self.consum_frame = ctk.CTkFrame(frame)
+        self.consum_frame.pack(pady=20)
+
+        ctk.CTkButton(frame, text="Adauga consumator", command=self.add_consumator).pack()
+
+    def add_consumator(self):
+        e = ctk.CTkEntry(self.consum_frame, placeholder_text="Consumator + debit")
+        e.pack(pady=3)
+        self.consumatori.append(e)
+
+    def page_documentatie(self):
+        self.clear()
+        frame = ctk.CTkFrame(self.content)
+        frame.pack(fill="both", expand=True)
+
+        ctk.CTkButton(frame, text="Documentatie proiectare", command=self.doc).pack(pady=5)
+        ctk.CTkButton(frame, text="Documentatie avizare", command=self.doc).pack(pady=5)
+        ctk.CTkButton(frame, text="Genereaza PDF", command=self.pdf).pack(pady=5)
+        ctk.CTkButton(frame, text="Salveaza proiect", command=self.save).pack(pady=5)
+        ctk.CTkButton(frame, text="Incarca proiect", command=self.load).pack(pady=5)
+
+    def save(self):
+        data = {k:v.get() for k,v in self.vars.items()}
+        data["consumatori"] = [c.get() for c in self.consumatori]
+        with open("project.json","w") as f:
+            json.dump(data,f)
+
+    def load(self):
+        path = filedialog.askopenfilename()
+        if not path: return
+        with open(path) as f:
+            data = json.load(f)
+        for k,v in data.items():
+            if k in self.vars:
+                self.vars[k].delete(0,"end")
+                self.vars[k].insert(0,v)
+
+    def doc(self):
+        doc = Document()
+        doc.add_heading("Proiect",0)
+        for k,v in self.vars.items():
+            doc.add_paragraph(f"{k}: {v.get()}")
+        doc.save("proiect.docx")
+
+    def pdf(self):
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial",size=10)
+        for k,v in self.vars.items():
+            pdf.cell(200,10,txt=f"{k}: {v.get()}",ln=True)
+        pdf.output("proiect.pdf")
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()

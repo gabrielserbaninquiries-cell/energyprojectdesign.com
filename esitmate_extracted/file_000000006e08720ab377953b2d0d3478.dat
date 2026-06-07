@@ -1,0 +1,108 @@
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python .\tools_fix_app_and_start_now.py
+Traceback (most recent call last):
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 144, in compile
+    code = loader.source_to_code(source_bytes, dfile or file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 1004, in source_to_code
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\tools_fix_app_and_start_now.py", line 130, in <module>
+    py_compile.compile(str(app_path), doraise=True)
+  File "C:\Users\40735\AppData\Local\Programs\Python\Python311\Lib\py_compile.py", line 150, in compile
+    raise py_exc
+py_compile.PyCompileError:   File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
+
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+  File ".\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\start.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python start.py
+Aplicatia nu a putut porni. Vezi logs/startup_error.log
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
+
+Apasa Enter pentru inchidere...
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\app.py
+  File ".\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> python -m py_compile .\start.py
+(.venv) PS C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0> Get-Content .\logs\startup_error.log -Tail 60
+
+
+
+================================================================================
+[2026-06-01 05:23:26]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+
+
+================================================================================
+[2026-06-01 05:23:48]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 1
+    ď»żimport os\nimport traceback\nfrom pathlib import Path
+            ^
+SyntaxError: unexpected character after line continuation character
+
+
+
+================================================================================
+[2026-06-01 05:30:10]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+
+
+================================================================================
+[2026-06-01 05:30:18]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 127
+    "Aplicatia a trecut de login, dar a aparut o eroare la incarcarea interfetei principale.
+    ^
+SyntaxError: unterminated string literal (detected at line 127)
+
+
+
+================================================================================
+[2026-06-01 05:37:47]
+Traceback (most recent call last):
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\start.py", line 88, in main
+    import app
+  File "C:\Users\40735\Desktop\Energy Project Design - Bransamente 2.0\app.py", line 278
+    text="Professional / Verifier Core
+         ^
+SyntaxError: unterminated string literal (detected at line 278)
