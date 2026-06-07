@@ -10,6 +10,8 @@
 - **Landing hero refăcut** pentru poziționare internațională multi-industrie (13 industrii / 56+ subdomenii / QES) + secțiune "5 perspective" cu link-uri către persona pages.
 - **Sidebar**: "Industrii (12)" → "Industrii (13)".
 - Surse: `/app/esitmate.rar` extras în `/app/esitmate_extracted/` (58 fișiere: site.docx, Feat-uri.docx, prompt nou.docx, etc.).
+- **Testing V5.7**: testing_agent_v3_fork iteration_2 — Backend 14/14 pytest passed, Frontend 100%. Suite: `/app/backend/tests/test_v57_features.py`.
+- **AI Agents per persona confirmat funcțional**: 4 agenți (Producer/User/Client/Developer) deja implementați în `/app/backend/ai_agents.py` cu Claude Sonnet 4.6 via Emergent LLM Key + UI `/app/frontend/src/pages/AIAgents.jsx`. Răspunsuri live verificate prin curl + UI.
 
 
 ## Product Vision
