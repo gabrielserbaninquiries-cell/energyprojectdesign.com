@@ -46,3 +46,21 @@
 
 ### Notă deploy
 - Push GitHub: foloseste butonul **"Save to Github"** din chat input (write actions nu sunt suportate direct de agent).
+## 2026-02-07 — V5.5 Repository Unification
+
+### Lost feature recovered
+- **EnergyAdvisor (Claude Sonnet 4.6 chatbot)** — was deleted before commit `933d02c`, restored from `81b3b77`.
+  - Backend: `ai_chatbot.py` (183 LOC) + 5 endpoints in `server.py`.
+  - Frontend: `EnergyAdvisor.jsx` (213 LOC) + route `/consultant-ai` + sidebar entry.
+  - Models: `ChatbotMessage`, `ChatbotSessionCreate`.
+
+### Audit results
+- Cross-checked all 244 commits across `main`, `gh/main`, `gh2/main` — no other lost features.
+- All 44 frontend pages already wired into App.js routes.
+- All admin/AI/SEAP/CRM/ANAF endpoints wired (`@api.*` pattern).
+
+### Verified
+- `POST /api/chatbot/message` returns valid Claude Sonnet 4.6 response with ANRE-correct domain knowledge.
+- `/consultant-ai` route correctly enforces auth (redirects to /login when unauth).
+- Lint passes (eslint react-hooks/set-state-in-effect resolved via IIFE pattern + scrollIntoView).
+

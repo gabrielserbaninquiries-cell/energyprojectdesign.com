@@ -197,6 +197,18 @@ class AuthResponse(BaseModel):
     user: User
 
 
+# ---- AI Chatbot (Energy Advisor / Consultant) ----
+class ChatbotMessage(BaseModel):
+    session_id: Optional[str] = None
+    message: str = Field(min_length=1, max_length=4000)
+    lang: Optional[str] = "ro"
+
+
+class ChatbotSessionCreate(BaseModel):
+    title: Optional[str] = "Conversație nouă"
+    lang: Optional[str] = "ro"
+
+
 # ---- Templates ----
 class TemplateMeta(BaseModel):
     model_config = ConfigDict(extra="ignore")

@@ -41,6 +41,12 @@ import FeaturesHub from './pages/FeaturesHub';
 import FeatureDetail from './pages/FeatureDetail';
 import DeveloperProgres from './pages/DeveloperProgres';
 import AdminConfig from './pages/AdminConfig';
+import AIAgents from './pages/AIAgents';
+import SEAPAlerts from './pages/SEAPAlerts';
+import CRMSubscribers from './pages/CRMSubscribers';
+import ANAFInvoicing from './pages/ANAFInvoicing';
+import PublicStatus from './pages/PublicStatus';
+import EnergyAdvisor from './pages/EnergyAdvisor';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -100,6 +106,12 @@ function AppRouter() {
       {/* Progress page (developer-only) */}
       <Route path="/developer/progres" element={<ProtectedRoute><DeveloperProgres /></ProtectedRoute>} />
       <Route path="/admin/config" element={<ProtectedRoute><AdminConfig /></ProtectedRoute>} />
+      <Route path="/ai-agents" element={<ProtectedRoute><AIAgents /></ProtectedRoute>} />
+      <Route path="/seap-alerts" element={<ProtectedRoute><SEAPAlerts /></ProtectedRoute>} />
+      <Route path="/crm-abonati" element={<ProtectedRoute><CRMSubscribers /></ProtectedRoute>} />
+      <Route path="/anaf-efactura" element={<ProtectedRoute><ANAFInvoicing /></ProtectedRoute>} />
+      <Route path="/status" element={<PublicStatus />} />
+      <Route path="/consultant-ai" element={<ProtectedRoute><EnergyAdvisor /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

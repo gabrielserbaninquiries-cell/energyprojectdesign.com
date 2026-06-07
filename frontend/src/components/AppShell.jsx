@@ -1,12 +1,14 @@
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import api from '../lib/api';
 import ActiveProjectBar from './ActiveProjectBar';
 import LicenseTimer from './LicenseTimer';
 import {
   LayoutDashboard, ClipboardList, Settings2, Calculator, FileText, FileCheck2,
   Stamp, ShieldCheck, Mail, BadgeCheck, GaugeCircle, CreditCard, Settings, LogOut,
   Sparkles, Wrench, ListChecks, Flame, ChevronRight, FolderKanban, Github, Banknote, MessageSquare, Building2,
-  Layers, Compass, BarChart3, Sun,
+  Layers, Compass, BarChart3, Sun, Bot, FileSearch, Users as UsersIcon, Receipt, AlertTriangle, X,
 } from 'lucide-react';
 
 const SECTIONS = [
@@ -38,9 +40,19 @@ const SECTIONS = [
     items: [
       { to: '/email', label: 'Email-uri', icon: Mail, tid: 'nav-email' },
       { to: '/forum', label: 'Forum comunitate', icon: MessageSquare, tid: 'nav-forum' },
+      { to: '/ai-agents', label: '4 AI Agents', icon: Bot, tid: 'nav-ai-agents' },
+      { to: '/consultant-ai', label: 'Consultant AI (Claude)', icon: Sparkles, tid: 'nav-consultant-ai' },
+      { to: '/seap-alerts', label: 'SEAP Alerts', icon: FileSearch, tid: 'nav-seap' },
       { to: '/verifica', label: 'Verifică documentație', icon: GaugeCircle, tid: 'nav-verifica' },
       { to: '/ai', label: 'AI Assistant', icon: Sparkles, tid: 'nav-ai' },
       { to: '/audit', label: 'Audit interfață', icon: ListChecks, tid: 'nav-audit' },
+    ],
+  },
+  {
+    title: 'Business',
+    items: [
+      { to: '/crm-abonati', label: 'CRM Abonați', icon: UsersIcon, tid: 'nav-crm' },
+      { to: '/anaf-efactura', label: 'ANAF e-Factura', icon: Receipt, tid: 'nav-anaf' },
     ],
   },
   {
@@ -58,6 +70,31 @@ export default function AppShell({ children, title, subtitle }) {
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [banner, setBanner] = useState(null);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const poll = async () => {
+      try {
+        const { data } = await api.get('/system/banner');
+        if (!cancelled) setBanner(data);
+      } catch (_) { /* silent */ }
+    };
+    poll();
+    const t = setInterval(poll, 60000); // every 60s
+    return () => { cancelled = true; clearInterval(t); };
+  }, []);
+
+  const showBanner = banner && !bannerDismissed && (banner.maintenance_mode || banner.announcement_banner);
+  const isWarn = banner?.maintenance_mode || banner?.announcement_level === 'warning' || banner?.announcement_level === 'danger';
+  const bannerBg = banner?.maintenance_mode || banner?.announcement_level === 'danger'
+    ? 'bg-rose-600 text-white'
+    : banner?.announcement_level === 'warning'
+    ? 'bg-amber-500 text-black'
+    : banner?.announcement_level === 'success'
+    ? 'bg-emerald-600 text-white'
+    : 'bg-sky-600 text-white';
 
   return (
     <div className="min-h-screen bg-[#F9FAFB] flex">
@@ -148,6 +185,16 @@ export default function AppShell({ children, title, subtitle }) {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
+        {showBanner && (
+          <div className={`relative ${bannerBg} px-6 py-2.5 text-sm flex items-center gap-3`} data-testid="global-banner">
+            <AlertTriangle className="w-4 h-4 shrink-0" />
+            <div className="flex-1">
+              {banner.maintenance_mode && <strong className="mr-2 uppercase tracking-wider text-xs">Mentenanță:</strong>}
+              {banner.maintenance_message || banner.announcement_banner}
+            </div>
+            <button onClick={() => setBannerDismissed(true)} className="opacity-70 hover:opacity-100" data-testid="banner-dismiss"><X className="w-4 h-4" /></button>
+          </div>
+        )}
         <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-semibold tracking-tight" data-testid="page-title">{title}</h1>

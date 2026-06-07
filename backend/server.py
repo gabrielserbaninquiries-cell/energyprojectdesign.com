@@ -27,6 +27,7 @@ from models import (
     ProjectIn, Project, TechnicalDataIn, PhotovoltaicDataIn,
     CertificationCreate, Certification, AIQuery,
     AdminConfig, AdminConfigUpdate, AdminUserRoleUpdate,
+    ChatbotMessage, ChatbotSessionCreate,
 )
 from auth import (
     hash_password, verify_password, create_jwt,
@@ -41,6 +42,7 @@ import calc_engine
 import photovoltaic
 import ai_assistant
 import ai_developer
+import ai_chatbot
 import industries as industries_module
 import system_templates
 import pdf_export
@@ -385,6 +387,304 @@ async def public_banner():
             "payments": cfg.get("feature_payments_enabled", True),
         },
     }
+
+
+@api.get("/system/status")
+async def public_status():
+    """Public status dashboard data — uptime indicator, totals, recent activity."""
+    cfg = await _get_admin_config()
+    users = await db.users.count_documents({})
+    projects = await db.projects.count_documents({})
+    documents = await db.documents.count_documents({})
+    try:
+        recent_logs = []
+        async for log in db.action_logs.find({}, {"_id": 0}).sort("created_at", -1).limit(5):
+            recent_logs.append({
+                "action": log.get("action"),
+                "created_at": log.get("created_at"),
+            })
+    except Exception:
+        recent_logs = []
+    return {
+        "status": "maintenance" if cfg.get("maintenance_mode") else "operational",
+        "maintenance_message": cfg.get("maintenance_message") or "",
+        "announcement_banner": cfg.get("announcement_banner") or "",
+        "announcement_level": cfg.get("announcement_level") or "info",
+        "totals": {"users": users, "projects": projects, "documents": documents},
+        "modules": {
+            "forum": cfg.get("feature_forum_enabled", True),
+            "email": cfg.get("feature_email_enabled", True),
+            "pdf": cfg.get("feature_pdf_enabled", True),
+            "photovoltaic": cfg.get("feature_photovoltaic_enabled", True),
+            "ai_assistant": cfg.get("feature_ai_assistant_enabled", True),
+            "payments": cfg.get("feature_payments_enabled", True),
+        },
+        "recent_activity": recent_logs,
+        "version": "v5.5",
+    }
+
+
+@api.get("/admin/audit-logs")
+async def admin_audit_logs(admin: User = Depends(get_admin_user), limit: int = 100):
+    """Return recent platform audit events (admin only)."""
+    limit = max(1, min(500, int(limit)))
+    logs: List[dict] = []
+    async for log in db.action_logs.find({}, {"_id": 0}).sort("created_at", -1).limit(limit):
+        logs.append(log)
+    return {"logs": logs, "count": len(logs)}
+
+
+# ====================== AI AGENTS (4 specialists) ======================
+@api.post("/ai/agents/{agent}")
+async def ai_agent_ask(agent: str, payload: dict, user: User = Depends(get_current_user)):
+    """Ask one of the 4 AI agents (producer | user | client | developer)."""
+    from ai_agents import ask_agent, AGENT_PROMPTS
+    if agent not in AGENT_PROMPTS:
+        raise HTTPException(status_code=400, detail=f"Agent invalid. Disponibili: {list(AGENT_PROMPTS.keys())}")
+    message = (payload or {}).get("message") or ""
+    if not message.strip():
+        raise HTTPException(status_code=400, detail="Mesaj gol")
+    session_id = (payload or {}).get("session_id") or f"u_{user.user_id}_{agent}"
+    result = await ask_agent(agent, message.strip(), session_id)
+    # Persist conversation
+    await db.ai_agent_messages.insert_one({
+        "msg_id": new_id("aim_"),
+        "user_id": user.user_id,
+        "agent": agent,
+        "session_id": session_id,
+        "message": message.strip(),
+        "reply": result["reply"],
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    })
+    return result
+
+
+@api.get("/ai/agents/{agent}/history")
+async def ai_agent_history(agent: str, user: User = Depends(get_current_user), limit: int = 30):
+    """Return user's recent conversation with an agent."""
+    msgs: List[dict] = []
+    async for m in db.ai_agent_messages.find(
+        {"user_id": user.user_id, "agent": agent}, {"_id": 0}
+    ).sort("created_at", -1).limit(int(limit)):
+        msgs.append(m)
+    msgs.reverse()
+    return {"agent": agent, "messages": msgs, "count": len(msgs)}
+
+
+# ====================== SEAP ALERTS ======================
+@api.post("/seap/screen")
+async def seap_screen(payload: dict, user: User = Depends(get_current_user)):
+    """Score an inbound SEAP tender for industry relevance (rule-based + optional AI summary)."""
+    from ai_agents import score_seap_tender, ai_summarize_tender
+    title = (payload or {}).get("title", "")
+    description = (payload or {}).get("description", "")
+    value_ron = (payload or {}).get("value_ron")
+    if not title.strip():
+        raise HTTPException(status_code=400, detail="Titlu obligatoriu")
+    scoring = score_seap_tender(title, description, value_ron)
+    use_ai = bool((payload or {}).get("ai_summary", False))
+    summary = None
+    if use_ai:
+        summary = await ai_summarize_tender(title, description)
+    # Persist
+    tender_id = new_id("seap_")
+    await db.seap_tenders.insert_one({
+        "tender_id": tender_id,
+        "user_id": user.user_id,
+        "title": title,
+        "description": description,
+        "value_ron": value_ron,
+        "scoring": scoring,
+        "ai_summary": summary,
+        "status": "screened",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    })
+    return {"tender_id": tender_id, "scoring": scoring, "ai_summary": summary}
+
+
+@api.get("/seap/tenders")
+async def seap_list(user: User = Depends(get_current_user), industry: Optional[str] = None, limit: int = 50):
+    q: Dict = {"user_id": user.user_id}
+    if industry:
+        q["scoring.industry"] = industry
+    items: List[dict] = []
+    async for t in db.seap_tenders.find(q, {"_id": 0}).sort("created_at", -1).limit(int(limit)):
+        items.append(t)
+    return {"tenders": items, "count": len(items)}
+
+
+@api.delete("/seap/tenders/{tender_id}")
+async def seap_delete(tender_id: str, user: User = Depends(get_current_user)):
+    res = await db.seap_tenders.delete_one({"tender_id": tender_id, "user_id": user.user_id})
+    if not res.deleted_count:
+        raise HTTPException(status_code=404, detail="Licitație inexistentă")
+    return {"ok": True, "tender_id": tender_id}
+
+
+# ====================== CRM ABONAȚI ======================
+@api.post("/crm/subscribers")
+async def crm_create_subscriber(payload: dict, user: User = Depends(get_current_user)):
+    """Create a CRM subscriber (contract recurrent)."""
+    name = (payload or {}).get("name", "").strip()
+    if not name:
+        raise HTTPException(status_code=400, detail="Nume obligatoriu")
+    sub_id = new_id("sub_")
+    doc = {
+        "sub_id": sub_id,
+        "user_id": user.user_id,
+        "name": name,
+        "email": (payload or {}).get("email", "").strip().lower() or None,
+        "phone": (payload or {}).get("phone", "").strip() or None,
+        "company": (payload or {}).get("company", "").strip() or None,
+        "industry": (payload or {}).get("industry") or None,
+        "plan_label": (payload or {}).get("plan_label", "").strip() or None,
+        "monthly_fee_ron": float((payload or {}).get("monthly_fee_ron") or 0),
+        "contract_start": (payload or {}).get("contract_start") or None,
+        "contract_end": (payload or {}).get("contract_end") or None,
+        "status": (payload or {}).get("status") or "active",  # active | paused | expired
+        "notes": (payload or {}).get("notes", "").strip() or None,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.crm_subscribers.insert_one(doc.copy())
+    doc.pop("_id", None)
+    return doc
+
+
+@api.get("/crm/subscribers")
+async def crm_list_subscribers(user: User = Depends(get_current_user), status: Optional[str] = None):
+    q: Dict = {"user_id": user.user_id}
+    if status:
+        q["status"] = status
+    items: List[dict] = []
+    async for s in db.crm_subscribers.find(q, {"_id": 0}).sort("created_at", -1):
+        items.append(s)
+    # totals
+    total_mrr = sum(float(s.get("monthly_fee_ron") or 0) for s in items if s.get("status") == "active")
+    return {"subscribers": items, "count": len(items), "mrr_ron": round(total_mrr, 2)}
+
+
+@api.patch("/crm/subscribers/{sub_id}")
+async def crm_update_subscriber(sub_id: str, payload: dict, user: User = Depends(get_current_user)):
+    allowed = {"name", "email", "phone", "company", "industry", "plan_label", "monthly_fee_ron",
+               "contract_start", "contract_end", "status", "notes"}
+    updates = {k: v for k, v in (payload or {}).items() if k in allowed}
+    if not updates:
+        raise HTTPException(status_code=400, detail="Nicio modificare validă")
+    res = await db.crm_subscribers.update_one(
+        {"sub_id": sub_id, "user_id": user.user_id}, {"$set": updates}
+    )
+    if not res.matched_count:
+        raise HTTPException(status_code=404, detail="Abonat inexistent")
+    doc = await db.crm_subscribers.find_one({"sub_id": sub_id}, {"_id": 0})
+    return doc
+
+
+@api.delete("/crm/subscribers/{sub_id}")
+async def crm_delete_subscriber(sub_id: str, user: User = Depends(get_current_user)):
+    res = await db.crm_subscribers.delete_one({"sub_id": sub_id, "user_id": user.user_id})
+    if not res.deleted_count:
+        raise HTTPException(status_code=404, detail="Abonat inexistent")
+    return {"ok": True}
+
+
+# ====================== ANAF e-Factura (skeleton) ======================
+@api.post("/anaf/invoices")
+async def anaf_create_invoice(payload: dict, user: User = Depends(get_current_user)):
+    """Generate an ANAF e-Factura document (UBL 2.1 RO-CIUS subset). Stored locally for review.
+
+    NOTĂ: trimiterea efectivă către SPV ANAF necesită certificat digital + OAuth2 token,
+    flow neimplementat încă. Endpoint-ul generează draft-ul XML și-l salvează pentru
+    descărcare/verificare manuală.
+    """
+    series = (payload or {}).get("series", "EPD")
+    number = int((payload or {}).get("number") or 1)
+    issue_date = (payload or {}).get("issue_date") or datetime.now(timezone.utc).date().isoformat()
+    buyer = (payload or {}).get("buyer", {})  # {name, cui, address}
+    seller = (payload or {}).get("seller", {})  # default = user's company
+    items = (payload or {}).get("items", [])  # [{name, qty, unit, price, vat_rate}]
+    if not items:
+        raise HTTPException(status_code=400, detail="Cel puțin un articol este obligatoriu")
+    # Compute totals
+    lines_xml = []
+    subtotal = 0.0
+    vat_total = 0.0
+    for i, it in enumerate(items, 1):
+        qty = float(it.get("qty") or 0)
+        price = float(it.get("price") or 0)
+        vat = float(it.get("vat_rate") or 19) / 100.0
+        line_total = qty * price
+        line_vat = line_total * vat
+        subtotal += line_total
+        vat_total += line_vat
+        lines_xml.append(
+            f'  <cac:InvoiceLine><cbc:ID>{i}</cbc:ID>'
+            f'<cbc:InvoicedQuantity unitCode="{it.get("unit", "EA")}">{qty}</cbc:InvoicedQuantity>'
+            f'<cbc:LineExtensionAmount currencyID="RON">{line_total:.2f}</cbc:LineExtensionAmount>'
+            f'<cac:Item><cbc:Name>{(it.get("name") or "Produs").replace(chr(60), "")}</cbc:Name></cac:Item>'
+            f'<cac:Price><cbc:PriceAmount currencyID="RON">{price:.2f}</cbc:PriceAmount></cac:Price>'
+            f'</cac:InvoiceLine>'
+        )
+    total = subtotal + vat_total
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" '
+        'xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" '
+        'xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">\n'
+        f'  <cbc:CustomizationID>urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1</cbc:CustomizationID>\n'
+        f'  <cbc:ID>{series}-{number}</cbc:ID>\n'
+        f'  <cbc:IssueDate>{issue_date}</cbc:IssueDate>\n'
+        f'  <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>\n'
+        f'  <cbc:DocumentCurrencyCode>RON</cbc:DocumentCurrencyCode>\n'
+        f'  <cac:AccountingSupplierParty><cac:Party><cac:PartyName><cbc:Name>{seller.get("name", user.name)}</cbc:Name></cac:PartyName></cac:Party></cac:AccountingSupplierParty>\n'
+        f'  <cac:AccountingCustomerParty><cac:Party><cac:PartyName><cbc:Name>{buyer.get("name", "Client")}</cbc:Name></cac:PartyName></cac:Party></cac:AccountingCustomerParty>\n'
+        + "\n".join(lines_xml) + "\n"
+        f'  <cac:LegalMonetaryTotal>\n'
+        f'    <cbc:LineExtensionAmount currencyID="RON">{subtotal:.2f}</cbc:LineExtensionAmount>\n'
+        f'    <cbc:TaxExclusiveAmount currencyID="RON">{subtotal:.2f}</cbc:TaxExclusiveAmount>\n'
+        f'    <cbc:TaxInclusiveAmount currencyID="RON">{total:.2f}</cbc:TaxInclusiveAmount>\n'
+        f'    <cbc:PayableAmount currencyID="RON">{total:.2f}</cbc:PayableAmount>\n'
+        f'  </cac:LegalMonetaryTotal>\n'
+        '</Invoice>\n'
+    )
+    inv_id = new_id("anaf_")
+    doc = {
+        "invoice_id": inv_id,
+        "user_id": user.user_id,
+        "series": series, "number": number,
+        "issue_date": issue_date,
+        "buyer": buyer, "seller": seller,
+        "items": items,
+        "subtotal_ron": round(subtotal, 2),
+        "vat_total_ron": round(vat_total, 2),
+        "total_ron": round(total, 2),
+        "xml": xml,
+        "spv_status": "draft",  # draft | submitted | accepted | rejected (SPV upload not yet implemented)
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.anaf_invoices.insert_one(doc.copy())
+    return {**doc, "_id": None}
+
+
+@api.get("/anaf/invoices")
+async def anaf_list_invoices(user: User = Depends(get_current_user), limit: int = 50):
+    items: List[dict] = []
+    async for inv in db.anaf_invoices.find(
+        {"user_id": user.user_id}, {"_id": 0, "xml": 0}
+    ).sort("created_at", -1).limit(int(limit)):
+        items.append(inv)
+    return {"invoices": items, "count": len(items)}
+
+
+@api.get("/anaf/invoices/{invoice_id}/xml")
+async def anaf_get_invoice_xml(invoice_id: str, user: User = Depends(get_current_user)):
+    inv = await db.anaf_invoices.find_one({"invoice_id": invoice_id, "user_id": user.user_id}, {"_id": 0})
+    if not inv:
+        raise HTTPException(status_code=404, detail="Factură inexistentă")
+    return StreamingResponse(
+        io.BytesIO(inv.get("xml", "").encode("utf-8")),
+        media_type="application/xml",
+        headers={"Content-Disposition": f'attachment; filename="{inv.get("series")}-{inv.get("number")}.xml"'},
+    )
 
 
 # ====================== QES PROVIDERS ======================
@@ -2014,6 +2314,46 @@ async def get_company_placeholders(user: User = Depends(get_current_user)):
     """Returns the placeholder map derived from the company profile."""
     profile = await company_module.get_profile(user.user_id)
     return company_module.placeholders_from_profile(profile)
+
+
+# ====================== AI CHATBOT (Energy Consulting — Claude Sonnet 4.6) ======================
+@api.post("/chatbot/message")
+async def chatbot_send(payload: ChatbotMessage, user: User = Depends(get_current_user)):
+    """Send a message to the energy consulting AI. Returns full assistant reply."""
+    sid = payload.session_id or new_id("cb_")
+    try:
+        answer = await ai_chatbot.reply(db, user.user_id, sid, payload.message, payload.lang or "ro")
+    except Exception as e:
+        logger.exception("Chatbot reply failed")
+        raise HTTPException(status_code=500, detail=f"AI indisponibil: {e}")
+    return {"session_id": sid, "answer": answer}
+
+
+@api.get("/chatbot/sessions")
+async def chatbot_list(user: User = Depends(get_current_user)):
+    return await ai_chatbot.list_sessions(db, user.user_id)
+
+
+@api.get("/chatbot/sessions/{session_id}")
+async def chatbot_get(session_id: str, user: User = Depends(get_current_user)):
+    sess = await ai_chatbot.get_session(db, user.user_id, session_id)
+    if not sess:
+        raise HTTPException(status_code=404, detail="Sesiune negăsită")
+    sess.pop("_id", None)
+    return sess
+
+
+@api.post("/chatbot/sessions")
+async def chatbot_create(payload: ChatbotSessionCreate, user: User = Depends(get_current_user)):
+    sid = new_id("cb_")
+    sess = await ai_chatbot.create_session(db, user.user_id, sid, payload.title or "Conversație nouă", payload.lang or "ro")
+    return sess
+
+
+@api.delete("/chatbot/sessions/{session_id}")
+async def chatbot_delete(session_id: str, user: User = Depends(get_current_user)):
+    n = await ai_chatbot.delete_session(db, user.user_id, session_id)
+    return {"deleted": n}
 
 
 app.include_router(api)

@@ -54,12 +54,21 @@ Limba interfeței: **Română**.
 - **Generate Tech Offer FV PDF**: button on Photovoltaic Calc page → `/api/photovoltaic/tech-offer-pdf` returns a commercial-grade A4 PDF (hero kWp, ANRE category, full component config, energy estimation, normative compliance, commercial terms, signature blocks).
 - **Deep UX polish** on FeaturesHub, IndustriesHub, Forum: glass-morphism heroes, dot/grid patterns, status badges, search + filters, progress bars, hover glow.
 
+### V5.5 (2026-02-07) — Repository Unification + Lost Features Recovery
+- **Deep repository audit**: scanned all 244 commits across `main`, `gh/main`, `gh2/main` for ever-implemented files; confirmed local copy is strictly ahead.
+- **EnergyAdvisor (Claude Sonnet 4.6) restored** from commit `81b3b77` (lost in a regression):
+  - `/app/backend/ai_chatbot.py` — chat sessions persistence in `db.chatbot_sessions`, LLM via emergentintegrations.
+  - `/app/frontend/src/pages/EnergyAdvisor.jsx` — full session UI (history sidebar, suggestions, delete).
+  - 5 new endpoints: `POST /api/chatbot/message`, `GET/POST /api/chatbot/sessions`, `GET/DELETE /api/chatbot/sessions/{id}`.
+  - Sidebar link "Consultant AI (Claude)" → route `/consultant-ai` (ProtectedRoute).
+  - Models added: `ChatbotMessage`, `ChatbotSessionCreate`.
+
 ## Roadmap
 
 ### P0 (next iteration)
-- Refactor `server.py` (2060 lines) — extract `/admin/*` into `backend/routes/admin.py` (similar to existing forum.py pattern).
+- Refactor `server.py` (2400+ lines) — extract `/admin/*` into `backend/routes/admin.py` (similar to existing forum.py pattern).
 - Consolidate `is_developer` → `is_admin` mapping into `_user_from_doc` only.
-- Propagate `/api/system/banner` data into `AppShell` (show maintenance banner globally).
+- Push to GitHub via "Save to Github" (PAT in env returns 401; user action required).
 
 ### P1 (planned)
 - SEAP/SICAP alerts AI agent.
@@ -100,6 +109,11 @@ payment_transactions : { tx_id, user_id, stripe_session_id, plan, amount, status
 | `GET` | `/api/photovoltaic/tech-offer-pdf` | user | Premium PDF download |
 | `PATCH` | `/api/users/me` | user | Now accepts `secondary_email` |
 | `GET` | `/api/users/me/email-config` | user | Now returns `secondary_email` |
+| `POST` | `/api/chatbot/message` | user | Energy Consultant AI (Claude Sonnet 4.6) reply |
+| `GET` | `/api/chatbot/sessions` | user | List user chat sessions |
+| `POST` | `/api/chatbot/sessions` | user | Create empty session |
+| `GET` | `/api/chatbot/sessions/{id}` | user | Get session with messages |
+| `DELETE` | `/api/chatbot/sessions/{id}` | user | Delete session |
 
 ## Test Credentials
 See `/app/memory/test_credentials.md` — admin (`dragosserban95@gmail.com` / `Test12345`).

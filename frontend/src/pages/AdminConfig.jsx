@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   ShieldCheck, Mail, ToggleLeft, ToggleRight, Save, AlertTriangle, Search,
   Users, FileText, Activity, MessagesSquare, Megaphone, Wrench, Crown, Ban, RefreshCw, KeyRound,
+  History, ChevronDown,
 } from 'lucide-react';
 
 const FEATURE_FLAGS = [
@@ -49,6 +50,15 @@ export default function AdminConfig() {
   const [usersLoading, setUsersLoading] = useState(false);
   const [busy, setBusy] = useState(false);
   const [smtpPwd, setSmtpPwd] = useState('');
+  const [auditLogs, setAuditLogs] = useState([]);
+  const [showAudit, setShowAudit] = useState(false);
+
+  const loadAudit = async () => {
+    try {
+      const { data } = await api.get('/admin/audit-logs?limit=100');
+      setAuditLogs(data.logs || []);
+    } catch { toast.error('Eroare audit logs'); }
+  };
 
   useEffect(() => {
     if (!isAdmin) { navigate('/settings', { replace: true }); return; }
@@ -352,6 +362,47 @@ export default function AdminConfig() {
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Audit Logs */}
+      <div className="bg-white border border-gray-200 mb-8" data-testid="admin-audit-logs">
+        <button onClick={() => { setShowAudit(!showAudit); if (!showAudit && auditLogs.length === 0) loadAudit(); }} className="w-full px-6 py-4 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left" data-testid="audit-toggle">
+          <History className="w-5 h-5 text-[#FFB300]" />
+          <h3 className="font-semibold tracking-tight">Audit log platformă</h3>
+          <span className="text-[10px] uppercase tracking-wider text-gray-500 ml-auto mr-2">{auditLogs.length} înregistrări</span>
+          <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showAudit ? 'rotate-180' : ''}`} />
+        </button>
+        {showAudit && (
+          <div className="border-t border-gray-200">
+            <div className="flex items-center px-6 py-2 bg-gray-50 text-[10px] uppercase tracking-wider text-gray-500 gap-2">
+              <span>Acțiuni recente</span>
+              <button onClick={loadAudit} className="ml-auto inline-flex items-center gap-1 hover:text-black"><RefreshCw className="w-3 h-3" /> Reîncarcă</button>
+            </div>
+            <div className="max-h-96 overflow-y-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-100 text-[10px] uppercase tracking-wider text-gray-600 sticky top-0">
+                  <tr>
+                    <th className="text-left px-4 py-2">Data</th>
+                    <th className="text-left px-4 py-2">Acțiune</th>
+                    <th className="text-left px-4 py-2">User ID</th>
+                    <th className="text-left px-4 py-2">Detalii</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {auditLogs.map((l) => (
+                    <tr key={l.log_id} className="border-b border-gray-50 hover:bg-gray-50">
+                      <td className="px-4 py-2 text-xs font-mono text-gray-500">{new Date(l.created_at).toLocaleString('ro-RO')}</td>
+                      <td className="px-4 py-2"><span className="text-[10px] uppercase tracking-wider font-semibold bg-black text-[#FFB300] px-1.5 py-0.5">{l.action}</span></td>
+                      <td className="px-4 py-2 font-mono text-xs text-gray-600">{l.user_id?.slice(-12)}</td>
+                      <td className="px-4 py-2 text-xs text-gray-500 font-mono truncate max-w-md">{JSON.stringify(l.details || {}).slice(0, 120)}</td>
+                    </tr>
+                  ))}
+                  {auditLogs.length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">Niciun event</td></tr>}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="text-[10px] text-gray-400 text-center uppercase tracking-[0.2em]">
