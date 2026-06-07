@@ -52,6 +52,9 @@ import Contracts from './pages/Contracts';
 import Personas from './pages/Personas';
 import GasNaturalProject from './pages/GasNaturalProject';
 import Subscribers from './pages/Subscribers';
+import VerifyGasProject from './pages/VerifyGasProject';
+import Clients from './pages/Clients';
+import Companies from './pages/Companies';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -77,6 +80,9 @@ function AppRouter() {
       <Route path="/gaze-naturale" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
       <Route path="/gaze-naturale/:pid" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
       <Route path="/subscribers" element={<ProtectedRoute><Subscribers /></ProtectedRoute>} />
+      <Route path="/clients" element={<ProtectedRoute><Clients /></ProtectedRoute>} />
+      <Route path="/companies" element={<ProtectedRoute><Companies /></ProtectedRoute>} />
+      <Route path="/verify/gas-project/:pid" element={<VerifyGasProject />} />
 
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/proiecte" element={<ProtectedRoute><Projects /></ProtectedRoute>} />

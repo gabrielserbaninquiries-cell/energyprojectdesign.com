@@ -2238,6 +2238,9 @@ from admin_routes import router as admin_router
 from marketplace_routes import router as marketplace_router
 from gas_project_routes import make_gas_project_router
 from subscribers_routes import make_subscribers_router
+from models import new_id as _new_id_models
+import clients_crm
+import companies_directory
 app.include_router(admin_router)
 app.include_router(marketplace_router)
 # Mount the gas-project + subscribers routers via factory (shared db + auth dep).
@@ -2246,6 +2249,94 @@ _sub_router = make_subscribers_router(db, get_current_user)
 api2 = APIRouter(prefix="/api")
 api2.include_router(_gas_router)
 api2.include_router(_sub_router)
+
+
+# ----------- CLIENTS CRM (legacy, per-user) -----------
+@api2.get("/clients")
+async def crm_list_clients_v2(status: Optional[str] = None, industry: Optional[str] = None, user: User = Depends(get_current_user)):
+    return await clients_crm.list_clients(user.user_id, status=status, industry=industry)
+
+
+@api2.post("/clients")
+async def crm_create_client_v2(payload: clients_crm.ClientIn, user: User = Depends(get_current_user)):
+    return await clients_crm.create_client(user.user_id, payload, _new_id_models("cli_"))
+
+
+@api2.get("/clients/{client_id}")
+async def crm_get_client_v2(client_id: str, user: User = Depends(get_current_user)):
+    doc = await clients_crm.get_client(user.user_id, client_id)
+    if not doc:
+        raise HTTPException(status_code=404, detail="Client inexistent")
+    return doc
+
+
+@api2.patch("/clients/{client_id}")
+async def crm_update_client_v2(client_id: str, payload: dict, user: User = Depends(get_current_user)):
+    doc = await clients_crm.update_client(user.user_id, client_id, payload)
+    if not doc:
+        raise HTTPException(status_code=404, detail="Client inexistent")
+    return doc
+
+
+@api2.delete("/clients/{client_id}")
+async def crm_delete_client_v2(client_id: str, user: User = Depends(get_current_user)):
+    ok = await clients_crm.delete_client(user.user_id, client_id)
+    if not ok:
+        raise HTTPException(status_code=404, detail="Client inexistent")
+    return {"deleted": True}
+
+
+# ----------- COMPANIES DIRECTORY (public) -----------
+@api2.get("/companies/roles")
+async def companies_list_roles_v2():
+    return companies_directory.COMPANY_ROLES
+
+
+@api2.get("/companies/stats")
+async def companies_get_stats_v2():
+    return await companies_directory.role_stats()
+
+
+@api2.get("/companies")
+async def companies_list_v2(industry: Optional[str] = None, role: Optional[str] = None, query: Optional[str] = None):
+    return await companies_directory.list_companies(industry=industry, role=role, query=query)
+
+
+@api2.post("/companies")
+async def companies_create_v2(payload: companies_directory.CompanyIn, user: User = Depends(get_current_user)):
+    auto_verify = bool(getattr(user, "is_developer", False))
+    return await companies_directory.create_company(user.user_id, payload, _new_id_models("co_"), auto_verify=auto_verify)
+
+
+@api2.get("/companies/{company_id}")
+async def companies_get_v2(company_id: str):
+    doc = await companies_directory.get_company(company_id)
+    if not doc:
+        raise HTTPException(status_code=404, detail="Companie inexistentă")
+    return doc
+
+
+@api2.patch("/companies/{company_id}")
+async def companies_update_v2(company_id: str, payload: dict, user: User = Depends(get_current_user)):
+    existing = await companies_directory.get_company(company_id)
+    if not existing:
+        raise HTTPException(status_code=404, detail="Companie inexistentă")
+    if not getattr(user, "is_developer", False) and existing.get("submitted_by") != user.user_id:
+        raise HTTPException(status_code=403, detail="Doar developer-ul sau submitter-ul pot edita.")
+    return await companies_directory.update_company(company_id, payload)
+
+
+@api2.delete("/companies/{company_id}")
+async def companies_delete_v2(company_id: str, user: User = Depends(get_current_user)):
+    existing = await companies_directory.get_company(company_id)
+    if not existing:
+        raise HTTPException(status_code=404, detail="Companie inexistentă")
+    if not getattr(user, "is_developer", False) and existing.get("submitted_by") != user.user_id:
+        raise HTTPException(status_code=403, detail="Doar developer-ul sau submitter-ul pot șterge.")
+    ok = await companies_directory.delete_company(company_id)
+    return {"deleted": ok}
+
+
 app.include_router(api2)
 
 

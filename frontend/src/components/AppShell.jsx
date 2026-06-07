@@ -53,6 +53,8 @@ const SECTIONS = [
     title: 'Business',
     items: [
       { to: '/crm-abonati', label: 'CRM Abonați', icon: UsersIcon, tid: 'nav-crm' },
+      { to: '/clients', label: 'Clienți (Proiectanți)', icon: UsersIcon, tid: 'nav-clients' },
+      { to: '/companies', label: 'Companii (Directory)', icon: Building2, tid: 'nav-companies' },
       { to: '/subscribers', label: 'Subscriberi B2B', icon: Building2, tid: 'nav-subscribers' },
       { to: '/contracts', label: 'Contracte CRM', icon: FileText, tid: 'nav-contracts' },
       { to: '/jobs', label: 'Job Board ANRE', icon: BadgeCheck, tid: 'nav-jobs' },
