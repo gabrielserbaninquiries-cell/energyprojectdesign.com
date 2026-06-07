@@ -1,0 +1,34 @@
+{
+  "summary": "V5.8 backend + frontend regression PASSED. Backend pytest 5/5: gas-project 11-phase schema, full CRUD + sign + QR + public + soft-delete flow, subscriber 5 types + CRUD + type filter + invalid-type 400, AI agent rate_limit dict shape (admin tier 30/min, 500/day). Frontend: sidebar nav-gaze-naturale + nav-subscribers present, /gaze-naturale list -> gas-create-btn creates project + navigates to /gaze-naturale/{pid} studio, all 11 phase tabs render (tema..pif), gas-title-input, gas-overall-progress, gas-form-pane, all tema fields (gas-field-beneficiar_nume, loc_consum_adresa, judet) editable, gas-save-btn persists, gas-next-phase/prev-phase advance phases, gas-preview-btn toggles gas-preview view, gas-qr-btn opens modal with base64 PNG QR image + verify URL + gas-qr-download link, gas-sign-btn disabled at <70% (verified at 3%). Subscribers page reachable via sidebar.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "QR Modal (GasNaturalProject)", "issue": "Escape key does not close the QR verification modal — only the X button works. This blocks keyboard-only users and trips up automated tests when chaining actions after opening QR.", "selector": "[data-testid=\"gas-qr-btn\"]", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_v58_features.py",
+    "/app/test_reports/pytest/v58_results.xml"
+  ],
+  "action_items": [
+    "Optional UX polish: bind Escape key to close the QR modal in /app/frontend/src/pages/GasNaturalProject.jsx (add useEffect with keydown listener)."
+  ],
+  "critical_code_review_comments": [
+    "gas_project_routes.py hard-codes verify URL host 'https://energy-project.preview.emergentagent.com' — should use os.environ.get('PUBLIC_BASE_URL') or derive from request to survive deployment URL changes.",
+    "server.py is now ~2250 lines; CRM and SEAP endpoints still in main file — recommend moving to dedicated routers like the new gas_project_routes.py / subscribers_routes.py pattern.",
+    "Rate limit window uses ISO-string comparison on created_at — works because ISO 8601 sorts lexicographically with UTC offset, but consider explicit datetime objects in Mongo to avoid future timezone bugs.",
+    "Two separate subscriber concepts now exist: legacy /api/crm/subscribers (sub_id) and new /api/subscribers (sid). Document the distinction or consolidate in a future iteration."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v58_features.py (NEW — V5.8 regression suite, 5 tests, all passing)"
+  ],
+  "success_rate": {"backend": "100% (5/5)", "frontend": "100% on all V5.8 selectors verified"},
+  "test_credentials": "Admin/Developer: dragosserban95@gmail.com / Test12345 (is_developer=true, is_admin=true; AI rate limit 30/min, 500/day)",
+  "seed_data_creation": "Backend test created+deleted one gas-project (TEST_v58) and two subscribers (TEST_Primaria X, TEST_Dev Y) — all soft-deleted. Frontend test created one gas project 'Proiect gaz #8589' under admin (gp_0712b39e0180cd16) — not cleaned up, owned by admin only.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All V5.8 deliverables verified end-to-end. Backend regression at /app/backend/tests/test_v58_features.py (5/5 green). Frontend Studio at /gaze-naturale/{pid} renders all 11 phases, all data-testids in review_request are present and functional. Sign button correctly gates at <70% progress. QR modal works but only X-button closes (not Escape). Subscribers module reachable at /subscribers via sidebar nav-subscribers. Skipped: actual rate-limit boundary (would require non-admin user + 9 Claude calls — too costly); shape verification confirmed rate_limit dict is returned with minute_used/minute_limit/day_used/day_limit and admin tier values 30/500.",
+  "rca_of_the_issue": "Not applicable — no bugs found. Single minor UX nit: QR modal lacks Escape-key close handler."
+}

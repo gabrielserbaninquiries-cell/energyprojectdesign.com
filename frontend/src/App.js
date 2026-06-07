@@ -50,6 +50,8 @@ import EnergyAdvisor from './pages/EnergyAdvisor';
 import Jobs from './pages/Jobs';
 import Contracts from './pages/Contracts';
 import Personas from './pages/Personas';
+import GasNaturalProject from './pages/GasNaturalProject';
+import Subscribers from './pages/Subscribers';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -72,6 +74,9 @@ function AppRouter() {
       <Route path="/confidentialitate" element={<Confidentialitate />} />
       <Route path="/gdpr" element={<Gdpr />} />
       <Route path="/pentru/:role" element={<Personas />} />
+      <Route path="/gaze-naturale" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
+      <Route path="/gaze-naturale/:pid" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
+      <Route path="/subscribers" element={<ProtectedRoute><Subscribers /></ProtectedRoute>} />
 
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/proiecte" element={<ProtectedRoute><Projects /></ProtectedRoute>} />

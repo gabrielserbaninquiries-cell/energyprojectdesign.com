@@ -338,6 +338,28 @@ async def ai_agent_ask(agent: str, payload: dict, user: User = Depends(get_curre
     message = (payload or {}).get("message") or ""
     if not message.strip():
         raise HTTPException(status_code=400, detail="Mesaj gol")
+    if len(message) > 4000:
+        raise HTTPException(status_code=413, detail="Mesaj prea lung (max 4000 caractere)")
+
+    # ------- Rate limiting per user -------
+    # Developers/admins get higher quota; regular users 8/min, 60/day.
+    is_priv = bool(getattr(user, "is_developer", False) or getattr(user, "is_admin", False))
+    per_min_limit = 30 if is_priv else 8
+    per_day_limit = 500 if is_priv else 60
+    now_utc = datetime.now(timezone.utc)
+    one_min_ago = (now_utc - timedelta(minutes=1)).isoformat()
+    one_day_ago = (now_utc - timedelta(days=1)).isoformat()
+    minute_count = await db.ai_agent_messages.count_documents({
+        "user_id": user.user_id, "created_at": {"$gte": one_min_ago}
+    })
+    if minute_count >= per_min_limit:
+        raise HTTPException(status_code=429, detail=f"Limită atinsă: max {per_min_limit} întrebări/min. Așteaptă un minut.")
+    day_count = await db.ai_agent_messages.count_documents({
+        "user_id": user.user_id, "created_at": {"$gte": one_day_ago}
+    })
+    if day_count >= per_day_limit:
+        raise HTTPException(status_code=429, detail=f"Limită zilnică atinsă: max {per_day_limit} întrebări/zi.")
+
     session_id = (payload or {}).get("session_id") or f"u_{user.user_id}_{agent}"
     result = await ask_agent(agent, message.strip(), session_id)
     # Persist conversation
@@ -348,8 +370,12 @@ async def ai_agent_ask(agent: str, payload: dict, user: User = Depends(get_curre
         "session_id": session_id,
         "message": message.strip(),
         "reply": result["reply"],
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": now_utc.isoformat(),
     })
+    result["rate_limit"] = {
+        "minute_used": minute_count + 1, "minute_limit": per_min_limit,
+        "day_used": day_count + 1, "day_limit": per_day_limit,
+    }
     return result
 
 
@@ -2210,8 +2236,17 @@ app.include_router(api)
 # ====================== Refactored modular routers ======================
 from admin_routes import router as admin_router
 from marketplace_routes import router as marketplace_router
+from gas_project_routes import make_gas_project_router
+from subscribers_routes import make_subscribers_router
 app.include_router(admin_router)
 app.include_router(marketplace_router)
+# Mount the gas-project + subscribers routers via factory (shared db + auth dep).
+_gas_router = make_gas_project_router(db, get_current_user)
+_sub_router = make_subscribers_router(db, get_current_user)
+api2 = APIRouter(prefix="/api")
+api2.include_router(_gas_router)
+api2.include_router(_sub_router)
+app.include_router(api2)
 
 
 # CORS: when credentials are required, browsers reject "*" origin. Use a regex

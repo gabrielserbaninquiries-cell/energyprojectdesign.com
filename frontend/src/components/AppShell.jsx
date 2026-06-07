@@ -17,6 +17,7 @@ const SECTIONS = [
     items: [
       { to: '/dashboard', label: 'Panou principal', icon: LayoutDashboard, tid: 'nav-dashboard' },
       { to: '/proiecte', label: 'Proiecte', icon: FolderKanban, tid: 'nav-proiecte' },
+      { to: '/gaze-naturale', label: 'Gaze Naturale Studio', icon: Flame, tid: 'nav-gaze-naturale' },
       { to: '/industrii', label: 'Industrii (13)', icon: Compass, tid: 'nav-industrii' },
       { to: '/feat-uri', label: 'Feat-uri viziune', icon: Layers, tid: 'nav-feat-uri' },
       { to: '/proiect', label: 'Date proiect activ', icon: ClipboardList, tid: 'nav-proiect' },
@@ -52,6 +53,7 @@ const SECTIONS = [
     title: 'Business',
     items: [
       { to: '/crm-abonati', label: 'CRM Abonați', icon: UsersIcon, tid: 'nav-crm' },
+      { to: '/subscribers', label: 'Subscriberi B2B', icon: Building2, tid: 'nav-subscribers' },
       { to: '/contracts', label: 'Contracte CRM', icon: FileText, tid: 'nav-contracts' },
       { to: '/jobs', label: 'Job Board ANRE', icon: BadgeCheck, tid: 'nav-jobs' },
       { to: '/anaf-efactura', label: 'ANAF e-Factura', icon: Receipt, tid: 'nav-anaf' },
