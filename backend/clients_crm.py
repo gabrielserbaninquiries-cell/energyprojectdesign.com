@@ -63,13 +63,16 @@ async def update_client(user_id: str, client_id: str, updates: Dict) -> Optional
     if not cleaned:
         return await get_client(user_id, client_id)
     cleaned["updated_at"] = _now()
-    res = await db.clients.find_one_and_update(
+    raw = await db.clients.find_one_and_update(
         {"client_id": client_id, "user_id": user_id},
         {"$set": cleaned},
         return_document=True,
         projection={"_id": 0},
     )
-    return res
+    if not raw:
+        return None
+    raw.pop("_id", None)
+    return dict(raw)
 
 
 async def delete_client(user_id: str, client_id: str) -> bool:

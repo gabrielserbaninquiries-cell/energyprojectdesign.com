@@ -296,9 +296,11 @@ def make_gas_project_router(db, get_current_user):
         base = os.environ.get("PUBLIC_VERIFY_BASE", "https://github-push-test.preview.emergentagent.com")
         verify_url = f"{base}/verify/gas-project/{pid}"
         qr = qrcode.QRCode(version=None, box_size=8, border=2, error_correction=qrcode.constants.ERROR_CORRECT_M)
-        qr.add_data(verify_url); qr.make(fit=True)
+        qr.add_data(verify_url)
+        qr.make(fit=True)
         img = qr.make_image(fill_color="#0A0A0A", back_color="#FFFFFF")
-        buf = io.BytesIO(); img.save(buf, format="PNG")
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
         b64 = base64.b64encode(buf.getvalue()).decode("ascii")
         return {"pid": pid, "verify_url": verify_url,
                 "qr_png_b64": f"data:image/png;base64,{b64}",
@@ -332,9 +334,12 @@ def make_gas_project_router(db, get_current_user):
         # Plan gating
         plan = (user.plan or "basic").lower()
         max_recipients = 1
-        if plan in {"starter", "proiectant", "designer"}: max_recipients = 5
-        if plan in {"pro", "society", "company", "developer", "admin"}: max_recipients = 50
-        if getattr(user, "is_developer", False) or getattr(user, "is_admin", False): max_recipients = 100
+        if plan in {"starter", "proiectant", "designer"}:
+            max_recipients = 5
+        if plan in {"pro", "society", "company", "developer", "admin"}:
+            max_recipients = 50
+        if getattr(user, "is_developer", False) or getattr(user, "is_admin", False):
+            max_recipients = 100
 
         if len(payload.recipients) > max_recipients:
             raise HTTPException(403, f"Planul tău permite max {max_recipients} destinatari per fază. Upgrade pentru mai mult.")
@@ -343,7 +348,7 @@ def make_gas_project_router(db, get_current_user):
         data = doc.get("data") or {}
         subject = f"[EPD] {doc.get('title')} — {phase['name']}"
         lines = [
-            f"Stimate destinatar,",
+            "Stimate destinatar,",
             "",
             f"Vă transmitem situația proiectului de gaze naturale «{doc.get('title')}» pentru faza {phase['name']}.",
             "",
@@ -359,7 +364,8 @@ def make_gas_project_router(db, get_current_user):
         ]
         for fld in phase["fields"]:
             v = data.get(fld["key"])
-            if v: lines.append(f"  • {fld['label']}: {v}")
+            if v:
+                lines.append(f"  • {fld['label']}: {v}")
         lines += ["", "Livrabile faza:"] + [f"  • {d}" for d in phase.get("deliverables", [])]
         if payload.message:
             lines += ["", "Mesaj de la expeditor:", payload.message]
@@ -423,7 +429,7 @@ def _generate_phase_docx(proj: Dict[str, Any], phase: Dict[str, Any]) -> bytes:
     data = proj.get("data") or {}
     doc = Document()
     # Header
-    h = doc.add_heading(f"Energy Project Design", level=0)
+    doc.add_heading("Energy Project Design", level=0)
     doc.add_paragraph(f"Proiect: {proj.get('title')}").bold = True
     p = doc.add_paragraph()
     p.add_run("PID: ").bold = True

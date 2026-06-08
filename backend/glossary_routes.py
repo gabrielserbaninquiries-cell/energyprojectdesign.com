@@ -111,6 +111,7 @@ def make_glossary_router(db, get_current_user):
             "deleted": False,
         }
         await db.glossary_entries.insert_one(doc)
+        doc.pop("_id", None)
         return doc
 
     @r.patch("/{entry_id}")
@@ -126,6 +127,7 @@ def make_glossary_router(db, get_current_user):
             if existing:
                 new_doc = {**existing, **updates, "deleted": False, "order": existing.get("order", 0)}
                 await db.glossary_entries.insert_one(new_doc)
+                new_doc.pop("_id", None)
                 return new_doc
             raise HTTPException(404, "Inexistent")
         return {"updated": True}

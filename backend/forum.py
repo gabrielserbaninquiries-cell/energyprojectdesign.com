@@ -126,11 +126,9 @@ async def like_thread(thread_id: str, user_id: str) -> Optional[int]:
     if existing:
         await db.forum_likes.delete_one({"_id": existing["_id"]})
         await db.forum_threads.update_one({"thread_id": thread_id}, {"$inc": {"likes": -1}})
-        delta = -1
     else:
         await db.forum_likes.insert_one({"user_id": user_id, "target": like_key, "created_at": _now()})
         await db.forum_threads.update_one({"thread_id": thread_id}, {"$inc": {"likes": 1}})
-        delta = 1
     doc = await db.forum_threads.find_one({"thread_id": thread_id}, {"likes": 1})
     return (doc or {}).get("likes", 0) if doc else None
 

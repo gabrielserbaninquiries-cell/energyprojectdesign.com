@@ -67,16 +67,24 @@ def simultaneity_coefficient(nr_consumers: int, consumer_type: str = "casnic") -
     """
     n = max(1, int(nr_consumers))
     if consumer_type.lower().startswith("casn"):
-        if n == 1: return 1.0
-        if n <= 4: return round(0.85 - (n - 2) * 0.075, 3)
-        if n <= 10: return round(0.65 - (n - 5) * 0.02, 3)
-        if n <= 50: return round(0.50 - (n - 11) * 0.0038, 3)
-        if n <= 200: return round(0.30 - (n - 51) * 0.000336, 3)
+        if n == 1:
+            return 1.0
+        if n <= 4:
+            return round(0.85 - (n - 2) * 0.075, 3)
+        if n <= 10:
+            return round(0.65 - (n - 5) * 0.02, 3)
+        if n <= 50:
+            return round(0.50 - (n - 11) * 0.0038, 3)
+        if n <= 200:
+            return round(0.30 - (n - 51) * 0.000336, 3)
         return 0.20
     # Necasnic — Ks rămâne mai aproape de 1 (consum cvasi-permanent)
-    if n == 1: return 1.0
-    if n <= 3: return 0.95
-    if n <= 6: return 0.90
+    if n == 1:
+        return 1.0
+    if n <= 3:
+        return 0.95
+    if n <= 6:
+        return 0.90
     return 0.85
 
 

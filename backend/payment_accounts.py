@@ -102,13 +102,16 @@ async def update_account(account_id: str, updates: Dict) -> Optional[Dict]:
                 {"status": existing["status"], "account_id": {"$ne": account_id}},
                 {"$set": {"is_active": False, "updated_at": _now()}},
             )
-    res = await db.payment_accounts.find_one_and_update(
+    raw = await db.payment_accounts.find_one_and_update(
         {"account_id": account_id},
         {"$set": cleaned},
         return_document=True,
         projection={"_id": 0},
     )
-    return res
+    if not raw:
+        return None
+    raw.pop("_id", None)
+    return dict(raw)
 
 
 async def delete_account(account_id: str) -> bool:

@@ -39,13 +39,20 @@ def _eval_smart_if(match, values: Dict[str, str]) -> str:
     if isinstance(lhs, float) != isinstance(rhs, float):
         lhs, rhs = str(lhs), str(rhs)
     try:
-        if op == "<": ok = lhs < rhs
-        elif op == "<=": ok = lhs <= rhs
-        elif op == ">": ok = lhs > rhs
-        elif op == ">=": ok = lhs >= rhs
-        elif op == "==": ok = lhs == rhs
-        elif op == "!=": ok = lhs != rhs
-        else: ok = False
+        if op == "<":
+            ok = lhs < rhs
+        elif op == "<=":
+            ok = lhs <= rhs
+        elif op == ">":
+            ok = lhs > rhs
+        elif op == ">=":
+            ok = lhs >= rhs
+        elif op == "==":
+            ok = lhs == rhs
+        elif op == "!=":
+            ok = lhs != rhs
+        else:
+            ok = False
     except TypeError:
         ok = False
     return branch_if if ok else branch_else
