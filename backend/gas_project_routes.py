@@ -40,11 +40,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, EmailStr
 
 import qrcode
+from fastapi import UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 
 import gas_catalog as catalog
 import gas_calc_engine as engine
 import gas_doc_templates as doc_templates
+import gas_avize_catalog as avize_catalog
 import validators_ro
 
 
@@ -93,6 +95,21 @@ class RecipientsConfig(BaseModel):
 class ValidatePayload(BaseModel):
     cnp: Optional[str] = None
     cui: Optional[str] = None
+
+
+class AvizStatusUpdate(BaseModel):
+    status: Optional[str] = None  # planificat | cerut | primit | respins
+    sent_to: Optional[List[EmailStr]] = None
+    received_number: Optional[str] = None
+    received_pdf_b64: Optional[str] = None  # base64 PDF aviz primit
+    notes: Optional[str] = None
+
+
+class AvizDispatch(BaseModel):
+    recipients: List[EmailStr]
+    cc: Optional[List[EmailStr]] = None
+    message: Optional[str] = None
+    include_attachments_b64: Optional[List[Dict[str, str]]] = None  # [{name, content_b64}]
 
 
 def _ascii_safe(s: str, maxlen: int = 60) -> str:
@@ -194,6 +211,80 @@ def make_gas_project_router(db, get_current_user):
             ok, msg = validators_ro.validate_cui(payload.cui)
             result["cui"] = {"valid": ok, "message": msg}
         return result
+
+    # ===================== CATALOG AVIZE (no auth) =====================
+    @r.get("/avize-catalog")
+    async def list_avize_catalog():
+        """Returnează catalogul complet al avizelor (toate, indiferent de proiect)."""
+        return {"avize": avize_catalog.list_all()}
+
+    # ===================== CUSTOM TEMPLATES (admin upload) =====================
+    @r.get("/custom-templates")
+    async def list_custom_templates(user=Depends(get_current_user)):
+        """Lista template-urilor DOCX încărcate de admin/developer (cu placeholdere)."""
+        out = []
+        async for t in db.gas_custom_templates.find({"deleted": {"$ne": True}}, {"_id": 0, "content_b64": 0}):
+            out.append(t)
+        return out
+
+    @r.post("/custom-templates")
+    async def upload_custom_template(
+        file: UploadFile = File(...),
+        label: str = Form(...),
+        replaces_template_id: Optional[str] = Form(None),
+        user=Depends(get_current_user),
+    ):
+        """Admin/developer încarcă un template DOCX cu placeholdere {{var}}. Acest fișier
+        poate înlocui un template standard (replaces_template_id) sau adăuga unul nou."""
+        if not (getattr(user, "is_admin", False) or getattr(user, "is_developer", False)):
+            raise HTTPException(403, "Doar admin/developer pot încărca template-uri")
+        content = await file.read()
+        if not file.filename.lower().endswith(".docx"):
+            raise HTTPException(400, "Fișier trebuie să fie .docx")
+        if len(content) > 5 * 1024 * 1024:
+            raise HTTPException(400, "Fișier > 5MB (limitare practică)")
+        tid = _new_id("ct_")
+        doc = {
+            "tid": tid,
+            "label": label.strip(),
+            "filename": file.filename,
+            "replaces_template_id": replaces_template_id,
+            "content_b64": base64.b64encode(content).decode("ascii"),
+            "uploaded_by": user.email,
+            "uploaded_at": datetime.now(timezone.utc).isoformat(),
+            "size_bytes": len(content),
+            "deleted": False,
+        }
+        await db.gas_custom_templates.insert_one(doc)
+        doc.pop("_id", None)
+        doc.pop("content_b64", None)  # don't ship base64 back
+        return doc
+
+    @r.delete("/custom-templates/{tid}")
+    async def delete_custom_template(tid: str, user=Depends(get_current_user)):
+        if not (getattr(user, "is_admin", False) or getattr(user, "is_developer", False)):
+            raise HTTPException(403, "Doar admin/developer")
+        res = await db.gas_custom_templates.update_one(
+            {"tid": tid}, {"$set": {"deleted": True}}
+        )
+        if res.matched_count == 0:
+            raise HTTPException(404, "Inexistent")
+        return {"ok": True}
+
+    @r.get("/custom-templates/{tid}/download")
+    async def download_custom_template(tid: str, user=Depends(get_current_user)):
+        """Download fișierul original (admin verifică)."""
+        if not (getattr(user, "is_admin", False) or getattr(user, "is_developer", False)):
+            raise HTTPException(403, "Doar admin/developer")
+        doc = await db.gas_custom_templates.find_one({"tid": tid, "deleted": {"$ne": True}})
+        if not doc:
+            raise HTTPException(404, "Inexistent")
+        content = base64.b64decode(doc["content_b64"])
+        return StreamingResponse(
+            io.BytesIO(content),
+            media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            headers={"Content-Disposition": f"attachment; filename={_ascii_safe(doc.get('filename','template.docx'))}"},
+        )
 
     # ===================== PROJECTS =====================
     @r.post("")
@@ -448,6 +539,100 @@ def make_gas_project_router(db, get_current_user):
              "$set": {"updated_at": log_entry["sent_at"]}},
         )
         return {"ok": result.get("ok"), "error": result.get("error"), "dispatch": log_entry}
+
+    # ===================== AVIZE per proiect =====================
+    @r.get("/{pid}/avize")
+    async def get_project_avize(pid: str, user=Depends(get_current_user)):
+        """Returnează lista de avize APLICABILE pentru proiect + status fiecăruia."""
+        proj = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}}, {"_id": 0})
+        if not proj:
+            raise HTTPException(404, "Proiect inexistent")
+        stored = (proj.get("avize_status") or {})
+        return {"pid": pid, "avize": avize_catalog.build_aviz_status_map(proj.get("data") or {}, stored)}
+
+    @r.patch("/{pid}/avize/{aviz_id}")
+    async def patch_project_aviz(pid: str, aviz_id: str, payload: AvizStatusUpdate, user=Depends(get_current_user)):
+        """Actualizează statusul unui aviz (cerut/primit/respins) + atașează PDF aviz primit."""
+        proj = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}}, {"_id": 0})
+        if not proj:
+            raise HTTPException(404, "Proiect inexistent")
+        aviz = avize_catalog.get_aviz(aviz_id)
+        if not aviz:
+            raise HTTPException(400, "Aviz necunoscut")
+        if payload.status and payload.status not in ("planificat", "cerut", "primit", "respins"):
+            raise HTTPException(400, "Status invalid")
+        now = datetime.now(timezone.utc).isoformat()
+        updates: Dict[str, Any] = {}
+        if payload.status:
+            updates[f"avize_status.{aviz_id}.status"] = payload.status
+            if payload.status == "cerut":
+                updates[f"avize_status.{aviz_id}.sent_at"] = now
+            if payload.status == "primit":
+                updates[f"avize_status.{aviz_id}.received_at"] = now
+        if payload.sent_to is not None:
+            updates[f"avize_status.{aviz_id}.sent_to"] = payload.sent_to
+        if payload.received_number is not None:
+            updates[f"avize_status.{aviz_id}.received_number"] = payload.received_number
+        if payload.received_pdf_b64 is not None:
+            # validate base64 size
+            try:
+                pdf_bytes = base64.b64decode(payload.received_pdf_b64)
+                if len(pdf_bytes) > 10 * 1024 * 1024:
+                    raise HTTPException(400, "PDF aviz > 10MB")
+            except (ValueError, TypeError):
+                raise HTTPException(400, "PDF base64 invalid")
+            updates[f"avize_status.{aviz_id}.received_pdf_b64"] = payload.received_pdf_b64
+        if payload.notes is not None:
+            updates[f"avize_status.{aviz_id}.notes"] = payload.notes
+        updates["updated_at"] = now
+        if updates:
+            await db.gas_projects.update_one({"pid": pid}, {"$set": updates})
+        new = await db.gas_projects.find_one({"pid": pid}, {"_id": 0})
+        stored = (new.get("avize_status") or {})
+        return {"pid": pid, "aviz_id": aviz_id,
+                "current": stored.get(aviz_id, {}),
+                "all_avize": avize_catalog.build_aviz_status_map(new.get("data") or {}, stored)}
+
+    @r.get("/{pid}/avize/{aviz_id}/dossier.zip")
+    async def download_aviz_dossier(pid: str, aviz_id: str, user=Depends(get_current_user)):
+        """Descarcă ZIP cu: cererea DOCX + template-uri anexe + lista anexe legale."""
+        import zipfile
+        proj = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}}, {"_id": 0})
+        if not proj:
+            raise HTTPException(404, "Proiect inexistent")
+        aviz = avize_catalog.get_aviz(aviz_id)
+        if not aviz:
+            raise HTTPException(400, "Aviz necunoscut")
+        # Generate the main DOCX
+        zip_buf = io.BytesIO()
+        with zipfile.ZipFile(zip_buf, "w", zipfile.ZIP_DEFLATED) as zf:
+            template_id = aviz.get("template_id")
+            if template_id:
+                result = doc_templates.generate(template_id, proj)
+                if result:
+                    data_bytes, fname = result
+                    zf.writestr(f"00_CERERE_{fname}", data_bytes)
+            # Anexe text manifest
+            manifest = (
+                f"AVIZ: {aviz['label']}\n"
+                f"================================================\n\n"
+                f"Emitent: {aviz['issuer']}\n"
+                f"Cadru legal: {aviz['legal']}\n"
+                f"Faza proiect: {aviz['phase']}\n\n"
+                f"Proiect: {proj.get('title','—')}\n"
+                f"Beneficiar: {(proj.get('data') or {}).get('beneficiar_nume','—')}\n"
+                f"Adresa: {(proj.get('data') or {}).get('loc_consum_adresa','—')}\n\n"
+                "ANEXE OBLIGATORII (de atașat manual):\n"
+            )
+            for a in aviz.get("extra_attachments", []):
+                manifest += f"  - {a}\n"
+            zf.writestr("00_MANIFEST_AVIZ.txt", manifest)
+        zip_buf.seek(0)
+        safe = _ascii_safe(f"{aviz_id}_{proj.get('title','proiect')}")
+        return StreamingResponse(
+            zip_buf, media_type="application/zip",
+            headers={"Content-Disposition": f"attachment; filename=AVIZ_{safe}.zip"},
+        )
 
     # ===================== DOCUMENT GENERATION =====================
     @r.get("/{pid}/doc/{template_id}")

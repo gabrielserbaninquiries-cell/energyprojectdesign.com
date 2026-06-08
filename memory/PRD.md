@@ -1,6 +1,74 @@
 # Energy Project Design — PRD
 
 
+## CHANGELOG — 2026-06-08 (V6.1) — AVIZE HUB + 17 Templates + Custom Upload
+
+### Context
+Continuare a V6.0. User a explicitat că platforma trebuie să simuleze o firmă de proiectare gaze (20 angajați → 1-2) și să aibă TOATE fazele unei lucrări reale + flow per aviz + posibilitate upload template-uri tipizate.
+
+### Backend EXTINS
+- **`/app/backend/gas_doc_templates.py`** — extins de la 8 la **17 template-uri**:
+  - +9 noi: cerere_aviz_apa, cerere_aviz_electrica, cerere_aviz_drumuri, cerere_aviz_politie, cerere_aviz_mediu, cerere_aviz_iscir, anunt_incepere, predare_amplasament, dispozitie_santier
+  - Toate cu antet companie real, anexe legale, cadru juridic citat per document
+- **NOU `/app/backend/gas_avize_catalog.py`** — Registry de **13 avize** cu:
+  - Emitent, cadru legal, template DOCX legat, anexe obligatorii, câmpuri extra
+  - Condiționale dinamice: `applies_if(project_data) → bool`
+  - Exemple: aviz_drumuri/politie apar DOAR dacă `traseu_pe_drum=Da`; aviz_iscir apare DOAR dacă `are_centrala_termica=Da`
+  - 7 mandatorii + 6 condiționale = max 13 per proiect
+
+### Endpoints NOI V6.1
+| Method | Path | Auth | Notes |
+| --- | --- | --- | --- |
+| `GET` | `/api/gas-project/avize-catalog` | public | Toate 13 avize cu metadata |
+| `GET` | `/api/gas-project/{pid}/avize` | user | Avize APLICABILE pentru proiect (calculate condiționat) + status |
+| `PATCH` | `/api/gas-project/{pid}/avize/{aviz_id}` | user | Update status: planificat/cerut/primit/respins + sent_to + received_pdf_b64 |
+| `GET` | `/api/gas-project/{pid}/avize/{aviz_id}/dossier.zip` | user | ZIP cu cererea DOCX + manifest anexe legale per aviz |
+| `GET` | `/api/gas-project/custom-templates` | admin | Lista template-uri DOCX încărcate de admin |
+| `POST` | `/api/gas-project/custom-templates` | admin | Upload DOCX custom (max 5MB) cu label + opțional replaces_template_id |
+| `GET` | `/api/gas-project/custom-templates/{tid}/download` | admin | Download original |
+| `DELETE` | `/api/gas-project/custom-templates/{tid}` | admin | Soft-delete |
+
+### Frontend NOU V6.1
+- **GasNaturalProject.jsx** — adăugat panou `GasAvizeHub` (170 LOC):
+  - Listă 12 avize aplicabile, status colorat (planificat=gray, cerut=blue, primit=green, respins=red)
+  - 3 cards statistici: Obținute / În curs / De solicitat
+  - Click pe aviz → expand cu: anexe legale necesare + 3 butoane (ZIP cerere, Marchează cerut/primit/respins)
+  - data-testid: `gas-avize-hub`, `gas-aviz-item-{id}`, `gas-aviz-download-{id}`, `gas-aviz-mark-sent-{id}`, `gas-aviz-mark-received-{id}`
+
+### Testing E2E V6.1
+- **9/9 pytest pass** (`tests/test_v60_gas_documentation.py`):
+  - test_v60_health_and_catalog
+  - test_v61_avize_catalog (verifică toate 13 avize prezente)
+  - test_v61_avize_per_project_conditional (condiționale: drumuri/politie/iscir apar/dispar dinamic)
+  - test_v61_doc_templates_extended (toate 17 template-uri)
+  - test_v61_custom_template_upload_admin_only (admin upload DOCX → list → download → delete)
+  - test_v60_validator_cnp_cui
+  - test_v60_calc_engine
+  - test_v60_full_flow_gas_documentation
+  - test_v60_full_flow_idempotent
+- Frontend verificat live: 17 doc btns + 12 avize items + 1 dossier panel + 1 avize hub — toate rendate.
+
+### Workflow real "20 angajați → 1"
+Acum un proiectant poate, pentru un SINGUR proiect:
+1. Completa o singură dată câmpurile centralizate (beneficiar, adresă, CU, ATR, executant, etc.).
+2. Vede ÎN MOD AUTOMAT cele 7-12 avize aplicabile (în funcție de traseu pe drum, centrală, etc.).
+3. Generează ZIP-uri per fiecare aviz (cerere DOCX populată + manifest anexe).
+4. Marchează "cerut" → "primit" cu nr. de aviz primit.
+5. Generează automat dosarul DTAC complet (ZIP 17 documente).
+6. Semnează digital SHA-256 + QR public.
+7. Admin/developer poate încărca template-uri DOCX tipizate proprii care înlocuiesc cele built-in.
+
+### Repo-uri externe (situația finală)
+- ✅ Clonat și auditate 4 repo-uri externe: `dragos`, `gne`, `visa`, `sparle`
+- ✅ Integrate fișiere unice din `gne`: `validators_ro.py` (CNP/CUI ANAF) + `qr_generator.py`
+- 🟡 Restul repo-urilor = duplicate ale codului V5.x deja prezent în /app
+
+### Limitări / În aşteptare
+- Email trimitere automată per-aviz: există flux generic (POST /gas-project/{pid}/phase/{phase_id}/dispatch) dar nu specializat per aviz. Următoarea iterație.
+- VGD/RTE real provider scaffold rămâne pentru P1.
+- Polish UI vizual (animații, hero modern) — momentan rămâne brutalist Swiss.
+
+
 ## CHANGELOG — 2026-06-08 (V6.0) — Gas Documentation Studio COMPLET (turbo session)
 
 ### Context

@@ -40,6 +40,117 @@ def test_v60_health_and_catalog():
     assert any(c["code"] == "RO" and c["active"] for c in data["countries"])
 
 
+def test_v61_avize_catalog():
+    """V6.1 — Catalog complet de 13 avize."""
+    r = requests.get(f"{API}/gas-project/avize-catalog")
+    assert r.status_code == 200
+    avize = r.json()["avize"]
+    assert len(avize) >= 13
+    ids = [a["id"] for a in avize]
+    # Toate cele 13 avize obligatorii
+    for needed in ["cu", "atr", "aviz_apa", "aviz_electrica", "aviz_drumuri", "aviz_politie",
+                   "aviz_mediu", "aviz_iscir", "anunt_incepere", "predare_amplasament",
+                   "dispozitie_santier", "cerere_ac", "cerere_pif"]:
+        assert needed in ids, f"Aviz lipsă: {needed}"
+
+
+def test_v61_avize_per_project_conditional():
+    """V6.1 — Condiționale: aviz drumuri apare DOAR dacă traseu_pe_drum=Da."""
+    token = _login()
+    headers = _auth(token)
+
+    # Proiect fără condiționale special, dar cu adresă (pentru aviz_apa always)
+    r = requests.post(f"{API}/gas-project",
+                      json={"title": "Test fără condiționale", "country": "RO", "subdomain": "bransament-casnic",
+                            "data": {"loc_consum_localitate": "Bucuresti", "loc_consum_adresa": "Str. Test"}},
+                      headers=headers)
+    pid_no_cond = r.json()["pid"]
+    r = requests.get(f"{API}/gas-project/{pid_no_cond}/avize", headers=headers)
+    ids = [a["id"] for a in r.json()["avize"]]
+    assert "aviz_drumuri" not in ids
+    assert "aviz_iscir" not in ids
+    assert "aviz_politie" not in ids
+    assert "aviz_apa" in ids  # always (loc_consum_localitate provided)
+    assert "aviz_electrica" in ids  # always
+
+    # Acum activăm condiționalele
+    requests.patch(f"{API}/gas-project/{pid_no_cond}",
+                   json={"data": {"traseu_pe_drum": "Da", "are_centrala_termica": "Da"}},
+                   headers=headers)
+    r = requests.get(f"{API}/gas-project/{pid_no_cond}/avize", headers=headers)
+    ids = [a["id"] for a in r.json()["avize"]]
+    assert "aviz_drumuri" in ids
+    assert "aviz_iscir" in ids
+    assert "aviz_politie" in ids
+
+    # Mark aviz_apa as cerut
+    r = requests.patch(f"{API}/gas-project/{pid_no_cond}/avize/aviz_apa",
+                       json={"status": "cerut", "sent_to": ["test@example.ro"]},
+                       headers=headers)
+    assert r.status_code == 200
+    assert r.json()["current"]["status"] == "cerut"
+
+    # ZIP per aviz
+    r = requests.get(f"{API}/gas-project/{pid_no_cond}/avize/aviz_drumuri/dossier.zip", headers=headers)
+    assert r.status_code == 200
+    assert r.headers["content-type"] == "application/zip"
+    assert len(r.content) > 5000
+
+    # Cleanup
+    requests.delete(f"{API}/gas-project/{pid_no_cond}", headers=headers)
+
+
+def test_v61_doc_templates_extended():
+    """V6.1 — 17 template-uri (8 originale + 9 noi: 6 cereri avize + anunt + predare + dispozitie)."""
+    r = requests.get(f"{API}/gas-project/doc-templates")
+    assert r.status_code == 200
+    templates = r.json()["templates"]
+    assert len(templates) >= 17
+    ids = [t["id"] for t in templates]
+    for needed in ["cerere_cu", "cerere_atr", "cerere_aviz_apa", "cerere_aviz_electrica",
+                   "cerere_aviz_drumuri", "cerere_aviz_politie", "cerere_aviz_mediu",
+                   "cerere_aviz_iscir", "memoriu_tehnic", "caiet_sarcini", "borderou",
+                   "anunt_incepere", "predare_amplasament", "dispozitie_santier",
+                   "cerere_pif", "pv_receptie", "carte_tehnica"]:
+        assert needed in ids, f"Template lipsă: {needed}"
+
+
+def test_v61_custom_template_upload_admin_only():
+    """V6.1 — Admin/developer poate încărca DOCX custom; user normal NU poate."""
+    token = _login()
+    headers = _auth(token)
+    # Build mini DOCX
+    from docx import Document
+    doc = Document()
+    doc.add_heading("Test template custom", level=1)
+    doc.add_paragraph("Beneficiar: {{beneficiar_nume}}")
+    doc.add_paragraph("Adresă: {{loc_consum_adresa}}")
+    buf = io.BytesIO()
+    doc.save(buf)
+    files = {"file": ("test.docx", buf.getvalue(),
+                       "application/vnd.openxmlformats-officedocument.wordprocessingml.document")}
+    data = {"label": "Test custom template", "replaces_template_id": ""}
+    r = requests.post(f"{API}/gas-project/custom-templates", headers=headers, files=files, data=data)
+    assert r.status_code == 200
+    tid = r.json()["tid"]
+    assert tid.startswith("ct_")
+    assert r.json()["uploaded_by"] == EMAIL
+
+    # List
+    r = requests.get(f"{API}/gas-project/custom-templates", headers=headers)
+    assert r.status_code == 200
+    assert any(t["tid"] == tid for t in r.json())
+
+    # Download original
+    r = requests.get(f"{API}/gas-project/custom-templates/{tid}/download", headers=headers)
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("application/vnd.openxml")
+
+    # Delete
+    r = requests.delete(f"{API}/gas-project/custom-templates/{tid}", headers=headers)
+    assert r.status_code == 200
+
+
 def test_v60_validator_cnp_cui():
     """Validare ANAF — algoritmi pondere CNP/CUI."""
     # Valid CUI Energy Project Design SRL = 43151074
@@ -149,7 +260,7 @@ def test_v60_full_flow_gas_documentation():
     r = requests.get(f"{API}/gas-project/doc-templates")
     assert r.status_code == 200
     templates = r.json()["templates"]
-    assert len(templates) == 8
+    assert len(templates) >= 8  # was 8 in V6.0, 17 in V6.1+
 
     # Download each individual DOCX
     for tpl in templates:
@@ -165,9 +276,10 @@ def test_v60_full_flow_gas_documentation():
 
     zf = zipfile.ZipFile(io.BytesIO(r.content))
     names = zf.namelist()
-    assert len(names) == 9  # 8 DOCX + 1 manifest
+    assert len(names) >= 9  # at least 8 DOCX + 1 manifest
     assert any("MANIFEST" in n for n in names)
-    assert sum(1 for n in names if n.endswith(".docx")) == 8
+    docx_count = sum(1 for n in names if n.endswith(".docx"))
+    assert docx_count >= 8
 
     # Cleanup
     requests.delete(f"{API}/gas-project/{pid}", headers=headers)

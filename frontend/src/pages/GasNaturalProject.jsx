@@ -7,6 +7,7 @@ import {
   Flame, ArrowLeft, ArrowRight, Save, CheckCircle2, Circle, Lock, FileSignature,
   QrCode, Eye, Trash2, Plus, ShieldCheck, AlertCircle, Loader2, Send, Globe,
   X, Mail, Building2, BookOpen, Calculator, Download, Package, FileText,
+  Upload, Stamp, FileCheck2, MailCheck, ClipboardCheck,
 } from 'lucide-react';
 import { PhaseCalcsPanel } from '../components/GasCalcWidgets';
 
@@ -582,6 +583,9 @@ function GasProjectStudio() {
 
           {/* DOCUMENTAȚIE — Generator dosar complet */}
           <GasDossierPanel pid={proj.pid} />
+
+          {/* AVIZE HUB — toate avizele aplicabile cu status */}
+          <GasAvizeHub pid={proj.pid} projData={data} />
         </aside>
 
         <main className="lg:col-span-8">
@@ -739,6 +743,184 @@ function QrModal({ qrModal, pid, onClose }) {
     </div>
   );
 }
+
+// ====================================================================
+// GAS AVIZE HUB — toate avizele cu status & download
+// ====================================================================
+const STATUS_STYLE = {
+  planificat: { color: 'bg-gray-100 text-gray-700 border-gray-300', label: 'Planificat' },
+  cerut:      { color: 'bg-blue-100 text-blue-700 border-blue-300', label: 'Cerut' },
+  primit:     { color: 'bg-green-100 text-green-700 border-green-300', label: 'Primit' },
+  respins:    { color: 'bg-red-100 text-red-700 border-red-300', label: 'Respins' },
+};
+
+function GasAvizeHub({ pid, projData }) {
+  const [avize, setAvize] = useState([]);
+  const [busy, setBusy] = useState('');
+  const [expanded, setExpanded] = useState(null);
+
+  const load = async () => {
+    try {
+      const { data } = await api.get(`/gas-project/${pid}/avize`);
+      setAvize(data.avize || []);
+    } catch (e) { /* silent */ }
+  };
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data } = await api.get(`/gas-project/${pid}/avize`);
+        if (!cancelled) setAvize(data.avize || []);
+      } catch { /* silent */ }
+    })();
+    return () => { cancelled = true; };
+  }, [pid, projData]);
+
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+
+  async function downloadZip(avizId) {
+    setBusy(`zip-${avizId}`);
+    try {
+      const token = (document.cookie.split('session_token=')[1] || '').split(';')[0];
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const res = await fetch(`${backendUrl}/api/gas-project/${pid}/avize/${avizId}/dossier.zip`,
+        { credentials: 'include', headers });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `AVIZ_${avizId}.zip`; a.click();
+      URL.revokeObjectURL(url);
+      toast.success(`Descărcat dosar aviz`);
+    } catch (e) {
+      toast.error(`Eroare: ${e.message}`);
+    } finally { setBusy(''); }
+  }
+
+  async function patchStatus(avizId, status) {
+    setBusy(`patch-${avizId}`);
+    try {
+      await api.patch(`/gas-project/${pid}/avize/${avizId}`, { status });
+      await load();
+      toast.success(`Marcat ca: ${STATUS_STYLE[status]?.label || status}`);
+    } catch (e) {
+      toast.error(e?.response?.data?.detail || 'Eroare');
+    } finally { setBusy(''); }
+  }
+
+  const mandatoryCount = avize.length;
+  const obtainedCount = avize.filter((a) => a.status === 'primit').length;
+  const requestedCount = avize.filter((a) => a.status === 'cerut').length;
+
+  return (
+    <div className="mt-6 border-2 border-blue-200 bg-blue-50/40 p-4" data-testid="gas-avize-hub">
+      <div className="label mb-2">// avize necesare</div>
+      <div className="text-xs text-gray-700 mb-3 leading-relaxed">
+        Lista <strong>{mandatoryCount} avize aplicabile</strong> pentru acest proiect, calculate dinamic în funcție de
+        condițiile completate (traseu pe drum, centrală termică, etc.).
+      </div>
+      <div className="grid grid-cols-3 gap-2 mb-3 text-center">
+        <div className="bg-white border border-gray-200 p-2">
+          <div className="text-lg font-bold mono">{obtainedCount}</div>
+          <div className="text-[9px] uppercase tracking-wider text-gray-500">Obținute</div>
+        </div>
+        <div className="bg-white border border-gray-200 p-2">
+          <div className="text-lg font-bold mono text-blue-600">{requestedCount}</div>
+          <div className="text-[9px] uppercase tracking-wider text-gray-500">În curs</div>
+        </div>
+        <div className="bg-white border border-gray-200 p-2">
+          <div className="text-lg font-bold mono">{mandatoryCount - obtainedCount - requestedCount}</div>
+          <div className="text-[9px] uppercase tracking-wider text-gray-500">De solicitat</div>
+        </div>
+      </div>
+
+      <div className="space-y-1.5" data-testid="gas-avize-list">
+        {avize.map((a) => {
+          const sty = STATUS_STYLE[a.status] || STATUS_STYLE.planificat;
+          const isExp = expanded === a.id;
+          return (
+            <div key={a.id} className="border border-gray-200 bg-white" data-testid={`gas-aviz-item-${a.id}`}>
+              <button onClick={() => setExpanded(isExp ? null : a.id)}
+                className="w-full text-left p-2.5 hover:bg-gray-50 flex items-start gap-2">
+                <span className={`text-[9px] uppercase tracking-wider px-1.5 py-0.5 border ${sty.color} shrink-0 mt-0.5`}>
+                  {sty.label}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[11px] font-semibold leading-tight">{a.label}</div>
+                  <div className="text-[9px] text-gray-500 mt-0.5">{a.issuer}</div>
+                  <div className="text-[9px] mono text-gray-400 mt-0.5">{a.legal}</div>
+                </div>
+                {a.mandatory && <span className="text-[9px] text-red-600 font-bold shrink-0">*</span>}
+              </button>
+              {isExp && (
+                <div className="p-2.5 border-t border-gray-100 bg-gray-50/50 space-y-2">
+                  {a.extra_attachments?.length > 0 && (
+                    <div>
+                      <div className="text-[9px] uppercase tracking-wider text-gray-500 mb-1">Anexe legale necesare:</div>
+                      <ul className="text-[10px] text-gray-700 list-disc pl-4">
+                        {a.extra_attachments.map((x, i) => <li key={i}>{x}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  <div className="flex flex-wrap gap-1.5">
+                    <button onClick={() => downloadZip(a.id)} disabled={busy === `zip-${a.id}`}
+                      className="text-[10px] inline-flex items-center gap-1 bg-amber-50 border border-amber-300 px-2 py-1 hover:bg-amber-100 disabled:opacity-50"
+                      data-testid={`gas-aviz-download-${a.id}`}>
+                      {busy === `zip-${a.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />}
+                      ZIP cerere + manifest
+                    </button>
+                    {a.status === 'planificat' && (
+                      <button onClick={() => patchStatus(a.id, 'cerut')} disabled={!!busy}
+                        className="text-[10px] inline-flex items-center gap-1 bg-blue-50 border border-blue-300 px-2 py-1 hover:bg-blue-100 disabled:opacity-50"
+                        data-testid={`gas-aviz-mark-sent-${a.id}`}>
+                        <MailCheck className="w-3 h-3" /> Marchează cerut
+                      </button>
+                    )}
+                    {a.status === 'cerut' && (
+                      <>
+                        <button onClick={() => patchStatus(a.id, 'primit')} disabled={!!busy}
+                          className="text-[10px] inline-flex items-center gap-1 bg-green-50 border border-green-300 px-2 py-1 hover:bg-green-100 disabled:opacity-50"
+                          data-testid={`gas-aviz-mark-received-${a.id}`}>
+                          <ClipboardCheck className="w-3 h-3" /> Marchează primit
+                        </button>
+                        <button onClick={() => patchStatus(a.id, 'respins')} disabled={!!busy}
+                          className="text-[10px] inline-flex items-center gap-1 bg-red-50 border border-red-300 px-2 py-1 hover:bg-red-100 disabled:opacity-50">
+                          <X className="w-3 h-3" /> Marchează respins
+                        </button>
+                      </>
+                    )}
+                    {(a.status === 'primit' || a.status === 'respins') && (
+                      <button onClick={() => patchStatus(a.id, 'planificat')} disabled={!!busy}
+                        className="text-[10px] inline-flex items-center gap-1 bg-gray-50 border border-gray-300 px-2 py-1 hover:bg-gray-100">
+                        Reset
+                      </button>
+                    )}
+                  </div>
+                  {a.sent_at && (
+                    <div className="text-[9px] text-gray-500 mono">
+                      Trimis: {new Date(a.sent_at).toLocaleString('ro-RO')}
+                      {a.sent_to?.length > 0 && <> către {a.sent_to.join(', ')}</>}
+                    </div>
+                  )}
+                  {a.received_at && (
+                    <div className="text-[9px] text-green-600 mono">
+                      ✓ Primit: {new Date(a.received_at).toLocaleString('ro-RO')}
+                      {a.received_number && <> · Nr. <strong>{a.received_number}</strong></>}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-3 text-[9px] text-gray-500 leading-tight">
+        <strong>*</strong> = mandatoriu pentru orice proiect. Avizele condiționale (Drumuri, Poliție, ISCIR) apar
+        DOAR dacă faza Temă marchează traseu pe drum sau centrală termică.
+      </div>
+    </div>
+  );
+}
+
 
 // ====================================================================
 // GAS DOSSIER PANEL — generator documentație legală completă

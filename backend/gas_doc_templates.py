@@ -694,17 +694,305 @@ def carte_tehnica(proj: Dict[str, Any]) -> bytes:
 
 
 # ============================================================================
+# TEMPLATE 9-14: Cereri Avize Utilități + Anunțuri (5 noi)
+# ============================================================================
+def _cerere_aviz_generic(proj: Dict[str, Any], destinatar: str, denumire_aviz: str,
+                          cadru_legal: str, anexe: List[str],
+                          extra_block: Optional[str] = None) -> bytes:
+    """Builder generic pentru cereri de aviz utilități."""
+    data = proj.get("data") or {}
+    doc = Document()
+    _company_header(doc)
+    _add_para(doc, f"Către {destinatar.upper()}", bold=True, size=12)
+    doc.add_paragraph()
+
+    _add_heading(doc, f"CERERE PENTRU EMITEREA {denumire_aviz.upper()}", level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
+    _add_para(doc, f"({cadru_legal})", italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=10)
+    doc.add_paragraph()
+
+    _add_para(doc, "Solicitant (proiectant gaze naturale):", bold=True)
+    _add_kv_table(doc, [
+        ("Denumire", COMPANY["name"]),
+        ("CUI / Reg. Comerțului", f"{COMPANY['cui']} / {COMPANY['reg_com']}"),
+        ("Atestat ANRE", COMPANY["anre_proiectant"]),
+        ("Email", COMPANY["email"]),
+        ("Telefon", COMPANY["phone"]),
+    ])
+
+    doc.add_paragraph()
+    _add_para(doc, "În numele beneficiarului:", bold=True)
+    _add_kv_table(doc, [
+        ("Beneficiar", _get(data, "beneficiar_nume")),
+        ("CNP/CUI", _get(data, "beneficiar_cnp_cui")),
+        ("Telefon", _get(data, "beneficiar_telefon")),
+        ("Email", _get(data, "beneficiar_email")),
+    ])
+
+    doc.add_paragraph()
+    _add_para(doc, "Pentru obiectivul:", bold=True)
+    _add_kv_table(doc, [
+        ("Tip lucrare", _get(data, "scop_lucrare", "Branșament gaze naturale")),
+        ("Adresă", _get(data, "loc_consum_adresa")),
+        ("Localitate", _get(data, "loc_consum_localitate")),
+        ("Județ", _get(data, "loc_consum_judet")),
+        ("Nr. cadastral / CF", _get(data, "loc_consum_cadastru")),
+    ])
+
+    if extra_block:
+        doc.add_paragraph()
+        _add_para(doc, extra_block, italic=True)
+
+    if _truthy(data, "cu_numar"):
+        doc.add_paragraph()
+        _add_para(doc, f"În baza Certificatului de Urbanism nr. {_get(data,'cu_numar')} din {_get(data,'cu_data_emitere','—')}", bold=True)
+
+    doc.add_paragraph()
+    _add_para(doc, "Anexăm prezenta cerere cu următoarele documente:", bold=True)
+    for a in anexe:
+        doc.add_paragraph(a, style="List Bullet")
+
+    doc.add_paragraph()
+    _add_para(doc, f"Data: {_today_ro()}", italic=True)
+    _footer_signature(doc, proj, data)
+    return _save(doc)
+
+
+def cerere_aviz_apa(proj: Dict[str, Any]) -> bytes:
+    data = proj.get("data") or {}
+    destinatar = _get(data, "apa_canal_operator", "RAJA / Apa Nova / SC Compania Județeană Apă")
+    return _cerere_aviz_generic(proj, destinatar, "Avizului tehnic de amplasament — APĂ-CANALIZARE",
+        "Conform Legii 241/2006 — Serviciul de alimentare cu apă și de canalizare",
+        ["Plan situație 1:500 cu poziția conductei propuse",
+         "Plan încadrare 1:5000",
+         "Memoriu tehnic gaze naturale (sinteză)",
+         "Copie Certificat Urbanism"],
+        extra_block="Solicităm avizarea traseului conductei de gaze pentru evitarea intersecțiilor cu rețelele existente de apă-canal. "
+                    "Distanța minimă conform STAS 8591/1997: 0.5 m de la canalizare, 0.3 m de la apă potabilă.")
+
+
+def cerere_aviz_electrica(proj: Dict[str, Any]) -> bytes:
+    data = proj.get("data") or {}
+    destinatar = _get(data, "electrica_operator", "E-Distribuție / Electrica / Delgaz Grid")
+    return _cerere_aviz_generic(proj, destinatar, "Avizului tehnic de amplasament — REȚELE ELECTRICE",
+        "Conform Legii 123/2012 + Ord. ANRE 11/2014",
+        ["Plan situație 1:500 cu traseul conductei",
+         "Plan încadrare 1:5000",
+         "Memoriu tehnic (sinteză)",
+         "Copie CU"],
+        extra_block="Pentru evitarea intersecțiilor cu LEA / LES și menținerea distanțelor de siguranță conform PE 101/85: "
+                    "min. 1 m LES JT, 3 m LES MT, 5 m LEA MT, 10 m LEA IT.")
+
+
+def cerere_aviz_drumuri(proj: Dict[str, Any]) -> bytes:
+    data = proj.get("data") or {}
+    destinatar = _get(data, "drumuri_administrator", "Direcția de Drumuri și Poduri / Compania Națională de Administrare Infrastructură Rutieră")
+    return _cerere_aviz_generic(proj, destinatar, "Avizului de spargere / pozare în carosabil",
+        "Conform OG 43/1997 — Regimul drumurilor + HG 540/2000",
+        ["Plan situație 1:500 cu traseul de spargere",
+         "Memoriu tehnic — descriere lucrare + tehnologie refacere",
+         "Schiță detaliu refacere îmbrăcăminte",
+         "Garanție bună execuție (dacă e cazul)",
+         "Copie CU + AC (la trimitere)"],
+        extra_block="Solicităm avizul pentru spargerea carosabilului în vederea pozării unei conducte PE 100 SDR 11. "
+                    "Refacerea îmbrăcămintei se va executa conform AND 605:2016 și SR EN 13108-1.")
+
+
+def cerere_aviz_politie(proj: Dict[str, Any]) -> bytes:
+    data = proj.get("data") or {}
+    destinatar = _get(data, "politie_unitatea", "Inspectoratul de Poliție al Județului — Serviciul Rutier")
+    return _cerere_aviz_generic(proj, destinatar, "Avizului de la Poliția Rutieră — semnalizare lucrare",
+        "Conform OUG 195/2002 — Codul Rutier + HG 1391/2006",
+        ["Plan situație 1:500 cu zona lucrării",
+         "Schemă de semnalizare temporară (conform SR 1848-7)",
+         "Program de execuție + ore de lucru propuse",
+         "Copie AC"],
+        extra_block="Solicităm avizarea schemei de semnalizare temporară pentru perioada de execuție a lucrărilor de gaze "
+                    "în zona carosabilului public, conform STAS SR 1848-7 — Semnalizare rutieră.")
+
+
+def cerere_aviz_mediu(proj: Dict[str, Any]) -> bytes:
+    data = proj.get("data") or {}
+    destinatar = _get(data, "apm_unitate", "Agenția pentru Protecția Mediului — Județul " + _get(data, "loc_consum_judet", "—"))
+    return _cerere_aviz_generic(proj, destinatar, "Punctului de vedere / Acordului de mediu",
+        "Conform Legii 292/2018 + OUG 195/2005 — Protecția mediului",
+        ["Memoriu de prezentare (conform anexa Ord. MMP 19/2010)",
+         "Plan situație 1:500",
+         "Plan încadrare 1:5000",
+         "Copie CU",
+         "Dovada achitării taxei"],
+        extra_block="Solicităm punctul de vedere al APM pentru lucrările de instalație gaze naturale propuse, "
+                    "lucrările nefiind supuse procedurii EIM conform anexa nr. 2 din Legea 292/2018 (categoria 10/c — "
+                    "rețele utilități publice cu lungime sub 1 km).")
+
+
+def cerere_aviz_iscir(proj: Dict[str, Any]) -> bytes:
+    data = proj.get("data") or {}
+    destinatar = _get(data, "iscir_unitate", "ISCIR — Inspecția de Stat pentru Controlul Cazanelor, Recipientelor sub Presiune și Instalațiilor de Ridicat")
+    return _cerere_aviz_generic(proj, destinatar, "Avizului ISCIR pentru centrala termică",
+        "Conform Legii 64/2008 + PT C9-2010 (centrale termice)",
+        ["Schemă termo-hidraulică",
+         "Specificație tehnică centrală + arzător",
+         "Schiță amplasare în cameră",
+         "Calcul ventilație și evacuare gaze arse",
+         "Copie CU + Memoriu tehnic"],
+        extra_block="Solicităm avizul ISCIR pentru montarea/punerea în funcțiune a centralei termice "
+                    "racordată la rețeaua de gaze naturale, conform PT C9 — Cerințe tehnice pentru centrale termice.")
+
+
+def anunt_incepere(proj: Dict[str, Any]) -> bytes:
+    """Anunț începere lucrări — către ISC + Primărie."""
+    data = proj.get("data") or {}
+    doc = Document()
+    _company_header(doc)
+    _add_para(doc, "Către:", bold=True, size=11)
+    _add_para(doc, "1. INSPECTORATUL DE STAT ÎN CONSTRUCȚII — Inspectoratul Județean", bold=True, size=10)
+    _add_para(doc, f"2. PRIMĂRIA {_get(data,'loc_consum_localitate','—').upper()}", bold=True, size=10)
+    doc.add_paragraph()
+    _add_heading(doc, "ANUNȚ ÎNCEPERE LUCRĂRI", level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
+    _add_para(doc, "(Conform Legii 50/1991 art. 7 alin. (8))", italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=10)
+    doc.add_paragraph()
+
+    _add_para(doc, "Vă comunicăm începerea lucrărilor de construire pentru obiectivul:", bold=True)
+    _add_kv_table(doc, [
+        ("Denumire lucrare", proj.get("title", "—")),
+        ("Adresă obiectiv", _get(data, "loc_consum_adresa")),
+        ("Localitate", _get(data, "loc_consum_localitate")),
+        ("Judet", _get(data, "loc_consum_judet")),
+        ("Beneficiar", _get(data, "beneficiar_nume")),
+        ("Autorizație Construire", f"AC nr. {_get(data,'ac_numar')} / {_get(data,'ac_data_emitere')}"),
+        ("Emitent AC", _get(data, "ac_emitent")),
+        ("Data programată începere", _get(data, "exec_data_start", _today_ro())),
+        ("Durată estimată execuție", _get(data, "ac_termen_executie") + " luni" if _truthy(data, "ac_termen_executie") else "—"),
+        ("Proiectant", _get(data, "dtac_proiectant_specialitate", COMPANY["name"])),
+        ("Executant", _get(data, "exec_firma", COMPANY["name"])),
+        ("RTE atestat", _get(data, "exec_responsabil_tehnic")),
+        ("Diriginte șantier", _get(data, "exec_diriginte_santier")),
+    ])
+
+    doc.add_paragraph()
+    _add_para(doc, "Anexăm:", bold=True)
+    doc.add_paragraph("• Copie Autorizație de Construire", style="List Bullet")
+    doc.add_paragraph("• Copie contract execuție", style="List Bullet")
+    doc.add_paragraph("• Dovada atestare RTE și Diriginte", style="List Bullet")
+    doc.add_paragraph("• Copie ATR (Aviz Tehnic Racordare)", style="List Bullet")
+
+    _footer_signature(doc, proj, data)
+    return _save(doc)
+
+
+def predare_amplasament(proj: Dict[str, Any]) -> bytes:
+    """Proces verbal de predare-primire amplasament."""
+    data = proj.get("data") or {}
+    doc = Document()
+    _company_header(doc)
+    _add_heading(doc, "PROCES VERBAL DE PREDARE-PRIMIRE AMPLASAMENT", level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
+    _add_para(doc, f"Nr. ___ / {_today_ro()}", italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=11)
+    _add_para(doc, "(Conform Legii 10/1995 art. 13 + Reg. recepție HG 273/1994)",
+              italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=10)
+    doc.add_paragraph()
+
+    _add_para(doc, "Subsemnatii:", bold=True)
+    doc.add_paragraph(f"• Reprezentant beneficiar: {_get(data, 'beneficiar_nume')}, CNP/CUI {_get(data,'beneficiar_cnp_cui')}", style="List Bullet")
+    doc.add_paragraph(f"• Reprezentant executant: {_get(data, 'exec_firma', COMPANY['name'])}", style="List Bullet")
+    doc.add_paragraph(f"• Diriginte de șantier: {_get(data, 'exec_diriginte_santier')}", style="List Bullet")
+    doc.add_paragraph(f"• Reprezentant proiectant: {_get(data, 'dtac_proiectant_specialitate', COMPANY['name'])}", style="List Bullet")
+    doc.add_paragraph("• Reprezentant ISC (la cerere): _____________", style="List Bullet")
+
+    doc.add_paragraph()
+    _add_para(doc, "Am procedat la predarea-primirea amplasamentului pentru:", bold=True)
+    _add_kv_table(doc, [
+        ("Adresă", _get(data, "loc_consum_adresa")),
+        ("Localitate / Județ", f"{_get(data,'loc_consum_localitate')}, {_get(data,'loc_consum_judet')}"),
+        ("Nr. cadastral", _get(data, "loc_consum_cadastru")),
+        ("AC nr.", f"{_get(data,'ac_numar','—')} / {_get(data,'ac_data_emitere','—')}"),
+    ])
+
+    doc.add_paragraph()
+    _add_para(doc, "Cu această ocazie s-au constatat:", bold=True)
+    doc.add_paragraph("1. Reperele topografice corespund cu cele din planul de amplasament", style="List Number")
+    doc.add_paragraph("2. Nu există rețele subterane nesemnalizate care să împiedice execuția", style="List Number")
+    doc.add_paragraph("3. Beneficiarul a pus la dispoziție terenul liber de servituți și sarcini", style="List Number")
+    doc.add_paragraph("4. S-au prezentat: AC original, planurile DTAC, programul de execuție", style="List Number")
+    doc.add_paragraph("5. Executantul a verificat conformitatea cu DTAC și are toate avizele necesare", style="List Number")
+
+    doc.add_paragraph()
+    _add_para(doc, "Începând cu data prezentă, executantul preia răspunderea integrală pentru lucrările "
+                   "de execuție conform Legii 10/1995 și a normelor tehnice în vigoare.", italic=True)
+
+    _footer_signature(doc, proj, data)
+    return _save(doc)
+
+
+def dispozitie_santier(proj: Dict[str, Any]) -> bytes:
+    """Dispoziție de șantier (modificare/clarificare detaliu pe parcursul execuției)."""
+    data = proj.get("data") or {}
+    doc = Document()
+    _company_header(doc)
+    _add_heading(doc, "DISPOZIȚIE DE ȘANTIER", level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
+    _add_para(doc, f"Nr. ___ / {_today_ro()}", italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=11)
+    _add_para(doc, "(Conform Legii 10/1995 + Ord. MLPAT 24/N/1997)",
+              italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=10)
+    doc.add_paragraph()
+
+    _add_kv_table(doc, [
+        ("Obiectiv", proj.get("title", "—")),
+        ("Beneficiar", _get(data, "beneficiar_nume")),
+        ("AC", f"{_get(data,'ac_numar','—')} / {_get(data,'ac_data_emitere','—')}"),
+        ("Proiectant", _get(data, "dtac_proiectant_specialitate", COMPANY["name"])),
+        ("Executant", _get(data, "exec_firma")),
+    ])
+
+    doc.add_paragraph()
+    _add_para(doc, "Obiect dispoziție:", bold=True)
+    _add_para(doc, _get(data, "dispozitie_obiect",
+              "Se dispune ___________________________________________________________________________ "
+              "(detaliază: modificarea traseului, schimbarea diametrului, soluție alternativă fitting, "
+              "consolidare locală etc.)"), italic=True)
+
+    doc.add_paragraph()
+    _add_para(doc, "Justificare tehnică:", bold=True)
+    _add_para(doc, _get(data, "dispozitie_justificare",
+              "Motivul tehnic care impune dispoziția: ___________________________________________"),
+              italic=True)
+
+    doc.add_paragraph()
+    _add_para(doc, "Implicații:", bold=True)
+    doc.add_paragraph("• Calitate: respectă normele NTPEE 2018 + cerințele esențiale Legea 10/1995", style="List Bullet")
+    doc.add_paragraph(f"• Cost: {_get(data,'dispozitie_cost_impact','fără impact / impact minor')}", style="List Bullet")
+    doc.add_paragraph(f"• Termen: {_get(data,'dispozitie_termen_impact','fără impact')}", style="List Bullet")
+
+    doc.add_paragraph()
+    _add_para(doc, "Aprobat de proiectant atestat ANRE, conform competențelor:", bold=True)
+
+    _footer_signature(doc, proj, data)
+    return _save(doc)
+
+
+def _footer_signature_legacy_stub(*_a, **_kw):  # noqa - kept for backwards-compat if referenced
+    pass
+
+
+# ============================================================================
 # REGISTRY
 # ============================================================================
 TEMPLATES: Dict[str, Dict[str, Any]] = {
-    "cerere_cu":       {"label": "Cerere Certificat de Urbanism",   "phase": "cu",       "fn": cerere_cu,       "norm": "Legea 50/1991"},
-    "cerere_atr":      {"label": "Cerere Aviz Tehnic Racordare",     "phase": "cu",       "fn": cerere_atr,      "norm": "Ord. ANRE 89/2018"},
-    "memoriu_tehnic":  {"label": "Memoriu Tehnic Justificativ",      "phase": "dtac",     "fn": memoriu_tehnic,  "norm": "HG 907/2016 + NTPEE 2018"},
-    "caiet_sarcini":   {"label": "Caiet de Sarcini Execuție",        "phase": "pt",       "fn": caiet_sarcini,   "norm": "NTPEE 2018 cap. 4"},
-    "borderou":        {"label": "Borderou Piese (scrise + desenate)", "phase": "pt",     "fn": borderou,        "norm": "HG 907/2016"},
-    "cerere_pif":      {"label": "Cerere Punere în Funcțiune",       "phase": "pif",      "fn": cerere_pif,      "norm": "Ord. ANRE 162/2021"},
-    "pv_receptie":     {"label": "Proces Verbal Recepție Terminare Lucrări", "phase": "receptie", "fn": pv_receptie, "norm": "HG 273/1994"},
-    "carte_tehnica":   {"label": "Cartea Tehnică a Construcției",    "phase": "receptie", "fn": carte_tehnica,   "norm": "HG 273/1994 + Ord. MLPAT 770/1997"},
+    "cerere_cu":              {"label": "Cerere Certificat de Urbanism",                  "phase": "cu",       "fn": cerere_cu,            "norm": "Legea 50/1991"},
+    "cerere_atr":             {"label": "Cerere Aviz Tehnic Racordare (OSD)",             "phase": "cu",       "fn": cerere_atr,           "norm": "Ord. ANRE 89/2018"},
+    "cerere_aviz_apa":        {"label": "Cerere aviz amplasament — APĂ-CANAL",            "phase": "cu",       "fn": cerere_aviz_apa,      "norm": "Legea 241/2006 + STAS 8591"},
+    "cerere_aviz_electrica":  {"label": "Cerere aviz amplasament — REȚELE ELECTRICE",     "phase": "cu",       "fn": cerere_aviz_electrica,"norm": "Ord. ANRE 11/2014 + PE 101/85"},
+    "cerere_aviz_drumuri":    {"label": "Cerere aviz Drumuri (spargere/pozare carosabil)","phase": "cu",       "fn": cerere_aviz_drumuri,  "norm": "OG 43/1997 + AND 605:2016"},
+    "cerere_aviz_politie":    {"label": "Cerere aviz Poliția Rutieră (semnalizare)",      "phase": "cu",       "fn": cerere_aviz_politie,  "norm": "OUG 195/2002 + SR 1848-7"},
+    "cerere_aviz_mediu":      {"label": "Cerere punct de vedere / acord MEDIU (APM)",     "phase": "cu",       "fn": cerere_aviz_mediu,    "norm": "Legea 292/2018"},
+    "cerere_aviz_iscir":      {"label": "Cerere aviz ISCIR (centrale termice)",           "phase": "cu",       "fn": cerere_aviz_iscir,    "norm": "Legea 64/2008 + PT C9"},
+    "memoriu_tehnic":         {"label": "Memoriu Tehnic Justificativ (DTAC + PT)",        "phase": "dtac",     "fn": memoriu_tehnic,       "norm": "HG 907/2016 + NTPEE 2018"},
+    "caiet_sarcini":          {"label": "Caiet de Sarcini Execuție",                       "phase": "pt",       "fn": caiet_sarcini,        "norm": "NTPEE 2018 cap. 4"},
+    "borderou":               {"label": "Borderou Piese (scrise + desenate)",             "phase": "pt",       "fn": borderou,             "norm": "HG 907/2016"},
+    "anunt_incepere":         {"label": "Anunț începere lucrări (ISC + Primărie)",        "phase": "executie", "fn": anunt_incepere,       "norm": "Legea 50/1991 art. 7"},
+    "predare_amplasament":    {"label": "PV Predare-Primire Amplasament",                 "phase": "executie", "fn": predare_amplasament,  "norm": "Legea 10/1995 art. 13"},
+    "dispozitie_santier":     {"label": "Dispoziție de șantier (opțional)",               "phase": "executie", "fn": dispozitie_santier,   "norm": "Ord. MLPAT 24/N/1997"},
+    "cerere_pif":             {"label": "Cerere Punere în Funcțiune (OSD)",               "phase": "pif",      "fn": cerere_pif,           "norm": "Ord. ANRE 162/2021"},
+    "pv_receptie":            {"label": "PV Recepție la Terminarea Lucrărilor",           "phase": "receptie", "fn": pv_receptie,          "norm": "HG 273/1994"},
+    "carte_tehnica":          {"label": "Cartea Tehnică a Construcției (4 secțiuni)",     "phase": "receptie", "fn": carte_tehnica,        "norm": "HG 273/1994 + Ord. MLPAT 770/1997"},
 }
 
 
