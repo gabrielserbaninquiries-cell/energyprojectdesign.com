@@ -4,11 +4,13 @@ import { useAuth } from '../contexts/AuthContext';
 import api from '../lib/api';
 import ActiveProjectBar from './ActiveProjectBar';
 import LicenseTimer from './LicenseTimer';
+import CommandBar from './CommandBar';
 import {
   LayoutDashboard, ClipboardList, Settings2, Calculator, FileText, FileCheck2,
   Stamp, ShieldCheck, Mail, BadgeCheck, GaugeCircle, CreditCard, Settings, LogOut,
   Sparkles, Wrench, ListChecks, Flame, ChevronRight, FolderKanban, Github, Banknote, MessageSquare, Building2,
   Layers, Compass, BarChart3, Sun, Bot, FileSearch, Users as UsersIcon, Receipt, AlertTriangle, X,
+  Lock, Terminal, Package, ListOrdered,
 } from 'lucide-react';
 
 const SECTIONS = [
@@ -156,6 +158,18 @@ export default function AppShell({ children, title, subtitle }) {
               <Link to="/developer/chat" data-testid="nav-developer-chat" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/developer/chat') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
                 <Sparkles className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">AI Developer Chat</span>
               </Link>
+              <Link to="/queue" data-testid="nav-queue" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/queue') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
+                <ListOrdered className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">AI Implementation Queue</span>
+              </Link>
+              <Link to="/self-check" data-testid="nav-self-check" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/self-check') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
+                <ListChecks className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">Self Check</span>
+              </Link>
+              <Link to="/skeleton" data-testid="nav-skeleton" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/skeleton') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
+                <Package className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">Product Skeleton</span>
+              </Link>
+              <Link to="/inside" data-testid="nav-inside" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/inside') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
+                <Lock className="w-3.5 h-3.5 shrink-0 text-[#FFB300]" /><span className="flex-1">Inside Full</span>
+              </Link>
               <Link to="/developer/github" data-testid="nav-developer-github" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/developer/github') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
                 <Github className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">Push pe GitHub</span>
               </Link>
@@ -201,15 +215,18 @@ export default function AppShell({ children, title, subtitle }) {
             <button onClick={() => setBannerDismissed(true)} className="opacity-70 hover:opacity-100" data-testid="banner-dismiss"><X className="w-4 h-4" /></button>
           </div>
         )}
-        <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
-          <div>
+        <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between gap-4">
+          <div className="min-w-0">
             <h1 className="text-xl font-semibold tracking-tight" data-testid="page-title">{title}</h1>
-            {subtitle && <div className="text-xs text-gray-500 mt-0.5">{subtitle}</div>}
+            {subtitle && <div className="text-xs text-gray-500 mt-0.5 truncate">{subtitle}</div>}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 flex-1 max-w-[800px] justify-end">
+            <CommandBar variant="user" />
+            {(user?.is_developer || user?.is_admin) && (
+              <CommandBar variant="developer" isDeveloper={true} />
+            )}
             <LicenseTimer />
             <ActiveProjectBar />
-            <div className="text-xs text-gray-500 uppercase tracking-[0.2em] hidden xl:block">{user?.email}</div>
           </div>
         </header>
         <main className="flex-1 px-8 py-8 page-enter">{children}</main>

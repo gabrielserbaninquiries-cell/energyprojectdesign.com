@@ -56,6 +56,10 @@ import Subscribers from './pages/Subscribers';
 import VerifyGasProject from './pages/VerifyGasProject';
 import Clients from './pages/Clients';
 import Companies from './pages/Companies';
+import Inside from './pages/Inside';
+import ImplementationQueue from './pages/ImplementationQueue';
+import SelfCheck from './pages/SelfCheck';
+import ProductSkeleton from './pages/ProductSkeleton';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -131,6 +135,13 @@ function AppRouter() {
       <Route path="/consultant-ai" element={<ProtectedRoute><EnergyAdvisor /></ProtectedRoute>} />
       <Route path="/jobs" element={<Jobs />} />
       <Route path="/contracts" element={<ProtectedRoute><Contracts /></ProtectedRoute>} />
+
+      {/* EPD Vision — Inside Full + Implementation Queue + Self Check + Product Skeleton */}
+      <Route path="/inside" element={<ProtectedRoute><Inside /></ProtectedRoute>} />
+      <Route path="/queue" element={<ProtectedRoute><ImplementationQueue /></ProtectedRoute>} />
+      <Route path="/self-check" element={<ProtectedRoute><SelfCheck /></ProtectedRoute>} />
+      <Route path="/skeleton" element={<ProtectedRoute><ProductSkeleton /></ProtectedRoute>} />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

@@ -2243,6 +2243,13 @@ import clients_crm
 import companies_directory
 app.include_router(admin_router)
 app.include_router(marketplace_router)
+
+# EPD Vision routes (Inside Full + Implementation Queue + Product Skeleton + Command Bar)
+from epd_vision_routes import router as epd_vision_router
+_epd_vision_api = APIRouter(prefix="/api")
+_epd_vision_api.include_router(epd_vision_router)
+app.include_router(_epd_vision_api)
+
 # Mount the gas-project + subscribers routers via factory (shared db + auth dep).
 _gas_router = make_gas_project_router(db, get_current_user)
 _sub_router = make_subscribers_router(db, get_current_user)
