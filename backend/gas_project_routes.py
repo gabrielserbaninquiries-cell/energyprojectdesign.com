@@ -40,9 +40,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, EmailStr
 
 import qrcode
+from fastapi.responses import StreamingResponse
 
 import gas_catalog as catalog
 import gas_calc_engine as engine
+import gas_doc_templates as doc_templates
+import validators_ro
 
 
 def _new_id(prefix: str) -> str:
@@ -85,6 +88,18 @@ class DispatchPayload(BaseModel):
 class RecipientsConfig(BaseModel):
     """Map: role -> list of email addresses configured by user."""
     items: Dict[str, List[EmailStr]] = {}
+
+
+class ValidatePayload(BaseModel):
+    cnp: Optional[str] = None
+    cui: Optional[str] = None
+
+
+def _ascii_safe(s: str, maxlen: int = 60) -> str:
+    """Strip non-latin chars for HTTP filename headers."""
+    import unicodedata
+    out = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode("ascii")
+    return (out or "proiect")[:maxlen].replace("/", "-").replace(" ", "_") or "proiect"
 
 
 # ---------- helpers ----------
@@ -160,6 +175,25 @@ def make_gas_project_router(db, get_current_user):
     @r.get("/phases")
     async def list_phases_legacy():
         return {"phases": catalog.get_phases_for("RO", "gaze-naturale", "bransament-casnic")}
+
+    # ===================== DOCUMENT TEMPLATES LIST (no auth) =====================
+    @r.get("/doc-templates")
+    async def list_doc_templates():
+        """List 8 DOCX templates available for any gas project."""
+        return {"templates": doc_templates.list_templates()}
+
+    # ===================== VALIDARE DATE ROMÂNEȘTI (no auth) =====================
+    @r.post("/validate")
+    async def validate_ro(payload: ValidatePayload):
+        """Validează CNP și/sau CUI conform algoritmi ANAF."""
+        result: Dict[str, Any] = {}
+        if payload.cnp is not None:
+            ok, msg = validators_ro.validate_cnp(payload.cnp)
+            result["cnp"] = {"valid": ok, "message": msg}
+        if payload.cui is not None:
+            ok, msg = validators_ro.validate_cui(payload.cui)
+            result["cui"] = {"valid": ok, "message": msg}
+        return result
 
     # ===================== PROJECTS =====================
     @r.post("")
@@ -414,6 +448,62 @@ def make_gas_project_router(db, get_current_user):
              "$set": {"updated_at": log_entry["sent_at"]}},
         )
         return {"ok": result.get("ok"), "error": result.get("error"), "dispatch": log_entry}
+
+    # ===================== DOCUMENT GENERATION =====================
+    @r.get("/{pid}/doc/{template_id}")
+    async def download_doc(pid: str, template_id: str, user=Depends(get_current_user)):
+        """Generate + download a single DOCX template populated with project data."""
+        doc = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}}, {"_id": 0})
+        if not doc:
+            raise HTTPException(404, "Proiect inexistent")
+        result = doc_templates.generate(template_id, doc)
+        if not result:
+            raise HTTPException(400, f"Template necunoscut: {template_id}")
+        data_bytes, fname = result
+        return StreamingResponse(
+            io.BytesIO(data_bytes),
+            media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            headers={"Content-Disposition": f"attachment; filename={_ascii_safe(fname)}"},
+        )
+
+    @r.get("/{pid}/dossier.zip")
+    async def download_full_dossier(pid: str, user=Depends(get_current_user)):
+        """Generate ZIP with ALL 8 DOCX templates — turns 10h work into 30min."""
+        import zipfile
+        doc = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}}, {"_id": 0})
+        if not doc:
+            raise HTTPException(404, "Proiect inexistent")
+        zip_buf = io.BytesIO()
+        with zipfile.ZipFile(zip_buf, "w", zipfile.ZIP_DEFLATED) as zf:
+            for tpl in doc_templates.list_templates():
+                result = doc_templates.generate(tpl["id"], doc)
+                if result:
+                    data_bytes, fname = result
+                    zf.writestr(fname, data_bytes)
+            manifest = (
+                "DOSAR TEHNIC COMPLET — Energy Project Design\n"
+                "================================================\n\n"
+                f"Proiect: {doc.get('title','—')}\n"
+                f"PID: {pid}\n"
+                f"Subdomeniu: {doc.get('subdomain','—')}\n"
+                f"Status: {doc.get('status','—')}\n"
+                f"Beneficiar: {(doc.get('data') or {}).get('beneficiar_nume','—')}\n"
+                f"Loc consum: {(doc.get('data') or {}).get('loc_consum_adresa','—')}\n\n"
+                "Documente incluse:\n"
+            )
+            for t in doc_templates.list_templates():
+                manifest += f"  - {t['label']} (cadru legal: {t['norm']})\n"
+            if doc.get("signature_hash"):
+                manifest += f"\nSemnatura digitala SHA-256: {doc['signature_hash']}\n"
+                manifest += f"Semnat: {doc.get('signed_at','-')}\n"
+            zf.writestr("00_MANIFEST.txt", manifest)
+        zip_buf.seek(0)
+        safe_title = _ascii_safe(doc.get("title", "proiect"))
+        return StreamingResponse(
+            zip_buf,
+            media_type="application/zip",
+            headers={"Content-Disposition": f"attachment; filename=DOSAR_{safe_title}.zip"},
+        )
 
     return r
 

@@ -1,6 +1,73 @@
 # Energy Project Design — PRD
 
 
+## CHANGELOG — 2026-06-08 (V6.0) — Gas Documentation Studio COMPLET (turbo session)
+
+### Context
+- Sesiunea s-a deschis fără .env (MONGO_URL, REACT_APP_BACKEND_URL lipseau) → 5 minute pierdute pentru restaurare.
+- Cele 4 repo-uri externe au fost clonate în `/tmp/repos/{dragos,gne,visa,sparle}` (sparle nu are backend).
+- `gne` = singurul cu modul unic util: `validators_ro.py` (CNP/CUI ANAF) + `qr_generator.py`.
+
+### Backend NOU
+- **`/app/backend/gas_doc_templates.py`** (713 LOC) — Engine de generare 8 template-uri DOCX legale conform NTPEE 2018 + HG 907/2016 + L 50/1991 + Ord. ANRE 89/2018 + 162/2021 + HG 273/1994 + Ord. MLPAT 770/1997:
+  1. `cerere_cu` — Cerere Certificat de Urbanism (Legea 50/1991)
+  2. `cerere_atr` — Cerere Aviz Tehnic Racordare către OSD (Ord. ANRE 89/2018)
+  3. `memoriu_tehnic` — Memoriu Tehnic Justificativ (HG 907/2016 + NTPEE 2018) cu calc auto-integrat Renouard
+  4. `caiet_sarcini` — Caiet de Sarcini Execuție (NTPEE 2018 cap. 4)
+  5. `borderou` — Borderou piese scrise + desenate (HG 907/2016)
+  6. `cerere_pif` — Cerere Punere în Funcțiune (Ord. ANRE 162/2021)
+  7. `pv_receptie` — Proces Verbal de Recepție la Terminarea Lucrărilor (HG 273/1994)
+  8. `carte_tehnica` — Cartea Tehnică a Construcției (4 secțiuni obligatorii, HG 273/1994 + Ord. MLPAT 770/1997)
+- Toate template-urile folosesc:
+  - Placeholdere dinamice din `proj.data`
+  - Condiționale `if` simple (afișează blocuri doar dacă câmpul e completat)
+  - Antet companie real Energy Project Design SRL (CUI 43151074, atestat PDD/2022/0001)
+  - Auto-calc engine integrat (Renouard, simultaneitate Ks, dimensionare DN)
+  - Footer semnătură + hash SHA-256
+- **`/app/backend/validators_ro.py`** (din `gne`) — Algoritm ANAF pentru CNP (13 cifre + pondere) și CUI (2-10 cifre + pondere [7,5,3,2,1,7,5,3,2])
+- **`/app/backend/qr_generator.py`** (din `gne`) — Utilitar QR (deja existent ca qrcode în gas_project_routes)
+
+### Endpoints noi
+| Method | Path | Auth | Notes |
+| --- | --- | --- | --- |
+| `GET` | `/api/gas-project/doc-templates` | public | Lista celor 8 template-uri DOCX disponibile |
+| `POST` | `/api/gas-project/validate` | public | Validare CNP/CUI conform algoritmi ANAF |
+| `GET` | `/api/gas-project/{pid}/doc/{template_id}` | user | Download DOCX populat cu datele proiectului |
+| `GET` | `/api/gas-project/{pid}/dossier.zip` | user | Download ZIP cu toate 8 documente + manifest legal |
+
+### Frontend NOU
+- **GasNaturalProject.jsx** — adăugat panou `GasDossierPanel` (90 LOC) sub semnătură:
+  - Buton mare amber "Descarcă DOSAR complet (ZIP — 8 DOCX)"
+  - Listă cu 8 butoane individuale (download DOCX per template)
+  - data-testid: `gas-dossier-panel`, `gas-download-dossier-btn`, `gas-download-doc-{template_id}`
+- Filename HTTP sanitizate ASCII (era 500 din cauza diacriticelor în Content-Disposition).
+
+### .env restaurat
+- `/app/backend/.env` — MONGO_URL, DB_NAME, JWT_SECRET, EMERGENT_LLM_KEY, PUBLIC_VERIFY_BASE (preview Emergent), DEVELOPER_TEST_EMAIL=dragosserban95@gmail.com / Test12345
+- `/app/frontend/.env` — REACT_APP_BACKEND_URL=https://57bd020b-829b-4403-b2b9-09912868b634.preview.emergentagent.com
+
+### Testing E2E V6.0
+- **`/app/backend/tests/test_v60_gas_documentation.py`** — 5 teste pytest, 5/5 passed:
+  - test_v60_health_and_catalog
+  - test_v60_validator_cnp_cui (CUI Energy Project Design 43151074 = valid)
+  - test_v60_calc_engine (simultaneitate, Renouard, adâncime pozare)
+  - test_v60_full_flow_gas_documentation (create → sign SHA-256 → QR → 8 DOCX + ZIP, fiecare DOCX > 10KB)
+  - test_v60_full_flow_idempotent
+- Frontend verificat live: 1 panel + 1 main btn + 8 individual doc btns + sign btn — toate prezente.
+
+### GAP-uri legale identificate înainte de V6.0
+- 🔴 Zero templates DOCX seed pentru cele 11 faze → REZOLVAT (8 template-uri)
+- 🔴 Lipsea Cartea Tehnică (obligatorie pentru recepție) → REZOLVAT
+- 🔴 Lipsea Cerere PIF formală → REZOLVAT
+- 🟡 Lipseau validatori CNP/CUI → REZOLVAT prin import din gne
+- 🟢 Calc engine deja complet (Renouard, simultaneitate, dimensionare)
+- 🟢 Semnătură SHA-256 + QR + verify public deja existau
+
+### Limitări/În aşteptare
+- Repo-urile externe `globalnatureexperiences-rgb/energyprojectdesign.com` și `visanimamomentum/energyprojectdesign.com` au structură IDENTICĂ cu /app (V5.x). Aproape nimic unic.
+- Frontend Gas Studio funcțional dar fără polish vizual nou (rămâne styled brutalist Swiss cu amber #FFB300).
+
+
 ## CHANGELOG — 2026-02-07 (V5.9) — Repo unification & public verification
 
 ### Backend (din repo dragosserban95/Energy-Project-Design clonat)

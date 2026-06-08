@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import {
   Flame, ArrowLeft, ArrowRight, Save, CheckCircle2, Circle, Lock, FileSignature,
   QrCode, Eye, Trash2, Plus, ShieldCheck, AlertCircle, Loader2, Send, Globe,
-  X, Mail, Building2, BookOpen, Calculator,
+  X, Mail, Building2, BookOpen, Calculator, Download, Package, FileText,
 } from 'lucide-react';
 import { PhaseCalcsPanel } from '../components/GasCalcWidgets';
 
@@ -579,6 +579,9 @@ function GasProjectStudio() {
               <Trash2 className="w-3 h-3" /> Șterge proiect
             </button>
           </div>
+
+          {/* DOCUMENTAȚIE — Generator dosar complet */}
+          <GasDossierPanel pid={proj.pid} />
         </aside>
 
         <main className="lg:col-span-8">
@@ -732,6 +735,88 @@ function QrModal({ qrModal, pid, onClose }) {
         <a href={qrModal.qr_png_b64} download={`${pid}_qr.png`} className="amber-btn w-full justify-center mt-4 text-xs" data-testid="gas-qr-download">
           <QrCode className="w-3 h-3" /> Descarcă PNG
         </a>
+      </div>
+    </div>
+  );
+}
+
+// ====================================================================
+// GAS DOSSIER PANEL — generator documentație legală completă
+// ====================================================================
+function GasDossierPanel({ pid }) {
+  const [templates, setTemplates] = useState([]);
+  const [busy, setBusy] = useState('');
+
+  useEffect(() => {
+    api.get('/gas-project/doc-templates')
+      .then(({ data }) => setTemplates(data.templates || []))
+      .catch(() => {});
+  }, []);
+
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+
+  async function downloadFile(url, filename) {
+    setBusy(url);
+    try {
+      const token = (document.cookie.split('session_token=')[1] || '').split(';')[0]
+        || localStorage.getItem('auth_token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const res = await fetch(`${backendUrl}/api${url}`, { credentials: 'include', headers });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const objUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = objUrl;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(objUrl);
+      toast.success(`Descărcat: ${filename}`);
+    } catch (e) {
+      toast.error(`Eroare descărcare: ${e.message || e}`);
+    } finally {
+      setBusy('');
+    }
+  }
+
+  return (
+    <div className="mt-6 border-2 border-amber-200 bg-amber-50/40 p-4" data-testid="gas-dossier-panel">
+      <div className="label mb-2">// dosar legal complet</div>
+      <div className="text-xs text-gray-700 mb-3 leading-relaxed">
+        Generează automat <strong>8 documente legale</strong> (DOCX) cu toate datele proiectului, placeholdere și condiționale <code className="bg-white px-1">if</code>, conform NTPEE 2018 + HG 907/2016 + Legea 50/1991.
+      </div>
+
+      <button
+        onClick={() => downloadFile(`/gas-project/${pid}/dossier.zip`, `DOSAR_${pid}.zip`)}
+        disabled={busy.includes('dossier')}
+        className="amber-btn w-full justify-center text-xs mb-4"
+        data-testid="gas-download-dossier-btn"
+      >
+        {busy.includes('dossier') ? <Loader2 className="w-3 h-3 animate-spin" /> : <Package className="w-3 h-3" />}
+        Descarcă DOSAR complet (ZIP — 8 DOCX)
+      </button>
+
+      <div className="text-[10px] uppercase tracking-wider text-gray-500 mb-2">Documente individuale</div>
+      <div className="space-y-1">
+        {templates.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => downloadFile(`/gas-project/${pid}/doc/${t.id}`, `${t.id}_${pid}.docx`)}
+            disabled={!!busy}
+            className="w-full text-left flex items-start gap-2 p-2 border border-gray-200 bg-white hover:bg-gray-50 hover:border-amber-300 transition-colors disabled:opacity-50"
+            data-testid={`gas-download-doc-${t.id}`}
+          >
+            {busy === `/gas-project/${pid}/doc/${t.id}` ? (
+              <Loader2 className="w-3 h-3 animate-spin shrink-0 mt-0.5" />
+            ) : (
+              <FileText className="w-3 h-3 shrink-0 mt-0.5 text-amber-600" />
+            )}
+            <div className="flex-1 min-w-0">
+              <div className="text-[11px] font-semibold leading-tight">{t.label}</div>
+              <div className="text-[9px] text-gray-500 mono mt-0.5">{t.norm}</div>
+            </div>
+            <Download className="w-3 h-3 shrink-0 mt-0.5 text-gray-400" />
+          </button>
+        ))}
       </div>
     </div>
   );
