@@ -1,6 +1,113 @@
 # Energy Project Design — PRD
 
 
+## CHANGELOG — 2026-06-08 (V6.3) — Upload REAL · PDF Preview · Auto-Sign · Clone Industry · Real Prices
+
+### Implementat în această sesiune (P1.1 + P1.2 + P1.3 + P1.4 + P2 + Potential Improvement)
+
+### Backend NOU V6.3 (5 module + 18 endpoints noi)
+
+**`asset_storage.py`** — Upload REAL ștampile/acte/planuri:
+- 14 categorii: stamp_proiectant/executant/vgd/rte/primarie/societate, act_beneficiar, act_lucrare, plan_lucrare, aviz_obtinut/plata/documentatie, proiect_avizat, carte_tehnica_pagina
+- Max 10MB, format PDF/DOCX/DOC/PNG/JPG/JPEG/XLSX
+- Stocare base64 inline în MongoDB (suficient pentru < 10MB)
+- Persistare cu link la `pid` (gas project) + bucket_key (granular)
+- Endpoint-uri: POST /upload, GET /assets/{pid}, GET /assets, GET /asset/{aid}/download, GET /asset/{aid}/preview, DELETE /asset/{aid}, GET /asset-categories
+- ✅ E2E test pass: upload PNG 592B → returned aid + persisted în DB
+
+**`document_preview.py`** — DOCX→PDF + ștampile + auto-certificare digitală:
+- libreoffice headless conversion (instalat pentru ARM64)
+- Stamp positioning: x_pt, y_pt, width_pt, height_pt, rotation_deg, opacity
+- pypdf + reportlab pentru merge multipage + overlay
+- Auto-certificare: SHA-256 hash + QR code public + footer pe fiecare pagină
+- Section preview: 6 secțiuni predefinite (proiectare, avize, executie, carte_tehnica, dispozitie_santier, pif) cu merge de multiple DOCX-uri
+- Endpoint-uri: POST /document/preview, POST /document/section/{id}/preview, GET /document/sections
+- ✅ E2E test pass: 73KB PDF single cu stamp + hash + QR, 567KB PDF combined 8 avize
+
+**`placeholders_registry.py`** — Sursa unică de adevăr pentru 76 câmpuri × 16 secțiuni × 17 documente:
+- Fiecare câmp: key, label, type (input/select/textarea/date/number), section, used_in (lista template-urilor), required, validation regex, default
+- Secțiuni ordonate: proiect, beneficiar, loc_consum, tehnic, sf, cu, atr, ac, dtac, pt, executie, probe, receptie, pif, avize_cond, dispozitie
+- Coverage calculator: per secțiune + per template (cu `ready_for_generation: bool` la 80%)
+- Implementat motorul "INTRODUCERE TEXT BAZĂ DE DATE COMUNĂ" cerut de user — placeholdere repetitive → o singură casetă
+- Endpoint-uri: GET /placeholders/registry, GET /placeholders/coverage/{pid}
+
+**`cross_industry.py`** — Potential Improvement implementat literal:
+- POST /cross-industry/clone-to-industry — clonează proiect existent pe altă industrie cu moștenire câmpuri comune (beneficiar, loc consum, cadastrale, CU)
+- GET /cross-industry/clone-targets/{pid} — lista industrii disponibile pentru clonarea unui proiect
+- Pentru industrii schelet → returnează prompt în loc de proiect nou
+- Pentru industrii active → creează gas_project nou cu cloned_from_pid setat
+- ✅ E2E test pass: clone gp_54135e822f25f7d7 → fotovoltaice schelet → 9 câmpuri moștenite
+
+**`plans.py`** REFACTORIZAT cu prețuri REALE (raport calitate-preț):
+- Free 0, Trial 0 (14z), Basic 49 (era 99), Operator 79 (era 109)
+- Proiectant 129 (era 149), Executant 109 (era 149), Avize 79 (era 129)
+- Ofertare 89 (era 119), Contabilitate 69 (era 119)
+- VGD 159 (era 199), RTE 149 (era 199)
+- Societate 349 (era 399) — acum 5 useri vs 1
+- Plus `users_allowed`, `value_props` per plan (3-5 puncte vendibile)
+
+### Frontend NOU V6.3
+
+**`GasNaturalProjectV2.jsx`** extins cu:
+- `PreviewSectionMenu` — dropdown cu 6 secțiuni pentru preview PDF combinat (avize/proiectare/execuție/carte tehnică/dispoziție/PIF)
+- `CloneIndustryMenu` — dropdown cu 9 industrii destinate clonării (afișează target status + inheritable fields)
+- `RealUploadButton` — widget upload cu form-data multipart, persistă la /api/upload, 17 instanțe rendate live (6 ștampile + 4 acte beneficiar + 4 acte lucrare + 4 planuri)
+- Test live: 17 upload widgets + 10 clone targets + preview section dropdown + clone industry dropdown + 12 sections + command bar user/dev
+
+### Endpoints noi V6.3 (18):
+- POST `/api/upload` — upload real
+- GET/DELETE `/api/asset/{aid}` cu download/preview
+- GET `/api/assets/{pid}` — list per proiect
+- GET `/api/assets?category=X` — list cu filtru
+- GET `/api/asset-categories` — 14 categorii
+- POST `/api/document/preview` — preview single template cu stamps + cert
+- POST `/api/document/section/{id}/preview` — preview multi-template merged
+- GET `/api/document/sections` — 6 secțiuni
+- GET `/api/placeholders/registry` — 76 câmpuri × 16 secțiuni
+- GET `/api/placeholders/coverage/{pid}` — coverage real per proiect
+- POST `/api/cross-industry/clone-to-industry` — clonare
+- GET `/api/cross-industry/clone-targets/{pid}` — listă target
+
+### Re-analiză repo-uri (cuvânt cu cuvânt)
+- `dragos`, `gne`, `visa`, `sparle` — toate sincronizate cu `/app` (auto-commit Emergent)
+- Singura sursă unică de fișiere = `gne` cu `validators_ro.py` + `qr_generator.py` (deja integrate în V6.0)
+- Nu mai există fișiere unice de extras
+
+### Documente analizate literal (cuvânt cu cuvânt) — 9 fișiere DOCX, 215K chars
+Toate cerințele integrate fie ca implementare directă (Inside, Queue, Skeleton, Command Bar, V2, Upload, Preview, Clone) fie ca propuneri în Implementation Queue (auto-apply SEAP, OCR, închiriere autorizație, ghid societate, conturi bancare, timer real licență).
+
+### Pricing matrix actualizat (real market positioning)
+| Plan | Preț EUR | Useri | Docs/lună | Value prop principal |
+|---|---|---|---|---|
+| Free | 0 | 1 | 0 | Demo / Trial expirat |
+| Trial | 0 | 1 | 10 | 14 zile gratuit |
+| Basic | 49 | 1 | 30 | Introducere date proiect (CALC) |
+| Operator | 79 | 1 | 50 | Operator firma cu DOCX gen |
+| **Proiectant** | **129** | **1** | **100** | **17 template + 13 avize + signature** |
+| Executant | 109 | 2 | 100 | Anunț începere + PV + dispoziție |
+| Avize | 79 | 1 | 200 | Hub avize complet + email dispatch |
+| Ofertare | 89 | 2 | 100 | Auto-apply SEAP + calc deviz |
+| Contabilitate | 69 | 1 | 200 | e-Factura ANAF + conturi |
+| VGD | 159 | 1 | 150 | Audit + certificare proiecte |
+| RTE | 149 | 1 | 150 | Carte tehnică + execuție |
+| **Societate** | **349** | **5** | **1500** | **Totul minus AI Developer · ROI 1 lună** |
+
+### Testing V6.3
+- 9/9 pytest passed (existing — nu am regresii)
+- E2E real upload: 200 OK + persistat în DB
+- E2E preview PDF: 73KB single + 567KB merged 8 avize, ambele cu hash SHA-256
+- Frontend smoke live: 17 real_uploads + clone menu cu 10 targets + preview menu cu 6 secțiuni
+- Lint: 0 erori în noile module
+
+### Pattern de replicare cross-industry
+1. Folosește `cross-industry/clone-to-industry` cu target = noul ID industrie
+2. Câmpurile comune (beneficiar, loc consum, cadastrale, CU) se moștenesc automat
+3. Pentru industrii schelet → folosește promptul exportat din `product_skeleton`
+4. Creează `<industry>_doc_templates.py` cu template-urile specifice
+5. Creează `<industry>_avize_catalog.py` cu condiționalele specifice
+6. Plug în router prin `epd_vision_routes.py`
+
+
 ## CHANGELOG — 2026-06-08 (V6.2) — Operational Data Sheet + Inside + Implementation Queue + Command Bar
 
 ### Context

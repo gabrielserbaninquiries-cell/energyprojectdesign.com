@@ -38,7 +38,7 @@ import { toast } from 'sonner';
 import {
   ArrowLeft, Save, FileSignature, Send, Download, Upload, Trash2, Plus,
   CheckCircle2, FileText, Stamp, Mail, Calculator, Package, Sparkles,
-  ChevronDown, ChevronUp, Loader2, ExternalLink, Eye,
+  ChevronDown, ChevronUp, Loader2, ExternalLink, Eye, GitFork, ShieldCheck,
 } from 'lucide-react';
 
 const SECTIONS = [
@@ -250,6 +250,202 @@ function SectionCard({ id, title, children, collapsed, onToggle, accent = 'green
   );
 }
 
+// ====================================================================
+// PREVIEW SECTION MENU — generează PDF combinat per secțiune
+// ====================================================================
+function PreviewSectionMenu({ pid, backendUrl }) {
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const sections = [
+    { id: 'proiectare', label: 'Proiectare (DTAC+PT)' },
+    { id: 'avize', label: 'Avize (8 cereri)' },
+    { id: 'executie', label: 'Execuție' },
+    { id: 'carte_tehnica', label: 'Carte Tehnică + Recepție' },
+    { id: 'dispozitie_santier', label: 'Dispoziție Șantier' },
+    { id: 'pif', label: 'PIF' },
+  ];
+
+  const previewSection = async (sid) => {
+    setBusy(true);
+    try {
+      const res = await fetch(`${backendUrl}/api/document/section/${sid}/preview`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pid, template_id: '', auto_certify: true, stamps: [] }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+      toast.success(`Preview deschis: ${sid}`);
+    } catch (e) {
+      toast.error(`Eroare preview: ${e.message}`);
+    } finally {
+      setBusy(false);
+      setOpen(false);
+    }
+  };
+
+  return (
+    <div className="relative" data-testid="preview-section-menu">
+      <button
+        onClick={() => setOpen(!open)}
+        disabled={busy}
+        className="text-xs inline-flex items-center gap-1 bg-blue-600 text-white px-3 py-1.5 hover:bg-blue-700 disabled:opacity-50"
+        data-testid="preview-section-btn"
+      >
+        {busy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Eye className="w-3 h-3" />}
+        Preview secțiune PDF
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-1 w-56 bg-white border border-gray-300 shadow-lg z-50">
+          {sections.map((s) => (
+            <button
+              key={s.id}
+              onClick={() => previewSection(s.id)}
+              className="w-full text-left px-3 py-2 text-xs hover:bg-blue-50 border-b border-gray-100 last:border-0"
+              data-testid={`preview-section-${s.id}`}
+            >
+              <FileText className="w-3 h-3 inline mr-1 text-blue-600" />
+              {s.label}
+            </button>
+          ))}
+          <div className="px-3 py-1.5 text-[9px] text-gray-500 italic border-t border-gray-200">
+            ✓ Auto-certificat cu hash SHA-256 + QR
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ====================================================================
+// CLONE INDUSTRY MENU — clonează proiect pe altă industrie
+// ====================================================================
+function CloneIndustryMenu({ pid, nav }) {
+  const [open, setOpen] = useState(false);
+  const [targets, setTargets] = useState([]);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (open && targets.length === 0) {
+      api.get(`/cross-industry/clone-targets/${pid}`)
+        .then(({ data }) => setTargets(data.targets || []))
+        .catch(() => {});
+    }
+  }, [open, targets.length, pid]);
+
+  const clone = async (industry) => {
+    setBusy(true);
+    try {
+      const { data } = await api.post('/cross-industry/clone-to-industry', {
+        source_pid: pid,
+        target_industry: industry,
+      });
+      if (data.warning) {
+        toast.info(`Industrie schelet — prompt generat: ${data.warning.substring(0, 80)}...`);
+      } else {
+        toast.success(`Clonat: ${data.inherited_count} câmpuri moștenite în ${data.target_industry}`);
+        if (data.new_pid && industry === 'gaze-naturale') {
+          nav(`/gaze-naturale/${data.new_pid}`);
+        }
+      }
+    } catch (e) {
+      toast.error(`Eroare clonare: ${e?.response?.data?.detail || e.message}`);
+    } finally {
+      setBusy(false);
+      setOpen(false);
+    }
+  };
+
+  return (
+    <div className="relative" data-testid="clone-industry-menu">
+      <button
+        onClick={() => setOpen(!open)}
+        disabled={busy}
+        className="text-xs inline-flex items-center gap-1 bg-purple-600 text-white px-3 py-1.5 hover:bg-purple-700 disabled:opacity-50"
+        data-testid="clone-industry-btn"
+      >
+        {busy ? <Loader2 className="w-3 h-3 animate-spin" /> : <GitFork className="w-3 h-3" />}
+        Clonează pe altă industrie
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-1 w-64 bg-white border border-gray-300 shadow-lg z-50 max-h-80 overflow-auto">
+          <div className="px-3 py-2 text-[10px] uppercase tracking-wider text-gray-500 border-b border-gray-100">
+            Selectează industria țintă
+          </div>
+          {targets.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => clone(t.id)}
+              className="w-full text-left px-3 py-2 text-xs hover:bg-purple-50 border-b border-gray-100 last:border-0"
+              data-testid={`clone-target-${t.id}`}
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-semibold">{t.label}</span>
+                <span className={`text-[9px] uppercase tracking-wider px-1 ${t.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                  {t.status}
+                </span>
+              </div>
+              <div className="text-[10px] text-gray-500 mt-1">
+                {t.inheritable_fields} câmpuri se moștenesc · {t.norms?.substring(0, 30) || ''}...
+              </div>
+            </button>
+          ))}
+          <div className="px-3 py-1.5 text-[9px] text-gray-500 italic border-t border-gray-200">
+            ✓ Beneficiar + Loc consum + CU se moștenesc automat
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ====================================================================
+// REAL UPLOAD BUTTON — upload fișier la /api/upload + persistă în DB
+// ====================================================================
+function RealUploadButton({ pid, category, bucketKey, label, onUploaded }) {
+  const [busy, setBusy] = useState(false);
+  const onPick = async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setBusy(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', f);
+      fd.append('category', category);
+      fd.append('pid', pid);
+      if (bucketKey) fd.append('bucket_key', bucketKey);
+      if (label) fd.append('label', label);
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/upload`, {
+        method: 'POST',
+        credentials: 'include',
+        body: fd,
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`HTTP ${res.status}: ${errText.substring(0, 100)}`);
+      }
+      const data = await res.json();
+      toast.success(`Încărcat: ${data.label}`);
+      onUploaded?.(data);
+    } catch (err) {
+      toast.error(`Eroare upload: ${err.message}`);
+    } finally {
+      setBusy(false);
+      e.target.value = '';  // allow re-upload same file
+    }
+  };
+  return (
+    <label className="inline-flex items-center gap-1 cursor-pointer bg-white border border-blue-300 px-2 py-1 text-[10px] hover:bg-blue-50" data-testid={`real-upload-${category}-${bucketKey || 'main'}`}>
+      {busy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3 text-blue-600" />}
+      <span>Încarcă</span>
+      <input type="file" className="hidden" onChange={onPick} accept=".pdf,.docx,.doc,.png,.jpg,.jpeg" />
+    </label>
+  );
+}
+
 function ConsumerList({ items, onChange, columnId }) {
   const add = () => onChange([...items, { tip: CONSUMER_TYPES[0], nr_aparate: 1, debit_nmc_h: 0.5 }]);
   const upd = (idx, key, val) => onChange(items.map((it, i) => i === idx ? { ...it, [key]: val } : it));
@@ -432,6 +628,8 @@ export default function GasNaturalProjectV2() {
           <ArrowLeft className="w-3 h-3" /> Înapoi la registru
         </button>
         <div className="flex items-center gap-2">
+          <PreviewSectionMenu pid={pid} backendUrl={backendUrl} />
+          <CloneIndustryMenu pid={pid} nav={nav} />
           <button onClick={save} disabled={saving || !dirty} className="text-xs inline-flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 hover:bg-green-700 disabled:opacity-50" data-testid="gas-v2-save">
             {saving ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
             Salvează preferințe
@@ -706,27 +904,29 @@ export default function GasNaturalProjectV2() {
             </div>
           </SectionCard>
 
-          {/* SECTION 12 — Acte uploads */}
-          <SectionCard id="acte-uploads" title="Acte beneficiar · Acte lucrare · Planuri lucrare" collapsed={collapsed['acte-uploads']} onToggle={() => toggleSection('acte-uploads')}>
+          {/* SECTION 12 — Acte uploads (REAL upload backend) */}
+          <SectionCard id="acte-uploads" title="Acte beneficiar · Acte lucrare · Planuri lucrare (upload real)" collapsed={collapsed['acte-uploads']} onToggle={() => toggleSection('acte-uploads')}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 { id: 'acte_beneficiar', label: 'Acte beneficiar', items: ['Acte proprietate', 'CI/CUI beneficiar', 'Extras CF'] },
-                { id: 'acte_lucrare',    label: 'Acte lucrare', items: ['Contract prestări servicii', 'Contract salubrizare', 'Predare amplasament', 'Aviz Poliție'] },
-                { id: 'planuri_lucrare', label: 'Planuri lucrare', items: ['Plan situație', 'Plan încadrare', 'Plan semnalizare', 'Schemă izometrică'] },
+                { id: 'act_lucrare',     label: 'Acte lucrare', items: ['Contract prestări servicii', 'Contract salubrizare', 'Predare amplasament', 'Aviz Poliție'] },
+                { id: 'plan_lucrare',    label: 'Planuri lucrare', items: ['Plan situație', 'Plan încadrare', 'Plan semnalizare', 'Schemă izometrică'] },
               ].map((bucket) => (
                 <div key={bucket.id} className="border border-gray-300 bg-white p-3">
                   <div className="text-[11px] font-bold uppercase tracking-wider mb-2">{bucket.label}</div>
                   <div className="space-y-1">
                     {bucket.items.map((it) => (
                       <div key={it} className="flex items-center gap-2 text-xs">
-                        <Upload className="w-3 h-3 text-gray-500 shrink-0" />
+                        <FileText className="w-3 h-3 text-gray-500 shrink-0" />
                         <span className="flex-1 truncate">{it}</span>
-                        <button className="text-[10px] text-blue-600 hover:underline" data-testid={`upload-${bucket.id}-${it.replace(/\s+/g, '-').toLowerCase()}`}>Încarcă</button>
+                        <RealUploadButton
+                          pid={pid}
+                          category={bucket.id === 'acte_beneficiar' ? 'act_beneficiar' : bucket.id}
+                          bucketKey={`${bucket.id}.${it}`}
+                          label={it}
+                        />
                       </div>
                     ))}
-                    <button className="text-[10px] text-green-700 hover:underline mt-2 inline-flex items-center gap-1" data-testid={`add-${bucket.id}`}>
-                      <Plus className="w-3 h-3" /> Adaugă document
-                    </button>
                   </div>
                 </div>
               ))}
@@ -775,17 +975,20 @@ export default function GasNaturalProjectV2() {
             </div>
           </div>
 
-          {/* Stamps uploads */}
+          {/* Stamps uploads (REAL upload) */}
           <div className="border-2 border-blue-400 bg-blue-50/40 p-3" data-testid="stamps-panel">
-            <div className="text-[10px] uppercase tracking-wider text-gray-700 mb-2 font-bold">// ștampile & uploads</div>
+            <div className="text-[10px] uppercase tracking-wider text-gray-700 mb-2 font-bold">// ștampile (upload real)</div>
             <div className="space-y-1.5">
               {STAMPS_UPLOAD.map((s) => (
                 <div key={s.id} className="flex items-center gap-2 text-[10px]">
                   <Stamp className="w-3 h-3 text-blue-600 shrink-0" />
                   <span className="flex-1 leading-tight">{s.label}</span>
-                  <button className="bg-white border border-blue-300 px-1.5 py-0.5 text-[9px] hover:bg-blue-50" data-testid={`stamp-upload-${s.id}`}>
-                    Încarcă
-                  </button>
+                  <RealUploadButton
+                    pid={pid}
+                    category={s.id.startsWith('firma_') || s.id.startsWith('autorizata_') ? `stamp_${s.id.replace('firma_', '').replace('autorizata_', '')}` : `stamp_${s.id}`}
+                    bucketKey={s.id}
+                    label={s.label}
+                  />
                 </div>
               ))}
             </div>

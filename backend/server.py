@@ -2250,6 +2250,54 @@ _epd_vision_api = APIRouter(prefix="/api")
 _epd_vision_api.include_router(epd_vision_router)
 app.include_router(_epd_vision_api)
 
+# Asset Storage (upload real ștampile + acte + planuri)
+from asset_storage import router as asset_router
+_asset_api = APIRouter(prefix="/api")
+_asset_api.include_router(asset_router)
+app.include_router(_asset_api)
+
+# Document Preview & Sign (DOCX → PDF + ștampile + certificare)
+from document_preview import router as preview_router
+_preview_api = APIRouter(prefix="/api/document")
+_preview_api.include_router(preview_router)
+app.include_router(_preview_api)
+
+# Placeholders Registry routes (unified field source of truth)
+from fastapi import Depends as _Dep
+from placeholders_registry import FIELDS_REGISTRY, SECTIONS_META, compute_field_coverage
+from auth import get_current_user as _gcu
+
+_pr_api = APIRouter(prefix="/api/placeholders")
+
+
+@_pr_api.get("/registry")
+async def get_placeholders_registry():
+    """Return unified fields registry + sections metadata."""
+    return {"fields": FIELDS_REGISTRY, "sections": SECTIONS_META}
+
+
+@_pr_api.get("/coverage/{pid}")
+async def get_coverage(pid: str, user=_Dep(_gcu)):
+    """Compute field coverage for a project."""
+    from db import db as _db
+    proj = await _db.gas_projects.find_one(
+        {"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}},
+        {"_id": 0, "data": 1},
+    )
+    if not proj:
+        from fastapi import HTTPException as _HE
+        raise _HE(404, "Proiect inexistent")
+    return compute_field_coverage(proj.get("data") or {})
+
+
+app.include_router(_pr_api)
+
+# Cross-Industry Clone (potential improvement implementat)
+from cross_industry import router as cross_router
+_cross_api = APIRouter(prefix="/api/cross-industry")
+_cross_api.include_router(cross_router)
+app.include_router(_cross_api)
+
 # Mount the gas-project + subscribers routers via factory (shared db + auth dep).
 _gas_router = make_gas_project_router(db, get_current_user)
 _sub_router = make_subscribers_router(db, get_current_user)
