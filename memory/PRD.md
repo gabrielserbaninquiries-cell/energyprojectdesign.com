@@ -1,6 +1,78 @@
 # Energy Project Design — PRD
 
 
+## CHANGELOG — 2026-06-08 (V6.2) — Operational Data Sheet + Inside + Implementation Queue + Command Bar
+
+### Context
+Utilizator a transmis literal: (a) screenshot model verde cu structura completă a paginii de operare gaze; (b) cerere lectură literală a tuturor documentelor (`/app/esitmate_extracted/*.docx`); (c) cerere clonare repo-uri externe + integrare funcții lipsă; (d) păstrare log conversație complete pentru push GitHub.
+
+### Backend NOU V6.2
+- **`inside_full.py`** — Inside Full protejat: enigma pepene galben (parola 1 semantic match) + parola 2 (29 stele + 1 slash, lungime 30 chars, exact match). 10 funcții Inside în SAFE MODE: defragmentare, ștergere definitivă, ghid societate, blueprint intern, product skeleton, protecție societate, conturi bancare, export prompt master, auto-apply SEAP, diagnostic profund.
+- **`implementation_queue.py`** — AI Implementation Queue: CRUD propuneri cu status (pending/approved/rejected/applied/rolled_back), 15 categorii (date_proiect_repair, interface_audit, calc_box_implementation, etc.), seed cu 11 propuneri inițiale extrase LITERAL din documentele utilizatorului.
+- **`product_skeleton.py`** — Generator schelet pentru 10 industrii (gaze active + 9 schelet: electric LES/LEA, apă-canal, fotovoltaice, telecom/fibră, arhitectură, feroviar, construcții mașini, ofertare, mentenanță). Export prompt cu nucleul stabil + adaptare specifică.
+- **`epd_vision_routes.py`** — Router consolidat pentru Inside + Queue + Skeleton + Command Bar. **23 endpoints noi**.
+- **`plans.py`** — REFACTORIZAT cu prețurile EXACTE din documente: trial/free (0), basic (99), operator (109), proiectant/executant (149), avize (129), ofertare/contabilitate (119), vgd/rte (199), societate (399), developer/inside_full (intern).
+
+### Endpoints NOI V6.2 (23 noi):
+| Method | Path | Notes |
+| --- | --- | --- |
+| `GET` | `/api/inside/enigma` | Întrebare fără răspuns (public) |
+| `POST` | `/api/inside/unlock` | Verificare parola 1 (semantic) sau parola 2 (exactă) |
+| `GET` | `/api/inside/functions` | 10 funcții SAFE MODE după unlock |
+| `GET/POST/PATCH` | `/api/queue/proposals` | Implementation Queue cu seed 11 propuneri |
+| `GET` | `/api/queue/categories` | 15 categorii + 5 statusuri |
+| `GET` | `/api/self-check/pages` | 32 pagini așteptate (23 mandatorii) |
+| `GET` | `/api/product-skeleton` | 10 industrii |
+| `GET` | `/api/product-skeleton/{skid}` | Export prompt schelet |
+| `POST` | `/api/command-bar/interpret` | Interpretează NL command → rute |
+| `GET` | `/api/command-bar/help` | Lista comenzi disponibile |
+
+### Frontend NOU V6.2
+- **`GasNaturalProjectV2.jsx`** (860 LOC) — Replică EXACTĂ a modelului verde din screenshot atașat:
+  - 2 tabs (Date / Avize)
+  - 15 secțiuni collapse/expand: Date tehnice, Materiale BR+CND, OSD docs, Facturare, Consumatori (3 coloane mențin/dezafectează/noi), Totaluri, Alte date, Cadastrale, Gropi sudare, Avize obținute, Generare documente (4 butoane), Acte/Planuri (3 buckets)
+  - Panou drept cu: 10 email dispatches (Primărie, Diriginte, Contabilitate, OSD, ISC, Diriginte dispoziție, Poliție, Proiectant DTAC, Proiectant PTH, Utilități), 6 stamp uploads, 3 final downloads (Carte Tehnică, DTAC, PTH), 4 acțiuni finale (Trimite proiect avizare, Încarcă avizat, Descarcă toate documentele, Previzualizare dosar)
+  - Auto-calc: km din m, Qmin total din consumatori (useMemo, no setState in effect)
+  - data-testid pe toate elementele interactive
+  - **Acesta este BLUEPRINT-UL pentru clonarea pe celelalte 12 industrii**
+- **`CommandBar.jsx`** — Bară de comandă globală type+Enter (AI User + AI Developer variants). AI User vizibil pentru toți; AI Developer vizibil DOAR pentru `is_developer/is_admin`.
+- **`Inside.jsx`** — UI pentru enigma + 10 funcții Inside cu icone + risc colorat.
+- **`ImplementationQueue.jsx`** — Listă propuneri cu filter (all/pending/approved/applied/rejected), butoane individuale aprobă/respinge per propunere (doar admin/dev).
+- **`SelfCheck.jsx`** — Diagnostic table cu toate cele 32 pagini așteptate + linkuri rapide.
+- **`ProductSkeleton.jsx`** — Lista 10 industrii + preview prompt exportabil cu buton "Copiază".
+- **`AppShell.jsx`** — Integrare CommandBar (user + developer) în header. Sidebar extins cu 4 link-uri noi în secțiunea Intern.
+
+### Documente attached & analizate LITERAL
+- `De imbunatatit la aplicatie.docx` (15K) — 36 îmbunătățiri operaționale
+- `Feat-uri.docx` (8K) — Feat-uri viziune cu pagini dedicate
+- `Prompt creeare program chat GPT.docx` (49K) — spec V5.0 sellable
+- `prompt 2.docx` (13K), `prompt 3.docx` (24K), `prompt nou.docx` (8K)
+- `inside EPD.docx` (2.8K) — **enigma pepene + parola 2** integrate literal
+- `variabile enviroment Render.docx` (3.5K) — env vars necesare
+- `old script reminder.txt` (86K) — reminder complet schelet
+
+### Repo-uri externe — Audit complet
+- ✅ Clonate 4 repo-uri în `/tmp/repos/`
+- ✅ Integrate fișiere unice din `gne`: `validators_ro.py` (CNP/CUI ANAF) + `qr_generator.py`
+- Confirmat: `dragos`, `visa`, `sparle` = duplicate/subset al `/app`
+
+### Memory Files
+- **`COMMAND_LOG_FULL.md`** (532 linii) — Log COMPLET al conversației end-to-end pentru push GitHub. Include: cerințele literale ale utilizatorului în ordine, analiza documentelor cuvânt cu cuvânt, viziunea strategică, arhitectura, deploy, testing.
+- `test_credentials.md` — credentials test (`dragosserban95@gmail.com / Test12345`)
+
+### Testing V6.2
+- 9/9 pytest passed (`tests/test_v60_gas_documentation.py`)
+- Frontend smoke: 2 tabs + 12 sections + 10 email dispatches + 6 stamp uploads + command bar user/dev + license timer — toate rendate live cu data-testid
+- Lint: 0 erori în noile fișiere (pre-existing errors în legacy code NU sunt în scope-ul V6.2)
+
+### Model replicare pentru celelalte industrii
+Pentru replicare pe (electric, apă-canal, fotovoltaice, telecom, arhitectură, feroviar, ofertare, mentenanță, construcții mașini):
+1. Copy `GasNaturalProjectV2.jsx` → `<Industry>ProjectV2.jsx`
+2. Înlocuiește `CONSUMER_TYPES`, `DEFAULT_AVIZE_LIST`, `GENERATE_DOCS`, `FINAL_DOWNLOADS`, `EMAIL_DISPATCH_ROUTES`, `DEFAULT_DATA` cu specifice industriei
+3. Backend: replică `gas_doc_templates.py` → `<industry>_doc_templates.py`
+4. Pattern complet documentat în `/app/backend/product_skeleton.py`
+
+
 ## CHANGELOG — 2026-06-08 (V6.1) — AVIZE HUB + 17 Templates + Custom Upload
 
 ### Context

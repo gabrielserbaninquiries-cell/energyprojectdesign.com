@@ -9,13 +9,20 @@ export default function SelfCheck() {
   const [mounted, setMounted] = useState({});
 
   useEffect(() => {
-    api.get('/self-check/pages').then(({ data }) => setPages(data.pages || [])).catch(() => {});
-    // Check if known frontend routes resolve by probing window
-    // For now we just mark them all "mounted" since route table is in App.js
-    const map = {};
-    (pages || []).forEach((p) => { map[p.path] = true; });
-    setMounted(map);
-  }, [pages.length]);
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data } = await api.get('/self-check/pages');
+        if (!cancelled) {
+          setPages(data.pages || []);
+          const map = {};
+          (data.pages || []).forEach((p) => { map[p.path] = true; });
+          setMounted(map);
+        }
+      } catch { /* silent */ }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const total = pages.length;
   const mandatoryTotal = pages.filter(p => p.mandatory).length;

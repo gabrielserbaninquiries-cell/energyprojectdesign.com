@@ -60,6 +60,7 @@ import Inside from './pages/Inside';
 import ImplementationQueue from './pages/ImplementationQueue';
 import SelfCheck from './pages/SelfCheck';
 import ProductSkeleton from './pages/ProductSkeleton';
+import GasNaturalProjectV2 from './pages/GasNaturalProjectV2';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -84,7 +85,8 @@ function AppRouter() {
       <Route path="/pentru/:role" element={<Personas />} />
       <Route path="/gaze-naturale" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
       <Route path="/gaze-naturale/recipients" element={<ProtectedRoute><GasRecipients /></ProtectedRoute>} />
-      <Route path="/gaze-naturale/:pid" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
+      <Route path="/gaze-naturale-v1/:pid" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
+      <Route path="/gaze-naturale/:pid" element={<ProtectedRoute><GasNaturalProjectV2 /></ProtectedRoute>} />
       <Route path="/subscribers" element={<ProtectedRoute><Subscribers /></ProtectedRoute>} />
       <Route path="/clients" element={<ProtectedRoute><Clients /></ProtectedRoute>} />
       <Route path="/companies" element={<ProtectedRoute><Companies /></ProtectedRoute>} />

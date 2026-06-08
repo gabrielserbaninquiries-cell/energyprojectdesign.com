@@ -35,7 +35,16 @@ export default function ImplementationQueue() {
       toast.error('Eroare la încărcare');
     }
   };
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data } = await api.get('/queue/proposals');
+        if (!cancelled) setProposals(data.proposals || []);
+      } catch { /* silent */ }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const updateStatus = async (pid, status) => {
     setBusy(pid);
