@@ -67,6 +67,39 @@ class AdminConfig(BaseModel):
     maintenance_message: Optional[str] = ""
     announcement_banner: Optional[str] = ""
     announcement_level: str = "info"  # info | warning | success | danger
+    # ===== ESENȚIALE FUNCȚIONARE PAGINĂ (V6.4) — chei API integrări legale =====
+    # Digital signing providers (QES)
+    cert_sign_api_url: Optional[str] = None
+    cert_sign_account_id: Optional[str] = None
+    cert_sign_api_key: Optional[str] = None  # write-only
+    digisign_base_url: Optional[str] = None
+    digisign_account_id: Optional[str] = None
+    digisign_api_key: Optional[str] = None  # write-only
+    trans_sped_api_url: Optional[str] = None
+    trans_sped_token: Optional[str] = None  # write-only
+    trans_sped_certificate_serial: Optional[str] = None
+    # OSD credentials (operator distribuție gaze)
+    osd_distrigaz_login: Optional[str] = None
+    osd_distrigaz_password: Optional[str] = None  # write-only
+    osd_delgaz_login: Optional[str] = None
+    osd_delgaz_password: Optional[str] = None  # write-only
+    osd_premier_login: Optional[str] = None
+    osd_premier_password: Optional[str] = None  # write-only
+    # ANAF e-Factura
+    anaf_efactura_cif: Optional[str] = None
+    anaf_efactura_cert_b64: Optional[str] = None  # write-only (PFX certificat)
+    anaf_efactura_cert_password: Optional[str] = None  # write-only
+    # SEAP / SICAP
+    seap_company_id: Optional[str] = None
+    seap_login: Optional[str] = None
+    seap_password: Optional[str] = None  # write-only
+    # Open Banking (PSD2)
+    openbanking_provider: Optional[str] = None  # ex: TrueLayer, Tink, Salt Edge
+    openbanking_client_id: Optional[str] = None
+    openbanking_client_secret: Optional[str] = None  # write-only
+    # ISC notifications
+    isc_email_default: Optional[str] = None
+    isc_county_office: Optional[str] = None
     updated_at: Optional[str] = None
     updated_by: Optional[str] = None
 
@@ -86,6 +119,33 @@ class AdminConfigUpdate(BaseModel):
     maintenance_message: Optional[str] = None
     announcement_banner: Optional[str] = None
     announcement_level: Optional[str] = None
+    # V6.4 Essentials
+    cert_sign_api_url: Optional[str] = None
+    cert_sign_account_id: Optional[str] = None
+    cert_sign_api_key: Optional[str] = None
+    digisign_base_url: Optional[str] = None
+    digisign_account_id: Optional[str] = None
+    digisign_api_key: Optional[str] = None
+    trans_sped_api_url: Optional[str] = None
+    trans_sped_token: Optional[str] = None
+    trans_sped_certificate_serial: Optional[str] = None
+    osd_distrigaz_login: Optional[str] = None
+    osd_distrigaz_password: Optional[str] = None
+    osd_delgaz_login: Optional[str] = None
+    osd_delgaz_password: Optional[str] = None
+    osd_premier_login: Optional[str] = None
+    osd_premier_password: Optional[str] = None
+    anaf_efactura_cif: Optional[str] = None
+    anaf_efactura_cert_b64: Optional[str] = None
+    anaf_efactura_cert_password: Optional[str] = None
+    seap_company_id: Optional[str] = None
+    seap_login: Optional[str] = None
+    seap_password: Optional[str] = None
+    openbanking_provider: Optional[str] = None
+    openbanking_client_id: Optional[str] = None
+    openbanking_client_secret: Optional[str] = None
+    isc_email_default: Optional[str] = None
+    isc_county_office: Optional[str] = None
 
 
 class AdminUserRoleUpdate(BaseModel):

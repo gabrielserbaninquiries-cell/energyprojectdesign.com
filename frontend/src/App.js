@@ -41,6 +41,7 @@ import FeaturesHub from './pages/FeaturesHub';
 import FeatureDetail from './pages/FeatureDetail';
 import DeveloperProgres from './pages/DeveloperProgres';
 import AdminConfig from './pages/AdminConfig';
+import AdminEssentials from './pages/AdminEssentials';
 import AIAgents from './pages/AIAgents';
 import SEAPAlerts from './pages/SEAPAlerts';
 import CRMSubscribers from './pages/CRMSubscribers';
@@ -129,6 +130,7 @@ function AppRouter() {
       {/* Progress page (developer-only) */}
       <Route path="/developer/progres" element={<ProtectedRoute><DeveloperProgres /></ProtectedRoute>} />
       <Route path="/admin/config" element={<ProtectedRoute><AdminConfig /></ProtectedRoute>} />
+      <Route path="/admin/essentials" element={<ProtectedRoute><AdminEssentials /></ProtectedRoute>} />
       <Route path="/ai-agents" element={<ProtectedRoute><AIAgents /></ProtectedRoute>} />
       <Route path="/seap-alerts" element={<ProtectedRoute><SEAPAlerts /></ProtectedRoute>} />
       <Route path="/crm-abonati" element={<ProtectedRoute><CRMSubscribers /></ProtectedRoute>} />

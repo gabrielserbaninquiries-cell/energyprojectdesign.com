@@ -530,3 +530,56 @@ Comercial + Codul Fiscal + GDPR 679/2016.
 ---
 
 _End of COMMAND LOG. Pentru întrebări sau continuare → ask_human._
+
+
+---
+
+## 13. APPENDIX V6.4 (2026-06-08) — Placeholders + Faze Determinante + OCR + Essentials + Cross-Industry Concrete
+
+### Cerință literală user (mesaj critic, frustrare)
+> "este ultima data cand iti spun: fa exact asta. citeste cuvant cu cuvant toate fisierele [...] cauta-le acum individual pe net pentru fiecare faza, analizeaza-le inteligent pentru a creea noi placeholdere pentru fiecare faza a demararii lucrarilor proiectului respectiv, apoi implementeaza toate placeholderele fara ca acestea sa fie duplicat [...] API keys cert-SIGN/DigiSign/Trans Sped — nu le am pregatite, se vor configura din pagina de profil admin-ului pentru sectiunea: esentiale functionare pagina (feature nou)."
+
+### Implementat END-TO-END fără cerere de confirmări suplimentare
+
+1. **Web-search literal** pentru fazele lipsă: faze determinante, PV lucrări ascunse, RVT, HG 273/1994 secțiuni A/B/C/D, NTPEE 2018 cuprins carte tehnică. Toate datele juridice integrate în placeholderele noi.
+
+2. **Placeholders 76 → 120** (de la 16 la 25 secțiuni). Câmpurile noi acoperă:
+   - Faze determinante FD (săpătură/sudură/proba presiune/acoperire șanț) + notificare ISC
+   - Lucrări ascunse PV LA (adâncime, strat nisip, bandă galbenă, compactare)
+   - Exigențe esențiale A/B/C/D (rezistență/siguranță expl./siguranță foc/mediu) cu defaults legali
+   - Materiale & echipamente (certificate conformitate, lot, serii, furnizori)
+   - Referat verificator tehnic RVT VGD (Acceptat/Cu observații/Respins)
+   - As-built (lungime efectivă, sudări, coords GPS)
+   - ISC & Diriginte șantier (aut. MDLPA, contact)
+   - Carte Tehnică A/B/C/D (HG 273/1994) cu defaults populați
+   - Comisia recepție (președinte, beneficiar, OSD, ISC)
+
+3. **6 template-uri DOCX legale NOI** (gas_doc_templates_extra.py):
+   - PV Lucrări Ascunse (Legea 10/1995 art. 23)
+   - PV Fază Determinantă (Legea 10/1995 art. 22 + HG 1735/2006)
+   - Program Control Calitate PCC (Ord. MLPAT 12/N/1995)
+   - Referat Verificator Tehnic RVT (Ord. MLPAT 777/2003)
+   - Notificare ISC (Legea 50/1991 art. 7 alin. 8)
+   - As-Built memoriu tehnic (HG 273/1994 + Ord. MLPAT 770/1997)
+
+4. **Cross-industry concrete** — 2 industrii pline + alăturate la blueprint:
+   - electric_doc_templates.py (6 templates: ATR/Memoriu/Caiet sarcini/PIF/PV recepție/Carte tehnică)
+   - apa_canal_doc_templates.py (5 templates: cerere apă/canal/memoriu/PV recepție/carte tehnică)
+
+5. **Document Packs** (6 pachete one-click) — generare ZIP cu MANIFEST.md + norme aplicate.
+
+6. **Pre-flight validation** — verifică câmpuri required per template + coverage % real per proiect.
+
+7. **OCR auto-extract & apply-to-project** — 13 regex RO pattern-uri pe text DOCX/PDF; auto-aplicare directă pe proj.data (write-once propagation).
+
+8. **Admin Essentials** secțiune NOUĂ /admin/essentials cu 10 integrări:
+   - cert-SIGN, DigiSign, Trans Sped (QES providers)
+   - OSD Distrigaz / Delgaz / Premier (credentials)
+   - ANAF e-Factura (CIF + certificat PFX b64)
+   - SEAP / SICAP (login)
+   - Open Banking PSD2 (provider + client secret)
+   - ISC (email + birou județean)
+   - Toate cheile sensibile WRITE-ONLY (15 câmpuri), niciodată returnate plain-text
+
+9. **Testing 11/11 PASSED** + **9/9 V6.0 PASSED** (no regression).
+

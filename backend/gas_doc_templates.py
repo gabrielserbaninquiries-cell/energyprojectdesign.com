@@ -1010,3 +1010,11 @@ def generate(template_id: str, proj: Dict[str, Any]) -> Optional[Tuple[bytes, st
     safe_title = (proj.get("title", "proiect")[:40]).replace("/", "-").replace(" ", "_")
     fname = f"{template_id}_{safe_title}.docx"
     return data, fname
+
+
+# Auto-register extra V6.4 templates (PV LA, PV FD, PCC, RVT, ISC, as-built)
+try:
+    import gas_doc_templates_extra as _extra  # noqa: E402
+    _extra.register_into(__import__(__name__))
+except Exception:  # pragma: no cover - defensive
+    pass

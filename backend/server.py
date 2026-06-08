@@ -2298,6 +2298,24 @@ _cross_api = APIRouter(prefix="/api/cross-industry")
 _cross_api.include_router(cross_router)
 app.include_router(_cross_api)
 
+# V6.4 — Cross-Industry concrete templates (gaze + electric + apa_canal)
+from industry_doc_routes import router as industry_router
+_industry_api = APIRouter(prefix="/api")
+_industry_api.include_router(industry_router)
+app.include_router(_industry_api)
+
+# V6.4 — Document Packs (pre-flight + bulk pack ZIP)
+from document_packs import router as packs_router
+_packs_api = APIRouter(prefix="/api/document")
+_packs_api.include_router(packs_router)
+app.include_router(_packs_api)
+
+# V6.4 — OCR Field Auto-Extract
+from ocr_extract import router as ocr_router
+_ocr_api = APIRouter(prefix="/api/ocr")
+_ocr_api.include_router(ocr_router)
+app.include_router(_ocr_api)
+
 # Mount the gas-project + subscribers routers via factory (shared db + auth dep).
 _gas_router = make_gas_project_router(db, get_current_user)
 _sub_router = make_subscribers_router(db, get_current_user)

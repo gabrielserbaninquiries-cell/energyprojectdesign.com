@@ -1,6 +1,109 @@
 # Energy Project Design — PRD
 
 
+## CHANGELOG — 2026-06-08 (V6.4) — Placeholders Extended · Faze Determinante · OCR · Essentials Config · Cross-Industry Concrete
+
+### Cerință literală user
+> "citeste cuvant cu cuvant toate fisierele [...] implementeaza singur, fara accept, tot ce tine de back-end pentru completarea documentelor [...] daca nu le cunosti in toate fazele, cauta-le acum individual pe net pentru fiecare faza [...] creeaza noi placeholdere pentru fiecare faza a demararii lucrarilor proiectului respectiv, apoi implementeaza toate placeholderele fara ca acestea sa fie duplicat [...] API keys cert-SIGN/DigiSign/Trans Sped se vor configura din pagina de profil admin-ului pentru sectiunea: esentiale functionare pagina (feature nou)."
+
+### Backend NOU V6.4 (4 module noi + 2 extinse + 29 endpoints noi totale)
+
+**`placeholders_registry.py` EXTENS** — de la 76 la **120 câmpuri** în **25 secțiuni** (era 16):
+- Faze determinante (FD) + PCC — sudură, săpătură, probe, acoperire șanț
+- Lucrări ascunse (PV LA) — adâncime pozare, strat nisip, bandă avertizoare, compactare
+- Exigențe A/B/C/D (Legea 10/1995) — rezistență/siguranță/foc/mediu cu defaults legale
+- Materiale extinse — certificate conformitate, lot, serii, furnizori, marcă contor
+- Referat Verificator Tehnic (RVT VGD) — nr/data/concluzii (Acceptat/Cu observații/Respins)
+- As-Built (planuri executate) — lungime efectivă, sudări, GPS coords
+- ISC & Diriginte șantier — autorizație MDLPA, telefon/email diriginte, nr înregistrare ISC
+- Carte tehnică A/B/C/D (HG 273/1994) — proiectare/execuție/recepție/exploatare cu defaults
+- Comisia recepție — președinte, reprezentant beneficiar/OSD/ISC
+
+**`gas_doc_templates_extra.py`** — **6 template-uri DOCX NOI** (total acum 23):
+1. `pv_lucrari_ascunse` — PV LA conform Legea 10/1995 art. 23 (adâncime, nisip, bandă)
+2. `pv_faza_determinanta` — PV FD conform Legea 10/1995 art. 22 + HG 1735/2006 (ISC)
+3. `program_control_calitate` (PCC) — semnatari obligatori proiectant+RTE+diriginte
+4. `referat_verificator` (RVT) — Verificator Atestat MDLPA, domeniu Is
+5. `notificare_isc` — Notificare ISC Județean conform Legea 50/1991 art. 7 alin. 8
+6. `as_built` — Memoriu tehnic as-built (anexă Carte Tehnică Secțiunea C)
+
+**`electric_doc_templates.py`** — **6 template-uri ELECTRIC concrete** (LES/LEA):
+- el_cerere_atr, el_memoriu_tehnic, el_caiet_sarcini, el_cerere_pif, el_pv_receptie, el_carte_tehnica
+- Norme: Ord. ANRE 11/2014 + PE 101/85 + PE 107/95 + I 7/2011 + STAS 8779
+
+**`apa_canal_doc_templates.py`** — **5 template-uri APĂ-CANAL concrete**:
+- ac_cerere_bransament, ac_cerere_racord, ac_memoriu_tehnic, ac_pv_receptie, ac_carte_tehnica
+- Norme: Legea 241/2006 + STAS 8591 + SR EN 805/752 + STAS 1342/1846
+
+**`industry_doc_routes.py`** — endpoints cross-industry concrete:
+- GET /api/industry/{industry}/templates
+- GET /api/industry/all-templates
+- GET /api/industry/{industry}/project/{pid}/doc/{template_id}
+
+**`document_packs.py`** — **6 pachete predefinite** + pre-flight validation:
+- pachet_cu_atr, pachet_dtac, pachet_executie, pachet_receptie_pif, pachet_carte_tehnica, pachet_avize_complet
+- POST /api/document/preflight — verifică câmpuri required per template + coverage %
+- POST /api/document/packs/{id}/generate — ZIP cu MANIFEST.md (norme + lista docs)
+
+**`ocr_extract.py`** — OCR & auto-fill din PDF/DOCX:
+- 13 pattern-uri regex pe text RO (CNP, CUI, AC, CU, ATR, cadastru, lungime, DN, debit, presiune, telefon, email, beneficiar)
+- POST /api/ocr/extract-fields — upload → {detected_fields, confidence, text_preview}
+- POST /api/ocr/apply-to-project — write-once propagation direct pe proj.data
+
+**`models.py` + `admin_routes.py` EXTINSE** — Esențiale funcționare pagină:
+- 10 integrări noi în AdminConfig: cert_sign, digisign, trans_sped, osd_distrigaz/delgaz/premier, anaf_efactura, seap, openbanking, isc
+- Cheile sensibile WRITE-ONLY (15 câmpuri): niciodată returnate plain-text, doar `*_set: bool`
+- GET /api/admin/essentials/status — boolean configured per integration
+
+### Frontend NOU V6.4
+
+**`GasNaturalProjectV2.jsx`** — 3 widget-uri noi în top bar:
+- `PreflightPanel` — verifică 16 template-uri, afișează coverage % + missing_required per template
+- `DocPacksMenu` — dropdown 6 pachete legale one-click → download ZIP cu manifest
+- `OcrImportButton` — upload DOCX/PDF → auto-detect câmpuri → apply-to-project (write-once)
+
+**`AdminEssentials.jsx`** (NOU) — pagina /admin/essentials cu 10 carduri integrări:
+- Câmpuri secret au eye-toggle reveal/hide
+- Status "Configurat ✓" / "Neconfigurat ⚠" per integrare
+- Link "Docs ↗" către furnizor (cert-SIGN, DigiSign, Trans Sped, etc.)
+- Salvare PER integrare (idempotent — lasă gol pentru a păstra valoarea existentă)
+- Card statistici: X/10 configurate + Y pending + securitate write-only encrypted
+
+**Sidebar**: link nou `nav-admin-essentials` în secțiunea Intern
+
+### Testing V6.4
+- **11/11 pytest V6.4 PASSED** (`tests/test_v64_extended.py`):
+  - placeholders extended (120 fields, 25 sections)
+  - 23 gas templates (16 old + 6 V6.4 + 1 dispoziție)
+  - electric 6 + apa_canal 5 templates concrete
+  - 6 document packs + ZIP cu MANIFEST.md
+  - 10 essentials integrations + write-only redact
+  - OCR known-patterns + extract from generated RVT (field_count ≥ 2)
+  - preflight verifică coverage % real
+  - dossier.zip include automat cele 6 template-uri V6.4
+- **9/9 pytest V6.0 PASSED** (no regression V6.0 → V6.4)
+- Frontend smoke (Playwright): 5 widget-uri noi rendate cu data-testid + 10 carduri essentials
+- Lint: 0 erori blocante în noile module
+
+### Pricing matrix (păstrat din V6.3)
+Vezi V6.3 — prețuri real-market: Basic 49 / Operator 79 / Proiectant 129 / Societate 349.
+
+### Endpoints V6.4 (recapitulare 29 totale)
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/api/industry/{industry}/templates` | gas (23) / electric (6) / apa_canal (5) |
+| GET | `/api/industry/all-templates` | toate template-urile concrete |
+| GET | `/api/industry/{industry}/project/{pid}/doc/{template_id}` | DOCX populat per industrie |
+| GET | `/api/document/packs` | 6 pachete predefinite |
+| POST | `/api/document/preflight` | coverage % + missing_required per template |
+| POST | `/api/document/packs/{id}/generate` | ZIP cu manifest legal |
+| POST | `/api/ocr/extract-fields` | upload PDF/DOCX → fields |
+| GET | `/api/ocr/known-patterns` | 13 regex patterns |
+| POST | `/api/ocr/apply-to-project` | write-once propagation direct |
+| GET | `/api/admin/essentials/status` | 10 integrations status |
+| PUT | `/api/admin/config` | extended cu 29 câmpuri noi (write-only redacted) |
+
+
 ## CHANGELOG — 2026-06-08 (V6.3) — Upload REAL · PDF Preview · Auto-Sign · Clone Industry · Real Prices
 
 ### Implementat în această sesiune (P1.1 + P1.2 + P1.3 + P1.4 + P2 + Potential Improvement)

@@ -446,6 +446,198 @@ function RealUploadButton({ pid, category, bucketKey, label, onUploaded }) {
   );
 }
 
+// ====================================================================
+// PRE-FLIGHT PANEL — verifică câmpurile required pentru template-uri specifice
+// ====================================================================
+function PreflightPanel({ pid }) {
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const TEMPLATE_GROUPS = [
+    'cerere_cu', 'cerere_atr', 'memoriu_tehnic', 'caiet_sarcini', 'borderou',
+    'referat_verificator', 'anunt_incepere', 'predare_amplasament',
+    'program_control_calitate', 'notificare_isc',
+    'pv_lucrari_ascunse', 'pv_faza_determinanta', 'pv_receptie', 'as_built',
+    'cerere_pif', 'carte_tehnica',
+  ];
+
+  const run = async () => {
+    setLoading(true);
+    try {
+      const { data: res } = await api.post('/document/preflight', { pid, template_ids: TEMPLATE_GROUPS });
+      setData(res);
+    } catch (e) {
+      toast.error(`Pre-flight eșuat: ${e?.response?.data?.detail || e.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!open || data) return undefined;
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data: res } = await api.post('/document/preflight', { pid, template_ids: TEMPLATE_GROUPS });
+        if (!cancelled) setData(res);
+      } catch (e) {
+        if (!cancelled) toast.error(`Pre-flight eșuat: ${e?.response?.data?.detail || e.message}`);
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  return (
+    <div className="relative" data-testid="preflight-panel">
+      <button
+        onClick={() => setOpen(!open)}
+        className={`text-xs inline-flex items-center gap-1 px-3 py-1.5 ${data?.overall_ready ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-amber-500 text-white hover:bg-amber-600'}`}
+        data-testid="preflight-toggle"
+      >
+        {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <ShieldCheck className="w-3 h-3" />}
+        Pre-flight {data ? (data.overall_ready ? '✓' : '⚠') : ''}
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-1 w-96 bg-white border-2 border-gray-300 shadow-xl z-50 max-h-[70vh] overflow-auto">
+          <div className="px-3 py-2 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+            <div className="text-xs font-bold">Verificare câmpuri per document</div>
+            <button onClick={run} disabled={loading} className="text-[10px] text-blue-600 hover:underline">Refresh</button>
+          </div>
+          {!data && <div className="p-4 text-center text-xs text-gray-500">{loading ? 'Verifică...' : 'Apasă Refresh'}</div>}
+          {data?.per_template && Object.entries(data.per_template).map(([tid, info]) => (
+            <div key={tid} className="px-3 py-2 border-b border-gray-100 text-[11px]">
+              <div className="flex items-center justify-between">
+                <span className="font-semibold">{tid}</span>
+                <span className={`px-1.5 py-0.5 text-[10px] ${info.ready ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                  {info.coverage_pct}% · {info.ready ? 'gata' : `${info.missing_required.length} req. lipsă`}
+                </span>
+              </div>
+              {!info.ready && info.missing_required.length > 0 && (
+                <div className="mt-1 text-[10px] text-gray-600">
+                  Lipsă obligatorii: {info.missing_required.slice(0, 3).map((m) => m.label).join(', ')}
+                  {info.missing_required.length > 3 && ` (+${info.missing_required.length - 3})`}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ====================================================================
+// DOC PACKS MENU — generează un pachet predefinit de documente (ZIP)
+// ====================================================================
+function DocPacksMenu({ pid, backendUrl }) {
+  const [open, setOpen] = useState(false);
+  const [packs, setPacks] = useState([]);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (open && packs.length === 0) {
+      api.get('/document/packs').then(({ data }) => setPacks(data.packs || [])).catch(() => {});
+    }
+  }, [open, packs.length]);
+
+  const generate = async (packId) => {
+    setBusy(true);
+    try {
+      const res = await fetch(`${backendUrl}/api/document/packs/${packId}/generate`, {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pid }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${packId}_${pid}.zip`; a.click();
+      URL.revokeObjectURL(url);
+      toast.success(`Pachet generat: ${packId}`);
+    } catch (e) {
+      toast.error(`Eroare pachet: ${e.message}`);
+    } finally {
+      setBusy(false); setOpen(false);
+    }
+  };
+
+  return (
+    <div className="relative" data-testid="doc-packs-menu">
+      <button onClick={() => setOpen(!open)} disabled={busy}
+        className="text-xs inline-flex items-center gap-1 bg-indigo-600 text-white px-3 py-1.5 hover:bg-indigo-700 disabled:opacity-50"
+        data-testid="doc-packs-btn">
+        {busy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Package className="w-3 h-3" />}
+        Pachete documente
+      </button>
+      {open && (
+        <div className="absolute right-0 mt-1 w-80 bg-white border-2 border-gray-300 shadow-xl z-50">
+          <div className="px-3 py-2 text-[10px] uppercase tracking-wider text-gray-500 border-b border-gray-100">
+            6 pachete legale (one-click)
+          </div>
+          {packs.map((p) => (
+            <button key={p.id} onClick={() => generate(p.id)}
+              className="w-full text-left px-3 py-2 text-xs hover:bg-indigo-50 border-b border-gray-100 last:border-0"
+              data-testid={`pack-${p.id}`}>
+              <div className="font-semibold">{p.label}</div>
+              <div className="text-[10px] text-gray-500 mt-0.5 leading-tight">{p.description}</div>
+              <div className="text-[10px] text-indigo-700 mt-0.5">{p.templates?.length || 0} docs · {p.norme?.[0]}</div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ====================================================================
+// OCR IMPORT BUTTON — upload PDF/DOCX → auto-extract câmpuri + apply
+// ====================================================================
+function OcrImportButton({ pid, onExtracted }) {
+  const [busy, setBusy] = useState(false);
+  const handle = async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setBusy(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', f);
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/ocr/extract-fields`, {
+        method: 'POST', credentials: 'include', body: fd,
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (data.field_count === 0) {
+        toast.info('Nu s-au detectat câmpuri în fișier');
+      } else {
+        // 1. Update local state
+        onExtracted?.(data.detected_fields);
+        // 2. Persist via apply-to-project (real write-once propagation)
+        try {
+          const { data: appliedRes } = await api.post('/ocr/apply-to-project', {
+            pid, fields: data.detected_fields, overwrite: false,
+          });
+          toast.success(`OCR: ${appliedRes.applied_count} câmpuri salvate, ${appliedRes.skipped_count} păstrate (${data.confidence})`);
+        } catch (perr) {
+          toast.warning(`OCR detectat ${data.field_count} câmpuri local, persistare eșuată: ${perr?.response?.data?.detail || perr.message}`);
+        }
+      }
+    } catch (err) {
+      toast.error(`OCR eșuat: ${err.message}`);
+    } finally {
+      setBusy(false); e.target.value = '';
+    }
+  };
+  return (
+    <label className="text-xs inline-flex items-center gap-1 bg-teal-600 text-white px-3 py-1.5 hover:bg-teal-700 cursor-pointer" data-testid="ocr-import-btn">
+      {busy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+      Import auto (OCR)
+      <input type="file" className="hidden" onChange={handle} accept=".pdf,.docx,.doc" />
+    </label>
+  );
+}
+
 function ConsumerList({ items, onChange, columnId }) {
   const add = () => onChange([...items, { tip: CONSUMER_TYPES[0], nr_aparate: 1, debit_nmc_h: 0.5 }]);
   const upd = (idx, key, val) => onChange(items.map((it, i) => i === idx ? { ...it, [key]: val } : it));
@@ -627,7 +819,14 @@ export default function GasNaturalProjectV2() {
         <button onClick={() => nav('/gaze-naturale')} className="text-xs inline-flex items-center gap-1 text-gray-600 hover:text-black" data-testid="back-to-projects">
           <ArrowLeft className="w-3 h-3" /> Înapoi la registru
         </button>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          <PreflightPanel pid={pid} />
+          <DocPacksMenu pid={pid} backendUrl={backendUrl} />
+          <OcrImportButton pid={pid} onExtracted={(fields) => {
+            // Merge extracted fields into proj.data (write-once propagation)
+            setData((d) => ({ ...d, ...fields }));
+            setDirty(true);
+          }} />
           <PreviewSectionMenu pid={pid} backendUrl={backendUrl} />
           <CloneIndustryMenu pid={pid} nav={nav} />
           <button onClick={save} disabled={saving || !dirty} className="text-xs inline-flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 hover:bg-green-700 disabled:opacity-50" data-testid="gas-v2-save">
