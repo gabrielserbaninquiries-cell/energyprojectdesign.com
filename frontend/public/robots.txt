@@ -10,7 +10,7 @@ Disallow: /api/
 Disallow: /dashboard/private/
 
 # Sitemap location
-Sitemap: https://energy-project.preview.emergentagent.com/sitemap.xml
+Sitemap: https://github-push-test.preview.emergentagent.com/sitemap.xml
 
 # Crawl delay (optional - reduce server load)
 Crawl-delay: 1

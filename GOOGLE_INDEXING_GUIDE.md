@@ -2,7 +2,7 @@
 
 ## ✅ SITE LIVE ȘI PREGĂTIT PENTRU GOOGLE
 
-**URL Site:** https://design-energy.preview.emergentagent.com/
+**URL Site:** https://github-push-test.preview.emergentagent.com/
 
 **Status:** ✅ LIVE (HTTP 200)
 **SEO:** ✅ COMPLET (meta tags, schema.org, sitemap, robots.txt)
@@ -14,15 +14,15 @@
 
 ### Test rapid:
 ```bash
-curl -I https://design-energy.preview.emergentagent.com/
+curl -I https://github-push-test.preview.emergentagent.com/
 # Răspuns așteptat: HTTP/2 200
 ```
 
 ### Verificare sitemap:
-https://design-energy.preview.emergentagent.com/sitemap.xml
+https://github-push-test.preview.emergentagent.com/sitemap.xml
 
 ### Verificare robots.txt:
-https://design-energy.preview.emergentagent.com/robots.txt
+https://github-push-test.preview.emergentagent.com/robots.txt
 
 ---
 
@@ -36,7 +36,7 @@ https://design-energy.preview.emergentagent.com/robots.txt
 1. Login cu cont Google (dragosserban95@gmail.com)
 2. Click "Adaugă proprietate"
 3. Selectează "Prefix URL"
-4. Introdu: `https://design-energy.preview.emergentagent.com`
+4. Introdu: `https://github-push-test.preview.emergentagent.com`
 5. Verifică proprietatea (metode disponibile):
 
 **Metoda 1 - HTML Tag (CEL MAI SIMPLU):**
@@ -60,7 +60,7 @@ TXT record: google-site-verification=XXXXX
 
 După verificare:
 1. În Search Console → Sitemaps
-2. Adaugă URL sitemap: `https://design-energy.preview.emergentagent.com/sitemap.xml`
+2. Adaugă URL sitemap: `https://github-push-test.preview.emergentagent.com/sitemap.xml`
 3. Click "Submit"
 4. Așteaptă indexare (1-7 zile)
 
@@ -68,7 +68,7 @@ După verificare:
 
 Pentru indexare imediată:
 1. În Search Console → URL Inspection
-2. Introdu: `https://design-energy.preview.emergentagent.com/`
+2. Introdu: `https://github-push-test.preview.emergentagent.com/`
 3. Click "Request Indexing"
 4. Repetă pentru paginile importante:
    - /gaze-naturale/bransamente
@@ -88,7 +88,7 @@ Pentru indexare imediată:
 - Google indexează link-uri din social media
 
 ### Metoda 3: Submit manual la Google
-- https://www.google.com/ping?sitemap=https://design-energy.preview.emergentagent.com/sitemap.xml
+- https://www.google.com/ping?sitemap=https://github-push-test.preview.emergentagent.com/sitemap.xml
 
 ---
 
@@ -102,7 +102,7 @@ Introdu în Google Search. Dacă apar rezultate → indexat!
 
 ### Test 2: URL exact
 ```
-"https://design-energy.preview.emergentagent.com"
+"https://github-push-test.preview.emergentagent.com"
 ```
 
 ### Test 3: Cuvinte cheie
@@ -161,10 +161,10 @@ CNAME Record:
 ## 📱 VERIFICARE MOBILE
 
 **Google Mobile-Friendly Test:**
-https://search.google.com/test/mobile-friendly?url=https://design-energy.preview.emergentagent.com
+https://search.google.com/test/mobile-friendly?url=https://github-push-test.preview.emergentagent.com
 
 **PageSpeed Insights:**
-https://pagespeed.web.dev/?url=https://design-energy.preview.emergentagent.com
+https://pagespeed.web.dev/?url=https://github-push-test.preview.emergentagent.com
 
 ---
 
@@ -221,7 +221,7 @@ https://pagespeed.web.dev/?url=https://design-energy.preview.emergentagent.com
 
 ## ✅ CHECKLIST FINAL
 
-- [x] Site LIVE (https://design-energy.preview.emergentagent.com)
+- [x] Site LIVE (https://github-push-test.preview.emergentagent.com)
 - [x] Meta tags SEO complete
 - [x] Schema.org markup
 - [x] Sitemap.xml creat

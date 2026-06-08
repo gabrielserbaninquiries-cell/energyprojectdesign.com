@@ -96,7 +96,7 @@ async def build_handoff_markdown() -> str:
     md = f"""# 🛟 HANDOFF — Energy Project Design Services
 **Snapshot generated:** {now}
 **Source repo:** {repo_url} (branch `{branch}`)
-**Preview (current Emergent session):** https://template-stamp-hub.preview.emergentagent.com
+**Preview (current Emergent session):** https://github-push-test.preview.emergentagent.com
 **Production target:** https://energy-project-design-services.onrender.com
 
 ---

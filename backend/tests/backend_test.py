@@ -7,7 +7,7 @@ import pytest
 import requests
 from docx import Document
 
-BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://template-stamp-hub.preview.emergentagent.com").rstrip("/")
+BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://github-push-test.preview.emergentagent.com").rstrip("/")
 API = f"{BASE_URL}/api"
 
 
@@ -302,7 +302,7 @@ class TestQESProviders:
 # ------------- Stripe Checkout -------------
 class TestStripe:
     def test_checkout(self, session, auth):
-        payload = {"plan_id": "proiectant", "origin_url": "https://template-stamp-hub.preview.emergentagent.com"}
+        payload = {"plan_id": "proiectant", "origin_url": "https://github-push-test.preview.emergentagent.com"}
         r = session.post(f"{API}/payments/checkout", json=payload, timeout=30)
         assert r.status_code == 200, r.text
         data = r.json()

@@ -293,7 +293,7 @@ def make_gas_project_router(db, get_current_user):
         doc = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}}, {"_id": 0})
         if not doc:
             raise HTTPException(404, "Proiect inexistent")
-        base = os.environ.get("PUBLIC_VERIFY_BASE", "https://energy-project.preview.emergentagent.com")
+        base = os.environ.get("PUBLIC_VERIFY_BASE", "https://github-push-test.preview.emergentagent.com")
         verify_url = f"{base}/verify/gas-project/{pid}"
         qr = qrcode.QRCode(version=None, box_size=8, border=2, error_correction=qrcode.constants.ERROR_CORRECT_M)
         qr.add_data(verify_url); qr.make(fit=True)
@@ -363,7 +363,7 @@ def make_gas_project_router(db, get_current_user):
         lines += ["", "Livrabile faza:"] + [f"  • {d}" for d in phase.get("deliverables", [])]
         if payload.message:
             lines += ["", "Mesaj de la expeditor:", payload.message]
-        verify_base = os.environ.get("PUBLIC_VERIFY_BASE", "https://energy-project.preview.emergentagent.com")
+        verify_base = os.environ.get("PUBLIC_VERIFY_BASE", "https://github-push-test.preview.emergentagent.com")
         lines += ["", f"Verificare publică: {verify_base}/verify/gas-project/{pid}",
                   "", "Cu stimă,", f"{user.name} ({user.email})",
                   "Energy Project Design"]

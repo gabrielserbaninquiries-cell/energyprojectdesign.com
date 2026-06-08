@@ -69,7 +69,7 @@ Toate prin **un singur site** (acest repository), cu o singură identitate (Stam
 
 ## 3. Politica de unitate (NEW — regulă fondatoare)
 1. **Single Source of Truth**: acest repository la `https://github.com/dragosserban95/Energy-Project-Design` (remote `gh`).
-2. **Single Deployment**: site-ul deployat la `https://energy-project.emergent.host` (production) cu preview la `https://energy-project.preview.emergentagent.com` (dev).
+2. **Single Deployment**: site-ul deployat la `https://energy-project.emergent.host` (production) cu preview la `https://github-push-test.preview.emergentagent.com` (dev).
 3. **Single Admin** : `dragosserban95@gmail.com` — întotdeauna privilegii developer + admin via `DEVELOPER_EMAILS` seed.
 4. **Zero feature drift**: la fiecare iterație nouă se face `git log --all --pretty=format: --name-only --diff-filter=A` și se verifică ca **fiecare fișier vreodată adăugat să existe în repo curent** + **fiecare endpoint `@api.*` vreodată definit să fie raspondent**.
 5. **Migration policy**: dacă apar variante derivate ale aplicației (alți utilizatori Emergent ce au fork-uit), feature-urile lor merg PRIN PR în acest repo, nu în repo-uri paralele.

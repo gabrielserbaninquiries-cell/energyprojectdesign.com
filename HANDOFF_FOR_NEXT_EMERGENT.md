@@ -2,7 +2,7 @@
 **Snapshot generated:** 2026-06-06 11:24 UTC (original)
 **Last updated:** 2026-06-06 12:55 UTC (V5.0 rebuild on new Emergent account)
 **Source repo:** https://github.com/dragosserban95/Energy-Project-Design (branch `main`)
-**Preview (current Emergent session):** https://energy-sectors-build.preview.emergentagent.com
+**Preview (current Emergent session):** https://github-push-test.preview.emergentagent.com
 **Canonical (production target):** design-energy.emergent.host
 **Old production target:** https://energy-project-design-services.onrender.com
 
@@ -195,7 +195,7 @@ B2B SaaS for Romanian engineering documentation, starting with **gas naturale** 
 B2B SaaS pentru documentație inginerească (gaze naturale, electrice, construcții, etc.) — companie reală: **ENERGY PROJECT DESIGN SRL** (CUI 43151074, J40/12982/2020, București).
 
 🌐 **Live (Render)**: https://energy-project-design-services.onrender.com
-🛠 **Preview (Emergent)**: https://template-stamp-hub.preview.emergentagent.com
+🛠 **Preview (Emergent)**: https://github-push-test.preview.emergentagent.com
 
 ## Stack
 
@@ -272,7 +272,7 @@ Proprietary © ENERGY PROJECT DESIGN SRL 2026.
 - Gmail: per-user via /api/users/me PATCH
 
 ## App
-- URL: https://template-stamp-hub.preview.emergentagent.com
+- URL: https://github-push-test.preview.emergentagent.com
 - App: Energy Project Design Services v4.8
 - Company: ENERGY PROJECT DESIGN SRL, CUI 43151074, J40/12982/2020
 

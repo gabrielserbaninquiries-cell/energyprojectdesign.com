@@ -1,7 +1,7 @@
 """V5.8 backend regression: Rate limiting, Gas Project Studio, Subscribers B2B."""
 import os, pytest, requests, time
 
-BASE = os.environ.get("REACT_APP_BACKEND_URL", "https://energy-project.preview.emergentagent.com").rstrip("/")
+BASE = os.environ.get("REACT_APP_BACKEND_URL", "https://github-push-test.preview.emergentagent.com").rstrip("/")
 ADMIN_EMAIL = "dragosserban95@gmail.com"
 ADMIN_PASS = "Test12345"
 

@@ -3,7 +3,7 @@
 B2B SaaS pentru documentație inginerească (gaze naturale, electrice, construcții, etc.) — companie reală: **ENERGY PROJECT DESIGN SRL** (CUI 43151074, J40/12982/2020, București).
 
 🌐 **Live (Render)**: https://energy-project-design-services.onrender.com
-🛠 **Preview (Emergent)**: https://template-stamp-hub.preview.emergentagent.com
+🛠 **Preview (Emergent)**: https://github-push-test.preview.emergentagent.com
 
 ## Stack
 
