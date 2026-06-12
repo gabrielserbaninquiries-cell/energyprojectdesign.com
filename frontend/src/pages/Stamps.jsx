@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import AppShell from '../components/AppShell';
 import api, { API } from '../lib/api';
 import { toast } from 'sonner';
-import { Upload, Trash2, Stamp as StampIcon } from 'lucide-react';
+import { Upload, Trash2, Stamp as StampIcon, Move } from 'lucide-react';
+import StampPlacement from '../components/StampPlacement';
 
 export default function Stamps() {
   const [items, setItems] = useState([]);
   const [busy, setBusy] = useState(false);
+  const [previewStamp, setPreviewStamp] = useState(null);
+  const [stampCoords, setStampCoords] = useState(null);
   const fileRef = useRef(null);
   const token = localStorage.getItem('auth_token') || '';
 
@@ -67,12 +70,50 @@ export default function Stamps() {
               </div>
               <div className="flex items-start justify-between gap-2">
                 <div className="text-sm font-medium truncate flex-1">{s.name}</div>
+                <button onClick={() => setPreviewStamp(s)} className="text-gray-400 hover:text-blue-600" data-testid={`place-stamp-${s.stamp_id}`} title="Plasare draggable">
+                  <Move className="w-4 h-4" />
+                </button>
                 <button onClick={() => onDelete(s.stamp_id)} className="text-gray-400 hover:text-[#DC2626]" data-testid={`delete-stamp-${s.stamp_id}`}>
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Modal placement draggable */}
+      {previewStamp && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-6" data-testid="stamp-placement-modal" onClick={() => setPreviewStamp(null)}>
+          <div className="bg-white max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 border-2 border-zinc-900" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-zinc-200">
+              <div>
+                <h3 className="text-lg font-bold">Plasare ștampilă: {previewStamp.name}</h3>
+                <p className="text-xs text-zinc-500">Trageți ștampila pe foaia A4 pentru a stabili coordonatele exacte.</p>
+              </div>
+              <button onClick={() => setPreviewStamp(null)} className="text-zinc-400 hover:text-black text-2xl leading-none" data-testid="stamp-placement-close">×</button>
+            </div>
+            <StampPlacement
+              stampUrl={`${API}/stamps/${previewStamp.stamp_id}/image`}
+              stampSizeCm={4}
+              onChange={setStampCoords}
+            />
+            <div className="mt-4 p-3 bg-zinc-50 border border-zinc-200 text-xs space-y-1.5">
+              <div className="font-semibold text-zinc-700">Coordonate salvate (gata de transmis la backend):</div>
+              <div className="font-mono text-zinc-950 tabular-nums">
+                {`stamp_x_cm: ${stampCoords?.x_cm?.toFixed(2) ?? '—'}, stamp_y_cm: ${stampCoords?.y_cm?.toFixed(2) ?? '—'}, stamp_size_cm: ${stampCoords?.size_cm ?? 4}`}
+              </div>
+              <div className="text-zinc-500 text-[10px] italic">
+                Aceste coordonate vor fi atașate la următorul `POST /api/documents/generate` cu acest stamp_id. Documentul va avea ștampila plasată ABSOLUT, nu prin preset.
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 mt-4">
+              <button onClick={() => setPreviewStamp(null)} className="px-4 py-2 border border-zinc-300 hover:bg-zinc-50 text-sm" data-testid="stamp-placement-cancel">Anulează</button>
+              <button onClick={() => { localStorage.setItem(`stamp_pos_${previewStamp.stamp_id}`, JSON.stringify(stampCoords)); toast.success('Coordonate salvate local'); setPreviewStamp(null); }} className="amber-btn text-sm" data-testid="stamp-placement-save">
+                Salvează poziție
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </AppShell>

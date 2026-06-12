@@ -786,7 +786,10 @@ async def generate_document(req: GenerateRequest, user: User = Depends(get_curre
         if not stamp:
             raise HTTPException(status_code=404, detail="Ștampilă negăsită")
         stamp_bytes = base64.b64decode(stamp["data_b64"])
-        docx_bytes = insert_stamp(docx_bytes, stamp_bytes, req.stamp_position, req.stamp_size_cm)
+        docx_bytes = insert_stamp(
+            docx_bytes, stamp_bytes, req.stamp_position, req.stamp_size_cm,
+            x_cm=req.stamp_x_cm, y_cm=req.stamp_y_cm,
+        )
         stamped = True
 
     signed = False

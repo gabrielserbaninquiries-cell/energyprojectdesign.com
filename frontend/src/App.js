@@ -30,6 +30,7 @@ import Stamps from './pages/Stamps';
 import Certificates from './pages/Certificates';
 import Documents from './pages/Documents';
 import Pricing from './pages/Pricing';
+import Billing from './pages/Billing';
 import Settings from './pages/Settings';
 import AuthCallback from './pages/AuthCallback';
 import Termeni from './pages/Termeni';
@@ -109,6 +110,7 @@ function AppRouter() {
       <Route path="/verify/gas-project/:pid" element={<VerifyGasProject />} />
 
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/billing" element={<ProtectedRoute><Billing /></ProtectedRoute>} />
       <Route path="/proiecte" element={<ProtectedRoute><Projects /></ProtectedRoute>} />
       <Route path="/developer" element={<ProtectedRoute><Developer /></ProtectedRoute>} />
       <Route path="/developer/chat" element={<ProtectedRoute><DeveloperChat /></ProtectedRoute>} />

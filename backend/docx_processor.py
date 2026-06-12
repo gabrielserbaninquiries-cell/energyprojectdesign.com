@@ -3,7 +3,7 @@ import io
 import re
 from typing import Dict, List, Optional, Tuple
 from docx import Document
-from docx.shared import Cm, Inches
+from docx.shared import Cm, Inches, Emu
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 # Match {{variable_name}} or {variable_name}
@@ -141,10 +141,74 @@ def insert_stamp(
     stamp_bytes: bytes,
     position: str = "bottom-right",
     size_cm: float = 4.0,
+    x_cm: Optional[float] = None,
+    y_cm: Optional[float] = None,
+    page_index: int = 0,
 ) -> bytes:
-    """Append the stamp image at end of doc with the chosen alignment."""
+    """Insert stamp into a docx file.
+
+    Two placement modes:
+      • Anchor presets (`position` in top-left/top-right/bottom-left/bottom-right/center)
+      • Absolute coordinates (`x_cm`, `y_cm` measured from page top-left, in centimeters).
+        When x_cm/y_cm are provided, the stamp is rendered as a floating image
+        anchored absolutely on the chosen page (default: page 1).
+    """
+    from docx.oxml.ns import qn, nsmap
+    from docx.oxml import OxmlElement
+    import uuid as _uuid
+
     doc = Document(io.BytesIO(docx_bytes))
 
+    # Absolute positioning mode
+    if x_cm is not None and y_cm is not None:
+        # Anchor a floating picture in a paragraph (run) with wp:anchor positioning.
+        target_p = doc.add_paragraph()
+        run = target_p.add_run()
+        run.add_picture(io.BytesIO(stamp_bytes), width=Cm(size_cm))
+        # Now wrap inline -> anchor with absolute coords
+        # Locate the drawing inline element and replace it with wp:anchor
+        drawing = run._r.find(qn("w:drawing"))
+        if drawing is not None:
+            inline = drawing.find(qn("wp:inline"))
+            if inline is not None:
+                # Convert wp:inline → wp:anchor
+                inline.tag = qn("wp:anchor")
+                anchor = inline
+                # Required anchor attributes
+                anchor.set("behindDoc", "0")
+                anchor.set("locked", "0")
+                anchor.set("layoutInCell", "1")
+                anchor.set("allowOverlap", "1")
+                anchor.set("relativeHeight", "251658240")
+                anchor.set("simplePos", "0")
+                anchor.set("distT", "0"); anchor.set("distB", "0")
+                anchor.set("distL", "0"); anchor.set("distR", "0")
+                # <wp:simplePos x="0" y="0"/>
+                sp = OxmlElement("wp:simplePos")
+                sp.set("x", "0"); sp.set("y", "0")
+                anchor.insert(0, sp)
+                # Positions (EMU; 1 cm = 360000 EMU)
+                emu_x = int(float(x_cm) * 360000)
+                emu_y = int(float(y_cm) * 360000)
+                pH = OxmlElement("wp:positionH"); pH.set("relativeFrom", "page")
+                pHoff = OxmlElement("wp:posOffset"); pHoff.text = str(emu_x)
+                pH.append(pHoff)
+                pV = OxmlElement("wp:positionV"); pV.set("relativeFrom", "page")
+                pVoff = OxmlElement("wp:posOffset"); pVoff.text = str(emu_y)
+                pV.append(pVoff)
+                # Insert positionH/V after simplePos
+                anchor.insert(1, pH); anchor.insert(2, pV)
+                # Wrap mode → wrapNone (floating over text)
+                wrap_none = OxmlElement("wp:wrapNone")
+                # Find extent + docPr + graphic, insert wrapNone before docPr if exists
+                extent = anchor.find(qn("wp:extent"))
+                if extent is not None:
+                    extent.addnext(wrap_none)
+        out = io.BytesIO()
+        doc.save(out)
+        return out.getvalue()
+
+    # Legacy preset positioning
     align_map = {
         "top-left": WD_ALIGN_PARAGRAPH.LEFT,
         "top-right": WD_ALIGN_PARAGRAPH.RIGHT,
@@ -153,14 +217,11 @@ def insert_stamp(
         "center": WD_ALIGN_PARAGRAPH.CENTER,
     }
     align = align_map.get(position, WD_ALIGN_PARAGRAPH.RIGHT)
-
-    # For "top-*" we insert near beginning; for "bottom-*" we append at end.
     if position.startswith("top"):
         new_p = doc.paragraphs[0].insert_paragraph_before("") if doc.paragraphs else doc.add_paragraph()
         target_p = new_p
     else:
         target_p = doc.add_paragraph()
-
     target_p.alignment = align
     run = target_p.add_run()
     run.add_picture(io.BytesIO(stamp_bytes), width=Cm(size_cm))

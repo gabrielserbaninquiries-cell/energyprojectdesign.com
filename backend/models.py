@@ -311,8 +311,10 @@ class GenerateRequest(BaseModel):
     template_id: str
     values: Dict[str, str]  # placeholder => value
     stamp_id: Optional[str] = None
-    stamp_position: str = "bottom-right"  # top-left, top-right, bottom-left, bottom-right
+    stamp_position: str = "bottom-right"  # preset OR "absolute" when x/y are set
     stamp_size_cm: float = 4.0
+    stamp_x_cm: Optional[float] = None  # absolute X from page top-left, cm
+    stamp_y_cm: Optional[float] = None  # absolute Y from page top-left, cm
     cert_id: Optional[str] = None
     cert_password: Optional[str] = None
     document_name: Optional[str] = None
