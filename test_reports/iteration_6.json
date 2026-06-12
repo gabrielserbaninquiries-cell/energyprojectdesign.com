@@ -1,0 +1,38 @@
+{
+  "summary": "V8.0 backend regression — 11/11 PASSED in 4s. Verified the 3 new gas DOCX endpoints (dtac_lista_avize, pv_calitate, program_faze_isc) all return valid DOCX 200 with seeded data (avize markers EDS/1234/TKM/Obținut present; PV-CC-23/2026, Dragoș/Aurel Vlaicu/Maria Stoica/CORESPUNZ present; ISC + FD-01..FD-07 + Predare/trasaj/etanșeitate/PVRTL present). Dossier ZIP now contains 27 files (26 DOCX + 1 manifest, 932KB) as required. GET /api/me/billing returns correct shape {current_plan:{plan_id,name,price_eur,renews_at}, transactions:[], activations:[]} and admin user is on 'developer' plan; transactions+activations capped to 10. POST /api/payments/checkout still returns valid https://checkout.stripe.com/c/pay/... URL + session_id. Webhook idempotency code structure verified in server.py: already_paid flag gates plan re-activation, plan_activation_log audit insert is guarded. Regression: placeholders/registry ≥179 fields, memoriu_tehnic (Vaillant/0.30/Categoria/Exigențe markers present), carte_tehnica, borderou (Wavin/Pietro/EN 1555 markers present) all still render.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_v80_extra_templates.py",
+    "/app/test_reports/pytest/v80_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Webhook idempotency in server.py:1019-1065 reads existing.payment_status BEFORE the $set update, which is the correct order — re-deliveries of the same Stripe event will see already_paid=True and skip both the user plan update and the plan_activation_log insert. Good.",
+    "However, the idempotency key is the Stripe session_id, not the Stripe event_id. If Stripe ever fires a second checkout.session.completed for the SAME session (rare but possible), this works. If it fires a different event (e.g., payment_intent.succeeded) for the same session that ends up calling this same handler, it would still be idempotent. Acceptable.",
+    "/me/billing returns price_eur via plan_meta.get('price_eur') or plan_meta.get('price_eur_mo') — be sure plans_module.PLANS['developer'] has at least one of these keys; otherwise returns 0 (currently returns 0 for developer which is fine since it's a free internal plan, but worth a comment).",
+    "test_v80_extra_templates.py uses fixture scope='module' for token to avoid re-logging in for every test; finished in 4s for 11 tests including 3 DOCX renders + dossier ZIP generation.",
+    "Dossier ZIP renders 26 DOCX in 4s — acceptable, but if more templates are added consider caching python-docx Document objects or running renders in parallel via asyncio.gather + run_in_executor.",
+    "gas_doc_templates_extra.py EXTRA_TEMPLATES dict is now registered into base TEMPLATES via merge_into_base() — verify this is called exactly once at app startup; double-import would be harmless (idempotent dict update) but worth a guard."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v80_extra_templates.py (NEW — V8.0 regression suite, 11/11 passing in 4s)"
+  ],
+  "success_rate": {
+    "backend": "100% (11/11)",
+    "frontend": "not tested (per request — UI unchanged)"
+  },
+  "test_credentials": "Admin/Developer: dragosserban95@gmail.com / Test12345",
+  "seed_data_creation": "No new persistent test data. Used existing gp_e79e2810cc64b5b4 with rich seed values from prior iterations.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V8.0 delta fully verified. 3 new DOCX templates (dtac_lista_avize / pv_calitate / program_faze_isc) live in EXTRA_TEMPLATES registry. Dossier ZIP is now 27 files (26 DOCX + 1 manifest). /api/me/billing live and returns current_plan+transactions+activations. Webhook idempotency uses 'already_paid' flag on payment_transactions.payment_status=='paid'. Test file: /app/backend/tests/test_v80_extra_templates.py. Auth via POST /api/auth/login {email,password}, then Bearer token. Frontend domain still https://github-push-test.preview.emergentagent.com.",
+  "rca_of_the_issue": "Not applicable — no bugs found."
+}

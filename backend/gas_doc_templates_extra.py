@@ -332,6 +332,196 @@ def _as_built(proj: Dict[str, Any]) -> bytes:
 
 
 # ============================================================================
+# TEMPLATE NOU 7: DTAC Lista Avize Utilități (consumă 11 avize + acord acces)
+# ============================================================================
+def _dtac_lista_avize(proj: Dict[str, Any]) -> bytes:
+    data = proj.get("data") or {}
+    doc = Document()
+    base._company_header(doc)
+    base._add_heading(doc, "LISTA AVIZE OBȚINUTE PENTRU DTAC",
+                      level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
+    base._add_para(doc, "(Anexă la Documentația Tehnică pentru Autorizarea Construcției — Legea 50/1991)",
+                   italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=9)
+    doc.add_paragraph()
+
+    base._add_kv_table(doc, [
+        ("Obiectiv", proj.get("title", "—")),
+        ("Beneficiar", base._get(data, "beneficiar_nume")),
+        ("Loc consum", base._get(data, "loc_consum_adresa")),
+        ("Nr. proiect / an", base._get(data, "proiect_nr_an")),
+    ])
+
+    doc.add_paragraph()
+    base._add_para(doc, "Avize utilități obținute pentru emiterea Autorizației de Construire:", bold=True)
+
+    AVIZE_LIST = [
+        ("01", "E-Distribuție Muntenia (electric)",  "aviz_edistr_nr_data"),
+        ("02", "Telekom România (telecom)",          "aviz_telekom_nr_data"),
+        ("03", "Apa Nova / Operator apă-canal",      "aviz_apa_nr_data"),
+        ("04", "STB transport public",               "aviz_stb_nr_data"),
+        ("05", "NetCity (fibră optică)",             "aviz_netcity_nr_data"),
+        ("06", "Luxten (iluminat public)",           "aviz_luxten_nr_data"),
+        ("07", "Direcția Străzi PMB",                "aviz_strazi_nr_data"),
+        ("08", "Direcția Circulație PMB",            "aviz_circulatie_pmb_nr_data"),
+        ("09", "Direcția Mediu PMB",                 "aviz_mediu_pmb_nr_data"),
+        ("10", "APM — Agenția pentru Mediu",         "aviz_apm_nr_data"),
+        ("11", "Acord de acces proprietate privată", "acord_acces_nr_data"),
+    ]
+    t = doc.add_table(rows=1, cols=4)
+    t.style = "Light Grid Accent 1"
+    hdr = t.rows[0].cells
+    hdr[0].text = "Nr."; hdr[1].text = "Aviz emitent"; hdr[2].text = "Nr. / Data"; hdr[3].text = "Status"
+    for n, lbl, key in AVIZE_LIST:
+        r = t.add_row().cells
+        r[0].text = n
+        r[1].text = lbl
+        v = base._get(data, key, "—")
+        r[2].text = v
+        r[3].text = "Obținut" if v not in ("—", "", None) else "În curs"
+
+    doc.add_paragraph()
+    base._add_para(doc, "Notă: Toate avizele se prezintă în original la depunerea DTAC la primăria competentă "
+                        "(Sector pentru București, Primăria Municipiului/Orașului pentru rest).",
+                   italic=True, size=9)
+
+    base._footer_signature(doc, proj, data)
+    return base._save(doc)
+
+
+# ============================================================================
+# TEMPLATE NOU 8: PV Calitate (consumă 9 fields pv_calitate_*)
+# ============================================================================
+def _pv_calitate(proj: Dict[str, Any]) -> bytes:
+    data = proj.get("data") or {}
+    doc = Document()
+    base._company_header(doc)
+    base._add_heading(doc, "PROCES-VERBAL CONTROL CALITATE LUCRĂRI",
+                      level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
+    base._add_para(doc, "(Conform Legea 10/1995 + HG 925/1995 + NTPEE 2018)",
+                   italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=9)
+    doc.add_paragraph()
+
+    base._add_kv_table(doc, [
+        ("PV nr.",   base._get(data, "pv_calitate_pv_numar")),
+        ("Data",     base._get(data, "pv_calitate_data", base._today_ro())),
+        ("Obiectiv", proj.get("title", "—")),
+        ("Beneficiar", base._get(data, "beneficiar_nume")),
+        ("Adresă",   base._get(data, "loc_consum_adresa")),
+    ])
+
+    doc.add_paragraph()
+    base._add_para(doc, "Părți participante:", bold=True)
+    base._add_kv_table(doc, [
+        ("Proiectant",    base._get(data, "pv_calitate_proiectant",  base._get(data, "dtac_proiectant_specialitate", COMPANY["name"]))),
+        ("Executant",     base._get(data, "pv_calitate_constructor", base._get(data, "exec_firma"))),
+        ("Diriginte șantier", base._get(data, "pv_calitate_diriginte", base._get(data, "exec_diriginte_santier"))),
+    ])
+
+    doc.add_paragraph()
+    base._add_para(doc, "1. Documente de bază verificate:", bold=True)
+    base._add_para(doc, base._get(data, "pv_calitate_documente_baza",
+                                  "Proiect tehnic, caiet de sarcini, plan de control calitate (PCC), "
+                                  "certificate calitate materiale, fișe sudori autorizați, jurnal de șantier."),
+                   italic=True)
+
+    doc.add_paragraph()
+    base._add_para(doc, "2. Lucrări verificate:", bold=True)
+    base._add_para(doc, base._get(data, "pv_calitate_lucrari",
+                                  "Trasaj conductă, săpătură șanț, pat nisip, pozare conductă, "
+                                  "sudură electrofuziune, acoperire șanț, marcaj banda avertizare, "
+                                  "montaj robinet branșament, instalație utilizare."),
+                   italic=True)
+
+    doc.add_paragraph()
+    base._add_para(doc, "3. Constatări:", bold=True)
+    base._add_para(doc, base._get(data, "pv_calitate_constatari",
+                                  "Lucrările au fost executate conform proiectului tehnic și a NTPEE 2018. "
+                                  "Adâncimea de pozare verificată (min. 0,9 m sub trotuar / 1,0 m sub trafic). "
+                                  "Banda avertizare poziționată la 30 cm deasupra conductei. "
+                                  "Sudurile prezintă uniformitate vizuală și au fost executate de sudori atestați."),
+                   italic=True)
+
+    doc.add_paragraph()
+    base._add_para(doc, "4. Concluzii:", bold=True)
+    base._add_para(doc, base._get(data, "pv_calitate_concluzii",
+                                  "Calitatea lucrărilor executate este CORESPUNZĂTOARE. "
+                                  "Se autorizează continuarea lucrărilor și efectuarea probelor de presiune."),
+                   bold=True)
+
+    # Semnături tabelare
+    doc.add_paragraph()
+    sig_t = doc.add_table(rows=2, cols=3)
+    sig_t.style = "Light Grid Accent 1"
+    sig_t.rows[0].cells[0].text = "PROIECTANT"
+    sig_t.rows[0].cells[1].text = "EXECUTANT"
+    sig_t.rows[0].cells[2].text = "DIRIGINTE ȘANTIER"
+    sig_t.rows[1].cells[0].text = f"{base._get(data,'pv_calitate_proiectant', base._get(data,'dtac_proiectant_specialitate', COMPANY['name']))}\n_______________"
+    sig_t.rows[1].cells[1].text = f"{base._get(data,'pv_calitate_constructor', base._get(data,'exec_firma','—'))}\n_______________"
+    sig_t.rows[1].cells[2].text = f"{base._get(data,'pv_calitate_diriginte', base._get(data,'exec_diriginte_santier','—'))}\n_______________"
+
+    base._footer_signature(doc, proj, data)
+    return base._save(doc)
+
+
+# ============================================================================
+# TEMPLATE NOU 9: Program Faze ISC (consumă program_faze_isc_judet + program_faze_baza_legala + program_control_model)
+# ============================================================================
+def _program_faze_isc(proj: Dict[str, Any]) -> bytes:
+    data = proj.get("data") or {}
+    doc = Document()
+    base._company_header(doc)
+    base._add_heading(doc, "PROGRAM DE CONTROL ÎN FAZE DETERMINANTE",
+                      level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
+    base._add_para(doc, "(Conform Legea 10/1995 art. 22 + HG 1735/2006 + Ord. MLPAT 31/N/1995)",
+                   italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=9)
+    doc.add_paragraph()
+
+    base._add_kv_table(doc, [
+        ("ISC Județean",  base._get(data, "program_faze_isc_judet", "ISC București-Ilfov")),
+        ("Obiectiv",      proj.get("title", "—")),
+        ("Beneficiar",    base._get(data, "beneficiar_nume")),
+        ("Adresă",        base._get(data, "loc_consum_adresa")),
+        ("Nr. AC",        f"{base._get(data,'ac_numar')} / {base._get(data,'ac_data_emitere')}"),
+        ("Executant",     base._get(data, "exec_firma")),
+        ("Cadru legal",   base._get(data, "program_faze_baza_legala",
+                                      "Legea 10/1995 art. 22, HG 1735/2006, Ord. MLPAT 31/N/1995, NTPEE 2018")),
+    ])
+
+    doc.add_paragraph()
+    base._add_para(doc, "Faze determinante stabilite pentru control:", bold=True)
+
+    FAZE = [
+        ("FD-01", "Predare-primire amplasament",                  "Înainte de începere lucrări",   "Proiectant + Diriginte + Executant"),
+        ("FD-02", "Verificare trasaj și săpătură",                "Înainte de pozare conductă",    "Diriginte + Executant"),
+        ("FD-03", "Verificare pat nisip + pozare conductă",       "Înainte de acoperire șanț",     "Diriginte + RTE + ISC (anunț)"),
+        ("FD-04", "Probă de rezistență",                          "După finalizare montaj",         "Proiectant + Executant + RTE"),
+        ("FD-05", "Probă de etanșeitate (24h)",                   "După probă rezistență admisă",   "Proiectant + Executant + RTE"),
+        ("FD-06", "Recepție la terminarea lucrărilor (PVRTL)",    "Înainte de PIF",                 "Comisia recepție completă"),
+        ("FD-07", "Punere în funcțiune (PIF)",                    "După PVRTL + cerere către OSD",  "OSD + Executant + Beneficiar"),
+    ]
+    t = doc.add_table(rows=1, cols=4)
+    t.style = "Light Grid Accent 1"
+    hdr = t.rows[0].cells
+    hdr[0].text = "Cod"; hdr[1].text = "Fază determinantă"; hdr[2].text = "Moment"; hdr[3].text = "Participanți"
+    for c, f, m, p in FAZE:
+        r = t.add_row().cells
+        r[0].text = c; r[1].text = f; r[2].text = m; r[3].text = p
+
+    doc.add_paragraph()
+    base._add_para(doc, "Note:", bold=True)
+    doc.add_paragraph("• ISC va fi notificat în scris cu minim 5 zile lucrătoare înainte de fiecare fază determinantă cu prezență obligatorie.", style="List Bullet")
+    doc.add_paragraph("• Fiecare fază se consemnează prin Proces-Verbal de Control Fază Determinantă, semnat de toți participanții.", style="List Bullet")
+    doc.add_paragraph("• Nerespectarea programului atrage sancțiuni conform Legea 10/1995 art. 31.", style="List Bullet")
+
+    if base._truthy(data, "program_control_model"):
+        doc.add_paragraph()
+        base._add_para(doc, f"Model PCC aplicat: {base._get(data,'program_control_model')}", italic=True, size=9)
+
+    base._footer_signature(doc, proj, data)
+    return base._save(doc)
+
+
+# ============================================================================
 # REGISTRY EXTRA
 # ============================================================================
 EXTRA_TEMPLATES = {
@@ -341,6 +531,9 @@ EXTRA_TEMPLATES = {
     "referat_verificator":     {"label": "Referat Verificare Tehnică (RVT)",          "phase": "dtac",     "fn": _rvt,           "norm": "Legea 10/1995 art. 21 + Ord. MLPAT 777/2003"},
     "notificare_isc":          {"label": "Notificare ISC — Începere lucrări",         "phase": "executie", "fn": _notificare_isc,"norm": "Legea 50/1991 art. 7 + HG 1735/2006"},
     "as_built":                {"label": "As-Built (memoriu tehnic finalizat)",       "phase": "receptie", "fn": _as_built,      "norm": "HG 273/1994 + Ord. MLPAT 770/1997"},
+    "dtac_lista_avize":        {"label": "DTAC — Listă Avize Utilități obținute",     "phase": "dtac",     "fn": _dtac_lista_avize, "norm": "Legea 50/1991 + HG 525/1996"},
+    "pv_calitate":             {"label": "Proces-Verbal Control Calitate",            "phase": "executie", "fn": _pv_calitate,   "norm": "Legea 10/1995 + HG 925/1995"},
+    "program_faze_isc":        {"label": "Program Control Faze Determinante (ISC)",   "phase": "executie", "fn": _program_faze_isc, "norm": "Legea 10/1995 art. 22 + HG 1735/2006"},
 }
 
 

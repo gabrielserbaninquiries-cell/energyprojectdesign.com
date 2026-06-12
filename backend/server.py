@@ -990,6 +990,19 @@ async def get_payment_status(session_id: str, request: Request, user: User = Dep
             {"session_id": session_id},
             {"$set": {"payment_status": "paid", "status": status.status, "completed_at": datetime.now(timezone.utc).isoformat()}},
         )
+        # Audit log
+        await db.plan_activation_log.insert_one({
+            "log_id": new_id("plog_"),
+            "user_id": user.user_id,
+            "plan_id": plan_id,
+            "session_id": session_id,
+            "source": "status_poll",
+            "amount": float(status.amount_total or 0) / 100,
+            "currency": status.currency or "eur",
+            "activated_at": datetime.now(timezone.utc).isoformat(),
+            "renew_at": renew_at,
+        })
+        logger.info(f"Plan activated via status-poll: user={user.user_id} plan={plan_id} session={session_id}")
     else:
         await db.payment_transactions.update_one(
             {"session_id": session_id},
@@ -1014,20 +1027,70 @@ async def stripe_webhook(request: Request):
         logger.warning(f"Stripe webhook error: {e}")
         raise HTTPException(status_code=400, detail="Webhook error")
     if event.payment_status == "paid":
+        # Idempotency check — if txn already marked paid, skip plan re-activation
+        existing = await db.payment_transactions.find_one(
+            {"session_id": event.session_id}, {"payment_status": 1, "_id": 0}
+        )
+        already_paid = bool(existing and existing.get("payment_status") == "paid")
+
         await db.payment_transactions.update_one(
             {"session_id": event.session_id},
-            {"$set": {"payment_status": "paid"}},
+            {"$set": {
+                "payment_status": "paid",
+                "webhook_received_at": datetime.now(timezone.utc).isoformat(),
+            }},
         )
         meta = event.metadata or {}
         user_id = meta.get("user_id")
         plan_id = meta.get("plan_id")
-        if user_id and plan_id:
+        if user_id and plan_id and not already_paid:
             renew_at = (datetime.now(timezone.utc) + timedelta(days=30)).isoformat()
             await db.users.update_one(
                 {"user_id": user_id},
                 {"$set": {"plan": plan_id, "plan_renews_at": renew_at}},
             )
+            # Audit log
+            await db.plan_activation_log.insert_one({
+                "log_id": new_id("plog_"),
+                "user_id": user_id,
+                "plan_id": plan_id,
+                "session_id": event.session_id,
+                "source": "webhook",
+                "amount": float(event.amount_total or 0) / 100,
+                "currency": event.currency or "eur",
+                "activated_at": datetime.now(timezone.utc).isoformat(),
+                "renew_at": renew_at,
+            })
+            logger.info(f"Plan activated via webhook: user={user_id} plan={plan_id} session={event.session_id}")
     return {"received": True}
+
+
+@api.get("/me/billing")
+async def me_billing(user: User = Depends(get_current_user)):
+    """Returns active plan, renewal date, and last 10 transactions."""
+    user_doc = await db.users.find_one({"user_id": user.user_id}, {"_id": 0, "plan": 1, "plan_renews_at": 1})
+    plan_id = (user_doc or {}).get("plan", "free")
+    plan_meta = plans_module.PLANS.get(plan_id, {})
+    txns = await db.payment_transactions.find(
+        {"user_id": user.user_id},
+        {"_id": 0, "session_id": 1, "plan_id": 1, "amount": 1, "currency": 1,
+         "payment_status": 1, "status": 1, "created_at": 1, "completed_at": 1}
+    ).sort("created_at", -1).to_list(length=10)
+    activations = await db.plan_activation_log.find(
+        {"user_id": user.user_id},
+        {"_id": 0, "plan_id": 1, "amount": 1, "currency": 1, "source": 1,
+         "activated_at": 1, "renew_at": 1}
+    ).sort("activated_at", -1).to_list(length=10)
+    return {
+        "current_plan": {
+            "plan_id": plan_id,
+            "name": plan_meta.get("name", plan_id.title()),
+            "price_eur": plan_meta.get("price_eur") or plan_meta.get("price_eur_mo") or 0,
+            "renews_at": (user_doc or {}).get("plan_renews_at"),
+        },
+        "transactions": txns,
+        "activations": activations,
+    }
 
 
 # ====================== PROJECTS ======================
