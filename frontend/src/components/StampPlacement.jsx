@@ -18,14 +18,23 @@ const A4_HEIGHT_CM = 29.7;
 
 export default function StampPlacement({
   stampUrl,
+  stampId,
   stampSizeCm = 4,
   initialX = (A4_WIDTH_CM - 4) / 2,
   initialY = A4_HEIGHT_CM - 6,
   onChange,
 }) {
-  const [x, setX] = useState(initialX);
-  const [y, setY] = useState(initialY);
-  const [size, setSize] = useState(stampSizeCm);
+  // Restore from localStorage if stampId provided
+  const restored = (() => {
+    if (!stampId) return null;
+    try {
+      const raw = localStorage.getItem(`stamp_pos_${stampId}`);
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  })();
+  const [x, setX] = useState(restored?.x_cm ?? initialX);
+  const [y, setY] = useState(restored?.y_cm ?? initialY);
+  const [size, setSize] = useState(restored?.size_cm ?? stampSizeCm);
   const [dragging, setDragging] = useState(false);
   const sheetRef = useRef(null);
   const offsetRef = useRef({ ox: 0, oy: 0 });

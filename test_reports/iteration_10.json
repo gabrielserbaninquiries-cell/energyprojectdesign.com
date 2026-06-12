@@ -1,0 +1,48 @@
+{
+  "summary": "V8.5 NTPEE 2018 registry expansion verified end-to-end. Backend: 18/18 pytest passed — registry returns exactly 221 fields / 32 sections / 8 categories, category 'ntpee_compliance' present (order=8, icon=BookCheck, sections=[ntpee_general, piese_desenate, instalatie_interioara, renouard]), all 16 expected NTPEE fields present (titular_investitie, studiu_geotehnic_anexat, coeficient_renouard, etc.); dossier.zip returns exactly 34 files (33 DOCX + 1 manifest); all 7 V8.4 legal DOCX templates generate 200 OK (declaratie_conformitate, buletin_proba_rezistenta, buletin_proba_etanseitate, pv_receptie_finala, pv_pif_semnat, fisa_sudor, plan_ssm); V8.3 services catalog returns 5 services + qes_signature checkout returns Stripe URL + amount=5.0; /api/me/billing OK. Frontend (Playwright on github-push-test.preview.emergentagent.com per .env): REGISTRU CÂMPURI tab shows all 8 categories incl. cat-ntpee_compliance, expanding it reveals all 4 NTPEE sections in DOM; StampPlacement localStorage restore works perfectly (X=2.89, Y=2.92 saved → modal closed → reopened → identical coords restored); GasServicePipeline renders with stamps stage 3 marked done (4/6 etape complete); /billing page renders billing-page + current-plan + transactions + activations sections.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "GasNaturalProjectV2.jsx (REGISTRU CÂMPURI tab badge)",
+        "issue": "Tab label hardcodes count '(179)' — must read dynamic count (221 in V8.5). Misleading to users. Line 916 of /app/frontend/src/pages/GasNaturalProjectV2.jsx.",
+        "selector": "button containing text 'REGISTRU CÂMPURI'",
+        "priority": "MEDIUM"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_v85_ntpee_registry.py",
+    "/app/test_reports/pytest/v85_results.xml"
+  ],
+  "action_items": [
+    "Replace hardcoded 'REGISTRU CÂMPURI (179)' in /app/frontend/src/pages/GasNaturalProjectV2.jsx:916 with dynamic count from FIELDS_REGISTRY (or pass count as prop from RegistryFieldsTab). Should read 221 in V8.5.",
+    "Note (stale credentials): /app/memory/test_credentials.md lists the preview URL as https://57bd020b-829b-4403-b2b9-09912868b634.preview.emergentagent.com but the current /app/frontend/.env REACT_APP_BACKEND_URL = https://github-push-test.preview.emergentagent.com — the 57bd020b host triggers CORS errors against the github-push-test backend. Update test_credentials.md to match the current live frontend URL.",
+    "(Carry-over from iteration_9, not retested) Add Stripe webhook handler for /webhook/stripe so per-service payments are reconciled when user closes tab after paying."
+  ],
+  "critical_code_review_comments": [
+    "placeholders_registry.py is now 887 lines with FIELDS_REGISTRY containing 221 entries inline — getting unwieldy. Consider splitting per-category files (date_proiect.py, ntpee.py, etc.) and aggregating in registry.py. >700 lines threshold reached.",
+    "StampPlacement.jsx restores x_cm/y_cm/size_cm from localStorage by stampId on FIRST RENDER ONLY via IIFE in useState initialiser — works for current 'open modal → render → restore' flow. If parent ever swaps stampId without unmounting the component (e.g. cycling stamps in same modal), restore will NOT re-trigger because the IIFE only runs once. Consider useEffect([stampId]) to re-load.",
+    "Tab badge '(179)' in GasNaturalProjectV2.jsx:916 is a literal string — couples UI to registry size. Use a single source of truth (compute from FIELDS_REGISTRY via /api/placeholders/registry).",
+    "GasServicePipeline.jsx loadAssets() correctly polls /api/assets/{pid} and sets stampsCount from category startsWith 'stamp_' — works on test PID. No retry/backoff if endpoint 5xx; minor.",
+    "Test data hygiene: db.gas_service_purchases on PID gp_e79e2810cc64b5b4 has many pending rows from previous test runs (V8.3 + V8.5). Recommend a cleanup script keyed on owner_id + pending older than N hours."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v85_ntpee_registry.py (NEW — V8.5 regression suite, 18/18 passing)"
+  ],
+  "success_rate": {
+    "backend": "100% (18/18)",
+    "frontend": "95% — all critical V8.5 assertions PASS; only finding is the hardcoded '(179)' tab badge that should read 221"
+  },
+  "test_credentials": "Admin/Developer: dragosserban95@gmail.com / Test12345 (PID gp_e79e2810cc64b5b4). NOTE: test_credentials.md preview URL is stale — actual live URL is https://github-push-test.preview.emergentagent.com (from /app/frontend/.env).",
+  "seed_data_creation": "None — reused PID gp_e79e2810cc64b5b4. localStorage key 'stamp_pos_stm_64eb027df8f44cfe' was written in browser during test (harmless, scoped to browser session).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V8.5 verified: 221 fields / 32 sections / 8 categories (added 'ntpee_compliance' with sections ntpee_general, piese_desenate, instalatie_interioara, renouard). Dossier ZIP = 33 DOCX + 1 manifest. Endpoints: GET /api/placeholders/registry, GET /api/gas-project/{pid}/doc/{template_id} (NOT /document/{}.docx), GET /api/gas-project/{pid}/dossier.zip, GET /api/gas-project/{pid}/services (returns {catalog: [..]}) , POST /api/gas-project/{pid}/service-checkout (requires {service_id, origin_url}). Frontend selectors: cat-ntpee_compliance (in RegistryFieldsTab), pipeline-stamps (in GasServicePipeline), place-stamp-{stamp_id} (on Stamps page opens modal), stamp-placement-sheet / -marker / -save / -cancel / -close (inside modal). Live frontend domain: https://github-push-test.preview.emergentagent.com.",
+  "rca_of_the_issue": "Tab badge '(179)': RegistryFieldsTab.jsx file comment ('toate cele 179 câmpuri') and the tab trigger label in GasNaturalProjectV2.jsx:916 were not updated when V8.5 expanded the registry to 221. The component itself loads fields dynamically and correctly renders 8 categories; only the static label is stale. One-line fix: replace literal '(179)' with `({fieldsCount})` and pass count from registry payload."
+}

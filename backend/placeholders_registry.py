@@ -559,6 +559,146 @@ FIELDS_REGISTRY: List[Dict[str, Any]] = [
     {"key": "materiale_catalog_codes", "label": "Materiale catalog OSD (coduri)", "type": "tags", "section": "materiale",
      "used_in": ["lista_materiale", "caiet_sarcini", "carte_tehnica"],
      "help": "Selectează coduri din catalogul OSD (554 materiale predefinite)."},
+
+    # ============================================================================
+    # === V8.4 NEW: DOCUMENTE LEGALE OBLIGATORII (7 documente) ===
+    # ============================================================================
+
+    # — Declarație de Conformitate Executant (DC) —
+    {"key": "dc_numar_data", "label": "DC nr. / dată", "type": "input", "section": "doc_legale",
+     "used_in": ["declaratie_conformitate"], "help": "Ex: DC/EPD/47-2026"},
+
+    # — Buletin Probă Rezistență —
+    {"key": "p_initiala_rez", "label": "Presiune inițială probă rezistență (bar)", "type": "number", "section": "probe_extinse",
+     "used_in": ["buletin_proba_rezistenta"], "default": 6.05, "help": "Min 1.5 × Pmax_op"},
+    {"key": "p_finala_rez", "label": "Presiune finală probă rezistență (după 60 min, bar)", "type": "number", "section": "probe_extinse",
+     "used_in": ["buletin_proba_rezistenta"], "default": 6.04},
+    {"key": "verdict_rez", "label": "Verdict probă rezistență", "type": "select", "section": "probe_extinse",
+     "options": ["ADMIS", "RESPINS"], "used_in": ["buletin_proba_rezistenta"], "default": "ADMIS"},
+
+    # — Buletin Probă Etanșeitate —
+    {"key": "p_initiala_et", "label": "Presiune inițială probă etanșeitate (bar)", "type": "number", "section": "probe_extinse",
+     "used_in": ["buletin_proba_etanseitate"], "default": 0.110},
+    {"key": "p_finala_et", "label": "Presiune finală etanșeitate după 24h (bar)", "type": "number", "section": "probe_extinse",
+     "used_in": ["buletin_proba_etanseitate"], "default": 0.108},
+    {"key": "verdict_et", "label": "Verdict probă etanșeitate", "type": "select", "section": "probe_extinse",
+     "options": ["ADMIS", "RESPINS"], "used_in": ["buletin_proba_etanseitate"], "default": "ADMIS"},
+
+    # — PV Recepție Finală (PVRF la 1-3 ani după PVRTL) —
+    {"key": "pvrf_numar", "label": "PVRF nr.", "type": "input", "section": "doc_legale",
+     "used_in": ["pv_receptie_finala"], "help": "Ex: PVRF-2027/12"},
+    {"key": "pvrf_data", "label": "Data Recepție Finală", "type": "date", "section": "doc_legale",
+     "used_in": ["pv_receptie_finala"]},
+    {"key": "pvrf_constatari", "label": "PVRF — Constatări", "type": "textarea", "section": "doc_legale",
+     "used_in": ["pv_receptie_finala"]},
+
+    # — PV Punere în Funcțiune semnat OSD (PIF) —
+    {"key": "pif_numar", "label": "PV PIF nr.", "type": "input", "section": "doc_legale",
+     "used_in": ["pv_pif_semnat", "cerere_pif"], "help": "Ex: PIF/DGSR/2026-3421"},
+    {"key": "pif_data", "label": "Data PIF", "type": "date", "section": "doc_legale",
+     "used_in": ["pv_pif_semnat"]},
+    {"key": "clc_cod", "label": "CLC — cod loc consum (atribuit OSD)", "type": "input", "section": "doc_legale",
+     "used_in": ["pv_pif_semnat"], "help": "Cod unic furnizor gaze, 13 caractere"},
+    {"key": "contor_serie", "label": "Contor seria", "type": "input", "section": "doc_legale",
+     "used_in": ["pv_pif_semnat", "as_built"]},
+    {"key": "contor_index_pif", "label": "Contor index la PIF (m³)", "type": "input", "section": "doc_legale",
+     "used_in": ["pv_pif_semnat"], "default": "0.000"},
+
+    # — Fișa Sudor Autorizat —
+    {"key": "sudor_nume", "label": "Nume sudor autorizat", "type": "input", "section": "doc_legale",
+     "used_in": ["fisa_sudor"]},
+    {"key": "sudor_cnp", "label": "CNP sudor", "type": "input", "section": "doc_legale",
+     "used_in": ["fisa_sudor"], "help": "13 cifre, validat conform algoritmului CNP RO"},
+    {"key": "sudor_autorizatie_nr", "label": "Autorizație sudor ANRE nr.", "type": "input", "section": "doc_legale",
+     "used_in": ["fisa_sudor"], "help": "Ex: ANRE-SUD-PE-2024-1542"},
+    {"key": "sudor_total_suduri", "label": "Total suduri efectuate pe obiectiv", "type": "number", "section": "doc_legale",
+     "used_in": ["fisa_sudor"], "default": 0},
+
+    # — Plan SSM (Securitate Sănătate Muncă) —
+    {"key": "ssm_coordonator", "label": "Coordonator SSM (HG 300/2006)", "type": "input", "section": "doc_legale",
+     "used_in": ["plan_ssm"], "help": "Cerut pentru șantiere cu >1 antreprenor"},
+    {"key": "ssm_nr_lucratori", "label": "Număr lucrători angajați pe șantier", "type": "number", "section": "doc_legale",
+     "used_in": ["plan_ssm"], "default": 3},
+
+    # ============================================================================
+    # === V8.5 NEW: NTPEE 2018 (Ordin ANRE 89/2018) câmpuri obligatorii ===
+    # Identificate din art. 12 NTPEE 2018 — date generale, instalație interioară,
+    # planuri desenate, calcule hidraulice Renouard per tronson
+    # ============================================================================
+
+    # — Date generale NTPEE 2018 art. 12 (1) —
+    {"key": "titular_investitie", "label": "Titularul investiției (NTPEE art. 12.1.c)", "type": "input", "section": "ntpee_general",
+     "used_in": ["memoriu_tehnic", "cerere_atr", "caiet_sarcini"],
+     "help": "Persoana fizică/juridică ce inițiază și finanțează investiția — poate diferi de beneficiar"},
+    {"key": "studiu_geotehnic_anexat", "label": "Studiu geotehnic anexat", "type": "select", "section": "ntpee_general",
+     "options": ["Da — anexat", "Nu se aplică (zona urbană fără risc)"], "used_in": ["memoriu_tehnic"],
+     "default": "Nu se aplică (zona urbană fără risc)",
+     "help": "Obligatoriu în zone seismice >gradul VIII sau cu sol problematic"},
+    {"key": "masuri_antipatrundere_gaze", "label": "Măsuri evitare pătrundere gaze în clădiri", "type": "textarea", "section": "ntpee_general",
+     "used_in": ["memoriu_tehnic", "caiet_sarcini"],
+     "default": "Etanșarea cu mortar special a intrării conductei prin perete + tub de protecție PVC Ø110 + ventilație naturală subsol (h≥0.5m perimetral)"},
+    {"key": "masuri_evacuare_infiltratii", "label": "Măsuri evacuare infiltrații gaze", "type": "textarea", "section": "ntpee_general",
+     "used_in": ["memoriu_tehnic"],
+     "default": "Ventilație permanentă subsol prin orificii la nivelul superior și inferior, secțiune liberă min. 1/3000 din suprafața utilă"},
+
+    # — Piese desenate obligatorii (NTPEE art. 12.2) —
+    {"key": "schema_izometrica_atasata", "label": "Schema izometrică (anexată borderou)", "type": "select", "section": "piese_desenate",
+     "options": ["Da", "Nu (rețea liniară simplă)"], "used_in": ["borderou", "memoriu_tehnic"], "default": "Da"},
+    {"key": "profiluri_sectiuni_atasate", "label": "Profiluri / secțiuni transversale (anexate)", "type": "select", "section": "piese_desenate",
+     "options": ["Da — pe traversări carosabil", "Nu"], "used_in": ["borderou"], "default": "Da — pe traversări carosabil"},
+    {"key": "cote_nivel_conducte", "label": "Cote de nivel conducte (rTN — referă teren natural, m)", "type": "input", "section": "piese_desenate",
+     "used_in": ["memoriu_tehnic", "borderou"],
+     "help": "Ex: -0.90m sub trotuar, -1.00m sub carosabil — măsurate de la teren natural"},
+    {"key": "armaturi_lista", "label": "Armături și fitinguri (lista)", "type": "textarea", "section": "piese_desenate",
+     "used_in": ["borderou", "lista_materiale"],
+     "default": "1× Robinet branșament sub presiune PE 100 DN 32, 1× Cot 90° PE 100, 1× Reducție PE-Oțel, 1× Cuplaj electrofuziune"},
+
+    # — Instalație interioară (NTPEE art. 12.5) —
+    {"key": "volume_incaperi_m3", "label": "Volume încăperi consumatori (m³)", "type": "input", "section": "instalatie_interioara",
+     "used_in": ["memoriu_tehnic"],
+     "help": "Per cameră cu aparat consumator. Ex: Bucătărie 30 m³ + Baie 15 m³"},
+    {"key": "suprafete_vitrate_m2", "label": "Suprafețe vitrate (m²)", "type": "input", "section": "instalatie_interioara",
+     "used_in": ["memoriu_tehnic"],
+     "help": "Min. 1/10 din suprafața utilă încăpere conform NTPEE 2018"},
+    {"key": "material_tamplarie_vitrata", "label": "Material tâmplărie vitrată", "type": "select", "section": "instalatie_interioara",
+     "options": ["PVC cu termopan", "Aluminiu cu termopan", "Lemn stratificat"], "used_in": ["memoriu_tehnic"],
+     "default": "PVC cu termopan"},
+    {"key": "detectoare_gaze_auto", "label": "Detectoare automate gaze (CH4/CO)", "type": "select", "section": "instalatie_interioara",
+     "options": ["Da — 1 buc bucătărie", "Da — 2 buc (bucătărie + CT)", "Nu (nu obligatoriu pentru casnic)"],
+     "used_in": ["memoriu_tehnic", "caiet_sarcini"],
+     "default": "Da — 1 buc bucătărie"},
+    {"key": "elemente_aport_aer", "label": "Elemente aport aer combustibil", "type": "textarea", "section": "instalatie_interioara",
+     "used_in": ["memoriu_tehnic"],
+     "default": "Grilă fixă ventilație ø150mm la partea inferioară perete exterior, neobturabilă"},
+
+    # — Subsol / etanșare (NTPEE art. 12.4) —
+    {"key": "etansare_intrare_subsol", "label": "Etanșare intrare conductă în clădire", "type": "select", "section": "instalatie_interioara",
+     "options": ["Manșon cauciuc + mortar etanș", "Tub protecție PVC + bandă bituminoasă", "Garnitură EPDM specială gaze"],
+     "used_in": ["memoriu_tehnic", "caiet_sarcini"], "default": "Manșon cauciuc + mortar etanș"},
+    {"key": "ventilare_subsol", "label": "Ventilare subsol", "type": "select", "section": "instalatie_interioara",
+     "options": ["Da — orificii sup+inf", "Nu se aplică (fără subsol)"], "used_in": ["memoriu_tehnic"],
+     "default": "Nu se aplică (fără subsol)"},
+
+    # — Breviar calcul Renouard per tronson (NTPEE 2018 cap. 3) —
+    {"key": "tronson_id", "label": "Tronson principal calculat (ID)", "type": "input", "section": "renouard",
+     "used_in": ["memoriu_tehnic"],
+     "help": "Ex: T1 (de la PR la cot bucătărie)"},
+    {"key": "debit_tronson_mc_h", "label": "Debit tronson principal (m³/h)", "type": "number", "section": "renouard",
+     "used_in": ["memoriu_tehnic"], "default": 4.0,
+     "help": "Suma debitelor aparatelor consumatoare alimentate de tronson"},
+    {"key": "p_intrare_tronson_bar", "label": "Presiune intrare tronson (bar)", "type": "number", "section": "renouard",
+     "used_in": ["memoriu_tehnic"], "default": 0.025,
+     "help": "Presiune disponibilă în nodul de pornire (Joasă Presiune = 0.025bar)"},
+    {"key": "p_iesire_min_tronson_bar", "label": "Presiune minimă ieșire tronson (bar)", "type": "number", "section": "renouard",
+     "used_in": ["memoriu_tehnic"], "default": 0.020,
+     "help": "Presiune minimă acceptată la consumator final (≥0.018 bar JP)"},
+    {"key": "coeficient_renouard", "label": "Coeficient Renouard (β)", "type": "input", "section": "renouard",
+     "used_in": ["memoriu_tehnic"],
+     "default": "β = 23200 (JP cu d<50mm)",
+     "help": "Conform NTPEE 2018 Anexa 5"},
+    {"key": "pierderi_p_admise_bar", "label": "Pierderi presiune admise (bar)", "type": "number", "section": "renouard",
+     "used_in": ["memoriu_tehnic", "caiet_sarcini"], "default": 0.005,
+     "help": "Δp ≤ 0.005 bar pentru JP, ≤ 50% din presiunea inițială pentru RP/MP"},
 ]
 
 
@@ -614,6 +754,20 @@ CATEGORIES_META = {
         "order": 6,
         "sections": ["dispozitie"],
     },
+    "documente_legale": {
+        "label": "Documente legale obligatorii",
+        "description": "Declarație conformitate, buletine probe, PV recepție finală, PIF semnat OSD, fișă sudor, plan SSM.",
+        "icon": "ShieldCheck",
+        "order": 7,
+        "sections": ["doc_legale", "probe_extinse"],
+    },
+    "ntpee_compliance": {
+        "label": "NTPEE 2018 obligatorii",
+        "description": "Câmpuri obligatorii conform Ord. ANRE 89/2018 (NTPEE) — date generale, instalație interioară, piese desenate, calcule Renouard.",
+        "icon": "BookCheck",
+        "order": 8,
+        "sections": ["ntpee_general", "piese_desenate", "instalatie_interioara", "renouard"],
+    },
 }
 
 
@@ -644,6 +798,12 @@ SECTIONS_META = {
     "carte_tehnica_sec": {"label": "Carte tehnică A/B/C/D", "icon": "BookOpen", "order": 24},
     "comisia":      {"label": "Comisia recepție (membri)", "icon": "Users", "order": 25},
     "pv_calitate":  {"label": "PV verificare calitate (FD)", "icon": "ClipboardCheck", "order": 26},
+    "doc_legale":   {"label": "Documente legale obligatorii (DC, PVRF, PIF, sudor, SSM)", "icon": "ShieldCheck", "order": 27},
+    "probe_extinse":{"label": "Probe presiune detaliate (buletine)", "icon": "FlaskConical", "order": 28},
+    "ntpee_general":{"label": "NTPEE — date generale (titular, geotehnic, antipătrundere)", "icon": "FileText", "order": 29},
+    "piese_desenate":{"label": "NTPEE — piese desenate (izometrică, cote, armături)", "icon": "Pencil", "order": 30},
+    "instalatie_interioara":{"label": "NTPEE — instalație interioară (volume, vitraj, ventilație)", "icon": "Home", "order": 31},
+    "renouard":     {"label": "NTPEE — breviar calcul Renouard per tronson", "icon": "Calculator", "order": 32},
 }
 
 

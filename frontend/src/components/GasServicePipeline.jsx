@@ -31,6 +31,7 @@ export default function GasServicePipeline({ pid, data, hasStamps, isSigned }) {
   const [purchased, setPurchased] = useState([]);
   const [busy, setBusy] = useState(null);
   const [loaded, setLoaded] = useState(false);
+  const [stampsCount, setStampsCount] = useState(0);
 
   const loadCatalog = async () => {
     try {
@@ -44,8 +45,20 @@ export default function GasServicePipeline({ pid, data, hasStamps, isSigned }) {
     }
   };
 
+  const loadAssets = async () => {
+    try {
+      const { data: payload } = await api.get(`/assets/${pid}`);
+      const stamps = (payload.assets || []).filter((a) =>
+        (a.category || '').startsWith('stamp_') && !a.deleted
+      );
+      setStampsCount(stamps.length);
+    } catch {
+      setStampsCount(0);
+    }
+  };
+
   useEffect(() => {
-    if (pid) loadCatalog();
+    if (pid) { loadCatalog(); loadAssets(); }
   }, [pid]);
 
   // After Stripe redirect → ?service_session={sid}, ping status to mark paid
@@ -89,7 +102,7 @@ export default function GasServicePipeline({ pid, data, hasStamps, isSigned }) {
   const stageStatus = {
     date:      Object.values(data || {}).filter((v) => v !== null && v !== undefined && v !== '').length >= 25 ? 'done' : 'progress',
     docs:      Object.values(data || {}).filter((v) => v !== null && v !== undefined && v !== '').length >= 50 ? 'done' : 'pending',
-    stamps:    hasStamps ? 'done' : 'pending',
+    stamps:    (stampsCount >= 1 || hasStamps) ? 'done' : 'pending',
     signature: isSigned ? 'done' : 'pending',
     payment:   (purchased || []).some((p) => p.status === 'paid') ? 'done' : 'pending',
     delivery:  (purchased || []).some((p) => p.status === 'paid' && (p.service_id === 'seap_dispatch' || p.service_id === 'express_24h')) ? 'done' : 'pending',

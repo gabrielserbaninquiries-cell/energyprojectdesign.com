@@ -1,52 +1,42 @@
 # Energy Project Design — Changelog
 
-## V8.1 — 2026-06-12 (current session, final)
+## V8.4 — 2026-06-12 (current session, very late)
 
-### 🎯 100% Placeholder Coverage atins
-- **179/179 placeholders** din `FIELDS_REGISTRY` consumate de template-uri DOCX
-- Backend regression 35/35 PASSED în 7s (`test_v81_cartouche_and_full_coverage.py`)
+### 🎯 +7 documente legale ROMÂNE obligatorii (33 templates total)
+Noi documente generate per `gas_doc_templates_legal.py`:
+1. **declaratie_conformitate** — Declarație de Conformitate Executant (Lege 10/1995 art. 25 + EN 1555)
+2. **buletin_proba_rezistenta** — Buletin Probă Rezistență Mecanică (NTPEE 2018 cap. 5 art. 80) cu KSP 1.5×Pmax, durată 60 min
+3. **buletin_proba_etanseitate** — Buletin Probă Etanșeitate 24h (NTPEE 2018 cap. 5 art. 82) cu compensare termică
+4. **pv_receptie_finala** — PVRF la 1-3 ani după PVRTL (HG 273/1994 art. 36) cu comisie 6 membri + verificări periodice
+5. **pv_pif_semnat** — PV Punere în Funcțiune semnat OSD (Ord. ANRE 162/2021) cu CLC, contor, sigilare metrologică
+6. **fisa_sudor** — Fișa Sudor Autorizat per sudor (ANRE Ord. 79/2014 + EN 13067 + ISO 9606-1)
+7. **plan_ssm** — Plan SSM (Securitate Sănătate Muncă, Legea 319/2006 + HG 1425/2006 + HG 300/2006) cu 6 riscuri identificate + matrice EIP + plan urgență
 
-### Caiet Sarcini — Detalii tehnologice de pozare
-- **+ Secțiunea 4.1 "Detalii tehnologice specifice"** consumă 7 placeholders: tip_sudura, unghi_cuplare_min_grade, fir_trasor_material, fir_trasor_sectiune_mm2, tub_protectie, pat_caramizi, pozare_distanta_limita
-- **+ Secțiunea 4.2 "Repartiție traseu"** consumă lungime_pe_drum_m, lungime_raiser_m, traseu_pe_drum
-- **+ Secțiunea 4.3 "Conductă existentă"** consumă conducta_existenta_strada, conducta_existenta_caracteristici
+### Registry extins +20 câmpuri critice
+- **Categorie nouă "Documente legale obligatorii"** (order 7) cu 2 secțiuni: `doc_legale` (15 fields) + `probe_extinse` (6 fields)
+- Total: **200 fields** (de la 179), **28 sections**, **7 categories**
 
-### Cartouche proiect (helper nou `_project_cartouche`)
-- **Bloc CARTOUCHE PROIECT** plasat după antet în 4 template-uri principale (memoriu_tehnic, caiet_sarcini, carte_tehnica, borderou)
-- Consumă 12 placeholders identificative: denumire_lucrare_extinsa, tipul_lucrarii, faza_proiectare, proiect_nr_an, amplasament_lucrare, amplasament_imobil_consum, presiune_categorie, sf_diametru_nominal_DN, ordin_lucru_nr_data, isc_nr_inreg, dispozitie_necesara, materiale_catalog_codes
+### V8.3 (anterior în această sesiune) — Service Pipeline + Ad-hoc Stripe
+- **gas_services_routes.py**: 5 servicii premium per proiect cu Stripe checkout (express 49€, QES 5€, dispatch 15€, review 35€, carte_legata 25€)
+- 3 endpoint-uri noi: GET /services, POST /service-checkout, GET /service-status/{sid}
+- **GasServicePipeline.jsx**: 6-stage pipeline (Date → Documente → Ștampile → Semnătură → Plată → Livrare) + Service Catalog UI
 
-### Footer signature extins 2→3 coloane
-- **Coloana 1 Proiectant**: firma + nume + Autorizație ANRE (proiectant_aut_nr + proiectant_aut_grad)
-- **Coloana 2 Executant**: firma + Autorizație ANRE (executant_aut_nr + executant_aut_grad) + RTE
-- **Coloana 3 Verificator (VGD)**: nume + Legitimație (verificator_legitimatie_nr)
-- Aplicat retroactiv în TOATE 26 template-uri — regression 0 break (35/35 tests PASSED)
+### V8.2 (sesiune anterioară) — Stamp Absolute + Billing UI
+- Backend `insert_stamp` extended cu x_cm/y_cm absolute mode (wp:anchor + EMU)
+- StampPlacement.jsx draggable component (A4 simulat 378×535px)
+- Billing.jsx pagină nouă consumând /api/me/billing
 
-### PV Calitate extins
-- Fallback `pv_calitate_nr` → `pv_calitate_pv_numar` (suport alias)
-- **+ Secțiunea 5 "Verdict probă presiune"** (pv_calitate_proba_admisa)
-- **+ Secțiunea 6 "Mențiuni speciale"** (pv_calitate_mentiuni)
+### V8.1 — 100% placeholder coverage (179/179)
+- Caiet Sarcini secțiuni 4.1/4.2/4.3 detalii pozare
+- Cartouche proiect helper aplicat în 4 templates
+- Footer signature 2→3 coloane
 
-## V8.0 — 2026-06-12
+### V8.0 — +3 DOCX + Stripe webhook idempotent
+- dtac_lista_avize, pv_calitate, program_faze_isc
+- Audit log gas_service_purchases + /me/billing endpoint
 
-### Backend +3 DOCX templates noi (consumă +28 placeholders)
-- `dtac_lista_avize`: tabel 11 avize utilități + acord acces, status Obținut/În curs auto-calculat
-- `pv_calitate`: PV Control Calitate cu 4 secțiuni narative + 3-col signature table
-- `program_faze_isc`: 7 faze determinante FD-01..FD-07
-
-### Stripe webhook hardened
-- Idempotency check (`already_paid` flag) în `/api/webhook/stripe`
-- Audit log nou: colecție `db.plan_activation_log`
-- Endpoint `/api/me/billing` returnează plan activ + transactions + activations
-
-## V7.5 — 2026-06-12 (earlier session)
-- Tab "REGISTRU CÂMPURI (179)" în Gaze Naturale + auto-mapping V2→Registry
-- 6 ștampile cu mapping backend corect
-- Extindere DOCX: Memoriu (+5 secțiuni), Carte Tehnică (+ct_sectiune_*), Borderou (+materiale&furnizori)
-- Stripe checkout funcțional (`UpgradeGate`)
-- Landing public restaurat (12 servicii + 5 ecosisteme)
-
-## V7.4 — 2026-06-12
-- HomePage compact + 12 quick-access pills + 5 ecosystem cards
+### V7.5 — Gaze Naturale tab "REGISTRU CÂMPURI"
+### V7.4 — HomePage 12 quick-access + 5 ecosystems
 
 ## V7.5 — 2026-06-12 (earlier session)
 

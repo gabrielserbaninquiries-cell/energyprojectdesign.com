@@ -46,6 +46,11 @@ from fastapi.responses import StreamingResponse
 import gas_catalog as catalog
 import gas_calc_engine as engine
 import gas_doc_templates as doc_templates
+# Register extras + legal templates into the main TEMPLATES dict at import time
+import gas_doc_templates_extra as _doc_extra
+import gas_doc_templates_legal as _doc_legal
+_doc_extra.register_into(doc_templates)
+_doc_legal.register_into(doc_templates)
 import gas_avize_catalog as avize_catalog
 import validators_ro
 

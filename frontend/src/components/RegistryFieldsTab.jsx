@@ -13,6 +13,7 @@ import api from '../lib/api';
 import {
   ChevronDown, ChevronRight, FileText, CheckCircle2, AlertCircle,
   Folder, ListChecks, PencilRuler, HardHat, BookOpen, Pencil, Loader2, Info,
+  ShieldCheck, BookCheck,
 } from 'lucide-react';
 
 const CATEGORY_ICONS = {
@@ -22,6 +23,8 @@ const CATEGORY_ICONS = {
   documentatie_executie: HardHat,
   carte_tehnica: BookOpen,
   dispozitie_santier: Pencil,
+  documente_legale: ShieldCheck,
+  ntpee_compliance: BookCheck,
 };
 
 function FieldInput({ field, value, onChange }) {

@@ -95,6 +95,7 @@ export default function Stamps() {
             </div>
             <StampPlacement
               stampUrl={`${API}/stamps/${previewStamp.stamp_id}/image`}
+              stampId={previewStamp.stamp_id}
               stampSizeCm={4}
               onChange={setStampCoords}
             />
