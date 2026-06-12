@@ -639,3 +639,9 @@ _End of COMMAND LOG. Pentru întrebări sau continuare → ask_human._
 
 9. **Testing 11/11 PASSED** + **9/9 V6.0 PASSED** (no regression).
 
+
+
+## 20. APPENDIX V7.4 (2026-06-08) — UX REVIEW + RESTRUCTURARE LAYOUT (mesaj 20 user)
+
+### Cerință literală user (mesajul 20)
+> "Nu mai are crash. In schimb, nu-mi place deloc pagina. Intreg site-ul defapt. Nu e structurat cum trebuie, in special meniul, iar paginile principale nu se afla in 'acasa' in partea de sus, sau site-ul nu ofera toate serviciile mentionate de pagina. Te rog pretinde ca esti un utilizator al platformei pentru fiecare functie pe care o are site-ul, apoi gandeste si restructureaza site-ul si schimba interfata site-ului intr-asa fel incat template-ul ales sa fie mai catchy, dar si user friendly."
