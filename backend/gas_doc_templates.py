@@ -350,6 +350,44 @@ def memoriu_tehnic(proj: Dict[str, Any]) -> bytes:
             ("Pierderi presiune calculate (bar)", _get(data, "pt_calcul_pierderi_presiune_bar")),
         ])
 
+    # 4.1 Condiții naturale ale zonei (NTPEE 2018 art. 14)
+    if any(data.get(k) for k in ["adancime_inghet_cm", "altitudine_m", "temp_medie_anuala_C",
+                                  "temp_minima_iarna_C", "relief_zona"]):
+        _add_heading(doc, "4.1 Condiții naturale ale amplasamentului", level=3)
+        _add_kv_table(doc, [
+            ("Adâncime de îngheț (cm)", _get(data, "adancime_inghet_cm", "80")),
+            ("Altitudine teren (m)", _get(data, "altitudine_m")),
+            ("Temperatura medie anuală (°C)", _get(data, "temp_medie_anuala_C")),
+            ("Temperatura minimă de iarnă (°C)", _get(data, "temp_minima_iarna_C", "-15")),
+            ("Relief / tip zonă", _get(data, "relief_zona", "Câmpie urbană")),
+        ])
+
+    # 4.2 Date seismice (P100-1/2013)
+    if any(data.get(k) for k in ["seismic_acceleratie_ag", "seismic_grad_SR11100", "seismic_perioada_colt_Tc"]):
+        _add_heading(doc, "4.2 Date seismice ale zonei (P100-1/2013)", level=3)
+        _add_kv_table(doc, [
+            ("Accelerația terenului ag", _get(data, "seismic_acceleratie_ag", "0.20g")),
+            ("Grad seismic SR 11100", _get(data, "seismic_grad_SR11100", "VII")),
+            ("Perioada de colț Tc (s)", _get(data, "seismic_perioada_colt_Tc", "1.0")),
+        ])
+
+    # 4.3 Categoria de importanță (HG 766/1997) + destinația clădirii
+    if any(data.get(k) for k in ["categorie_importanta_HG766", "cladire_destinatie"]):
+        _add_heading(doc, "4.3 Categoria de importanță și destinația", level=3)
+        _add_kv_table(doc, [
+            ("Categoria de importanță (HG 766/1997)", _get(data, "categorie_importanta_HG766", "Categoria C — Normală")),
+            ("Destinația clădirii", _get(data, "cladire_destinatie", "Locuință familială")),
+        ])
+
+    # 4.4 Centrală termică (dacă există)
+    if _truthy(data, "are_centrala_termica") or data.get("centrala_producator") or data.get("centrala_putere_kw"):
+        _add_heading(doc, "4.4 Aparat consumator — centrală termică", level=3)
+        _add_kv_table(doc, [
+            ("Producător centrală", _get(data, "centrala_producator")),
+            ("Putere nominală (kW)", _get(data, "centrala_putere_kw")),
+            ("Tip", _get(data, "tip_consumator", "Centrală termică murală cu tiraj forțat")),
+        ])
+
     _add_heading(doc, "5. Probe și verificări (NTPEE 2018 cap. 5)", level=2)
     _add_para(doc, "Înainte de PIF, conducta va fi supusă următoarelor probe:")
     p_lucru = data.get("sf_presiune_max_op_bar")
@@ -374,7 +412,22 @@ def memoriu_tehnic(proj: Dict[str, Any]) -> bytes:
         if _truthy(data, "proba_observatii"):
             _add_para(doc, f"Observații: {_get(data,'proba_observatii')}", italic=True)
 
-    _add_heading(doc, "6. Verificare independentă (VGD)", level=2)
+    # 6. Exigențele esențiale (Legea 10/1995 art. 5)
+    _add_heading(doc, "6. Exigențele esențiale ale construcției (Legea 10/1995)", level=2)
+    EXIG_DEFAULTS = {
+        "exig_A_rezistenta": "Conducta PE 100 SDR 11 + sudură electrofuziune asigură rezistența mecanică conform NTPEE 2018 art. 60. Adâncimea de pozare ≥ 0.8m sub nivelul terenului asigură protecție la sarcini.",
+        "exig_B_siguranta_expl": "Probe rezistență și etanșeitate conform NTPEE 2018. Robinet de branșament cu acces public, marcaje vizuale și banda de avertizare la 30cm deasupra conductei.",
+        "exig_C_siguranta_foc": "Distanțe minime de siguranță respectate: 3m față de fundații, 0.5m față de cabluri electrice, 1m față de canalizare. Materialul PE 100 conform EN 1555.",
+        "exig_D_mediu": "Lucrările respectă normele de protecție a mediului. Refacerea peisajului după execuție. Materialele excavate sunt evacuate la rampă autorizată.",
+    }
+    _add_kv_table(doc, [
+        ("A — Rezistență mecanică și stabilitate", _get(data, "exig_A_rezistenta", EXIG_DEFAULTS["exig_A_rezistenta"])),
+        ("B — Siguranță în exploatare", _get(data, "exig_B_siguranta_expl", EXIG_DEFAULTS["exig_B_siguranta_expl"])),
+        ("C — Siguranță la foc", _get(data, "exig_C_siguranta_foc", EXIG_DEFAULTS["exig_C_siguranta_foc"])),
+        ("D — Igienă, sănătate, mediu", _get(data, "exig_D_mediu", EXIG_DEFAULTS["exig_D_mediu"])),
+    ])
+
+    _add_heading(doc, "7. Verificare independentă (VGD)", level=2)
     if _truthy(data, "dtac_verificator_vgd"):
         _add_para(doc, f"Verificator de proiect (VGD) atestat: {_get(data,'dtac_verificator_vgd')}", bold=True)
     else:
@@ -504,12 +557,60 @@ def borderou(proj: Dict[str, Any]) -> bytes:
         doc.add_paragraph()
         _add_para(doc, f"Număr total planșe PT: {_get(data,'pt_numar_planse')}", bold=True)
 
+    # C. Materiale principale și furnizori
+    doc.add_paragraph()
+    _add_heading(doc, "C. Materiale principale și furnizori", level=2)
+    mat_rows = [
+        ("Conductă PE 100 SDR 11", _get(data, "sf_diametru_nominal_DN", "DN 32"),
+         _get(data, "mat_furnizor_teava", "—"),
+         "EN 1555"),
+        ("Robinet branșament sub presiune", _get(data, "mat_serie_robinet_br", "—"),
+         _get(data, "mat_furnizor_robinet", "—"),
+         "EN 1555-4"),
+        ("Regulator presiune", "DN 25/JP",
+         _get(data, "mat_marca_regulator", "—"),
+         "EN 88-1"),
+        ("Contor gaze", _get(data, "mat_marca_contor", "—"),
+         "—", "EN 1359 / Ord. ANRE 75/2020"),
+    ]
+    tm = doc.add_table(rows=1, cols=4)
+    tm.style = "Light Grid Accent 1"
+    hdr = tm.rows[0].cells
+    hdr[0].text = "Element"; hdr[1].text = "Tip / DN / Serie"; hdr[2].text = "Furnizor"; hdr[3].text = "Standard"
+    for el, tp, furn, std in mat_rows:
+        r = tm.add_row().cells
+        r[0].text = el; r[1].text = tp; r[2].text = furn; r[3].text = std
+    if _truthy(data, "mat_certif_conformitate"):
+        _add_para(doc, f"Certificate de conformitate: {_get(data,'mat_certif_conformitate')}", italic=True, size=9)
+
+    # D. Avize utilități obținute
+    AVIZE = [
+        ("Aviz E-Distribuție", "aviz_edistr_nr_data"),
+        ("Aviz Telekom", "aviz_telekom_nr_data"),
+        ("Aviz Apa Nova", "aviz_apa_nr_data"),
+        ("Aviz STB transport", "aviz_stb_nr_data"),
+        ("Aviz NetCity / fibră", "aviz_netcity_nr_data"),
+        ("Aviz Luxten iluminat", "aviz_luxten_nr_data"),
+        ("Aviz străzi PMB", "aviz_strazi_nr_data"),
+        ("Aviz circulație PMB", "aviz_circulatie_pmb_nr_data"),
+        ("Aviz mediu PMB", "aviz_mediu_pmb_nr_data"),
+        ("Aviz APM (Mediu)", "aviz_apm_nr_data"),
+        ("Acord acces proprietate", "acord_acces_nr_data"),
+    ]
+    visible_avize = [(lbl, _get(data, k)) for lbl, k in AVIZE if data.get(k)]
+    if visible_avize:
+        doc.add_paragraph()
+        _add_heading(doc, "D. Avize utilități obținute", level=2)
+        ta = doc.add_table(rows=1, cols=2)
+        ta.style = "Light Grid Accent 1"
+        hdr = ta.rows[0].cells
+        hdr[0].text = "Aviz"; hdr[1].text = "Nr. / Data"
+        for lbl, v in visible_avize:
+            r = ta.add_row().cells
+            r[0].text = lbl; r[1].text = v
+
     _footer_signature(doc, proj, data)
     return _save(doc)
-
-
-# ============================================================================
-# TEMPLATE 6: Cerere PIF (Punere în Funcțiune)
 # ============================================================================
 def cerere_pif(proj: Dict[str, Any]) -> bytes:
     data = proj.get("data") or {}
@@ -640,6 +741,19 @@ def carte_tehnica(proj: Dict[str, Any]) -> bytes:
               italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=9)
     doc.add_paragraph()
 
+    # Date identificatoare obiectiv
+    _add_heading(doc, "Date identificatoare", level=2)
+    _add_kv_table(doc, [
+        ("Beneficiar", _get(data, "beneficiar_nume")),
+        ("Loc consum", f"{_get(data,'loc_consum_adresa')}, {_get(data,'loc_consum_localitate')}, jud. {_get(data,'loc_consum_judet')}"),
+        ("Cadastru / CF", _get(data, "loc_consum_cadastru")),
+        ("Tip lucrare", _get(data, "tipul_lucrarii")),
+        ("Categorie importanță (HG 766/1997)", _get(data, "categorie_importanta_HG766", "C")),
+        ("Operator distribuție", _get(data, "atr_osd")),
+        ("Nr. proiect / an", _get(data, "proiect_nr_an")),
+        ("Exemplare", _get(data, "exemplare_nr", "4 (2 beneficiar + 1 OSD + 1 arhivă)")),
+    ])
+
     _add_heading(doc, "Secțiunea A — Documentația de proiectare", level=2)
     _add_kv_table(doc, [
         ("Proiectant", _get(data, "dtac_proiectant_specialitate", COMPANY["name"])),
@@ -650,6 +764,11 @@ def carte_tehnica(proj: Dict[str, Any]) -> bytes:
         ("ATR nr.", f"{_get(data,'atr_numar')} / {_get(data,'atr_data')}"),
         ("AC nr.", f"{_get(data,'ac_numar')} / {_get(data,'ac_data_emitere')}"),
     ])
+    # Conținut narativ pentru Secțiunea A
+    ct_a_default = ("Documentația conține: memoriu tehnic justificativ, planuri de situație 1:500 și 1:200, "
+                    "calcule hidraulice (debit, viteză, pierdere presiune), schema izometrică, lista materialelor, "
+                    "caietul de sarcini de execuție, referat de verificare independentă (VGD).")
+    _add_para(doc, _get(data, "ct_sectiune_A_continut", ct_a_default), italic=True)
 
     _add_heading(doc, "Secțiunea B — Documentația de execuție", level=2)
     _add_kv_table(doc, [
@@ -659,17 +778,30 @@ def carte_tehnica(proj: Dict[str, Any]) -> bytes:
         ("Data începere", _get(data, "exec_data_start")),
         ("Data terminare", _get(data, "exec_data_terminare")),
         ("Materiale principale", _get(data, "pt_lista_materiale")),
+        ("Certificate conformitate materiale", _get(data, "mat_certif_conformitate")),
     ])
+    ct_b_default = ("Documentația cuprinde: ordin de începere lucrări, PV predare-primire amplasament, "
+                    "Program de control al calității, certificate calitate materiale, fișe sudori autorizați, "
+                    "PV-uri faze determinante, PV lucrări ascunse, jurnale de șantier și buletine probe.")
+    _add_para(doc, _get(data, "ct_sectiune_B_continut", ct_b_default), italic=True)
 
     _add_heading(doc, "Secțiunea C — Documentația de recepție", level=2)
     _add_kv_table(doc, [
         ("PVRTL nr.", f"{_get(data,'receptie_pv_numar')} / {_get(data,'receptie_pv_data')}"),
         ("Comisia recepție", _get(data, "receptie_comisia")),
+        ("  - Președinte", _get(data, "com_recep_presedinte")),
+        ("  - Reprezentant OSD", _get(data, "com_recep_reprez_osd")),
+        ("  - Reprezentant ISC", _get(data, "com_recep_reprez_isc")),
+        ("  - Reprezentant beneficiar", _get(data, "com_recep_reprez_beneficiar")),
         ("Probe rezistență (bar)", _get(data, "proba_rezistenta_bar")),
         ("Probe etanșeitate (bar)", _get(data, "proba_etanseitate_bar")),
         ("Rezultat probe", _get(data, "proba_rezultat")),
         ("As-built anexat", _get(data, "as_built_anexat")),
     ])
+    ct_c_default = ("Documentația cuprinde: PV recepție la terminarea lucrărilor (PVRTL), PV recepție finală, "
+                    "buletine probe etanșeitate și rezistență, declarații de conformitate, planuri as-built, "
+                    "PV PIF emis de OSD, contract de furnizare gaze naturale.")
+    _add_para(doc, _get(data, "ct_sectiune_C_continut", ct_c_default), italic=True)
 
     _add_heading(doc, "Secțiunea D — Urmărirea în timp a comportării construcției", level=2)
     _add_para(doc, "Verificări periodice (NTPEE 2018 art. 78):")
@@ -677,6 +809,10 @@ def carte_tehnica(proj: Dict[str, Any]) -> bytes:
     doc.add_paragraph("• Revizie tehnică instalație utilizare la 10 ani — Ord. ANRE 16/2015", style="List Bullet")
     doc.add_paragraph("• Verificare regulator / contor — la fiecare reverificare metrologică", style="List Bullet")
     doc.add_paragraph("• Defecțiuni majore — notificare OSD în max 24 ore", style="List Bullet")
+    ct_d_default = ("Beneficiarul / administratorul construcției are obligația de a păstra Cartea Tehnică pe toată "
+                    "durata existenței obiectivului. Orice intervenție ulterioară (extindere, mutare contor, "
+                    "modificare traseu, scoatere din funcțiune) se consemnează în Secțiunea D prin proces-verbal.")
+    _add_para(doc, _get(data, "ct_sectiune_D_continut", ct_d_default), italic=True)
 
     if _truthy(data, "pif_data"):
         _add_heading(doc, "PIF (Punere în Funcțiune)", level=2)

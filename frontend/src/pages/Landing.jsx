@@ -1,9 +1,38 @@
 import { Link } from 'react-router-dom';
-import { Flame, FileText, Stamp, ShieldCheck, Mail, Check, ArrowRight } from 'lucide-react';
+import {
+  Flame, FileText, Stamp, ShieldCheck, Mail, Check, ArrowRight,
+  Briefcase, Building2, Store, MessageSquare, Hammer, Truck, BadgeCheck,
+  Bell, Users, Wrench, Receipt, Sun, Zap, Droplet, Phone, BookOpen,
+} from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const HERO_BG = 'https://images.pexels.com/photos/36825977/pexels-photo-36825977.jpeg';
 const FEATURE_DOCS = 'https://images.pexels.com/photos/8470057/pexels-photo-8470057.jpeg';
+
+// 12 servicii principale (oglindă HomePageV7 quick-access)
+const TOP_SERVICES = [
+  { id: 'gas',         icon: Flame,         title: 'Gaze Naturale',         desc: '23 documente DOCX, ștampilă & semnătură QES', tag: 'core' },
+  { id: 'electric',    icon: Zap,           title: 'Electric',              desc: '6 template-uri instalații electrice + DTAC',  tag: 'core' },
+  { id: 'apa-canal',   icon: Droplet,       title: 'Apă-Canal',             desc: '5 documente branșament & racord',             tag: 'core' },
+  { id: 'fotovoltaice',icon: Sun,           title: 'Fotovoltaice',          desc: 'Proiecte panouri & avizare ANRE',             tag: 'new' },
+  { id: 'telecom',     icon: Phone,         title: 'Telecom',               desc: 'Avize Telekom, STB, NetCity',                 tag: 'new' },
+  { id: 'projects',    icon: Briefcase,     title: 'Proiectele Mele',       desc: 'Dashboard centralizat documente',             tag: 'core' },
+  { id: 'marketplace', icon: Store,         title: 'Marketplace',           desc: 'Șabloane, ștampile, kit-uri',                 tag: 'biz' },
+  { id: 'realestate',  icon: Building2,     title: 'Imobiliare',            desc: 'Anunțuri proprietăți & terenuri',             tag: 'biz' },
+  { id: 'jobs',        icon: Users,         title: 'Job-uri Inginerie',     desc: 'Locuri de muncă & freelance proiectanți',     tag: 'biz' },
+  { id: 'forum',       icon: MessageSquare, title: 'Forum Profesional',     desc: 'Discuții tehnice & RFI între specialiști',    tag: 'biz' },
+  { id: 'fees',        icon: Receipt,       title: 'Comisioane & Tarife',   desc: 'Tabel transparent costuri platformă',         tag: 'info' },
+  { id: 'verify',      icon: BadgeCheck,    title: 'Verificare QR',         desc: 'Validare semnătură pe orice document',        tag: 'info' },
+];
+
+// 5 ecosisteme principale
+const ECOSYSTEMS = [
+  { id: 'industries',  icon: Wrench,        title: 'Documente Tehnice',     blurb: '13 industrii × 56 subdomenii — generare automată DOCX',  cta: 'Vezi industriile', accent: '#FFB300' },
+  { id: 'marketplace', icon: Store,         title: 'Marketplace Profesional', blurb: 'Cumpărați și vindeți șabloane, ștampile, scule',         cta: 'Intrați în piață', accent: '#0EA5E9' },
+  { id: 'realestate',  icon: Building2,     title: 'Imobiliare & Terenuri', blurb: 'Anunțuri și acte de proprietate digitale',                 cta: 'Caut imobile',     accent: '#10B981' },
+  { id: 'craftsmen',   icon: Hammer,        title: 'Meșteri & Servicii',    blurb: 'Conectează beneficiarii cu meșteri verificați',            cta: 'Găsește meșteri',  accent: '#8B5CF6' },
+  { id: 'logistics',   icon: Truck,         title: 'Logistică & SEAP',      blurb: 'Notificări licitații publice, transport materiale',        cta: 'Activează alerte', accent: '#EF4444' },
+];
 
 export default function Landing() {
   const { user } = useAuth();
@@ -116,32 +145,71 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Personas (roluri) */}
-      <section className="py-20 border-b border-gray-200">
+      {/* TOP 12 SERVICII — recomandarea paginilor principale către vizitator */}
+      <section id="services" className="py-20 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="label mb-3">// Pentru cine</div>
-          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-2 max-w-3xl">O platformă, 5 perspective.</h2>
-          <p className="text-gray-600 mb-10 max-w-2xl">Clienți, utilizatori, angajați, developeri, admin — fiecare rol primește exact ce are nevoie.</p>
-          <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-px bg-gray-200 border border-gray-200">
-            {[
-              { slug: 'clienti', title: 'Clienți', desc: 'Beneficiari, primării, dezvoltatori', color: '#0EA5E9' },
-              { slug: 'utilizatori', title: 'Utilizatori', desc: 'Proiectanți, VGD, RTE, arhitecți', color: '#FFB300' },
-              { slug: 'angajati', title: 'Angajați', desc: 'Operatori, contabilitate, juridic', color: '#10B981' },
-              { slug: 'developeri', title: 'Developeri', desc: 'Parteneri tehnici cu acces extins', color: '#8B5CF6' },
-              { slug: 'admin', title: 'Admin', desc: 'Control total ENERGY PROJECT DESIGN', color: '#EF4444' },
-            ].map((p) => (
-              <Link
-                key={p.slug}
-                to={`/pentru/${p.slug}`}
-                data-testid={`landing-persona-${p.slug}`}
-                className="bg-white p-6 hover:bg-gray-50 group"
-              >
-                <div className="w-10 h-1.5 mb-4" style={{ backgroundColor: p.color }} />
-                <div className="font-semibold mb-1">{p.title}</div>
-                <div className="text-xs text-gray-500 leading-relaxed mb-3">{p.desc}</div>
-                <span className="text-xs uppercase tracking-[0.18em] text-gray-400 group-hover:text-black">Vezi →</span>
-              </Link>
-            ))}
+          <div className="label mb-3">// Servicii principale</div>
+          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-2 max-w-3xl">12 servicii integrate, un singur cont.</h2>
+          <p className="text-gray-600 mb-10 max-w-2xl">Toate paginile principale ale platformei. Începeți cu un click — primele 5 documente sunt gratuite.</p>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {TOP_SERVICES.map((s) => {
+              const Icon = s.icon;
+              const tagColor = s.tag === 'core' ? 'bg-[#FFB300] text-black'
+                : s.tag === 'new' ? 'bg-green-600 text-white'
+                : s.tag === 'biz' ? 'bg-blue-600 text-white'
+                : 'bg-zinc-200 text-zinc-700';
+              return (
+                <Link
+                  key={s.id}
+                  to={user ? '/acasa' : `/register?next=${s.id}`}
+                  data-testid={`landing-service-${s.id}`}
+                  className="group bg-white border border-gray-200 hover:border-black hover:shadow-md p-4 transition-all"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="w-9 h-9 bg-zinc-50 border border-gray-200 group-hover:bg-[#FFB300]/10 flex items-center justify-center">
+                      <Icon className="w-4 h-4 text-zinc-700 group-hover:text-black" strokeWidth={2} />
+                    </div>
+                    <span className={`text-[9px] px-1.5 py-0.5 uppercase tracking-wider font-semibold ${tagColor}`}>{s.tag}</span>
+                  </div>
+                  <div className="text-sm font-semibold leading-tight mb-1">{s.title}</div>
+                  <div className="text-[11px] text-gray-500 leading-relaxed">{s.desc}</div>
+                  <div className="text-[10px] uppercase tracking-[0.15em] text-gray-400 group-hover:text-black mt-3 flex items-center gap-1">
+                    Acces serviciu <ArrowRight className="w-3 h-3" />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 5 ECOSISTEME — descriere extinsă a marilor module */}
+      <section id="ecosystems" className="py-20 bg-[#0B0B0B] text-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="label mb-3 text-[#FFB300]">// 5 ecosisteme integrate</div>
+          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-2 max-w-3xl">De la documentul tehnic la piață, totul într-un singur loc.</h2>
+          <p className="text-zinc-400 mb-10 max-w-2xl">Energy Project Design unește 5 ecosisteme distincte. Fiecare poate funcționa standalone, dar împreună acoperă întreaga viață a unui proiect.</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-3">
+            {ECOSYSTEMS.map((e) => {
+              const Icon = e.icon;
+              return (
+                <div key={e.id}
+                  data-testid={`landing-eco-${e.id}`}
+                  className="bg-zinc-950 border border-zinc-800 hover:border-[#FFB300]/50 p-5 transition-all group"
+                >
+                  <div className="w-10 h-10 mb-4 flex items-center justify-center" style={{ backgroundColor: `${e.accent}20`, borderLeft: `3px solid ${e.accent}` }}>
+                    <Icon className="w-5 h-5" style={{ color: e.accent }} strokeWidth={2} />
+                  </div>
+                  <div className="text-base font-semibold mb-2 tracking-tight">{e.title}</div>
+                  <div className="text-xs text-zinc-400 leading-relaxed mb-4">{e.blurb}</div>
+                  <Link to={user ? '/acasa' : '/register'}
+                    className="text-[10px] uppercase tracking-[0.18em] font-semibold flex items-center gap-1 hover:gap-2 transition-all"
+                    style={{ color: e.accent }}>
+                    {e.cta} <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
