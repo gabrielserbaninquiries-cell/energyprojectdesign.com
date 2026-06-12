@@ -40,19 +40,16 @@ export default function UpgradeGate({ children, path }) {
     if (!info?.recommended_plan) return;
     setCheckout(true);
     try {
-      // Try Stripe checkout endpoint
-      const { data } = await api.post('/billing/checkout', {
+      const { data } = await api.post('/payments/checkout', {
         plan_id: info.recommended_plan.plan_id,
-        return_url: window.location.pathname,
+        origin_url: window.location.origin,
       });
-      if (data?.checkout_url) {
-        window.location.href = data.checkout_url;
+      if (data?.url) {
+        window.location.href = data.url;
         return;
       }
-      // Fallback: route to /pricing
       navigate('/pricing');
-    } catch (e) {
-      // Fallback: route to /pricing
+    } catch {
       navigate('/pricing');
     } finally {
       setCheckout(false);

@@ -1,0 +1,43 @@
+{
+  "summary": "V7.4 Gaze Naturale 'Complete Deliverable Product' regression — Backend 7/7 PASSED (placeholders/registry returns 179 fields + 26 sections + 6 categories with expected ids; /gas-project/{pid}/doc/memoriu_tehnic returns DOCX with rendered values; /dossier.zip returns 803KB ZIP with 23 DOCX + 00_MANIFEST.txt; /payments/checkout returns valid https://checkout.stripe.com/... URL + session_id; /upgrade-info admin has_access=true and recommended_plan iteration no Python error). Frontend (Playwright via real preview domain https://github-push-test.preview.emergentagent.com): HomePage V7.4 /acasa renders correctly with all 12 qa-* pills (qa-projects, qa-gas, qa-industries, qa-marketplace, qa-realestate, qa-forum, qa-servicii, qa-pricing, qa-jobs, qa-fees, qa-plans, qa-verify), 6 ecosystem cards (eco-*), and qa-gas click correctly routes to /gaze-naturale. GasNaturalProjectV2 page at /gaze-naturale/gp_e79e2810cc64b5b4 loads with all 3 tabs (tab-date, tab-avize, tab-registru). REGISTRU CÂMPURI tab renders registry-fields-tab with overall coverage badge 17% (31/179 COMPLETATE), all 6 cov-cat-* bars (date_proiect, documentatie_avize, documentatie_proiectare, documentatie_executie, carte_tehnica, dispozitie_santier), all 6 collapsible categories + cat-toggle-* expanders, and 58 field-wrap-* nodes in default-expanded category. Editing an empty input (proiect_nr_an) live-incremented overall coverage 17%→18%, DATE PROIECT 45%→47%, and header now shows 'modificări nesalvate' warning. Stamps panel (data-testid='stamps-panel') visible on tab-date with all 6 correct stamp upload buttons (real-upload-stamp_proiectant, stamp_executant, stamp_vgd, stamp_rte, stamp_primarie, stamp_societate). gas-v2-save button present. Romanian labels confirmed.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "Frontend page → backend (any auth-guarded GET on GasNaturalProjectV2 load)", "issue": "Two 401 console errors fire on /gaze-naturale/{pid} initial render even with valid JWT cookie. Page still loads with full data, so they appear to be a non-blocking pre-flight or a background poll that races the token attach. Worth investigating which axios call leaks before token is set."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_v74_gas_naturale.py",
+    "/app/test_reports/pytest/v74_results.xml"
+  ],
+  "action_items": [
+    "(Optional, non-blocking) Investigate the 2× 401 errors logged in the browser console when /gaze-naturale/{pid} loads — they don't break the UI but are noise.",
+    "(Config hygiene) /app/memory/test_credentials.md references REACT_APP_BACKEND_URL=https://57bd020b-829b-4403-b2b9-09912868b634.preview.emergentagent.com but actual /app/frontend/.env has REACT_APP_BACKEND_URL=https://github-push-test.preview.emergentagent.com. Both domains resolve to the same backend (returns the same /api/ JSON), so the app works when accessed via github-push-test, but a user landing on the 57bd020b domain will hit CORS. Update test_credentials.md to match the current .env, OR ensure both hostnames serve from the same origin. Did NOT change .env (protected)."
+  ],
+  "critical_code_review_comments": [
+    "GasNaturalProjectV2.jsx + RegistryFieldsTab.jsx form a very large composed view. RegistryFieldsTab renders 179 inputs per render with no virtualization. With current data it is fine, but if FIELDS_REGISTRY grows past ~300 fields the input-edit re-render cost will become visible. Consider memoizing per-section blocks with React.memo + a section-level dirty flag.",
+    "placeholders_registry.py CATEGORIES_META is returned as a dict keyed by category id (good) but SECTIONS_META in the response is a list of {id, ...} objects — the asymmetry can confuse new contributors. Keep both as dicts or both as lists.",
+    "Frontend uses both axios singleton (src/lib/api.js) AND raw fetch(`${REACT_APP_BACKEND_URL}/api/...`) in GasNaturalProjectV2.jsx for upload + ocr. The raw fetch path does NOT carry the axios Authorization header — it relies on the cookie. If JWT is ever moved out of httpOnly cookies into header-only, those two endpoints will break. Standardize on the api singleton.",
+    "STAMPS_UPLOAD mapping bug fix verified (stamp_proiectant / stamp_executant / stamp_vgd / stamp_rte / stamp_primarie / stamp_societate now match backend category enums) — good fix; no further action.",
+    "UpgradeGate now correctly POSTs /payments/checkout with origin_url and parses {url, session_id} — verified via curl that the URL is a real https://checkout.stripe.com/c/pay/... session.",
+    "server.py is now ~2.5K lines and hosts every cross-cutting endpoint (registry, upgrade-info, payments). Splitting into routers (payments_routes.py, upgrade_routes.py, placeholders_routes.py) is overdue but is a non-blocking refactor for after delivery."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v74_gas_naturale.py (NEW — V7.4 regression suite, 7/7 passing)"
+  ],
+  "success_rate": {
+    "backend": "100% (7/7)",
+    "frontend": "100% on all V7.4 selectors verified (12 qa-* pills, 6 eco-* cards, 3 tabs, 6 cov-cat-* bars, 6 cat-* categories, 6 stamp upload testids, gas-v2-save, stamps-panel, registry-fields-tab, live coverage increment on edit)"
+  },
+  "test_credentials": "Admin/Developer: dragosserban95@gmail.com / Test12345 (is_developer=true, is_admin=true). NOTE: actual frontend points to https://github-push-test.preview.emergentagent.com (different from test_credentials.md).",
+  "seed_data_creation": "No persistent test data created. One transient unsaved field edit (proiect_nr_an='TEST_EDIT_VALUE') was made in the UI to verify live coverage update; user navigated away without clicking save, so backend state is untouched. Project gp_e79e2810cc64b5b4 still has 31 of 179 registry fields filled (status: signed, with 'modificări nesalvate' visible only in the running browser session).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V7.4 deliverables fully verified. Test project is gp_e79e2810cc64b5b4 (signed, 31/179 registry fields filled, 24 files in dossier.zip including 23 DOCX). Frontend domain to test against is https://github-push-test.preview.emergentagent.com (per /app/frontend/.env). Auth: POST /api/auth/login with admin creds, then use Bearer token. Two known non-blocking 401 console warnings on /gaze-naturale/{pid} initial load — ignore unless explicitly asked. PLACEHOLDERS_REGISTRY endpoint returns categories as DICT keyed by id, sections as LIST — be mindful when writing assertions. Stamps now use correct backend categories (stamp_proiectant/executant/vgd/rte/primarie/societate). Stripe checkout endpoint is POST /api/payments/checkout with {plan_id, origin_url} and returns {url, session_id}.",
+  "rca_of_the_issue": "Not applicable — no bugs found. All V7.4 features (HomePage 12 quick-pills, REGISTRU tab with 179 fields & 6 categories live coverage, stamps panel with corrected 6 categories, dossier ZIP 23 DOCX, Stripe checkout, /upgrade-info recommended_plan) verified end-to-end and ready for delivery."
+}

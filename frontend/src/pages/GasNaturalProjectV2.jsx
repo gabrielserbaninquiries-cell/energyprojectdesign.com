@@ -35,6 +35,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AppShell from '../components/AppShell';
 import api from '../lib/api';
 import { toast } from 'sonner';
+import RegistryFieldsTab from '../components/RegistryFieldsTab';
 import {
   ArrowLeft, Save, FileSignature, Send, Download, Upload, Trash2, Plus,
   CheckCircle2, FileText, Stamp, Mail, Calculator, Package, Sparkles,
@@ -86,12 +87,12 @@ const FINAL_DOWNLOADS = [
 ];
 
 const STAMPS_UPLOAD = [
-  { id: 'primarie',           label: 'Documentația necesară pentru Primărie' },
-  { id: 'firma_proiectanta',  label: 'Ștampila firmă proiectantă' },
-  { id: 'firma_executant',    label: 'Ștampila firmă executant' },
-  { id: 'autorizata_verif',   label: 'Ștampilă autorizată VGD' },
-  { id: 'autorizata_proiect', label: 'Ștampilă autorizată Proiectant' },
-  { id: 'autorizata_exec',    label: 'Ștampilă autorizată Executant' },
+  { id: 'stamp_proiectant',  label: 'Ștampilă proiectant (firmă)',       category: 'stamp_proiectant' },
+  { id: 'stamp_executant',   label: 'Ștampilă executant (firmă)',        category: 'stamp_executant' },
+  { id: 'stamp_vgd',         label: 'Ștampilă VGD (verificator)',        category: 'stamp_vgd' },
+  { id: 'stamp_rte',         label: 'Ștampilă RTE (responsabil execuție)', category: 'stamp_rte' },
+  { id: 'stamp_primarie',    label: 'Ștampilă Primărie (documentație)',  category: 'stamp_primarie' },
+  { id: 'stamp_societate',   label: 'Ștampilă societate (sigiliu legal)', category: 'stamp_societate' },
 ];
 
 const DEFAULT_AVIZE_LIST = [
@@ -753,14 +754,69 @@ export default function GasNaturalProjectV2() {
   const br_lungime_km_calc = useMemo(() => Math.round(((Number(data.br_lungime_m) || 0) / 1000) * 1000) / 1000, [data.br_lungime_m]);
   const cnd_n_lungime_km_calc = useMemo(() => Math.round(((Number(data.cnd_n_lungime_m) || 0) / 1000) * 1000) / 1000, [data.cnd_n_lungime_m]);
 
+  // Auto-map V2 form fields → FIELDS_REGISTRY canonical keys (used by DOCX templates).
+  // Aplică doar dacă cheia registry e GOALĂ (nu suprascrie ce a editat userul în tab Registru).
+  const applyAutoMap = (src) => {
+    const mapping = {
+      // Beneficiar
+      beneficiar_nume: src.nume_client,
+      // Loc consum
+      loc_consum_adresa: src.adresa_imobil,
+      loc_consum_strada: src.amplasament_strada,
+      loc_consum_localitate: src.amplasament_localitate,
+      loc_consum_judet: src.amplasament_judet,
+      loc_consum_cadastru: src.cadastral_imobil || src.cadastrale_traseu,
+      amplasament_lucrare: src.amplasament_strada,
+      amplasament_imobil_consum: src.adresa_imobil,
+      // Proiect
+      tipul_lucrarii: src.tipul_lucrarii,
+      denumire_lucrare_extinsa: src.tipul_lucrarii,
+      // ATR / OSD
+      atr_osd: src.osd_operator,
+      atr_numar: src.osd_atr_nr,
+      ordin_lucru_nr_data: src.osd_ordin_nr,
+      // DTAC / Proiectant
+      proiectant_general_firma: src.fact_proiectanta_societate,
+      dtac_proiectant_specialitate: src.fact_proiectanta_nume,
+      proiectant_aut_nr: src.fact_proiectanta_legitimatie,
+      proiectant_aut_grad: src.fact_proiectanta_autorizatie,
+      // Executant
+      exec_firma: src.fact_executanta_societate,
+      executant_aut_nr: src.fact_executanta_legitimatie,
+      executant_aut_grad: src.fact_executanta_autorizatie,
+      // VGD / RTE
+      dtac_verificator_vgd: src.fact_vgd_nume,
+      exec_responsabil_tehnic: src.fact_rte_nume,
+      verificator_legitimatie_nr: src.fact_vgd_legitimatie,
+      // Tehnic
+      sf_material_conducta: src.br_material === 'Polietilenă' ? 'PE 100 SDR 11' : (src.br_material === 'Oțel' ? 'OL conform STAS 7656' : ''),
+      sf_diametru_nominal_DN: src.br_diametru_dn,
+      sf_lungime_conducta_m: src.br_lungime_m,
+      pt_lungime_m: src.br_lungime_m,
+      presiune_categorie: src.br_presiune === 'Joasă' ? 'JOASA PRESIUNE (<0.05 bar)'
+        : src.br_presiune === 'Redusă' ? 'REDUSA PRESIUNE (0.05-2 bar)'
+        : src.br_presiune === 'Medie' ? 'MEDIE PRESIUNE (2-6 bar)' : '',
+      debit_instalat_mc_h: src.qmin_total,
+    };
+    const out = { ...src };
+    for (const [k, v] of Object.entries(mapping)) {
+      if (v !== undefined && v !== null && v !== '' && (out[k] === undefined || out[k] === null || out[k] === '')) {
+        out[k] = v;
+      }
+    }
+    return out;
+  };
+
   const save = async () => {
     setSaving(true);
     try {
-      // Persist derived values
-      const payload = { data: { ...data, qmin_total: qmin_calc, br_lungime_km: br_lungime_km_calc, cnd_n_lungime_km: cnd_n_lungime_km_calc } };
+      // Persist derived + auto-mapped fields
+      const baseData = { ...data, qmin_total: qmin_calc, br_lungime_km: br_lungime_km_calc, cnd_n_lungime_km: cnd_n_lungime_km_calc };
+      const payload = { data: applyAutoMap(baseData) };
       await api.patch(`/gas-project/${pid}`, payload);
+      setData(payload.data);
       setDirty(false);
-      toast.success('Salvat');
+      toast.success('Salvat (auto-map registry aplicat)');
     } catch (e) {
       toast.error('Eroare la salvare');
     } finally {
@@ -839,15 +895,29 @@ export default function GasNaturalProjectV2() {
         </div>
       </div>
 
-      {/* Tabs Date / Avize */}
+      {/* Tabs Date / Avize / Registru */}
       <div className="flex gap-1 mb-4 border-b-2 border-green-400" data-testid="gas-v2-tabs">
         <button onClick={() => setActiveTab('date')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'date' ? 'bg-green-400 border-green-500 text-white' : 'bg-white border-green-300 text-gray-700 hover:bg-green-50'}`} data-testid="tab-date">
-          DATE
+          DATE OPERAȚIONALE
         </button>
         <button onClick={() => setActiveTab('avize')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'avize' ? 'bg-green-400 border-green-500 text-white' : 'bg-white border-green-300 text-gray-700 hover:bg-green-50'}`} data-testid="tab-avize">
-          AVIZE
+          AVIZE HUB
+        </button>
+        <button onClick={() => setActiveTab('registru')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'registru' ? 'bg-green-400 border-green-500 text-white' : 'bg-white border-green-300 text-gray-700 hover:bg-green-50'}`} data-testid="tab-registru">
+          REGISTRU CÂMPURI (179)
         </button>
       </div>
+
+      {activeTab === 'registru' && (
+        <RegistryFieldsTab
+          data={data}
+          pid={pid}
+          onUpdateField={(key, val) => {
+            setData((d) => ({ ...d, [key]: val }));
+            setDirty(true);
+          }}
+        />
+      )}
 
       {activeTab === 'avize' && (
         <div className="bg-white border-2 border-green-400 p-6">
@@ -1184,7 +1254,7 @@ export default function GasNaturalProjectV2() {
                   <span className="flex-1 leading-tight">{s.label}</span>
                   <RealUploadButton
                     pid={pid}
-                    category={s.id.startsWith('firma_') || s.id.startsWith('autorizata_') ? `stamp_${s.id.replace('firma_', '').replace('autorizata_', '')}` : `stamp_${s.id}`}
+                    category={s.category}
                     bucketKey={s.id}
                     label={s.label}
                   />

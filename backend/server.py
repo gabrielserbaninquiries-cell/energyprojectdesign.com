@@ -2469,18 +2469,19 @@ async def upgrade_info_for_path(
     if has_access:
         return {"path": path, "has_access": True, "page_known": True}
     # Find cheapest plan that grants access
-    plans_catalog = _plans_mod.PLANS if hasattr(_plans_mod, "PLANS") else []
-    plan_lookup = {p["id"]: p for p in plans_catalog} if plans_catalog else {}
+    plans_catalog = _plans_mod.PLANS if hasattr(_plans_mod, "PLANS") else {}
     candidates = []
     for plan_id in allowed:
         if plan_id == "*":
             continue
-        meta = plan_lookup.get(plan_id, {})
+        meta = plans_catalog.get(plan_id, {}) if isinstance(plans_catalog, dict) else {}
+        if not meta or meta.get("internal"):
+            continue
         candidates.append({
             "plan_id": plan_id,
             "name": meta.get("name", plan_id.title()),
             "price_eur": meta.get("price_eur") or meta.get("price_eur_mo") or 0,
-            "description": meta.get("description", ""),
+            "description": meta.get("tagline") or meta.get("description", ""),
         })
     candidates.sort(key=lambda c: c["price_eur"] or 999)
     cheapest = candidates[0] if candidates else None
