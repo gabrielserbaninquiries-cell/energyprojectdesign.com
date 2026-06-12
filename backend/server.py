@@ -2430,6 +2430,74 @@ async def plans_departments_public_matrix():
 
 app.include_router(_menu_api)
 
+# V7.3 — Platform Fees + Boosts + Transactions
+from platform_fees_routes import router as fees_router
+_fees_api = APIRouter(prefix="/api")
+_fees_api.include_router(fees_router)
+app.include_router(_fees_api)
+
+
+# V7.3 — Upgrade gate info endpoint (used by frontend modal)
+import roles_pages_matrix as _rpm2  # noqa: E402
+import plans as _plans_mod  # noqa: E402
+
+_upg_api = APIRouter(prefix="/api")
+
+
+@_upg_api.get("/upgrade-info")
+async def upgrade_info_for_path(
+    path: str,
+    user: User = Depends(get_current_user),
+):
+    """Returnează info despre upgrade necesar dacă userul nu are acces la path-ul cerut.
+    UI face fetch la mount pe orice pagină pro și afișează modalul dacă has_access=False.
+    """
+    user_plan = getattr(user, "plan_id", "free") or "free"
+    is_admin = bool(getattr(user, "is_admin", False))
+    is_developer = bool(getattr(user, "is_developer", False))
+    # Find page meta
+    page = next((p for p in _rpm2.PAGES if p["path"] == path), None)
+    if not page:
+        return {"path": path, "has_access": True, "page_known": False}
+    # Check access
+    allowed = page["allowed_plans"]
+    effective_plan = "developer" if is_developer else user_plan
+    has_access = ("*" in allowed) or (effective_plan in allowed)
+    # min_role check
+    if page.get("min_role") == "admin" and not (is_admin or is_developer):
+        has_access = False
+    if has_access:
+        return {"path": path, "has_access": True, "page_known": True}
+    # Find cheapest plan that grants access
+    plans_catalog = _plans_mod.PLANS if hasattr(_plans_mod, "PLANS") else []
+    plan_lookup = {p["id"]: p for p in plans_catalog} if plans_catalog else {}
+    candidates = []
+    for plan_id in allowed:
+        if plan_id == "*":
+            continue
+        meta = plan_lookup.get(plan_id, {})
+        candidates.append({
+            "plan_id": plan_id,
+            "name": meta.get("name", plan_id.title()),
+            "price_eur": meta.get("price_eur") or meta.get("price_eur_mo") or 0,
+            "description": meta.get("description", ""),
+        })
+    candidates.sort(key=lambda c: c["price_eur"] or 999)
+    cheapest = candidates[0] if candidates else None
+    return {
+        "path": path,
+        "has_access": False,
+        "page_known": True,
+        "page": page,
+        "current_plan": user_plan,
+        "department": _rpm2.DEPARTMENTS.get(page["department"], {}),
+        "required_plans": candidates,
+        "recommended_plan": cheapest,
+    }
+
+
+app.include_router(_upg_api)
+
 # Mount the gas-project + subscribers routers via factory (shared db + auth dep).
 _gas_router = make_gas_project_router(db, get_current_user)
 _sub_router = make_subscribers_router(db, get_current_user)

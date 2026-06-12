@@ -564,6 +564,13 @@ _End of COMMAND LOG. Pentru întrebări sau continuare → ask_human._
 > "Te rog analizeaza site-ul si structureaza paginile pe planurile de plata a industriilor si departamentelor conexe fiecarei pagini, conform serviciilor site-ului. Te rog analizeaza si structureaza real, compacteaza meniul, elimina paginile inutile sau repetitive si livreaza-mi te rog o platforma reala reala pentru conceptul comunicat prin comenzi."
 
 
+## 19. APPENDIX V7.3 (2026-06-08) — E2E AUDIT + PLATFORM FEES + UPGRADE-FLOW (mesaj 19 user)
+
+### Cerință literală user (mesajul 19)
+> "Fa te rog o verificare end to end a fiecarei pagini, a fiecarei functii, listeaza paginile principale din meniu in pagina 'acasa' a site-ului si fa o imagine corecta a site-ului. Implementeaza te rog toate functiile necesare completarii site-ului pentru paginile existente. De mentionat. Paginile noi adaugate trebuie sa contina feat-uri reale competitive cu celelalte platforme. Implementeaza tot ce este nevoie la nivel real de functionare a site-ului pentru asigurarea tuturor nevoilor clientilor. Tarifeaza functiile cheie ale site-ului, precum, comision vanzari imobiliare sau taxa de administrare anunt. Listare gratuita anunt, dar taxa per tranzactie in site, etc. Te rog sa gandesti real aceata platforma pentru toate paginile si toate serviciile reale pe care acestea ar trebui sa le ofere, si sa implementezi toate functiile de top necesare pentru ca aceasta pagina sa devina #1 mondial pentru toate serviciile pe care le ofera.
+> P1: Implementare upgrade-flow în UI — când un user free/basic click pe o pagină pro (ex: /seap-alerts), modal 'Upgrade la Ofertare 89€' cu CTA Stripe"
+
+
 ---
 
 ## 14. APPENDIX V6.5 (2026-06-08) — REVIEW CRITIC REAL · CORECȚIE GENERALĂ PLATFORMĂ

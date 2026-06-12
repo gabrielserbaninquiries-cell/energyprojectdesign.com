@@ -70,6 +70,8 @@ import RealEstatePage from './pages/RealEstatePage';
 import ForumPage from './pages/ForumPage';
 import ServiciiPage from './pages/ServiciiPage';
 import PlanuriDepartamente from './pages/PlanuriDepartamente';
+import ComisioaneTarife from './pages/ComisioaneTarife';
+import UpgradeGate from './components/UpgradeGate';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -104,8 +106,6 @@ function AppRouter() {
       <Route path="/gaze-naturale-v1/:pid" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
       <Route path="/gaze-naturale/recipients" element={<ProtectedRoute><GasRecipients /></ProtectedRoute>} />
       <Route path="/subscribers" element={<ProtectedRoute><Subscribers /></ProtectedRoute>} />
-      <Route path="/clients" element={<ProtectedRoute><Clients /></ProtectedRoute>} />
-      <Route path="/companies" element={<ProtectedRoute><Companies /></ProtectedRoute>} />
       <Route path="/verify/gas-project/:pid" element={<VerifyGasProject />} />
 
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
@@ -126,11 +126,7 @@ function AppRouter() {
       <Route path="/ai" element={<ProtectedRoute><AIAssistantPage /></ProtectedRoute>} />
       <Route path="/audit" element={<ProtectedRoute><AuditPage /></ProtectedRoute>} />
       <Route path="/certificari" element={<ProtectedRoute><InternalCertifications /></ProtectedRoute>} />
-      <Route path="/email" element={<ProtectedRoute><EmailComposer /></ProtectedRoute>} />
-      <Route path="/templates" element={<ProtectedRoute><Templates /></ProtectedRoute>} />
       <Route path="/templates/:id" element={<ProtectedRoute><TemplateEditor /></ProtectedRoute>} />
-      <Route path="/stamps" element={<ProtectedRoute><Stamps /></ProtectedRoute>} />
-      <Route path="/certificate" element={<ProtectedRoute><Certificates /></ProtectedRoute>} />
       <Route path="/documents" element={<ProtectedRoute><Documents /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
 
@@ -146,14 +142,8 @@ function AppRouter() {
       <Route path="/developer/progres" element={<ProtectedRoute><DeveloperProgres /></ProtectedRoute>} />
       <Route path="/admin/config" element={<ProtectedRoute><AdminConfig /></ProtectedRoute>} />
       <Route path="/admin/essentials" element={<ProtectedRoute><AdminEssentials /></ProtectedRoute>} />
-      <Route path="/ai-agents" element={<ProtectedRoute><AIAgents /></ProtectedRoute>} />
-      <Route path="/seap-alerts" element={<ProtectedRoute><SEAPAlerts /></ProtectedRoute>} />
-      <Route path="/crm-abonati" element={<ProtectedRoute><CRMSubscribers /></ProtectedRoute>} />
-      <Route path="/anaf-efactura" element={<ProtectedRoute><ANAFInvoicing /></ProtectedRoute>} />
       <Route path="/status" element={<PublicStatus />} />
-      <Route path="/consultant-ai" element={<ProtectedRoute><EnergyAdvisor /></ProtectedRoute>} />
       <Route path="/jobs" element={<Jobs />} />
-      <Route path="/contracts" element={<ProtectedRoute><Contracts /></ProtectedRoute>} />
 
       {/* EPD Vision — Inside Full + Implementation Queue + Self Check + Product Skeleton */}
       <Route path="/inside" element={<ProtectedRoute><Inside /></ProtectedRoute>} />
@@ -170,6 +160,21 @@ function AppRouter() {
       <Route path="/servicii" element={<ProtectedRoute><ServiciiPage /></ProtectedRoute>} />
       <Route path="/smart-pricing" element={<ProtectedRoute><ServiciiPage /></ProtectedRoute>} />
       <Route path="/planuri-departamente" element={<ProtectedRoute><PlanuriDepartamente /></ProtectedRoute>} />
+      <Route path="/comisioane-tarife" element={<ProtectedRoute><ComisioaneTarife /></ProtectedRoute>} />
+
+      {/* Pages with UpgradeGate (modal upgrade când userul nu are plan suficient) */}
+      <Route path="/anaf-efactura" element={<ProtectedRoute><UpgradeGate path="/anaf-efactura"><ANAFInvoicing /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/seap-alerts" element={<ProtectedRoute><UpgradeGate path="/seap-alerts"><SEAPAlerts /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/ai-agents" element={<ProtectedRoute><UpgradeGate path="/ai-agents"><AIAgents /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/consultant-ai" element={<ProtectedRoute><UpgradeGate path="/consultant-ai"><EnergyAdvisor /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/crm-abonati" element={<ProtectedRoute><UpgradeGate path="/crm-abonati"><CRMSubscribers /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/companies" element={<ProtectedRoute><UpgradeGate path="/companies"><Companies /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/contracts" element={<ProtectedRoute><UpgradeGate path="/contracts"><Contracts /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/clients" element={<ProtectedRoute><UpgradeGate path="/clients"><Clients /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/templates" element={<ProtectedRoute><UpgradeGate path="/templates"><Templates /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/stamps" element={<ProtectedRoute><UpgradeGate path="/stamps"><Stamps /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/certificate" element={<ProtectedRoute><UpgradeGate path="/certificate"><Certificates /></UpgradeGate></ProtectedRoute>} />
+      <Route path="/email" element={<ProtectedRoute><UpgradeGate path="/email"><EmailComposer /></UpgradeGate></ProtectedRoute>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
