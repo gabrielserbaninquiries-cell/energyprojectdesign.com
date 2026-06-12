@@ -1,21 +1,52 @@
 # Energy Project Design — Changelog
 
-## V8.0 — 2026-06-12 (current session, late)
+## V8.1 — 2026-06-12 (current session, final)
 
-### Backend +3 DOCX templates noi (consumă +28 placeholders necheltuite)
-- **`dtac_lista_avize`** (gas_doc_templates_extra.py): tabel cu 11 avize utilități (E-Distribuție, Telekom, Apa Nova, STB, NetCity, Luxten, Străzi PMB, Circulație PMB, Mediu PMB, APM, acord acces) — fiecare cu Nr/Data și status "Obținut/În curs" calculat din date
-- **`pv_calitate`** (gas_doc_templates_extra.py): PV Control Calitate cu 4 secțiuni narative (documente bază, lucrări verificate, constatări, concluzii) + 3-col signature table proiectant/executant/diriginte. Consumă pv_calitate_pv_numar, pv_calitate_data, pv_calitate_proiectant, pv_calitate_constructor, pv_calitate_diriginte, pv_calitate_documente_baza, pv_calitate_lucrari, pv_calitate_constatari, pv_calitate_concluzii
-- **`program_faze_isc`** (gas_doc_templates_extra.py): Program Control Faze Determinante cu 7 faze (FD-01 până FD-07: predare-primire, trasaj, pat nisip, probă rezistență, probă etanșeitate, PVRTL, PIF) + cadru legal + ISC județean. Consumă program_faze_isc_judet, program_faze_baza_legala, program_control_model
+### 🎯 100% Placeholder Coverage atins
+- **179/179 placeholders** din `FIELDS_REGISTRY` consumate de template-uri DOCX
+- Backend regression 35/35 PASSED în 7s (`test_v81_cartouche_and_full_coverage.py`)
+
+### Caiet Sarcini — Detalii tehnologice de pozare
+- **+ Secțiunea 4.1 "Detalii tehnologice specifice"** consumă 7 placeholders: tip_sudura, unghi_cuplare_min_grade, fir_trasor_material, fir_trasor_sectiune_mm2, tub_protectie, pat_caramizi, pozare_distanta_limita
+- **+ Secțiunea 4.2 "Repartiție traseu"** consumă lungime_pe_drum_m, lungime_raiser_m, traseu_pe_drum
+- **+ Secțiunea 4.3 "Conductă existentă"** consumă conducta_existenta_strada, conducta_existenta_caracteristici
+
+### Cartouche proiect (helper nou `_project_cartouche`)
+- **Bloc CARTOUCHE PROIECT** plasat după antet în 4 template-uri principale (memoriu_tehnic, caiet_sarcini, carte_tehnica, borderou)
+- Consumă 12 placeholders identificative: denumire_lucrare_extinsa, tipul_lucrarii, faza_proiectare, proiect_nr_an, amplasament_lucrare, amplasament_imobil_consum, presiune_categorie, sf_diametru_nominal_DN, ordin_lucru_nr_data, isc_nr_inreg, dispozitie_necesara, materiale_catalog_codes
+
+### Footer signature extins 2→3 coloane
+- **Coloana 1 Proiectant**: firma + nume + Autorizație ANRE (proiectant_aut_nr + proiectant_aut_grad)
+- **Coloana 2 Executant**: firma + Autorizație ANRE (executant_aut_nr + executant_aut_grad) + RTE
+- **Coloana 3 Verificator (VGD)**: nume + Legitimație (verificator_legitimatie_nr)
+- Aplicat retroactiv în TOATE 26 template-uri — regression 0 break (35/35 tests PASSED)
+
+### PV Calitate extins
+- Fallback `pv_calitate_nr` → `pv_calitate_pv_numar` (suport alias)
+- **+ Secțiunea 5 "Verdict probă presiune"** (pv_calitate_proba_admisa)
+- **+ Secțiunea 6 "Mențiuni speciale"** (pv_calitate_mentiuni)
+
+## V8.0 — 2026-06-12
+
+### Backend +3 DOCX templates noi (consumă +28 placeholders)
+- `dtac_lista_avize`: tabel 11 avize utilități + acord acces, status Obținut/În curs auto-calculat
+- `pv_calitate`: PV Control Calitate cu 4 secțiuni narative + 3-col signature table
+- `program_faze_isc`: 7 faze determinante FD-01..FD-07
 
 ### Stripe webhook hardened
-- **Idempotency check** în `/api/webhook/stripe`: înainte de `$set payment_status=paid` se citește starea existentă; dacă deja era "paid", planul NU se re-activează (previne dublarea)
-- **Audit log** nou: colecție `db.plan_activation_log` cu intrări per activare (user, plan, session, source=webhook|status_poll, amount, currency, activated_at, renew_at)
-- **`/api/me/billing` endpoint nou**: returnează current_plan (id, name, price_eur, renews_at) + transactions (max 10) + activations (max 10) pentru user-facing dashboard
+- Idempotency check (`already_paid` flag) în `/api/webhook/stripe`
+- Audit log nou: colecție `db.plan_activation_log`
+- Endpoint `/api/me/billing` returnează plan activ + transactions + activations
 
-### Tests
-- `/app/backend/tests/test_v80_extra_templates.py`: 11/11 PASSED în 4s
-- Dossier ZIP creștem: 23 → **27 DOCX + manifest** (~932KB)
-- Toate noile placeholders verificate prezente în DOCX-uri generate
+## V7.5 — 2026-06-12 (earlier session)
+- Tab "REGISTRU CÂMPURI (179)" în Gaze Naturale + auto-mapping V2→Registry
+- 6 ștampile cu mapping backend corect
+- Extindere DOCX: Memoriu (+5 secțiuni), Carte Tehnică (+ct_sectiune_*), Borderou (+materiale&furnizori)
+- Stripe checkout funcțional (`UpgradeGate`)
+- Landing public restaurat (12 servicii + 5 ecosisteme)
+
+## V7.4 — 2026-06-12
+- HomePage compact + 12 quick-access pills + 5 ecosystem cards
 
 ## V7.5 — 2026-06-12 (earlier session)
 
