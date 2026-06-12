@@ -1,0 +1,2218 @@
+[
+  {
+    "code": "8010028",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN32"
+  },
+  {
+    "code": "8010029",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN40"
+  },
+  {
+    "code": "8010030",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN50"
+  },
+  {
+    "code": "8010031",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN63"
+  },
+  {
+    "code": "8010032",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN75"
+  },
+  {
+    "code": "8010033",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN90"
+  },
+  {
+    "code": "8010034",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN110"
+  },
+  {
+    "code": "8010035",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN125"
+  },
+  {
+    "code": "8010036",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN140"
+  },
+  {
+    "code": "8010037",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN160"
+  },
+  {
+    "code": "8010038",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN180"
+  },
+  {
+    "code": "8010039",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN200"
+  },
+  {
+    "code": "8010040",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN225"
+  },
+  {
+    "code": "8010041",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN250"
+  },
+  {
+    "code": "8010042",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN280"
+  },
+  {
+    "code": "8010043",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN315"
+  },
+  {
+    "code": "8010044",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN355"
+  },
+  {
+    "code": "8010045",
+    "name": "TEAVA POLIETILENA PE 100 SDR11 DN400"
+  },
+  {
+    "code": "8403013",
+    "name": "VANA PE 100 SDR11 DN225 GAZ"
+  },
+  {
+    "code": "8403014",
+    "name": "VANA PE 100 SDR11 DN250 GAZ"
+  },
+  {
+    "code": "8403015",
+    "name": "VANA PE 100 SDR11 DN280 GAZ"
+  },
+  {
+    "code": "8403016",
+    "name": "VANA PE 100 SDR11 DN315 GAZ"
+  },
+  {
+    "code": "8420001",
+    "name": "ROBINET SFERIC DN 50 GAZ CU FLANSA"
+  },
+  {
+    "code": "8420003",
+    "name": "ROBINET SFERIC DN 80 GAZ CU FLANSA"
+  },
+  {
+    "code": "8420004",
+    "name": "ROBINET SFERIC DN 100 GAZ CU FLANSA"
+  },
+  {
+    "code": "8420005",
+    "name": "ROBINET SFERIC DN 150 GAZ CU FLANSA"
+  },
+  {
+    "code": "8420006",
+    "name": "ROBINET SFERIC DN 200 GAZ CU FLANSA"
+  },
+  {
+    "code": "8215056",
+    "name": "SA EF. CU COLIER PE 100 SDR11 DN 125-110"
+  },
+  {
+    "code": "8215040",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN110-110"
+  },
+  {
+    "code": "8215010",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN110-63"
+  },
+  {
+    "code": "8215030",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN110-90"
+  },
+  {
+    "code": "8215011",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN125-63"
+  },
+  {
+    "code": "8215031",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN125-90"
+  },
+  {
+    "code": "8215012",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN140-63"
+  },
+  {
+    "code": "8215041",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN160-110"
+  },
+  {
+    "code": "8215049",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN160-125"
+  },
+  {
+    "code": "8215013",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN160-63"
+  },
+  {
+    "code": "8215033",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN160-90"
+  },
+  {
+    "code": "8215042",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN180-110"
+  },
+  {
+    "code": "8215050",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN180-125"
+  },
+  {
+    "code": "8215014",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN180-63"
+  },
+  {
+    "code": "8215034",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN180-90"
+  },
+  {
+    "code": "8215043",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN200-110"
+  },
+  {
+    "code": "8215051",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN200-125"
+  },
+  {
+    "code": "8215015",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN200-63"
+  },
+  {
+    "code": "8215044",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN225-110"
+  },
+  {
+    "code": "8215052",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN225-125"
+  },
+  {
+    "code": "8215016",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN225-63"
+  },
+  {
+    "code": "8215036",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN225-90"
+  },
+  {
+    "code": "8215045",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN250-110"
+  },
+  {
+    "code": "8215053",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN250-125"
+  },
+  {
+    "code": "8215017",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN250-63"
+  },
+  {
+    "code": "8215037",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN250-90"
+  },
+  {
+    "code": "8215054",
+    "name": "SA EF. FARA COLIER PE100 SDR11 DN280-125"
+  },
+  {
+    "code": "8215018",
+    "name": "SA EF.FARA COLIER PE100 SDR11 DN280-63"
+  },
+  {
+    "code": "8215047",
+    "name": "SA EF.FARA COLIER PE100 SDR11 DN315-110"
+  },
+  {
+    "code": "8215055",
+    "name": "SA EF. FARA COLIER PE100 SDR11 DN315-125"
+  },
+  {
+    "code": "8215069",
+    "name": "SA EF. FARA COLIER PE100 SDR11 DN315-63"
+  },
+  {
+    "code": "8215073",
+    "name": "SA EF. FARA COLIER PE100 SDR11 DN355-110"
+  },
+  {
+    "code": "8215074",
+    "name": "SA EF. FARA COLIER PE100 SDR11 DN355-125"
+  },
+  {
+    "code": "8215071",
+    "name": "SA EF. FARA COLIER PE100 SDR11 DN355-63"
+  },
+  {
+    "code": "8215072",
+    "name": "SA EF. FARA COLIER PE100 SDR11 DN355-90"
+  },
+  {
+    "code": "8215075",
+    "name": "SA EF. FARA COLIER PE100 SDR11 DN400-63"
+  },
+  {
+    "code": "8215099",
+    "name": "SA ES. CU COLIER PE100 SDR11 DN63-63"
+  },
+  {
+    "code": "8215009",
+    "name": "SA EF. CU COLIER PE100 SDR11 DN90-63"
+  },
+  {
+    "code": "8215224",
+    "name": "TEU BR. CU COLIER DN40-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215225",
+    "name": "TEU BR. CU COLIER DN50-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215226",
+    "name": "TEU BR. CU COLIER DN63-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215227",
+    "name": "TEU BR. CU COLIER DN75-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215228",
+    "name": "TEU BR. CU COLIER DN90-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215229",
+    "name": "TEU BR. CU COLIER DN110-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215230",
+    "name": "TEU BR. CU COLIER DN125-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215231",
+    "name": "TEU BR. CU COLIER DN140-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215232",
+    "name": "TEU BR. CU COLIER DN160-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215233",
+    "name": "TEU BR. CU COLIER DN180-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215234",
+    "name": "TEU BR. CU COLIER DN200-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215235",
+    "name": "TEU BR. CU COLIER DN225-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215236",
+    "name": "TEU BR. CU COLIER DN250-32 STOPGAZ MOV"
+  },
+  {
+    "code": "8215265",
+    "name": "TEU BR. CU COLIER DN63-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215266",
+    "name": "TEU BR. CU COLIER DN75-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215267",
+    "name": "TEU BR. CU COLIER DN90-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215268",
+    "name": "TEU BR. CU COLIER DN110-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215269",
+    "name": "TEU BR. CU COLIER DN125-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215270",
+    "name": "TEU BR. CU COLIER DN140-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215271",
+    "name": "TEU BR. CU COLIER DN160-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215272",
+    "name": "TEU BR. CU COLIER DN180-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215273",
+    "name": "TEU BR. CU COLIER DN200-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215274",
+    "name": "TEU BR. CU COLIER DN225-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215275",
+    "name": "TEU BR. CU COLIER DN250-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215276",
+    "name": "TEU BR FARA COLIER DN280-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215277",
+    "name": "TEU BR FARA COLIER DN315-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215278",
+    "name": "TEU BR FARA COLIER DN355-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215279",
+    "name": "TEU BR FARA COLIER DN400-63 STOPGAZ MOV"
+  },
+  {
+    "code": "8215280",
+    "name": "TEU BR COLIER SDR11 D40-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215281",
+    "name": "TEU BR COLIER SDR11 D50-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215282",
+    "name": "TEU BR COLIER SDR11 D63-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215283",
+    "name": "TEU BR COLIER SDR11 D75-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215284",
+    "name": "TEU BR COLIER SDR11 D90-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215285",
+    "name": "TEU BR COLIER SDR11 D110-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215286",
+    "name": "TEU BR COLIER SDR11 D125-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215287",
+    "name": "TEU BR COLIER SDR11 D140-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215288",
+    "name": "TEU BR COLIER SDR11 D160-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215289",
+    "name": "TEU BR COLIER SDR11 D180-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215290",
+    "name": "TEU BR COLIER SDR11 D200-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215291",
+    "name": "TEU BR COLIER SDR11 D225-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215292",
+    "name": "TEU BR COLIER SDR11 D250-32 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215321",
+    "name": "TEU BR COLIER SDR11 D63-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215322",
+    "name": "TEU BR COLIER SDR11 D75-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215323",
+    "name": "TEU BR COLIER SDR11 D90-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215324",
+    "name": "TEU BR COLIER SDR11 D110-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215325",
+    "name": "TEU BR COLIER SDR11 D125-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215326",
+    "name": "TEU BR COLIER SDR11 D140-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215327",
+    "name": "TEU BR COLIER SDR11 D160-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215328",
+    "name": "TEU BR COLIER SDR11 D180-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215329",
+    "name": "TEU BR COLIER SDR11 D200-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215330",
+    "name": "TEU BR COLIER SDR11 D225-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215331",
+    "name": "TEU BR COLIER SDR11 D250-63 STOPGAZ ROSU"
+  },
+  {
+    "code": "8215332",
+    "name": "TEU BR FCOLIER SDR11 D280-63STOPGAZ ROSU"
+  },
+  {
+    "code": "8215333",
+    "name": "TEU BR FCOLIER SDR11 D315-63STOPGAZ ROSU"
+  },
+  {
+    "code": "8215334",
+    "name": "TEU BR FCOLIER SDR11 D355-63STOPGAZ ROSU"
+  },
+  {
+    "code": "8215335",
+    "name": "TEU BR FCOLIER SDR11 D400-63STOPGAZ ROSU"
+  },
+  {
+    "code": "8215210",
+    "name": "SA PEHD100 SDR11 TOPLOADING D315/160"
+  },
+  {
+    "code": "8215211",
+    "name": "SA PEHD100 SDR11 TOPLOADING D315/225"
+  },
+  {
+    "code": "8215200",
+    "name": "SA EF.FARA COL.PE100SDR11 DN315/355-110"
+  },
+  {
+    "code": "8215201",
+    "name": "SA EF.FARA COL.PE100 SDR11DN315/355-125"
+  },
+  {
+    "code": "8215202",
+    "name": "SA EF.FARA COL.PE100SDR11 DN315/355-90"
+  },
+  {
+    "code": "8215212",
+    "name": "SA PEHD100 SDR11 TOPLOADING D355/160"
+  },
+  {
+    "code": "8215213",
+    "name": "SA PEHD100 SDR11 TOPLOADING D355/225"
+  },
+  {
+    "code": "8215214",
+    "name": "SA PEHD100 SDR11 TOPLOADING D400/160"
+  },
+  {
+    "code": "8215215",
+    "name": "SA PEHD100 SDR11 TOPLOADING D400/225"
+  },
+  {
+    "code": "8215203",
+    "name": "SA EF.FARA COL.PE100SDR11 DN400/450-110"
+  },
+  {
+    "code": "8215204",
+    "name": "SA EF.FARA COL.PE100SDR11 DN400/450-125"
+  },
+  {
+    "code": "8215205",
+    "name": "SA EF.FARA COL.PE100SDR11 DN400/450-90"
+  },
+  {
+    "code": "8215216",
+    "name": "SA PEHD100 SDR11 TOPLOADING D450/160"
+  },
+  {
+    "code": "8215217",
+    "name": "SA PEHD100 SDR11 TOPLOADING D450/225"
+  },
+  {
+    "code": "8215218",
+    "name": "SA PEHD100 SDR11 TOPLOADING D500/160"
+  },
+  {
+    "code": "8215219",
+    "name": "SA PEHD100 SDR11 TOPLOADING D500/225"
+  },
+  {
+    "code": "8215206",
+    "name": "SA EF.FARA COL.PE100 SDR11DN500/630-110"
+  },
+  {
+    "code": "8215207",
+    "name": "SA EF.FARA COL.PE100 SDR11DN500/630-125"
+  },
+  {
+    "code": "8215208",
+    "name": "SA EF.FARA COL. PE100 SDR11DN500/630-90"
+  },
+  {
+    "code": "8215220",
+    "name": "SA PEHD100 SDR11 TOPLOADING D560/160"
+  },
+  {
+    "code": "8215221",
+    "name": "SA PEHD100 SDR11 TOPLOADING D560/225"
+  },
+  {
+    "code": "8215222",
+    "name": "SA PEHD100 SDR11 TOPLOADING D630/160"
+  },
+  {
+    "code": "8215223",
+    "name": "SA PEHD100 SDR11 TOPLOADING D630/225"
+  },
+  {
+    "code": "8025079",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN110"
+  },
+  {
+    "code": "8025080",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN125"
+  },
+  {
+    "code": "8025082",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN160"
+  },
+  {
+    "code": "8025083",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN180"
+  },
+  {
+    "code": "8025084",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN200"
+  },
+  {
+    "code": "8025085",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN225"
+  },
+  {
+    "code": "8025086",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN250"
+  },
+  {
+    "code": "8025073",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN32"
+  },
+  {
+    "code": "8025074",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN40"
+  },
+  {
+    "code": "8025075",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN50"
+  },
+  {
+    "code": "8025076",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN63"
+  },
+  {
+    "code": "8025077",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN75"
+  },
+  {
+    "code": "8025078",
+    "name": "TEU EGAL ELECTROSUD PE100 SDR11 DN90"
+  },
+  {
+    "code": "8025031",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN110"
+  },
+  {
+    "code": "8025032",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN125"
+  },
+  {
+    "code": "8025033",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN140"
+  },
+  {
+    "code": "8025034",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN160"
+  },
+  {
+    "code": "8025035",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN180"
+  },
+  {
+    "code": "8025036",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN200"
+  },
+  {
+    "code": "8025037",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN225"
+  },
+  {
+    "code": "8025038",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN250"
+  },
+  {
+    "code": "8025040",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN315"
+  },
+  {
+    "code": "8025025",
+    "name": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN32"
+  },
+  {
+    "code": "8025041",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN355"
+  },
+  {
+    "code": "8025026",
+    "name": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN40"
+  },
+  {
+    "code": "8025042",
+    "name": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN400"
+  },
+  {
+    "code": "8025028",
+    "name": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN63"
+  },
+  {
+    "code": "8025029",
+    "name": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN75"
+  },
+  {
+    "code": "8025030",
+    "name": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN90"
+  },
+  {
+    "code": "8022034",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN110X45°"
+  },
+  {
+    "code": "8022035",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN125X45°"
+  },
+  {
+    "code": "8022036",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN140X45°"
+  },
+  {
+    "code": "8022037",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN160X45°"
+  },
+  {
+    "code": "8022038",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN180X45°"
+  },
+  {
+    "code": "8022039",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN200X45°"
+  },
+  {
+    "code": "8022040",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN225X45°"
+  },
+  {
+    "code": "8022041",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN250X45°"
+  },
+  {
+    "code": "8022042",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN280X45°"
+  },
+  {
+    "code": "8022043",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN315X45°"
+  },
+  {
+    "code": "8022028",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN32X45°"
+  },
+  {
+    "code": "8022029",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN40X45°"
+  },
+  {
+    "code": "8022030",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN50X45°"
+  },
+  {
+    "code": "8022031",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN63X45°"
+  },
+  {
+    "code": "8022032",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN75X45°"
+  },
+  {
+    "code": "8022033",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN90X45°"
+  },
+  {
+    "code": "8022196",
+    "name": "COT EF. PE 100 SDR11 DN110X45°"
+  },
+  {
+    "code": "8022197",
+    "name": "COT EF. PE 100 SDR11 DN125X45°"
+  },
+  {
+    "code": "8022199",
+    "name": "COT EF. PE 100 SDR11 DN160X45°"
+  },
+  {
+    "code": "8022200",
+    "name": "COT EF. PE 100 SDR11 DN180X45°"
+  },
+  {
+    "code": "8022201",
+    "name": "COT EF. PE 100 SDR11 DN200X45°"
+  },
+  {
+    "code": "8022202",
+    "name": "COT EF. PE 100 SDR11 DN225X45°"
+  },
+  {
+    "code": "8022203",
+    "name": "COT EF. PE 100 SDR11 DN250X45°"
+  },
+  {
+    "code": "8022190",
+    "name": "COT EF. PE 100 SDR11 DN32X45°"
+  },
+  {
+    "code": "8022191",
+    "name": "COT EF. PE 100 SDR11 DN40X45°"
+  },
+  {
+    "code": "8022192",
+    "name": "COT EF. PE 100 SDR11 DN50X45°"
+  },
+  {
+    "code": "8022193",
+    "name": "COT EF. PE 100 SDR11 DN63X45°"
+  },
+  {
+    "code": "8022195",
+    "name": "COT EF. PE 100 SDR11 DN90X45°"
+  },
+  {
+    "code": "8022088",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN110X90°"
+  },
+  {
+    "code": "8022089",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN125X90°"
+  },
+  {
+    "code": "8022090",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN140X90°"
+  },
+  {
+    "code": "8022091",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN160X90°"
+  },
+  {
+    "code": "8022092",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN180X90°"
+  },
+  {
+    "code": "8022093",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN200X90°"
+  },
+  {
+    "code": "8022094",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN225X90°"
+  },
+  {
+    "code": "8022095",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN250X90°"
+  },
+  {
+    "code": "8022096",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN280X90°"
+  },
+  {
+    "code": "8022097",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN315X90°"
+  },
+  {
+    "code": "8022082",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN32X90°"
+  },
+  {
+    "code": "8022098",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN355X90°"
+  },
+  {
+    "code": "8022099",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN400X90°"
+  },
+  {
+    "code": "8022083",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN40X90°"
+  },
+  {
+    "code": "8022100",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN450X90°"
+  },
+  {
+    "code": "8022101",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN500X90°"
+  },
+  {
+    "code": "8022084",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN50X90°"
+  },
+  {
+    "code": "8022085",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN63X90°"
+  },
+  {
+    "code": "8022086",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN75X90°"
+  },
+  {
+    "code": "8022087",
+    "name": "COT SUD CAP CAP PE 100 SDR11 DN90X90°"
+  },
+  {
+    "code": "8022142",
+    "name": "COT EF. PE 100 SDR11 DN110X90°"
+  },
+  {
+    "code": "8022143",
+    "name": "COT EF. PE 100 SDR11 DN125X90°"
+  },
+  {
+    "code": "8022144",
+    "name": "COT EF. PE 100 SDR11 DN140X90°"
+  },
+  {
+    "code": "8022145",
+    "name": "COT EF. PE 100 SDR11 DN160X90°"
+  },
+  {
+    "code": "8022146",
+    "name": "COT EF. PE 100 SDR11 DN180X90°"
+  },
+  {
+    "code": "8022147",
+    "name": "COT EF. PE 100 SDR11 DN200X90°"
+  },
+  {
+    "code": "8022148",
+    "name": "COT EF. PE 100 SDR11 DN225X90°"
+  },
+  {
+    "code": "8022149",
+    "name": "COT EF. PE 100 SDR11 DN250X90°"
+  },
+  {
+    "code": "8022136",
+    "name": "COT EF. PE 100 SDR11 DN32X90°"
+  },
+  {
+    "code": "8022137",
+    "name": "COT EF. PE 100 SDR11 DN40X90°"
+  },
+  {
+    "code": "8022138",
+    "name": "COT EF. PE 100 SDR11 DN50X90°"
+  },
+  {
+    "code": "8022139",
+    "name": "COT EF. PE 100 SDR11 DN63X90°"
+  },
+  {
+    "code": "8022140",
+    "name": "COT EF. PE 100 SDR11 DN75X90°"
+  },
+  {
+    "code": "8022141",
+    "name": "COT EF. PE 100 SDR11 DN90X90°"
+  },
+  {
+    "code": "8023034",
+    "name": "MUFA EF. PE 100 SDR11 DN110"
+  },
+  {
+    "code": "8023035",
+    "name": "MUFA EF. PE 100 SDR11 DN125"
+  },
+  {
+    "code": "8023036",
+    "name": "MUFA EF. PE 100 SDR11 DN140"
+  },
+  {
+    "code": "8023037",
+    "name": "MUFA EF. PE 100 SDR11 DN160"
+  },
+  {
+    "code": "8023038",
+    "name": "MUFA EF. PE 100 SDR11 DN180"
+  },
+  {
+    "code": "8023039",
+    "name": "MUFA EF. PE 100 SDR11 DN200"
+  },
+  {
+    "code": "8023040",
+    "name": "MUFA EF. PE 100 SDR11 DN225"
+  },
+  {
+    "code": "8023041",
+    "name": "MUFA EF. PE 100 SDR11 DN250"
+  },
+  {
+    "code": "8023042",
+    "name": "MUFA EF. PE 100 SDR11 DN280"
+  },
+  {
+    "code": "8023043",
+    "name": "MUFA EF. PE 100 SDR11 DN315"
+  },
+  {
+    "code": "8023028",
+    "name": "MUFA EF. PE 100 SDR11 DN32"
+  },
+  {
+    "code": "8023044",
+    "name": "MUFA EF. PE 100 SDR11 DN355"
+  },
+  {
+    "code": "8023029",
+    "name": "MUFA EF. PE 100 SDR11 DN40"
+  },
+  {
+    "code": "8023045",
+    "name": "MUFA EF. PE 100 SDR11 DN400"
+  },
+  {
+    "code": "8023030",
+    "name": "MUFA EF. PE 100 SDR11 DN50"
+  },
+  {
+    "code": "8023031",
+    "name": "MUFA EF. PE 100 SDR11 DN63"
+  },
+  {
+    "code": "8023032",
+    "name": "MUFA EF. PE 100 SDR11 DN75"
+  },
+  {
+    "code": "8023033",
+    "name": "MUFA EF. PE 100 SDR11 DN90"
+  },
+  {
+    "code": "8036076",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN110"
+  },
+  {
+    "code": "8036077",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN125"
+  },
+  {
+    "code": "8036079",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN160"
+  },
+  {
+    "code": "8036080",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN180"
+  },
+  {
+    "code": "8036081",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN200"
+  },
+  {
+    "code": "8036082",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN225"
+  },
+  {
+    "code": "8036083",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN250"
+  },
+  {
+    "code": "8036065",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN32"
+  },
+  {
+    "code": "8036066",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN40"
+  },
+  {
+    "code": "8036067",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN50"
+  },
+  {
+    "code": "8036068",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN63"
+  },
+  {
+    "code": "8036069",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN75"
+  },
+  {
+    "code": "8036070",
+    "name": "DOP ELECTROSUDABIL PE 100 SDR11 DN90"
+  },
+  {
+    "code": "8036160",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN110-63"
+  },
+  {
+    "code": "8036161",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN110-75"
+  },
+  {
+    "code": "8036162",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN110-90"
+  },
+  {
+    "code": "8036166",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN125-110"
+  },
+  {
+    "code": "8036163",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN125-63"
+  },
+  {
+    "code": "8036165",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN125-90"
+  },
+  {
+    "code": "8036171",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN160-110"
+  },
+  {
+    "code": "8036172",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN160-125"
+  },
+  {
+    "code": "8036170",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN160-90"
+  },
+  {
+    "code": "8036174",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN180-125"
+  },
+  {
+    "code": "8036177",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN200-160"
+  },
+  {
+    "code": "8036178",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN200-180"
+  },
+  {
+    "code": "8036197",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN250-160"
+  },
+  {
+    "code": "8036183",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN250-200"
+  },
+  {
+    "code": "8036148",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN40-32"
+  },
+  {
+    "code": "8036149",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN50-32"
+  },
+  {
+    "code": "8036150",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN50-40"
+  },
+  {
+    "code": "8036151",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN63-32"
+  },
+  {
+    "code": "8036152",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN63-40"
+  },
+  {
+    "code": "8036153",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN63-50"
+  },
+  {
+    "code": "8036154",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN75-40"
+  },
+  {
+    "code": "8036155",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN75-50"
+  },
+  {
+    "code": "8036156",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN75-63"
+  },
+  {
+    "code": "8036157",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN90-50"
+  },
+  {
+    "code": "8036158",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN90-63"
+  },
+  {
+    "code": "8036159",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN90-75"
+  },
+  {
+    "code": "8036176",
+    "name": "RED. ELECTROFUZ. PE100 SDR11 DN180-160"
+  },
+  {
+    "code": "8025143",
+    "name": "TEU REDUS EF PE100 SDR11 DN110-90"
+  },
+  {
+    "code": "8025144",
+    "name": "TEU REDUS EF PE100 SDR11 DN125-90"
+  },
+  {
+    "code": "8025145",
+    "name": "TEU REDUS EF PE100 SDR11 DN160-110"
+  },
+  {
+    "code": "8025146",
+    "name": "TEU REDUS EF PE100 SDR11 DN160-63"
+  },
+  {
+    "code": "8025147",
+    "name": "TEU REDUS EF PE100 SDR11 DN160-90"
+  },
+  {
+    "code": "8025148",
+    "name": "TEU REDUS EF PE100 SDR11 DN200-110"
+  },
+  {
+    "code": "8025149",
+    "name": "TEU REDUS EF PE100 SDR11 DN200-160"
+  },
+  {
+    "code": "8025150",
+    "name": "TEU REDUS EF PE100 SDR11 DN200-90"
+  },
+  {
+    "code": "8025151",
+    "name": "TEU REDUS EF PE100 SDR11 DN225-110"
+  },
+  {
+    "code": "8025152",
+    "name": "TEU REDUS EF PE100 SDR11 DN225-160"
+  },
+  {
+    "code": "8025153",
+    "name": "TEU REDUS EF PE100 SDR11 DN225-90"
+  },
+  {
+    "code": "8025142",
+    "name": "TEU REDUS EF PE100 SDR11 DN90-63"
+  },
+  {
+    "code": "8036273",
+    "name": "RED(SUD. CAP CAP) PE100 SDR11 DN 75-50"
+  },
+  {
+    "code": "8036278",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN110-63"
+  },
+  {
+    "code": "8036280",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN110-90"
+  },
+  {
+    "code": "8036284",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN125-110"
+  },
+  {
+    "code": "8036281",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN125-63"
+  },
+  {
+    "code": "8036282",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN125-75"
+  },
+  {
+    "code": "8036283",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN125-90"
+  },
+  {
+    "code": "8036287",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN140-125"
+  },
+  {
+    "code": "8036321",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN140-75"
+  },
+  {
+    "code": "8036285",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN140-90"
+  },
+  {
+    "code": "8036289",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN160-110"
+  },
+  {
+    "code": "8036290",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN160-125"
+  },
+  {
+    "code": "8036291",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN160-140"
+  },
+  {
+    "code": "8036322",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-110"
+  },
+  {
+    "code": "8036292",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-125"
+  },
+  {
+    "code": "8036293",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-140"
+  },
+  {
+    "code": "8036294",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-160"
+  },
+  {
+    "code": "8036323",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-90"
+  },
+  {
+    "code": "8036324",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN200-140"
+  },
+  {
+    "code": "8036295",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN200-160"
+  },
+  {
+    "code": "8036296",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN200-180"
+  },
+  {
+    "code": "8036325",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN225-140"
+  },
+  {
+    "code": "8036297",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN225-160"
+  },
+  {
+    "code": "8036298",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN225-180"
+  },
+  {
+    "code": "8036299",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN225-200"
+  },
+  {
+    "code": "8036326",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN250-160"
+  },
+  {
+    "code": "8036300",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN250-180"
+  },
+  {
+    "code": "8036301",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN250-200"
+  },
+  {
+    "code": "8036302",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN250-225"
+  },
+  {
+    "code": "8036303",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN280-200"
+  },
+  {
+    "code": "8036304",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN280-225"
+  },
+  {
+    "code": "8036305",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN280-250"
+  },
+  {
+    "code": "8036328",
+    "name": "RED CAP_CAP PEHD100 SDR11 D315/200"
+  },
+  {
+    "code": "8036306",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN315-225"
+  },
+  {
+    "code": "8036307",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN315-250"
+  },
+  {
+    "code": "8036327",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN355-225"
+  },
+  {
+    "code": "8036309",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN355-250"
+  },
+  {
+    "code": "8036310",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN355-280"
+  },
+  {
+    "code": "8036311",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN355-315"
+  },
+  {
+    "code": "8036313",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN400-315"
+  },
+  {
+    "code": "8036314",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN400-355"
+  },
+  {
+    "code": "8036329",
+    "name": "RED CAP_CAP PEHD100 SDR11 D500/315"
+  },
+  {
+    "code": "8036270",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN63-40"
+  },
+  {
+    "code": "8036271",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN63-50"
+  },
+  {
+    "code": "8036272",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN75-40"
+  },
+  {
+    "code": "8036274",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN75-63"
+  },
+  {
+    "code": "8036276",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN90-63"
+  },
+  {
+    "code": "8036277",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN90-75"
+  },
+  {
+    "code": "8023057",
+    "name": "PIESA RANFORSARE GDF PE80 SDR11 4BAR D40"
+  },
+  {
+    "code": "8023058",
+    "name": "PIESA RANFORSARE GDF PE80 SDR11 4BAR D63"
+  },
+  {
+    "code": "8023059",
+    "name": "PIESA RANFORSARE GDF PE80 SDR11 4BAR D90"
+  },
+  {
+    "code": "8036030",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN110"
+  },
+  {
+    "code": "8036031",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN125"
+  },
+  {
+    "code": "8036033",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN160"
+  },
+  {
+    "code": "8036034",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN180"
+  },
+  {
+    "code": "8036035",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN200"
+  },
+  {
+    "code": "8036036",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN225"
+  },
+  {
+    "code": "8036037",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN250"
+  },
+  {
+    "code": "8036039",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN315"
+  },
+  {
+    "code": "8036024",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN32"
+  },
+  {
+    "code": "8036040",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN355"
+  },
+  {
+    "code": "8036025",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN40"
+  },
+  {
+    "code": "8036041",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN400"
+  },
+  {
+    "code": "8036026",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN50"
+  },
+  {
+    "code": "8036027",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN63"
+  },
+  {
+    "code": "8036028",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN75"
+  },
+  {
+    "code": "8036029",
+    "name": "DOP (SUD. CAP CAP) PE 100 SDR11 DN90"
+  },
+  {
+    "code": "8215209",
+    "name": "Adaptor pentru Sa PEHD 100 D63x2 1/2''"
+  },
+  {
+    "code": "8025096",
+    "name": "TEU REDUS PE100 SDR11 DN110-63"
+  },
+  {
+    "code": "8025105",
+    "name": "TEU REDUS PE100 SDR11 DN110-75"
+  },
+  {
+    "code": "8025106",
+    "name": "TEU REDUS PE100 SDR11 DN110-90"
+  },
+  {
+    "code": "8025109",
+    "name": "TEU REDUS PE100 SDR11 DN125-110"
+  },
+  {
+    "code": "8025107",
+    "name": "TEU REDUS PE100 SDR11 DN125X63"
+  },
+  {
+    "code": "8025108",
+    "name": "TEU REDUS PE100 SDR11 DN125X90"
+  },
+  {
+    "code": "8025115",
+    "name": "TEU REDUS PE100 SDR11 DN160-110"
+  },
+  {
+    "code": "8025112",
+    "name": "TEU REDUS PE100 SDR11 DN160-63"
+  },
+  {
+    "code": "8025114",
+    "name": "TEU REDUS PE100 SDR11 DN160-90"
+  },
+  {
+    "code": "8025118",
+    "name": "TEU REDUS PE100 SDR11 DN180-110"
+  },
+  {
+    "code": "8025117",
+    "name": "TEU REDUS PE100 SDR11 DN180-90"
+  },
+  {
+    "code": "8025119",
+    "name": "TEU REDUS PE100 SDR11 DN180X125"
+  },
+  {
+    "code": "8025120",
+    "name": "TEU REDUS PE100 SDR11 DN180X160"
+  },
+  {
+    "code": "8025137",
+    "name": "TEU REDUS PE100 SDR11 DN200X110"
+  },
+  {
+    "code": "8025138",
+    "name": "TEU REDUS PE100 SDR11 DN200X160"
+  },
+  {
+    "code": "8025139",
+    "name": "TEU REDUS PE100 SDR11 DN200X63"
+  },
+  {
+    "code": "8025140",
+    "name": "TEU REDUS PE100 SDR11 DN200X90"
+  },
+  {
+    "code": "8025127",
+    "name": "TEU REDUS PE100 SDR11 DN225-160"
+  },
+  {
+    "code": "8025128",
+    "name": "TEU REDUS PE100 SDR11 DN225-180"
+  },
+  {
+    "code": "8025141",
+    "name": "TEU REDUS PE100 SDR11 DN250-160"
+  },
+  {
+    "code": "8025129",
+    "name": "TEU REDUS PE100 SDR11 DN315-110"
+  },
+  {
+    "code": "8025131",
+    "name": "TEU REDUS PE100 SDR11 DN315-160"
+  },
+  {
+    "code": "8025132",
+    "name": "TEU REDUS PE100 SDR11 DN315-225"
+  },
+  {
+    "code": "8025133",
+    "name": "TEU REDUS PE100 SDR11 DN315-250"
+  },
+  {
+    "code": "8025130",
+    "name": "TEU REDUS PE100 SDR11 DN315X125"
+  },
+  {
+    "code": "8025098",
+    "name": "TEU REDUS PE100 SDR11 DN63-50"
+  },
+  {
+    "code": "8025101",
+    "name": "TEU REDUS PE100 SDR11 DN75-63"
+  },
+  {
+    "code": "8025102",
+    "name": "TEU REDUS PE100 SDR11 DN90-50"
+  },
+  {
+    "code": "8025103",
+    "name": "TEU REDUS PE100 SDR11 DN90-63"
+  },
+  {
+    "code": "8025104",
+    "name": "TEU REDUS PE100 SDR11 DN90-75"
+  },
+  {
+    "code": "8237008",
+    "name": "PIESA TRANZPE100/OL SDR11 DN110/DIAM.4\""
+  },
+  {
+    "code": "8237009",
+    "name": "PIESA TRANZPE100/OL SDR11 DN125/DIAM.4\""
+  },
+  {
+    "code": "8237011",
+    "name": "PIESA TRANZPE100/OL SDR11 DN160/DIAM.6\""
+  },
+  {
+    "code": "8237012",
+    "name": "PIESA TRANZPE100/OL SDR11 DN180/DIAM.6\""
+  },
+  {
+    "code": "8237013",
+    "name": "PIESA TRANZPE100/OL SDR11 DN200/DIAM.8\""
+  },
+  {
+    "code": "8237014",
+    "name": "PIESA TRANZPE100/OL SDR11 DN225/DIAM.8\""
+  },
+  {
+    "code": "8237015",
+    "name": "PIESA TRANZPE100/OL SDR11 DN250/DIAM.10\""
+  },
+  {
+    "code": "8237016",
+    "name": "PIESA TRANZPE100/OL SDR11 DN280/DIAM.10\""
+  },
+  {
+    "code": "8237018",
+    "name": "PIESA TRANZPE100/OL SDR11 DN315/DIAM.12\""
+  },
+  {
+    "code": "8237001",
+    "name": "PIESA TRANZPE100/OL SDR11 DN32/DIAM1\""
+  },
+  {
+    "code": "8237020",
+    "name": "PIESA TRANZPE100/OL SDR11 DN355/DIAM.12\""
+  },
+  {
+    "code": "8237002",
+    "name": "PIESA TRANZPE100/OL SDR11 DN40/DIAM1 1/4"
+  },
+  {
+    "code": "8237021",
+    "name": "PIESA TRANZPE100/OL SDR11 DN400/DIAM.16\""
+  },
+  {
+    "code": "8237003",
+    "name": "PIESA TRANZPE100/OL SDR11 DN50/DIAM1 1/2"
+  },
+  {
+    "code": "8237078",
+    "name": "PIESA TRANZPE100/OL SDR11 DN500/DIAM.20\""
+  },
+  {
+    "code": "8237004",
+    "name": "PIESA TRANZPE100/OL SDR11 DN63/DIAM.2\""
+  },
+  {
+    "code": "8237006",
+    "name": "PIESA TRANZPE100/OL SDR11 DN75/DIAM2 1/2"
+  },
+  {
+    "code": "8237007",
+    "name": "PIESA TRANZPE100/OL SDR11 DN90/DIAM.3\""
+  },
+  {
+    "code": "8403007",
+    "name": "VANA PE 100 SDR11 DN110 GAZ"
+  },
+  {
+    "code": "8403008",
+    "name": "VANA PE 100 SDR11 DN125 GAZ"
+  },
+  {
+    "code": "8403010",
+    "name": "VANA PE 100 SDR11 DN160 GAZ"
+  },
+  {
+    "code": "8403011",
+    "name": "VANA PE 100 SDR11 DN180 GAZ"
+  },
+  {
+    "code": "8403012",
+    "name": "VANA PE 100 SDR11 DN200 GAZ"
+  },
+  {
+    "code": "8403001",
+    "name": "VANA PE 100 SDR11 DN32 GAZ"
+  },
+  {
+    "code": "8403002",
+    "name": "VANA PE 100 SDR11 DN40 GAZ"
+  },
+  {
+    "code": "8403004",
+    "name": "VANA PE 100 SDR11 DN63 GAZ"
+  },
+  {
+    "code": "8403005",
+    "name": "VANA PE 100 SDR11 DN75 GAZ"
+  },
+  {
+    "code": "8403006",
+    "name": "VANA PE 100 SDR11 DN90 GAZ"
+  },
+  {
+    "code": "8403020",
+    "name": "Vana PE 100SDR DN110 FULL BORE GAZ"
+  },
+  {
+    "code": "8403021",
+    "name": "Vana PE 100SDR DN 63 FULL BORE GAZ"
+  },
+  {
+    "code": "8403019",
+    "name": "Vana PE 100SDR DN 90 FULL BORE GAZ"
+  },
+  {
+    "code": "8215189",
+    "name": "TEU BR. FARA COLIER PE100 SDR11 DN355-63"
+  },
+  {
+    "code": "8215192",
+    "name": "TEU BR.FARA COLIER PEHD100 SDR11DN400/63"
+  },
+  {
+    "code": "8036312",
+    "name": "RED.(SUD. CAP CAP) PE100 SDR11 DN400-280"
+  },
+  {
+    "code": "8420028",
+    "name": "Robinet fluture cu reductor DN400 PN 16"
+  },
+  {
+    "code": "8420029",
+    "name": "Robinet fluture cu reductor DN500 PN 16"
+  },
+  {
+    "code": "8420027",
+    "name": "Robinet fluture cu reductor DN300 PN 16"
+  },
+  {
+    "code": "8420030",
+    "name": "Robinet fluture DN200PN16_echip flansa"
+  },
+  {
+    "code": "8420026",
+    "name": "Robinet fluture DN250 PN 16_echip flansa"
+  },
+  {
+    "code": "8420001",
+    "name": "ROBINET SFERIC DN 50 GAZ CU FLANSA"
+  },
+  {
+    "code": "8420003",
+    "name": "ROBINET SFERIC DN 80 GAZ CU FLANSA"
+  },
+  {
+    "code": "8420004",
+    "name": "ROBINET SFERIC DN 100 GAZ CU FLANSA"
+  },
+  {
+    "code": "8420005",
+    "name": "ROBINET SFERIC DN 150 GAZ CU FLANSA"
+  },
+  {
+    "code": "8420006",
+    "name": "ROBINET SFERIC DN 200 GAZ CU FLANSA"
+  },
+  {
+    "code": "8237028",
+    "name": "REISER PE100 SDR11 DN32/DIAM.1\""
+  },
+  {
+    "code": "8237029",
+    "name": "REISER PE100 SDR11 DN40/DIAM.1 1/4\""
+  },
+  {
+    "code": "8237030",
+    "name": "REISER PE100 SDR11 DN50/DIAM.1 1/2\""
+  },
+  {
+    "code": "8237031",
+    "name": "REISER PE100 SDR11 DN63/DIAM.2\""
+  },
+  {
+    "code": "2200077",
+    "name": "SURUB CAP HEX M16X70"
+  },
+  {
+    "code": "2200078",
+    "name": "SURUB CAP HEX M16X80"
+  },
+  {
+    "code": "2200078",
+    "name": "SURUB CAP HEX M16X80"
+  },
+  {
+    "code": "2200076",
+    "name": "SURUB CAP HEX M16X60"
+  },
+  {
+    "code": "2200080",
+    "name": "SURUB CAP HEX M16X100"
+  },
+  {
+    "code": "2200082",
+    "name": "SURUB CAP HEX M16X120"
+  },
+  {
+    "code": "2200085",
+    "name": "SURUB CAP HEX M16X150"
+  },
+  {
+    "code": "2200267",
+    "name": "Surub cap hex M 16x200"
+  },
+  {
+    "code": "2200094",
+    "name": "SURUB CAP HEX M18X90"
+  },
+  {
+    "code": "2200095",
+    "name": "SURUB CAP HEX M18X100"
+  },
+  {
+    "code": "2200097",
+    "name": "SURUB CAP HEX M18X120"
+  },
+  {
+    "code": "2200109",
+    "name": "SURUB CAP HEX M20X80"
+  },
+  {
+    "code": "2200111",
+    "name": "SURUB CAP HEX M20X90"
+  },
+  {
+    "code": "2200112",
+    "name": "SURUB CAP HEX M20X100"
+  },
+  {
+    "code": "2200114",
+    "name": "SURUB CAP HEX M20X120"
+  },
+  {
+    "code": "2200117",
+    "name": "SURUB CAP HEX M20X150"
+  },
+  {
+    "code": "2200128",
+    "name": "SURUB CAP HEX M22X120"
+  },
+  {
+    "code": "2200131",
+    "name": "SURUB CAP HEX M22X150"
+  },
+  {
+    "code": "2200140",
+    "name": "SURUB CAP HEX M24X 80"
+  },
+  {
+    "code": "2200142",
+    "name": "SURUB CAP HEX M24X100"
+  },
+  {
+    "code": "2200143",
+    "name": "SURUB CAP HEX M24X110"
+  },
+  {
+    "code": "2200144",
+    "name": "SURUB CAP HEX M24X120"
+  },
+  {
+    "code": "2200148",
+    "name": "SURUB CAP HEX M24X160"
+  },
+  {
+    "code": "2200161",
+    "name": "SURUB CAP HEX M27X120"
+  },
+  {
+    "code": "2200164",
+    "name": "SURUB CAP HEX M27X150"
+  },
+  {
+    "code": "2200268",
+    "name": "Surub cap hex M 30x130"
+  },
+  {
+    "code": "2200182",
+    "name": "SURUB CAP HEX M30X160"
+  },
+  {
+    "code": "2200268",
+    "name": "Surub cap hex M 30x130"
+  },
+  {
+    "code": "2200269",
+    "name": "Surub cap hex M 30x180"
+  },
+  {
+    "code": "2215022",
+    "name": "PIULITE HEX M16"
+  },
+  {
+    "code": "2215023",
+    "name": "PIULITE HEX M18"
+  },
+  {
+    "code": "2215024",
+    "name": "PIULITE HEX M20"
+  },
+  {
+    "code": "2215025",
+    "name": "PIULITE HEX M22"
+  },
+  {
+    "code": "2215026",
+    "name": "PIULITE HEX M24"
+  },
+  {
+    "code": "2215027",
+    "name": "PIULITE HEX M27"
+  },
+  {
+    "code": "2215028",
+    "name": "PIULITE HEX M30"
+  },
+  {
+    "code": "2215029",
+    "name": "PIULITE HEX M33"
+  },
+  {
+    "code": "8500003",
+    "name": "Firida PRM G100 cu pereti metalici"
+  },
+  {
+    "code": "8500004",
+    "name": "FIRIDA 600X600X400"
+  },
+  {
+    "code": "8500005",
+    "name": "FIRIDA 600X600X600"
+  },
+  {
+    "code": "8500006",
+    "name": "Firida PRM G40 cu pereti metalici"
+  },
+  {
+    "code": "8500011",
+    "name": "Firida echipata S300-VO-110-SP"
+  },
+  {
+    "code": "8500012",
+    "name": "Firida S300 echip.kit V/V contor G6;G10"
+  },
+  {
+    "code": "8500016",
+    "name": "Firida echipata S750-VV-250-SP"
+  },
+  {
+    "code": "8500018",
+    "name": "Firida S300 echip.kit V/O contor G6;G10"
+  },
+  {
+    "code": "8500020",
+    "name": "FIRIDA G40-G65 ECHIPATA"
+  },
+  {
+    "code": "8500021",
+    "name": "FIRIDA G100-G160 ECHIPATA"
+  },
+  {
+    "code": "8500022",
+    "name": "FIRIDA S300  ECHIPATA cu iesire pe jos"
+  },
+  {
+    "code": "8500023",
+    "name": "FIRIDA S300 ECHIPATA cu iesire laterala"
+  },
+  {
+    "code": "8500024",
+    "name": "FIRIDA S300  pt baterie 2 reg 25Nmc/h"
+  },
+  {
+    "code": "8500025",
+    "name": "FIRIDA S750 pt baterie 4 reg 25Nmc/h"
+  },
+  {
+    "code": "8500026",
+    "name": "FIRIDA S300 echipata bat.2 reg 25Nmc/h"
+  },
+  {
+    "code": "8500027",
+    "name": "FIRIDA S750 echipata bat.4 reg 25Nmc/h"
+  },
+  {
+    "code": "8500029",
+    "name": "FIRIDA S22S"
+  },
+  {
+    "code": "8500052",
+    "name": "Soclu firida S2300 protect cap brasament"
+  },
+  {
+    "code": "8500053",
+    "name": "FIRIDA S300 NEECHIPATA"
+  },
+  {
+    "code": "8500054",
+    "name": "Firida S300 soclu+reg+post cont G4 L110"
+  },
+  {
+    "code": "8500055",
+    "name": "Firida S300 soclu+reg+post cont G6 L250"
+  },
+  {
+    "code": "8500056",
+    "name": "Firida S300 soclu echipata  2 reg.Q25"
+  },
+  {
+    "code": "8500057",
+    "name": "Firida S1000 soclu 2reg.Q25  4 post cont"
+  },
+  {
+    "code": "8500058",
+    "name": "Firida S1000 soclu 2reg.Q25  5 post cont"
+  },
+  {
+    "code": "8500059",
+    "name": "Firida S1300 soclu  9 post contoare L110"
+  },
+  {
+    "code": "8500060",
+    "name": "Kit firida S2300 soclu+firida+reg Q25"
+  },
+  {
+    "code": "8500061",
+    "name": "Kit firidaS2300 soclu+firid+reg+post mas"
+  },
+  {
+    "code": "8500062",
+    "name": "FIRIDA S2300 neechipata"
+  },
+  {
+    "code": "8500063",
+    "name": "FIRIDA S2300 ECHIPATA CU KIT REGULATOR"
+  },
+  {
+    "code": "8500064",
+    "name": "FIRIDA S2300 ECHIPATA CU  REGULATOR"
+  },
+  {
+    "code": "8500076",
+    "name": "FIRIDA S2300 ECHIPATA CU KIT CONTOR"
+  },
+  {
+    "code": "8500077",
+    "name": "Firida echipata FPRM-F50-SF6-SP"
+  },
+  {
+    "code": "8500069",
+    "name": "USA FIRIDA 600X600"
+  },
+  {
+    "code": "8500072",
+    "name": "USA FIRIDA 800X600"
+  },
+  {
+    "code": "8500073",
+    "name": "USA FIRIDA 800X900"
+  },
+  {
+    "code": "8500078",
+    "name": "Firida ingropata BLD900"
+  },
+  {
+    "code": "8500109",
+    "name": "Firida ingropata 25Nmc/h"
+  },
+  {
+    "code": "8500110",
+    "name": "Firida ingropata 50Nmc/h"
+  },
+  {
+    "code": "8450085",
+    "name": "REGULATOR DE GAZ DN25-32 PM-PJ Q10"
+  },
+  {
+    "code": "8450086",
+    "name": "REGULATOR DE GAZ DN32-32 PM-PJ Q25"
+  },
+  {
+    "code": "8450087",
+    "name": "REGULATOR DE GAZ DN40-50 PM-PJ Q50"
+  },
+  {
+    "code": "8450088",
+    "name": "REGULATOR DE GAZ DN40-50 PM-PR Q50"
+  },
+  {
+    "code": "8450089",
+    "name": "REGULATOR DE GAZ DN40-50 PM-PJ Q100"
+  },
+  {
+    "code": "8450090",
+    "name": "REGULATOR DE GAZ DN40-50 PM-PR Q100"
+  },
+  {
+    "code": "8452064",
+    "name": "REGULATOR DE GAZ DN50-50 PM-PJ Q160"
+  },
+  {
+    "code": "8452065",
+    "name": "REGULATOR DE GAZ DN50-50 PM-PR Q160"
+  },
+  {
+    "code": "8452066",
+    "name": "REGULATOR DE GAZ DN50-50 PM-PJ Q250"
+  },
+  {
+    "code": "8452067",
+    "name": "REGULATOR DE GAZ DN50-50 PM-PR Q250"
+  },
+  {
+    "code": "8452068",
+    "name": "REGULATOR DE GAZ DN50-50 PM-PJ Q500"
+  },
+  {
+    "code": "8452069",
+    "name": "REGULATOR DE GAZ DN50-50 PM-PR Q500"
+  },
+  {
+    "code": "8452070",
+    "name": "REGULATOR DE GAZ DN50-50 PM-PR Q1000"
+  },
+  {
+    "code": "8452071",
+    "name": "REGULATOR DE GAZ DN50-50 PM-PR Q1000"
+  },
+  {
+    "code": "8452072",
+    "name": "REGULATOR DE GAZ DN80-80 PM-PJ Q2500"
+  },
+  {
+    "code": "8452073",
+    "name": "REGULATOR DE GAZ DN80-80 PM-PR Q2500"
+  },
+  {
+    "code": "8452074",
+    "name": "REGULATOR DE GAZ DN100-100 PM-PJ Q5000"
+  },
+  {
+    "code": "8452075",
+    "name": "REGULATOR DE GAZ DN100-100 PM-PR Q5000"
+  },
+  {
+    "code": "8452076",
+    "name": "REGULATOR DE GAZ DN100-100 PM-PJ Q7500"
+  },
+  {
+    "code": "8452077",
+    "name": "REGULATOR DE GAZ DN100-100 PM-PR Q7500"
+  },
+  {
+    "code": "8457082",
+    "name": "FILTRU GAZ DN32 F160"
+  },
+  {
+    "code": "8457083",
+    "name": "FILTRU GAZ DN40 F160"
+  },
+  {
+    "code": "8457084",
+    "name": "FILTRU GAZ DN50 F160"
+  },
+  {
+    "code": "8457085",
+    "name": "FILTRU GAZ DN65 F160"
+  },
+  {
+    "code": "8457086",
+    "name": "FILTRU GAZ DN80 F160"
+  },
+  {
+    "code": "8457087",
+    "name": "FILTRU GAZ DN100 F160"
+  },
+  {
+    "code": "8457088",
+    "name": "FILTRU GAZ DN150 F160"
+  },
+  {
+    "code": "8457089",
+    "name": "FILTRU GAZ DN200 F160"
+  }
+]

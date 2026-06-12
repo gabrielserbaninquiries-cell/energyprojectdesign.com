@@ -10,61 +10,79 @@ import {
   Stamp, ShieldCheck, Mail, BadgeCheck, GaugeCircle, CreditCard, Settings, LogOut,
   Sparkles, Wrench, ListChecks, Flame, ChevronRight, FolderKanban, Github, Banknote, MessageSquare, Building2,
   Layers, Compass, BarChart3, Sun, Bot, FileSearch, Users as UsersIcon, Receipt, AlertTriangle, X,
-  Lock, Terminal, Package, ListOrdered,
+  Lock, Terminal, Package, ListOrdered, Home, ShoppingBag, Truck,
 } from 'lucide-react';
 
 const SECTIONS = [
   {
-    title: 'Operațional',
+    title: '🏠 Acasă',
     items: [
+      { to: '/acasa', label: 'Hub Ecosistem', icon: Home, tid: 'nav-acasa' },
       { to: '/dashboard', label: 'Panou principal', icon: LayoutDashboard, tid: 'nav-dashboard' },
-      { to: '/proiecte', label: 'Proiecte', icon: FolderKanban, tid: 'nav-proiecte' },
+      { to: '/proiecte', label: 'Proiectele mele', icon: FolderKanban, tid: 'nav-proiecte' },
+    ],
+  },
+  {
+    title: '📐 Documentație Tehnică',
+    items: [
+      { to: '/documentatie-industrii', label: 'Industrii (13)', icon: Compass, tid: 'nav-documentatie-industrii' },
       { to: '/gaze-naturale', label: 'Gaze Naturale Studio', icon: Flame, tid: 'nav-gaze-naturale' },
-      { to: '/industrii', label: 'Industrii (13)', icon: Compass, tid: 'nav-industrii' },
-      { to: '/feat-uri', label: 'Feat-uri viziune', icon: Layers, tid: 'nav-feat-uri' },
-      { to: '/proiect', label: 'Date proiect activ', icon: ClipboardList, tid: 'nav-proiect' },
-      { to: '/tehnice', label: 'Date tehnice', icon: Settings2, tid: 'nav-tehnice' },
-      { to: '/calcul', label: 'Calcul inteligent', icon: Calculator, tid: 'nav-calcul' },
-      { to: '/fotovoltaic', label: 'Calcul fotovoltaic', icon: Sun, tid: 'nav-fotovoltaic' },
-    ],
-  },
-  {
-    title: 'Documentație',
-    items: [
-      { to: '/templates', label: 'Șabloane', icon: FileText, tid: 'nav-templates' },
-      { to: '/documents', label: 'Documente', icon: FileCheck2, tid: 'nav-documents' },
-      { to: '/stamps', label: 'Ștampile', icon: Stamp, tid: 'nav-stamps' },
+      { to: '/templates', label: 'Șabloane DOCX', icon: FileText, tid: 'nav-templates' },
+      { to: '/documents', label: 'Documente generate', icon: FileCheck2, tid: 'nav-documents' },
+      { to: '/stamps', label: 'Ștampile + Semnături', icon: Stamp, tid: 'nav-stamps' },
       { to: '/certificate', label: 'Certificate PKI', icon: ShieldCheck, tid: 'nav-certificate' },
-      { to: '/certificari', label: 'Certificări interne', icon: BadgeCheck, tid: 'nav-certificari' },
+      { to: '/verifica', label: 'Verifică QR public', icon: GaugeCircle, tid: 'nav-verifica' },
     ],
   },
   {
-    title: 'Comunicare & Control',
+    title: '🛒 Marketplace',
     items: [
-      { to: '/email', label: 'Email-uri', icon: Mail, tid: 'nav-email' },
-      { to: '/forum', label: 'Forum comunitate', icon: MessageSquare, tid: 'nav-forum' },
-      { to: '/ai-agents', label: '4 AI Agents', icon: Bot, tid: 'nav-ai-agents' },
-      { to: '/consultant-ai', label: 'Consultant AI (Claude)', icon: Sparkles, tid: 'nav-consultant-ai' },
-      { to: '/seap-alerts', label: 'SEAP Alerts', icon: FileSearch, tid: 'nav-seap' },
-      { to: '/verifica', label: 'Verifică documentație', icon: GaugeCircle, tid: 'nav-verifica' },
-      { to: '/ai', label: 'AI Assistant', icon: Sparkles, tid: 'nav-ai' },
-      { to: '/audit', label: 'Audit interfață', icon: ListChecks, tid: 'nav-audit' },
+      { to: '/marketplace', label: 'Anunțuri ad-hoc', icon: ShoppingBag, tid: 'nav-marketplace' },
     ],
   },
   {
-    title: 'Business',
+    title: '🏢 Imobiliare',
+    items: [
+      { to: '/imobiliare', label: 'Vânzare + Închiriere', icon: Home, tid: 'nav-imobiliare' },
+    ],
+  },
+  {
+    title: '💬 Comunitate',
+    items: [
+      { to: '/forum-v7', label: 'Forum + Anunțuri', icon: MessageSquare, tid: 'nav-forum-v7' },
+      { to: '/forum', label: 'Forum legacy', icon: MessageSquare, tid: 'nav-forum' },
+    ],
+  },
+  {
+    title: '🔧 Servicii',
+    items: [
+      { to: '/servicii', label: 'Meseriași + Transport', icon: Wrench, tid: 'nav-servicii' },
+      { to: '/smart-pricing', label: 'Calculator costuri', icon: Calculator, tid: 'nav-smart-pricing' },
+    ],
+  },
+  {
+    title: '🤖 AI & Asistare',
+    items: [
+      { to: '/consultant-ai', label: 'Consultant AI (Claude)', icon: Sparkles, tid: 'nav-consultant-ai' },
+      { to: '/ai-agents', label: '4 AI Agents', icon: Bot, tid: 'nav-ai-agents' },
+      { to: '/ai', label: 'AI Assistant', icon: Sparkles, tid: 'nav-ai' },
+    ],
+  },
+  {
+    title: '💼 Business',
     items: [
       { to: '/crm-abonati', label: 'CRM Abonați', icon: UsersIcon, tid: 'nav-crm' },
-      { to: '/clients', label: 'Clienți (Proiectanți)', icon: UsersIcon, tid: 'nav-clients' },
-      { to: '/companies', label: 'Companii (Directory)', icon: Building2, tid: 'nav-companies' },
-      { to: '/subscribers', label: 'Subscriberi B2B', icon: Building2, tid: 'nav-subscribers' },
-      { to: '/contracts', label: 'Contracte CRM', icon: FileText, tid: 'nav-contracts' },
+      { to: '/clients', label: 'Clienți', icon: UsersIcon, tid: 'nav-clients' },
+      { to: '/companies', label: 'Companii', icon: Building2, tid: 'nav-companies' },
+      { to: '/contracts', label: 'Contracte', icon: FileText, tid: 'nav-contracts' },
       { to: '/jobs', label: 'Job Board ANRE', icon: BadgeCheck, tid: 'nav-jobs' },
+      { to: '/seap-alerts', label: 'SEAP Alerts', icon: FileSearch, tid: 'nav-seap' },
       { to: '/anaf-efactura', label: 'ANAF e-Factura', icon: Receipt, tid: 'nav-anaf' },
+      { to: '/email', label: 'Email-uri', icon: Mail, tid: 'nav-email' },
     ],
   },
   {
-    title: 'Cont',
+    title: '⚙️ Cont',
     items: [
       { to: '/company', label: 'Profil societate', icon: Building2, tid: 'nav-company' },
       { to: '/pricing', label: 'Planuri & achiziții', icon: CreditCard, tid: 'nav-pricing' },

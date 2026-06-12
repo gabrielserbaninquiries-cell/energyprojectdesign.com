@@ -62,6 +62,13 @@ import ImplementationQueue from './pages/ImplementationQueue';
 import SelfCheck from './pages/SelfCheck';
 import ProductSkeleton from './pages/ProductSkeleton';
 import GasNaturalProjectV2 from './pages/GasNaturalProjectV2';
+// V7.0 — High-end ecosystem pages
+import HomePageV7 from './pages/HomePageV7';
+import DocumentatieIndustriiPage from './pages/DocumentatieIndustriiPage';
+import MarketplacePage from './pages/MarketplacePage';
+import RealEstatePage from './pages/RealEstatePage';
+import ForumPage from './pages/ForumPage';
+import ServiciiPage from './pages/ServiciiPage';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -70,13 +77,20 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
+function HomeRedirect() {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="h-screen flex items-center justify-center text-sm text-gray-500">Se încarcă…</div>;
+  if (user) return <Navigate to="/acasa" replace />;
+  return <Landing />;
+}
+
 function AppRouter() {
   const location = useLocation();
   if (location.hash?.includes('session_id=')) return <AuthCallback />;
 
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={<HomeRedirect />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/pricing" element={<Pricing />} />
@@ -145,6 +159,15 @@ function AppRouter() {
       <Route path="/queue" element={<ProtectedRoute><ImplementationQueue /></ProtectedRoute>} />
       <Route path="/self-check" element={<ProtectedRoute><SelfCheck /></ProtectedRoute>} />
       <Route path="/skeleton" element={<ProtectedRoute><ProductSkeleton /></ProtectedRoute>} />
+
+      {/* V7.0 — Ecosystem pages (Home + 5 ecosisteme) */}
+      <Route path="/acasa" element={<ProtectedRoute><HomePageV7 /></ProtectedRoute>} />
+      <Route path="/documentatie-industrii" element={<ProtectedRoute><DocumentatieIndustriiPage /></ProtectedRoute>} />
+      <Route path="/marketplace" element={<ProtectedRoute><MarketplacePage /></ProtectedRoute>} />
+      <Route path="/imobiliare" element={<ProtectedRoute><RealEstatePage /></ProtectedRoute>} />
+      <Route path="/forum-v7" element={<ProtectedRoute><ForumPage /></ProtectedRoute>} />
+      <Route path="/servicii" element={<ProtectedRoute><ServiciiPage /></ProtectedRoute>} />
+      <Route path="/smart-pricing" element={<ProtectedRoute><ServiciiPage /></ProtectedRoute>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

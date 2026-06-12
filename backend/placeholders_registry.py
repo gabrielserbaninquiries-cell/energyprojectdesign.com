@@ -374,7 +374,247 @@ FIELDS_REGISTRY: List[Dict[str, Any]] = [
      "used_in": ["pv_receptie", "carte_tehnica", "cerere_pif"]},
     {"key": "com_recep_reprez_isc", "label": "Reprezentant ISC (dacă aplicabil)", "type": "input", "section": "comisia",
      "used_in": ["pv_receptie", "carte_tehnica"]},
+
+    # === SECȚIUNE: PV VERIFICARE CALITATE LUCRĂRI (FD 461 302) — inspirat din document real Pantelimon ===
+    {"key": "pv_calitate_nr", "label": "Nr. PV verificare calitate", "type": "input", "section": "pv_calitate",
+     "used_in": ["pv_verificare_calitate", "carte_tehnica"]},
+    {"key": "pv_calitate_data", "label": "Data PV verificare calitate", "type": "date", "section": "pv_calitate",
+     "used_in": ["pv_verificare_calitate"]},
+    {"key": "tip_sudura", "label": "Tip sudură executat", "type": "select", "section": "pv_calitate",
+     "options": ["Electrofuziune (PE)", "Cap-cap (BUTT-fusion PE)", "Sudură arc OL (E308)",
+                 "Mufă electrosudabilă", "Filet (FE-zincat)"],
+     "used_in": ["pv_verificare_calitate", "pv_lucrari_ascunse", "carte_tehnica"],
+     "help": "Tehnologia de sudare folosită la conducta de gaze (NTPEE 2018)."},
+    {"key": "fir_trasor_material", "label": "Material fir trasor", "type": "select", "section": "pv_calitate",
+     "options": ["Cupru (Cu)", "Aluminiu (Al)", "Oțel acoperit cupru (CCS)"],
+     "used_in": ["pv_verificare_calitate", "pv_lucrari_ascunse", "memoriu_tehnic"],
+     "help": "Conductă PE obligatorie are fir trasor pentru detectare ulterioară."},
+    {"key": "fir_trasor_sectiune_mm2", "label": "Secțiune fir trasor (mm²)", "type": "select", "section": "pv_calitate",
+     "options": ["1.5", "2.5", "4.0", "6.0"],
+     "used_in": ["pv_verificare_calitate", "pv_lucrari_ascunse"]},
+    {"key": "pv_calitate_documente_baza", "label": "Documente bază verificare", "type": "tags", "section": "pv_calitate",
+     "options": ["Proiect tehnic", "Plan situație", "Facturi materiale", "Certificate calitate materiale",
+                 "Certificate conformitate", "Autorizație construire", "ATR", "Buletin sudor", "Carnet sudor"],
+     "used_in": ["pv_verificare_calitate"],
+     "help": "Selectează documentele care au stat la baza verificării (multiselect)."},
+    {"key": "pv_calitate_constatari", "label": "Constatări verificare teren", "type": "textarea", "section": "pv_calitate",
+     "used_in": ["pv_verificare_calitate"],
+     "default": "S-a montat branșamentul conform proiect tehnic.\nSudurile s-au efectuat prin electrofuziune.\nȚeava a fost pozată pe pat de nisip de 10 cm grosime.\nFir trasor cupru 1.5 mm² montat continuu.\nAcoperire cu nisip în straturi compactate succesiv.\nBandă avertizoare ATENȚIE GAZ montată la 30 cm deasupra conductei.",
+     "help": "Text liber - se preia automat în PV-ul de verificare a calității."},
+    {"key": "pv_calitate_concluzii", "label": "Concluzii (măsuri stabilite)", "type": "textarea", "section": "pv_calitate",
+     "used_in": ["pv_verificare_calitate"],
+     "default": "S-a executat proba branșamentului. Nu au fost luate alte măsuri.",
+     "help": "Concluzii/măsuri formulate de diriginte + constructor."},
+    {"key": "pv_calitate_mentiuni", "label": "Mențiuni speciale", "type": "textarea", "section": "pv_calitate",
+     "used_in": ["pv_verificare_calitate"],
+     "default": "Se poate trece la verificarea lucrărilor care devin ascunse. Probele de presiune au fost considerate ADMISE.",
+     "help": "Mențiuni speciale (probe ADMISE / RESPINSE / faza ascunsă)."},
+    {"key": "pv_calitate_proba_admisa", "label": "Probă presiune ADMISĂ?", "type": "select", "section": "pv_calitate",
+     "options": ["Da - ADMISĂ", "Da - cu observații", "Nu - RESPINSĂ - retest necesar"],
+     "used_in": ["pv_verificare_calitate", "pv_lucrari_ascunse"]},
+    {"key": "pv_calitate_diriginte", "label": "Diriginte șantier (semnătură)", "type": "input", "section": "pv_calitate",
+     "used_in": ["pv_verificare_calitate"]},
+    {"key": "pv_calitate_constructor", "label": "Constructor (semnătură)", "type": "input", "section": "pv_calitate",
+     "used_in": ["pv_verificare_calitate"]},
+
+    # === SECȚIUNE: PROIECT - EXTENSIE (din DOCUMENTE REALE — Anexa 13, Foaie Capăt, Referat DTAC) ===
+    {"key": "proiect_nr_an", "label": "Nr. proiect / An (ex: 190/2019)", "type": "input", "section": "proiect",
+     "used_in": ["foaie_capat", "memoriu_tehnic", "referat_verificator", "borderou", "carte_tehnica"],
+     "help": "Nr. intern al proiectului în registrul proiectantului."},
+    {"key": "faza_proiectare", "label": "Faza proiectare", "type": "select", "section": "proiect",
+     "options": ["P.A.C.", "P.T.H.", "D.E.", "P.A.C. + P.T.H.", "P.A.C. + P.T.H. + D.E.", "S.F.", "Avizare"],
+     "used_in": ["foaie_capat", "memoriu_tehnic", "referat_verificator"],
+     "help": "PAC = Proiect Autorizare Construire, PTH = Proiect Tehnic Hidraulic, DE = Detalii Execuție."},
+    {"key": "denumire_lucrare_extinsa", "label": "Denumire lucrare (forma extinsă)", "type": "input", "section": "proiect",
+     "used_in": ["foaie_capat", "memoriu_tehnic", "program_faze", "referat_verificator", "anunt_incepere"],
+     "default": "Branșament gaze naturale (racord) nou proiectat",
+     "help": "Forma exactă a denumirii cum apare în toate documentele oficiale."},
+    {"key": "cladire_destinatie", "label": "Destinație clădire", "type": "select", "section": "tehnic",
+     "options": ["Locuință individuală", "Locuință colectivă", "Comercială", "Industrială",
+                 "Mixt (locuință + comercial)", "Birouri", "Spital", "Școală", "Hală"],
+     "used_in": ["memoriu_tehnic", "referat_verificator", "carte_tehnica"]},
+    {"key": "categorie_importanta_HG766", "label": "Categorie importanță (HG 766/1997)", "type": "select", "section": "tehnic",
+     "options": ["A - Excepțională", "B - Deosebită", "C - Normală", "D - Redusă"],
+     "used_in": ["memoriu_tehnic", "referat_verificator", "program_faze", "carte_tehnica"],
+     "default": "C - Normală",
+     "help": "Categoria de importanță stabilește exigențele aplicabile (HG 766/1997)."},
+    {"key": "program_control_model", "label": "Program control - model", "type": "select", "section": "tehnic",
+     "options": ["Model 1", "Model 2", "Model 3"], "default": "Model 2",
+     "used_in": ["program_faze"]},
+
+    # === SECȚIUNE: AUTORIZĂRI PROIECTANT + EXECUTANT (extins din REFERAT DTAC) ===
+    {"key": "proiectant_general_firma", "label": "Proiectant general (firmă)", "type": "input", "section": "dtac",
+     "used_in": ["foaie_capat", "memoriu_tehnic", "referat_verificator", "borderou", "anunt_incepere"]},
+    {"key": "proiectant_aut_nr", "label": "Proiectant - nr. autorizație ANRE", "type": "input", "section": "dtac",
+     "used_in": ["foaie_capat", "memoriu_tehnic", "referat_verificator"]},
+    {"key": "proiectant_aut_grad", "label": "Proiectant - grad ANRE", "type": "select", "section": "dtac",
+     "options": ["I.G.D. (Instalator Gaze Distribuție)", "P.G.D. (Proiectant Gaze Distribuție)",
+                 "E.G.D. (Executant Gaze Distribuție)", "P.G.I.U. (Proiectant Gaze Inst. Utilizare)",
+                 "I.G.I.U. (Instalator Gaze Inst. Utilizare)"],
+     "used_in": ["foaie_capat", "memoriu_tehnic", "referat_verificator"], "default": "P.G.D."},
+    {"key": "executant_aut_nr", "label": "Executant - nr. autorizație ANRE", "type": "input", "section": "executie",
+     "used_in": ["foaie_capat", "anunt_incepere", "predare_amplasament"]},
+    {"key": "executant_aut_grad", "label": "Executant - grad ANRE", "type": "select", "section": "executie",
+     "options": ["E.G.D. (Executant Gaze Distribuție)", "E.G.I.U. (Executant Gaze Inst. Utilizare)"],
+     "used_in": ["foaie_capat", "anunt_incepere"], "default": "E.G.D."},
+    {"key": "verificator_legitimatie_nr", "label": "Legitimație verificator atestat (ex: V140700122)", "type": "input", "section": "rvt",
+     "used_in": ["referat_verificator"]},
+
+    # === SECȚIUNE: ORDIN LUCRU & ACORD ACCES (Distrigaz/Delgaz/Premier) ===
+    {"key": "ordin_lucru_nr_data", "label": "Ordin de lucru OSD (nr/data)", "type": "input", "section": "atr",
+     "used_in": ["memoriu_tehnic", "referat_verificator", "anunt_incepere", "borderou"],
+     "help": "Ex: 50041207/09.02.2018, emis de Distrigaz Sud Rețele"},
+    {"key": "acord_acces_nr_data", "label": "Acord de acces OSD (nr/data)", "type": "input", "section": "atr",
+     "used_in": ["memoriu_tehnic", "referat_verificator", "borderou", "cerere_atr"]},
+
+    # === SECȚIUNE: AVIZE - NUMERE OFICIALE (extins din REFERAT REAL) ===
+    {"key": "aviz_apa_nr_data", "label": "Aviz Apa Nova / Apa-Canal (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou", "memoriu_tehnic"]},
+    {"key": "aviz_edistr_nr_data", "label": "Aviz E-Distribuție / electric (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou"]},
+    {"key": "aviz_telekom_nr_data", "label": "Aviz Telekom (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou"]},
+    {"key": "aviz_netcity_nr_data", "label": "Aviz Netcity Telecom (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou"]},
+    {"key": "aviz_luxten_nr_data", "label": "Aviz Luxten / iluminat (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou"]},
+    {"key": "aviz_stb_nr_data", "label": "Aviz S.T.B. / R.A.T.B. (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou"]},
+    {"key": "aviz_mediu_pmb_nr_data", "label": "Aviz Direcția de Mediu Primărie (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou"]},
+    {"key": "aviz_circulatie_pmb_nr_data", "label": "Aviz Comisia tehnică circulație (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou"]},
+    {"key": "aviz_strazi_nr_data", "label": "Aviz Administrația Străzilor (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou"]},
+    {"key": "aviz_apm_nr_data", "label": "Aviz APM / Mediu (nr/data)", "type": "input", "section": "avize_cond",
+     "used_in": ["referat_verificator", "borderou"]},
+
+    # === SECȚIUNE: AMPLASAMENT DUBLU (LUCRARE vs. IMOBIL) ===
+    {"key": "amplasament_lucrare", "label": "Amplasament lucrare (stradă conductă)", "type": "input", "section": "loc_consum",
+     "used_in": ["foaie_capat", "memoriu_tehnic", "program_faze", "referat_verificator"],
+     "help": "Locația unde se va executa conducta (poate diferi de imobilul consumator)."},
+    {"key": "amplasament_imobil_consum", "label": "Amplasament imobil consum (locație consumator)", "type": "input", "section": "loc_consum",
+     "used_in": ["foaie_capat", "memoriu_tehnic", "program_faze", "referat_verificator"]},
+
+    # === SECȚIUNE: CARACTERISTICI TEHNICE EXTINSE (din MEMORIU REAL) ===
+    {"key": "presiune_categorie", "label": "Categorie presiune", "type": "select", "section": "tehnic",
+     "options": ["JOASA PRESIUNE (<0.05 bar)", "REDUSA PRESIUNE (0.05-2 bar)",
+                 "MEDIE PRESIUNE (2-6 bar)", "ÎNALTĂ PRESIUNE (>6 bar)"],
+     "used_in": ["memoriu_tehnic", "cerere_atr", "referat_verificator"]},
+    {"key": "pozare_distanta_limita", "label": "Distanța față de limita proprietate (m)", "type": "input", "section": "tehnic",
+     "used_in": ["memoriu_tehnic"],
+     "help": "Ex: 0.2m fata de limita stanga"},
+    {"key": "lungime_raiser_m", "label": "Lungime raiser (m)", "type": "number", "section": "tehnic",
+     "used_in": ["memoriu_tehnic", "caiet_sarcini", "as_built"], "default": 1},
+    {"key": "lungime_pe_drum_m", "label": "Lungime pe drum public (m)", "type": "number", "section": "tehnic",
+     "used_in": ["memoriu_tehnic", "caiet_sarcini", "cerere_aviz_drumuri"]},
+    {"key": "conducta_existenta_strada", "label": "Conductă existentă - stradă", "type": "input", "section": "tehnic",
+     "used_in": ["memoriu_tehnic", "cerere_atr"]},
+    {"key": "conducta_existenta_caracteristici", "label": "Conductă existentă - caracteristici (DN, material)", "type": "input", "section": "tehnic",
+     "used_in": ["memoriu_tehnic"],
+     "help": "Ex: PE100 SDR11, Dn 90mm"},
+    {"key": "unghi_cuplare_min_grade", "label": "Unghi minim cuplare conductă (°)", "type": "number", "section": "tehnic",
+     "used_in": ["memoriu_tehnic"], "default": 60},
+    {"key": "tub_protectie", "label": "Tub de protecție", "type": "select", "section": "tehnic",
+     "options": ["Nu este necesar", "Necesar pe toată lungimea", "Necesar parțial (specifică în descriere)"],
+     "used_in": ["memoriu_tehnic", "caiet_sarcini"]},
+    {"key": "pat_caramizi", "label": "Pat de cărămizi (dimensiuni)", "type": "input", "section": "executie",
+     "used_in": ["memoriu_tehnic", "caiet_sarcini", "pv_lucrari_ascunse"],
+     "help": "Ex: L=1m x 0.4m"},
+
+    # === SECȚIUNE: CONDIȚII NATURALE ZONA (CLIMĂ + GEOLOGIE + SEISMIC) ===
+    {"key": "relief_zona", "label": "Relief zona", "type": "select", "section": "tehnic",
+     "options": ["Câmpie / Plat", "Deluros", "Munte", "Litoral", "Deltă"],
+     "used_in": ["memoriu_tehnic"], "default": "Câmpie / Plat"},
+    {"key": "temp_medie_anuala_C", "label": "Temperatură medie anuală (°C)", "type": "input", "section": "tehnic",
+     "used_in": ["memoriu_tehnic"], "default": "+10 ... +11"},
+    {"key": "temp_minima_iarna_C", "label": "Temperatură minimă iarnă (°C)", "type": "input", "section": "tehnic",
+     "used_in": ["memoriu_tehnic"], "default": "-15"},
+    {"key": "seismic_grad_SR11100", "label": "Grad seismic SR 11100-1", "type": "select", "section": "tehnic",
+     "options": ["6 (MKS)", "7 (MKS)", "8 (MKS)", "9 (MKS)"], "used_in": ["memoriu_tehnic"]},
+    {"key": "seismic_acceleratie_ag", "label": "Accelerație teren ag (P100-1)", "type": "input", "section": "tehnic",
+     "used_in": ["memoriu_tehnic"], "default": "0.24g"},
+    {"key": "seismic_perioada_colt_Tc", "label": "Perioadă colț Tc (P100-1)", "type": "input", "section": "tehnic",
+     "used_in": ["memoriu_tehnic"], "default": "1.6s"},
+    {"key": "adancime_inghet_cm", "label": "Adâncime maximă îngheț (cm) - STAS 6054", "type": "number", "section": "tehnic",
+     "used_in": ["memoriu_tehnic"], "default": 90},
+    {"key": "altitudine_m", "label": "Altitudinea zonei (m)", "type": "number", "section": "tehnic",
+     "used_in": ["memoriu_tehnic"]},
+
+    # === SECȚIUNE: EXEMPLARE & BORDEROU ===
+    {"key": "exemplare_nr", "label": "Nr. exemplare proiect (predate/primite)", "type": "number", "section": "dtac",
+     "used_in": ["referat_verificator", "borderou", "predare_amplasament"], "default": 4},
+
+    # === SECȚIUNE: PROGRAM FAZE — REFERINȚE LEGALE ===
+    {"key": "program_faze_isc_judet", "label": "ISC Județean (aprobă PCC)", "type": "input", "section": "isc",
+     "used_in": ["program_faze", "notificare_isc"],
+     "help": "Ex: 'BUCURESTI – ILFOV'"},
+    {"key": "program_faze_baza_legala", "label": "Bază legală PCC", "type": "tags", "section": "faze_det",
+     "options": ["HG 766/1997", "Ordin MLPAT 31/N/12.10.1995", "HG 272/1994", "HG 273/1994",
+                 "Legea 10/1995", "Ord. MLPAT 12/N/1995", "HG 1735/2006"],
+     "used_in": ["program_faze"],
+     "default": ["HG 766/1997", "Ordin MLPAT 31/N/12.10.1995", "HG 272/1994", "HG 273/1994"]},
+
+    # === SECȚIUNE: MATERIALE — REFERINȚE LA CATALOG OSD (Anexa 13) ===
+    {"key": "materiale_catalog_codes", "label": "Materiale catalog OSD (coduri)", "type": "tags", "section": "materiale",
+     "used_in": ["lista_materiale", "caiet_sarcini", "carte_tehnica"],
+     "help": "Selectează coduri din catalogul OSD (554 materiale predefinite)."},
 ]
+
+
+# ============================================================================
+# CATEGORII MARI (6) — pentru navigare UI-friendly pe pagina Gaze Naturale
+# ============================================================================
+# Conform cerinței user (literal):
+#   "structureaza pagina pe sectiunile date din comenzi:
+#    'date proiect', 'documentatie avize', 'documentatie proiectare',
+#    'documentatie executie', 'carte tehnica', 'dispozitie de santier'."
+#
+# Fiecare secțiune detaliată (din SECTIONS_META) este mapată la una din cele 6 categorii.
+CATEGORIES_META = {
+    "date_proiect": {
+        "label": "Date proiect",
+        "description": "Beneficiar, loc consum, scop lucrare, date tehnice, CU, ATR, AC, SF.",
+        "icon": "Folder",
+        "order": 1,
+        "sections": ["proiect", "beneficiar", "loc_consum", "tehnic", "sf", "cu", "atr", "ac"],
+    },
+    "documentatie_avize": {
+        "label": "Documentație avize",
+        "description": "Toate avizele aplicabile (apă, electric, drumuri, poliție, mediu, ISCIR, etc).",
+        "icon": "ListChecks",
+        "order": 2,
+        "sections": ["avize_cond"],
+    },
+    "documentatie_proiectare": {
+        "label": "Documentație proiectare",
+        "description": "DTAC, Proiect Tehnic, Memoriu tehnic, Caiet sarcini, RVT verificator atestat, Exigențe A/B/C/D, Materiale.",
+        "icon": "PencilRuler",
+        "order": 3,
+        "sections": ["dtac", "pt", "rvt", "exigente", "materiale"],
+    },
+    "documentatie_executie": {
+        "label": "Documentație execuție",
+        "description": "Anunț începere, predare amplasament, faze determinante, lucrări ascunse, probe presiune, PV verificare calitate, recepție, PIF, ISC.",
+        "icon": "HardHat",
+        "order": 4,
+        "sections": ["executie", "faze_det", "lucrari_ascunse", "pv_calitate", "probe", "receptie", "pif", "isc", "comisia"],
+    },
+    "carte_tehnica": {
+        "label": "Carte tehnică",
+        "description": "Cartea Tehnică a Construcției (Secțiunile A/B/C/D) + As-Built (planuri executate).",
+        "icon": "BookOpen",
+        "order": 5,
+        "sections": ["carte_tehnica_sec", "as_built"],
+    },
+    "dispozitie_santier": {
+        "label": "Dispoziție de șantier",
+        "description": "Dispoziții emise în timpul execuției (modificări, clarificări, justificări tehnice).",
+        "icon": "Pencil",
+        "order": 6,
+        "sections": ["dispozitie"],
+    },
+}
 
 
 SECTIONS_META = {
@@ -403,7 +643,27 @@ SECTIONS_META = {
     "isc":          {"label": "ISC & Diriginte șantier", "icon": "ShieldCheck", "order": 23},
     "carte_tehnica_sec": {"label": "Carte tehnică A/B/C/D", "icon": "BookOpen", "order": 24},
     "comisia":      {"label": "Comisia recepție (membri)", "icon": "Users", "order": 25},
+    "pv_calitate":  {"label": "PV verificare calitate (FD)", "icon": "ClipboardCheck", "order": 26},
 }
+
+
+# ============================================================================
+# Helpers pentru categorii (6 mari)
+# ============================================================================
+def get_category_for_section(section_id: str) -> Optional[str]:
+    """Returnează id-ul categoriei mari pentru o secțiune detaliată."""
+    for cat_id, cat in CATEGORIES_META.items():
+        if section_id in cat["sections"]:
+            return cat_id
+    return None
+
+
+def list_fields_for_category(category_id: str) -> List[Dict[str, Any]]:
+    """Returnează toate câmpurile dintr-o categorie mare (concatenate din toate secțiunile)."""
+    cat = CATEGORIES_META.get(category_id)
+    if not cat:
+        return []
+    return [f for f in FIELDS_REGISTRY if f["section"] in cat["sections"]]
 
 
 # ============================================================================

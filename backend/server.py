@@ -2264,7 +2264,7 @@ app.include_router(_preview_api)
 
 # Placeholders Registry routes (unified field source of truth)
 from fastapi import Depends as _Dep
-from placeholders_registry import FIELDS_REGISTRY, SECTIONS_META, compute_field_coverage
+from placeholders_registry import FIELDS_REGISTRY, SECTIONS_META, CATEGORIES_META, compute_field_coverage
 from auth import get_current_user as _gcu
 
 _pr_api = APIRouter(prefix="/api/placeholders")
@@ -2273,7 +2273,7 @@ _pr_api = APIRouter(prefix="/api/placeholders")
 @_pr_api.get("/registry")
 async def get_placeholders_registry():
     """Return unified fields registry + sections metadata."""
-    return {"fields": FIELDS_REGISTRY, "sections": SECTIONS_META}
+    return {"fields": FIELDS_REGISTRY, "sections": SECTIONS_META, "categories": CATEGORIES_META}
 
 
 @_pr_api.get("/coverage/{pid}")
@@ -2315,6 +2315,71 @@ from ocr_extract import router as ocr_router
 _ocr_api = APIRouter(prefix="/api/ocr")
 _ocr_api.include_router(ocr_router)
 app.include_router(_ocr_api)
+
+# V7.0 — Marketplace ad-hoc (vânzări produse/servicii)
+from marketplace_v2_routes import router as mkt_v2_router
+_mkt_v2_api = APIRouter(prefix="/api")
+_mkt_v2_api.include_router(mkt_v2_router)
+app.include_router(_mkt_v2_api)
+
+# V7.0 — Real Estate (anunțuri imobiliare)
+from real_estate_routes import router as re_router
+_re_api = APIRouter(prefix="/api")
+_re_api.include_router(re_router)
+app.include_router(_re_api)
+
+# V7.0 — Forum + Group Announcements
+from forum_routes import router as forum_router
+_forum_api = APIRouter(prefix="/api")
+_forum_api.include_router(forum_router)
+app.include_router(_forum_api)
+
+# V7.0 — Craftsmen Hiring
+from craftsmen_routes import router as craft_router
+_craft_api = APIRouter(prefix="/api")
+_craft_api.include_router(craft_router)
+app.include_router(_craft_api)
+
+# V7.0 — Logistics & Transport
+from logistics_routes import router as logistics_router
+_log_api = APIRouter(prefix="/api")
+_log_api.include_router(logistics_router)
+app.include_router(_log_api)
+
+# V7.0 — Smart Pricing Engine
+from smart_pricing_routes import router as pricing_router
+_price_api = APIRouter(prefix="/api")
+_price_api.include_router(pricing_router)
+app.include_router(_price_api)
+
+# V7.0 — OSD Materials Catalog (554 produse din ANEXA 13 reală)
+import json as _json
+import os as _os
+_osd_cat_path = _os.path.join(_os.path.dirname(__file__), "osd_materials_catalog.json")
+try:
+    with open(_osd_cat_path, "r", encoding="utf-8") as _f:
+        OSD_MATERIALS = _json.load(_f)
+except Exception:
+    OSD_MATERIALS = []
+
+_osd_api = APIRouter(prefix="/api")
+
+
+@_osd_api.get("/materials/osd-catalog")
+async def osd_materials_catalog(q: str = "", limit: int = 100, skip: int = 0):
+    """Catalog materiale OSD - 554 produse reale (țeavă PE, robineți, contoare, fitting).
+    Sursa: ANEXA 13 a OSD-urilor Distrigaz/Engie."""
+    items = OSD_MATERIALS
+    if q:
+        ql = q.lower()
+        items = [m for m in items if ql in m["name"].lower() or ql in m["code"]]
+    total = len(items)
+    items = items[skip:skip + limit]
+    return {"items": items, "total": total, "limit": limit, "skip": skip,
+            "source": "ANEXA 13 OSD - 554 produse oficiale"}
+
+
+app.include_router(_osd_api)
 
 # Mount the gas-project + subscribers routers via factory (shared db + auth dep).
 _gas_router = make_gas_project_router(db, get_current_user)

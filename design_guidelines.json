@@ -1,0 +1,91 @@
+{
+  "theme_archetype": "Archetype 4: Swiss & High-Contrast (Authority, Clarity, Truth)",
+  "global_rules": {
+    "philosophy": "High-end Swiss Brutalism with Premium Touches. Unified single ecosystem. Replace fragmented multi-colors (purple, green, blue) with a unified monochromatic structure punctuated by a single powerful brand accent (Orange).",
+    "primary_accent": "Orange/Amber (Brand Accent)",
+    "backgrounds": "Crisp White / 2% Zinc for Light mode, Obsidian for Dark Hero sections.",
+    "data_testid_rule": "MANDATORY on all interactive and key informational elements (e.g., buttons, inputs, links)."
+  },
+  "typography": {
+    "heading_font": "Cabinet Grotesk",
+    "body_font": "Outfit",
+    "technical_font": "JetBrains Mono",
+    "rules": "BANNED: Inter for headings. Use `tracking-tight` for H1/H2. Monospace strictly reserved for technical documentation labels, reference IDs, and code.",
+    "scale": {
+      "h1": "text-5xl sm:text-6xl tracking-tighter font-bold",
+      "h2": "text-3xl sm:text-4xl tracking-tight font-semibold",
+      "h3": "text-xl sm:text-2xl tracking-tight font-medium",
+      "body": "text-base leading-relaxed",
+      "technical_label": "text-xs font-mono uppercase tracking-widest text-zinc-500"
+    }
+  },
+  "colors": {
+    "background_primary": "bg-white",
+    "background_secondary": "bg-zinc-50",
+    "background_tertiary": "bg-zinc-100",
+    "text_primary": "text-zinc-950",
+    "text_secondary": "text-zinc-500",
+    "border": "border-zinc-200",
+    "accent_primary": "bg-orange-600 text-white hover:bg-orange-700",
+    "accent_subtle": "text-orange-600 bg-orange-50",
+    "hub_ecosystem_hover_logic": "Instead of different colors per module, use unified structural cards with `hover:border-orange-500 hover:shadow-lg transition-all`."
+  },
+  "layout_spacing": {
+    "general": "Generous spacing. Use p-8 to p-12 for major containers. Prevent text collision by using proper inner padding on bordered containers.",
+    "grid_hub": "Bento Grid (Control Room Mode). grid-cols-1 md:grid-cols-8 lg:grid-cols-12 with wide gaps (gap-6 or gap-8).",
+    "border_radius": "Subtle roundness (`rounded-lg` or `rounded-xl`). Avoid extreme pill shapes except for badges.",
+    "shadows": "Ambient diffuse shadows `shadow-[0_8px_32px_rgba(0,0,0,0.04)]`. No harsh drop shadows."
+  },
+  "components_instructions": {
+    "HomePageV7": {
+      "path": "/acasa",
+      "layout": "Hub Ecosystem Bento Grid",
+      "instructions": "Create 5 major clickable zones (Documentatie, Marketplace, Imobiliare, Forum, Servicii). Use a clean, monochromatic card base (`bg-white border-zinc-200`) with lucide-react icons. On hover, the border turns Orange and a subtle lift (`-translate-y-1`) occurs. Keep typography sharp and authoritative."
+    },
+    "LandingPage": {
+      "path": "/",
+      "layout": "Asymmetrical Marketing Layout",
+      "instructions": "Hero Section: High impact. Overlay dark tint (`bg-zinc-950/70`) over the modern architecture image. Use `text-white` for hero text. Add trust signals (NTPEE 2018, ANRE badges) below the CTA using glassmorphism. Add a client logo banner (marquee or static grid) using grayscale logos."
+    },
+    "DocumentatieIndustriiPage": {
+      "path": "/documentatie-industrii",
+      "layout": "High-Density Technical Grid",
+      "instructions": "This module has 179 fields. DO NOT use standard floating cards. Use a 'Technical Grid' (`border-collapse`). Sharp edges, 1px solid borders (`border-zinc-300`). Form labels must use `JetBrains Mono` uppercase. Form inputs must use Shadcn, flattened to integrate with the grid (no heavy focus rings, just a bottom orange border on focus)."
+    },
+    "AppShell_Sidebar": {
+      "instructions": "Remove all emojis. Replace with 20x20 `lucide-react` icons (stroke-width: 1.5). Group the 8 sections neatly. The active state should NOT have a full-width background color; instead, use `font-semibold text-zinc-950` with a sharp `border-l-4 border-orange-600` and a slight `bg-gradient-to-r from-orange-50 to-transparent`."
+    },
+    "Marketplace_RealEstate_Forum_Servicii": {
+      "instructions": "Unify the design language across these 4 pages. Remove custom colors (emerald, violet, rose, etc.). Use identical list/grid structures, typography hierarchies, and filter sidebars. Differentiation comes from the content (images, data points), NOT the UI shell color."
+    },
+    "SmartPricingCalculator": {
+      "instructions": "For the Servicii page. Create an elegant, technical calculator widget. Use slider inputs or segmented controls for the 5 factors. Highlight the final calculated price in large `Cabinet Grotesk` with an Orange accent."
+    }
+  },
+  "media": {
+    "icons_library": "lucide-react",
+    "images": {
+      "hero_background": {
+        "url": "https://images.unsplash.com/photo-1694702740570-0a31ee1525c7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODF8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBvZmZpY2UlMjBidWlsZGluZ3xlbnwwfHx8fDE3ODEyOTQ3Nzd8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Modern architecture high-rise, suitable for dark overlay on public landing hero."
+      },
+      "marketplace_placeholder": {
+        "url": "https://images.pexels.com/photos/36122954/pexels-photo-36122954.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Premium warehouse logistics interior for marketplace/services background."
+      },
+      "real_estate_placeholder": {
+        "url": "https://images.unsplash.com/photo-1635111057505-3b7dcc2b72fb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAxODF8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlJTIwbWFuc2lvbnxlbnwwfHx8fDE3ODEyOTQ3Nzd8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Aerial view of luxury mansion for Imobiliare ecosystem."
+      },
+      "technical_blueprint": {
+        "url": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHxibHVlcHJpbnQlMjB0ZWNoJTIwZW5naW5lZXJ8ZW58MHx8fHwxNzgxMjk0Nzc3fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Pencil on blueprint, suitable for Documentatie or general tech services header."
+      },
+      "trust_logos": [
+        "https://images.unsplash.com/photo-1773291933751-1fcff40c6133?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHw0fHxjb21wYW55JTIwbG9nbyUyMG1pbmltYWxpc3R8ZW58MHx8fHwxNzgxMTc0Mzg5fDA&ixlib=rb-4.1.0&q=85",
+        "https://images.unsplash.com/photo-1769984867572-10dea95bd4f1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHxjb21wYW55JTIwbG9nbyUyMG1pbmltYWxpc3R8ZW58MHx8fHwxNzgxMTc0Mzg5fDA&ixlib=rb-4.1.0&q=85",
+        "https://images.pexels.com/photos/28431524/pexels-photo-28431524.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+      ]
+    }
+  }
+}
