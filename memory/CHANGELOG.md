@@ -1,43 +1,36 @@
 # Energy Project Design — Changelog
 
-## V7.5 — 2026-06-12 (current session)
+## V8.0 — 2026-06-12 (current session, late)
+
+### Backend +3 DOCX templates noi (consumă +28 placeholders necheltuite)
+- **`dtac_lista_avize`** (gas_doc_templates_extra.py): tabel cu 11 avize utilități (E-Distribuție, Telekom, Apa Nova, STB, NetCity, Luxten, Străzi PMB, Circulație PMB, Mediu PMB, APM, acord acces) — fiecare cu Nr/Data și status "Obținut/În curs" calculat din date
+- **`pv_calitate`** (gas_doc_templates_extra.py): PV Control Calitate cu 4 secțiuni narative (documente bază, lucrări verificate, constatări, concluzii) + 3-col signature table proiectant/executant/diriginte. Consumă pv_calitate_pv_numar, pv_calitate_data, pv_calitate_proiectant, pv_calitate_constructor, pv_calitate_diriginte, pv_calitate_documente_baza, pv_calitate_lucrari, pv_calitate_constatari, pv_calitate_concluzii
+- **`program_faze_isc`** (gas_doc_templates_extra.py): Program Control Faze Determinante cu 7 faze (FD-01 până FD-07: predare-primire, trasaj, pat nisip, probă rezistență, probă etanșeitate, PVRTL, PIF) + cadru legal + ISC județean. Consumă program_faze_isc_judet, program_faze_baza_legala, program_control_model
+
+### Stripe webhook hardened
+- **Idempotency check** în `/api/webhook/stripe`: înainte de `$set payment_status=paid` se citește starea existentă; dacă deja era "paid", planul NU se re-activează (previne dublarea)
+- **Audit log** nou: colecție `db.plan_activation_log` cu intrări per activare (user, plan, session, source=webhook|status_poll, amount, currency, activated_at, renew_at)
+- **`/api/me/billing` endpoint nou**: returnează current_plan (id, name, price_eur, renews_at) + transactions (max 10) + activations (max 10) pentru user-facing dashboard
+
+### Tests
+- `/app/backend/tests/test_v80_extra_templates.py`: 11/11 PASSED în 4s
+- Dossier ZIP creștem: 23 → **27 DOCX + manifest** (~932KB)
+- Toate noile placeholders verificate prezente în DOCX-uri generate
+
+## V7.5 — 2026-06-12 (earlier session)
 
 ### Gaze Naturale — produs complet livrabil
-- **+ Tab nou "REGISTRU CÂMPURI (179)"** în `GasNaturalProjectV2.jsx` (al 3-lea tab după DATE/AVIZE)
-- **+ Componentă nouă** `RegistryFieldsTab.jsx` — toate 179 placeholders din `FIELDS_REGISTRY` grupate în 6 categorii × 26 secțiuni, accordion expandabil, coverage live per categorie + per template (overall + 6 cat bars + 27 template ready/not-ready)
-- **+ Auto-mapping V2→Registry** la fiecare save (`applyAutoMap`): câmpurile verzi V2 (`nume_client`, `adresa_imobil`, `osd_atr_nr`...) populează automat keys-urile canonice ale registrului (`beneficiar_nume`, `loc_consum_adresa`, `atr_numar`...) folosite efectiv în template-uri
-- **+ 6 ștampile cu mapping corect** la backend (stamp_proiectant / stamp_executant / stamp_vgd / stamp_rte / stamp_primarie / stamp_societate)
-
-### Extindere template-uri DOCX (consumă +30 fields necheltuite)
-- **Memoriu Tehnic**: +4 secțiuni noi (4.1 Condiții naturale, 4.2 Date seismice, 4.3 Categoria de importanță HG766, 4.4 Centrala) + secțiunea 6 Exigențele esențiale Legea 10/1995 (A/B/C/D)
-- **Carte Tehnică**: + bloc "Date identificatoare" (beneficiar + loc consum + cadastru + categorie importanță + proiect_nr_an + exemplare) + conținut narativ ct_sectiune_A/B/C/D + comisia recepție extinsă (președinte / OSD / ISC / beneficiar)
-- **Borderou**: + secțiunea C "Materiale și furnizori" (Wavin / Pietro Fiorentini / Itron + standarde EN 1555 / EN 1555-4 / EN 88-1 / EN 1359) + secțiunea D "Avize utilități obținute" (11 avize)
-
-### Stripe checkout (P1 done)
-- Reparat `UpgradeGate.jsx` să folosească `/api/payments/checkout` cu `origin_url` (înainte: `/billing/checkout` cu `return_url`, endpoint inexistent)
-- Reparat bug latent în `/api/upgrade-info` (iterare peste cheile dict-ului `PLANS` în loc de valori)
-- Verificat: returnează URL real `https://checkout.stripe.com/c/pay/cs_test_*`
-
-### Landing page public restaurat
-- **Rewrite `Landing.jsx`** secțiunea principală: + 12 servicii (`landing-service-*`) cu tag-uri CORE/NEW/BIZ/INFO + 5 ecosisteme (`landing-eco-*`) pe fundal negru
-- Vizitatorii văd acum descrierea completă a paginilor principale
-
-### Bug fixes
-- `STAMPS_UPLOAD` category mapping: `stamp_proiectanta` → `stamp_proiectant`, etc. (alignment cu backend `asset_storage.py`)
-- Adăugat 2 ștampile (RTE, Societate) lipsă din lista anterioară
-
-### Testing
-- Backend regression: 7/7 PASSED (testing_agent_v3_fork iteration 5)
-- Curl verificare directă: 23 DOCX + manifest, ~820KB ZIP, conținut real în memoriu_tehnic + carte_tehnica + borderou
+- Tab nou "REGISTRU CÂMPURI (179)" — 179 placeholders din `FIELDS_REGISTRY` grupați în 6 categorii × 26 secțiuni cu coverage live
+- Auto-mapping V2→Registry la save (`applyAutoMap`)
+- 6 ștampile cu mapping backend corect
+- Extindere DOCX: Memoriu Tehnic +5 secțiuni, Carte Tehnică +ct_sectiune_A/B/C/D, Borderou +materiale&furnizori +11 avize
+- Stripe checkout funcțional (UpgradeGate → /api/payments/checkout)
+- Landing public restaurat (12 servicii + 5 ecosisteme)
 
 ## V7.4 — 2026-06-12
 
 ### HomePage V7.4 restructurare
-- Hero compact 4 col + 12 quick-access pills (qa-*) vizibile imediat
-- 5 ecosystem cards (eco-*) + 6th AI card
-- Stats strip (23 DOCX, 6 ecosisteme, 17 dep × 10 planuri)
-- Activity feed live
-- Footer trust badges
+- Hero compact + 12 quick-access pills + 5 ecosystem cards + AI card + stats + activity feed
 
 ## V7.3 și anterior
 Vezi `/app/memory/PRD.md` pentru detalii.
