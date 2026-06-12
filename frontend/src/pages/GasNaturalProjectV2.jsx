@@ -709,6 +709,14 @@ export default function GasNaturalProjectV2() {
   const [collapsed, setCollapsed] = useState({});
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
+  // Dynamic registry field count (V8.5+ avoids hardcoded label)
+  const [regFieldsCount, setRegFieldsCount] = useState(null);
+
+  useEffect(() => {
+    api.get('/placeholders/registry')
+      .then(({ data }) => setRegFieldsCount(data?.fields?.length || null))
+      .catch(() => {});
+  }, []);
 
   const load = useCallback(async () => {
     if (!pid) return;
@@ -913,7 +921,7 @@ export default function GasNaturalProjectV2() {
           AVIZE HUB
         </button>
         <button onClick={() => setActiveTab('registru')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'registru' ? 'bg-green-400 border-green-500 text-white' : 'bg-white border-green-300 text-gray-700 hover:bg-green-50'}`} data-testid="tab-registru">
-          REGISTRU CÂMPURI (179)
+          REGISTRU CÂMPURI {regFieldsCount ? `(${regFieldsCount})` : ''}
         </button>
       </div>
 

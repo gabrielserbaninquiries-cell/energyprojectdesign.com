@@ -1,11 +1,21 @@
 # /app/memory/test_credentials.md
 
-Last updated: 2026-06-08
+Last updated: 2026-06-12 (V8.5)
+
+## Live preview URL (READ FROM .env, do not hardcode)
+- Current: `https://github-push-test.preview.emergentagent.com`
+- Source of truth: `REACT_APP_BACKEND_URL` in `/app/frontend/.env`
 
 ## Admin / Developer account (full platform access)
 - **Email:** `dragosserban95@gmail.com`
 - **Password:** `Test12345`
 - **Role:** developer + admin (is_developer=True, is_admin=True)
+- **Plan:** developer (gratuit, acces nelimitat)
+
+## Test Gas Project (pre-populated, owned by admin)
+- **PID:** `gp_e79e2810cc64b5b4`
+- Pre-populated with ~50 fields incl. registry + ntpee + legal docs
+- URL: `/gaze-naturale/gp_e79e2810cc64b5b4`
 
 Use this account to test:
 - `/admin/config` page (Admin-Only Configuration UI)
