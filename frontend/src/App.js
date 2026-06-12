@@ -69,6 +69,7 @@ import MarketplacePage from './pages/MarketplacePage';
 import RealEstatePage from './pages/RealEstatePage';
 import ForumPage from './pages/ForumPage';
 import ServiciiPage from './pages/ServiciiPage';
+import PlanuriDepartamente from './pages/PlanuriDepartamente';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -98,10 +99,10 @@ function AppRouter() {
       <Route path="/confidentialitate" element={<Confidentialitate />} />
       <Route path="/gdpr" element={<Gdpr />} />
       <Route path="/pentru/:role" element={<Personas />} />
-      <Route path="/gaze-naturale" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
-      <Route path="/gaze-naturale/recipients" element={<ProtectedRoute><GasRecipients /></ProtectedRoute>} />
-      <Route path="/gaze-naturale-v1/:pid" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
+      <Route path="/gaze-naturale" element={<ProtectedRoute><GasNaturalProjectV2 /></ProtectedRoute>} />
       <Route path="/gaze-naturale/:pid" element={<ProtectedRoute><GasNaturalProjectV2 /></ProtectedRoute>} />
+      <Route path="/gaze-naturale-v1/:pid" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
+      <Route path="/gaze-naturale/recipients" element={<ProtectedRoute><GasRecipients /></ProtectedRoute>} />
       <Route path="/subscribers" element={<ProtectedRoute><Subscribers /></ProtectedRoute>} />
       <Route path="/clients" element={<ProtectedRoute><Clients /></ProtectedRoute>} />
       <Route path="/companies" element={<ProtectedRoute><Companies /></ProtectedRoute>} />
@@ -168,6 +169,7 @@ function AppRouter() {
       <Route path="/forum-v7" element={<ProtectedRoute><ForumPage /></ProtectedRoute>} />
       <Route path="/servicii" element={<ProtectedRoute><ServiciiPage /></ProtectedRoute>} />
       <Route path="/smart-pricing" element={<ProtectedRoute><ServiciiPage /></ProtectedRoute>} />
+      <Route path="/planuri-departamente" element={<ProtectedRoute><PlanuriDepartamente /></ProtectedRoute>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -10,87 +10,11 @@ import {
   Stamp, ShieldCheck, Mail, BadgeCheck, GaugeCircle, CreditCard, Settings, LogOut,
   Sparkles, Wrench, ListChecks, Flame, ChevronRight, FolderKanban, Github, Banknote, MessageSquare, Building2,
   Layers, Compass, BarChart3, Sun, Bot, FileSearch, Users as UsersIcon, Receipt, AlertTriangle, X,
-  Lock, Terminal, Package, ListOrdered, Home, ShoppingBag, Truck,
+  Lock, Terminal, Package, ListOrdered, Home, ShoppingBag, Truck, KeyRound,
 } from 'lucide-react';
 
-const SECTIONS = [
-  {
-    title: '🏠 Acasă',
-    items: [
-      { to: '/acasa', label: 'Hub Ecosistem', icon: Home, tid: 'nav-acasa' },
-      { to: '/dashboard', label: 'Panou principal', icon: LayoutDashboard, tid: 'nav-dashboard' },
-      { to: '/proiecte', label: 'Proiectele mele', icon: FolderKanban, tid: 'nav-proiecte' },
-    ],
-  },
-  {
-    title: '📐 Documentație Tehnică',
-    items: [
-      { to: '/documentatie-industrii', label: 'Industrii (13)', icon: Compass, tid: 'nav-documentatie-industrii' },
-      { to: '/gaze-naturale', label: 'Gaze Naturale Studio', icon: Flame, tid: 'nav-gaze-naturale' },
-      { to: '/templates', label: 'Șabloane DOCX', icon: FileText, tid: 'nav-templates' },
-      { to: '/documents', label: 'Documente generate', icon: FileCheck2, tid: 'nav-documents' },
-      { to: '/stamps', label: 'Ștampile + Semnături', icon: Stamp, tid: 'nav-stamps' },
-      { to: '/certificate', label: 'Certificate PKI', icon: ShieldCheck, tid: 'nav-certificate' },
-      { to: '/verifica', label: 'Verifică QR public', icon: GaugeCircle, tid: 'nav-verifica' },
-    ],
-  },
-  {
-    title: '🛒 Marketplace',
-    items: [
-      { to: '/marketplace', label: 'Anunțuri ad-hoc', icon: ShoppingBag, tid: 'nav-marketplace' },
-    ],
-  },
-  {
-    title: '🏢 Imobiliare',
-    items: [
-      { to: '/imobiliare', label: 'Vânzare + Închiriere', icon: Home, tid: 'nav-imobiliare' },
-    ],
-  },
-  {
-    title: '💬 Comunitate',
-    items: [
-      { to: '/forum-v7', label: 'Forum + Anunțuri', icon: MessageSquare, tid: 'nav-forum-v7' },
-      { to: '/forum', label: 'Forum legacy', icon: MessageSquare, tid: 'nav-forum' },
-    ],
-  },
-  {
-    title: '🔧 Servicii',
-    items: [
-      { to: '/servicii', label: 'Meseriași + Transport', icon: Wrench, tid: 'nav-servicii' },
-      { to: '/smart-pricing', label: 'Calculator costuri', icon: Calculator, tid: 'nav-smart-pricing' },
-    ],
-  },
-  {
-    title: '🤖 AI & Asistare',
-    items: [
-      { to: '/consultant-ai', label: 'Consultant AI (Claude)', icon: Sparkles, tid: 'nav-consultant-ai' },
-      { to: '/ai-agents', label: '4 AI Agents', icon: Bot, tid: 'nav-ai-agents' },
-      { to: '/ai', label: 'AI Assistant', icon: Sparkles, tid: 'nav-ai' },
-    ],
-  },
-  {
-    title: '💼 Business',
-    items: [
-      { to: '/crm-abonati', label: 'CRM Abonați', icon: UsersIcon, tid: 'nav-crm' },
-      { to: '/clients', label: 'Clienți', icon: UsersIcon, tid: 'nav-clients' },
-      { to: '/companies', label: 'Companii', icon: Building2, tid: 'nav-companies' },
-      { to: '/contracts', label: 'Contracte', icon: FileText, tid: 'nav-contracts' },
-      { to: '/jobs', label: 'Job Board ANRE', icon: BadgeCheck, tid: 'nav-jobs' },
-      { to: '/seap-alerts', label: 'SEAP Alerts', icon: FileSearch, tid: 'nav-seap' },
-      { to: '/anaf-efactura', label: 'ANAF e-Factura', icon: Receipt, tid: 'nav-anaf' },
-      { to: '/email', label: 'Email-uri', icon: Mail, tid: 'nav-email' },
-    ],
-  },
-  {
-    title: '⚙️ Cont',
-    items: [
-      { to: '/company', label: 'Profil societate', icon: Building2, tid: 'nav-company' },
-      { to: '/pricing', label: 'Planuri & achiziții', icon: CreditCard, tid: 'nav-pricing' },
-      { to: '/logs', label: 'Registru audit', icon: ListChecks, tid: 'nav-logs' },
-      { to: '/settings', label: 'Setări', icon: Settings, tid: 'nav-settings' },
-    ],
-  },
-];
+// Note: SECTIONS static array removed in V7.2 — sidebar now consumes /api/me/menu
+// which returns DEPARTMENTS × pages filtered by user's plan + role.
 
 export default function AppShell({ children, title, subtitle }) {
   const { user, logout } = useAuth();
@@ -98,6 +22,8 @@ export default function AppShell({ children, title, subtitle }) {
   const navigate = useNavigate();
   const [banner, setBanner] = useState(null);
   const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [menuGroups, setMenuGroups] = useState(null);
+  const [menuLoading, setMenuLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -111,6 +37,32 @@ export default function AppShell({ children, title, subtitle }) {
     const t = setInterval(poll, 60000); // every 60s
     return () => { cancelled = true; clearInterval(t); };
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data } = await api.get('/me/menu');
+        if (!cancelled) setMenuGroups(data.departments || []);
+      } catch {
+        // fallback: empty menu — user still has direct route access via URL
+        if (!cancelled) setMenuGroups([]);
+      } finally {
+        if (!cancelled) setMenuLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Lucide icon mapper — keys come from backend
+  const ICON_MAP = {
+    Home, LayoutDashboard, FolderKanban, Compass, Flame, FileText, Sparkles, Stamp,
+    FileCheck2, GaugeCircle, ShieldCheck, FileSearch, Receipt, ShoppingBag, Building2,
+    MessageSquare, Wrench, Calculator, Bot, UsersIcon, BadgeCheck, Mail, ListChecks,
+    Settings, CreditCard, KeyRound: ShieldCheck, ClipboardCheck: BadgeCheck,
+    Pencil: Settings2, HardHat: Wrench, PencilRuler: Wrench, Briefcase: BadgeCheck,
+    FileCheck: FileCheck2,
+  };
 
   const showBanner = banner && !bannerDismissed && (banner.maintenance_mode || banner.announcement_banner);
   const isWarn = banner?.maintenance_mode || banner?.announcement_level === 'warning' || banner?.announcement_level === 'danger';
@@ -137,66 +89,68 @@ export default function AppShell({ children, title, subtitle }) {
           </Link>
         </div>
 
-        <nav className="flex-1 px-3 py-4 space-y-5">
-          {SECTIONS.map((section) => (
-            <div key={section.title}>
-              <div className="px-3 mb-2 text-[10px] uppercase tracking-[0.2em] text-gray-400">{section.title}</div>
-              <div className="space-y-0.5">
-                {section.items.map((n) => {
-                  const Icon = n.icon;
-                  const active = location.pathname === n.to || (n.to !== '/dashboard' && location.pathname.startsWith(n.to));
-                  return (
-                    <Link
-                      key={n.to}
-                      to={n.to}
-                      data-testid={n.tid}
-                      className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${
-                        active ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'
-                      }`}
-                    >
-                      <Icon className="w-3.5 h-3.5 shrink-0" />
-                      <span className="flex-1 truncate">{n.label}</span>
-                      {active && <ChevronRight className="w-3 h-3" />}
-                    </Link>
-                  );
-                })}
+        <nav className="flex-1 px-3 py-4 space-y-4">
+          {menuLoading && (
+            <div className="px-3 text-[10px] text-zinc-400 uppercase tracking-widest">Se încarcă meniul…</div>
+          )}
+          {!menuLoading && menuGroups && menuGroups.map((group) => {
+            const HeadingIcon = ICON_MAP[group.icon] || LayoutDashboard;
+            return (
+              <div key={group.id}>
+                <div className="px-3 mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-zinc-400">
+                  <HeadingIcon className="w-3 h-3 shrink-0" />
+                  <span>{group.label}</span>
+                </div>
+                <div className="space-y-0.5">
+                  {group.pages.map((n) => {
+                    const Icon = ICON_MAP[n.icon] || LayoutDashboard;
+                    const active = location.pathname === n.path || (n.path !== '/dashboard' && n.path !== '/acasa' && location.pathname.startsWith(n.path));
+                    return (
+                      <Link
+                        key={n.key}
+                        to={n.path}
+                        data-testid={n.tid}
+                        className={`flex items-center gap-2.5 px-3 py-1.5 text-[12.5px] transition-colors rounded-sm border-l-2 ${
+                          active ? 'bg-zinc-950 text-white border-orange-500' : 'text-zinc-700 hover:bg-zinc-100 border-transparent'
+                        }`}
+                      >
+                        <Icon className="w-3.5 h-3.5 shrink-0" />
+                        <span className="flex-1 truncate">{n.label}</span>
+                        {active && <ChevronRight className="w-3 h-3" />}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
-          {(user?.is_developer || user?.is_admin) && (
+          {!menuLoading && (user?.is_developer || user?.is_admin) && (
             <div>
-              <div className="px-3 mb-2 text-[10px] uppercase tracking-[0.2em] text-[#FFB300]">// Intern</div>
-              <Link to="/admin/config" data-testid="nav-admin-config" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname === '/admin/config' ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <ShieldCheck className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">Admin Config</span>
-              </Link>
-              <Link to="/admin/essentials" data-testid="nav-admin-essentials" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/admin/essentials') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <ShieldCheck className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">Esențiale funcționare</span>
-              </Link>
-              <Link to="/developer" data-testid="nav-developer" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname === '/developer' ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <Wrench className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">AI Developer Plan</span>
-              </Link>
-              <Link to="/developer/chat" data-testid="nav-developer-chat" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/developer/chat') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <Sparkles className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">AI Developer Chat</span>
-              </Link>
-              <Link to="/queue" data-testid="nav-queue" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/queue') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <ListOrdered className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">AI Implementation Queue</span>
-              </Link>
-              <Link to="/self-check" data-testid="nav-self-check" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/self-check') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <ListChecks className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">Self Check</span>
-              </Link>
-              <Link to="/skeleton" data-testid="nav-skeleton" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/skeleton') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <Package className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">Product Skeleton</span>
-              </Link>
-              <Link to="/inside" data-testid="nav-inside" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/inside') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <Lock className="w-3.5 h-3.5 shrink-0 text-[#FFB300]" /><span className="flex-1">Inside Full</span>
-              </Link>
-              <Link to="/developer/github" data-testid="nav-developer-github" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/developer/github') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <Github className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">Push pe GitHub</span>
-              </Link>
-              <Link to="/admin/payment-accounts" data-testid="nav-payment-accounts" className={`flex items-center gap-3 px-3 py-2 text-[13px] transition-colors rounded-sm ${location.pathname.startsWith('/admin/payment-accounts') ? 'bg-black text-white' : 'text-gray-700 hover:bg-gray-100'}`}>
-                <Banknote className="w-3.5 h-3.5 shrink-0" /><span className="flex-1">Conturi încasări</span>
-              </Link>
+              <div className="px-3 mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-orange-600">
+                <Terminal className="w-3 h-3" />
+                <span>Developer Tools</span>
+              </div>
+              <div className="space-y-0.5">
+                {[
+                  ['/developer', 'AI Developer Plan', Wrench, 'nav-developer'],
+                  ['/developer/chat', 'AI Developer Chat', Sparkles, 'nav-developer-chat'],
+                  ['/queue', 'AI Implementation Queue', ListOrdered, 'nav-queue'],
+                  ['/self-check', 'Self Check', ListChecks, 'nav-self-check'],
+                  ['/skeleton', 'Product Skeleton', Package, 'nav-skeleton'],
+                  ['/inside', 'Inside Full', Lock, 'nav-inside'],
+                  ['/developer/github', 'Push pe GitHub', Github, 'nav-developer-github'],
+                  ['/admin/payment-accounts', 'Conturi încasări', Banknote, 'nav-payment-accounts'],
+                ].map(([path, label, Icon, tid]) => (
+                  <Link key={path} to={path} data-testid={tid}
+                    className={`flex items-center gap-2.5 px-3 py-1.5 text-[12.5px] transition-colors rounded-sm border-l-2 ${
+                      location.pathname.startsWith(path) ? 'bg-zinc-950 text-white border-orange-500' : 'text-zinc-700 hover:bg-zinc-100 border-transparent'
+                    }`}>
+                    <Icon className="w-3.5 h-3.5 shrink-0" />
+                    <span className="flex-1 truncate">{label}</span>
+                  </Link>
+                ))}
+              </div>
             </div>
           )}
         </nav>

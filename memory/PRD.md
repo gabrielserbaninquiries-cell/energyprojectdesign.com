@@ -1,12 +1,60 @@
 # Energy Project Design — PRD
 
 
-## CHANGELOG — 2026-06-08 (V6.4) — Placeholders Extended · Faze Determinante · OCR · Essentials Config · Cross-Industry Concrete
+## CHANGELOG — 2026-06-08 (V7.2) — Adaptive Menu + Plans×Departments Matrix + Cleanup
+
+### Cerere literală user
+> "structureaza paginile pe planurile de plata a industriilor si departamentelor conexe fiecarei pagini [...] compacteaza meniul, elimina paginile inutile sau repetitive [...] platforma reala pentru conceptul comunicat"
+
+### Implementat
+- **Backend**: `roles_pages_matrix.py` cu 17 departamente × 31 pagini × 13 planuri. Sursa unică pentru permission gating.
+- **Endpoint nou**: `GET /api/me/menu` returnează doar pagini accesibile userului curent (filtrate după plan + role).
+- **Endpoint public**: `GET /api/menu/plans-departments-matrix` pentru pagina /planuri-departamente.
+- **Frontend**: AppShell sidebar refactor complet — consumă `/api/me/menu` dinamic. Eliminat array `SECTIONS` static (era 70 items). Acum 39 nav items pentru developer (1/2 din dimensiune).
+- **Pagină nouă** `/planuri-departamente` — matrice vizuală 10 plan cards + 17 departamente × pagini × planuri.
+- **Cleanup duplicate**: eliminat 2 rute /gaze-naturale duplicate, V1 mutat exclusiv la `/gaze-naturale-v1/:pid`, default-ul pe `/gaze-naturale` → V2.
+- **Active state**: border-l-2 orange pe link activ în sidebar (înainte: full bg negru).
+
+
+## CHANGELOG — 2026-06-08 (V7.1) — High-end Design System + Brand Identity Swiss
 
 ### Cerință literală user
-> "citeste cuvant cu cuvant toate fisierele [...] implementeaza singur, fara accept, tot ce tine de back-end pentru completarea documentelor [...] daca nu le cunosti in toate fazele, cauta-le acum individual pe net pentru fiecare faza [...] creeaza noi placeholdere pentru fiecare faza a demararii lucrarilor proiectului respectiv, apoi implementeaza toate placeholderele fara ca acestea sa fie duplicat [...] API keys cert-SIGN/DigiSign/Trans Sped se vor configura din pagina de profil admin-ului pentru sectiunea: esentiale functionare pagina (feature nou)."
+> "Te rog creeaza un site sugestiv platformei, restructurandu-l dupa viziunea de ansamblu pe care ar trebui sa il aiba proiectul acestuia."
 
-### Backend NOU V6.4 (4 module noi + 2 extinse + 29 endpoints noi totale)
+### Implementat
+- **Design Guidelines** create în `/app/design_guidelines.json` — palette Swiss/Brutalist + Cabinet Grotesk + mono labels + accent orange singular.
+- **HomePageV7 rescriere completă**: hero negru cu gradient orange right-side, grid 48px subtile, trust badges glassmorphism (NTPEE, Legea 10, HG 273, etc.), Bento grid asimetric pentru 5 ecosisteme (Documentație 6-col 2-row featured + 4 cards 3-col), Smart Pricing band orange, footer trio info.
+- **5 ecosisteme cards** uniformizate vizual (înlocuit cele 5 culori diferite cu monochrome + orange hover singular).
+
+
+## CHANGELOG — 2026-06-08 (V7.0) — Ecosystem Expansion (5 verticale noi)
+
+### Cereri agregate user (mesaje 14+15+16)
+- Marketplace ad-hoc · Imobiliare · Forum + Grup anunțuri · Meseriași · Logistică · Smart Pricing
+
+### Backend NOU (7 module noi + 50+ endpoints)
+- `marketplace_v2_routes.py` — 7 categorii (materiale, echipamente, servicii, ștampile, software, scule, altele) + CRUD + favorites
+- `real_estate_routes.py` — 5 tipuri proprietăți + 3 tipuri tranzacții + filtre avansate + calculator credit ipotecar
+- `forum_routes.py` — 7 categorii forum + topics + posts + best-answer + announcement marker
+- `craftsmen_routes.py` — 15 specializări (instalator gaze ANRE, electrician, sudor, diriginte MDLPA, etc.) + rating + reviews + verificare
+- `logistics_routes.py` — 8 tipuri servicii + 7 tipuri vehicule + booking system
+- `smart_pricing_routes.py` — engine 5 factori (județ, urgență, complexitate, rating, supply) × 25+ servicii
+- `osd_materials_catalog.json` — **554 materiale OSD reale** (din ANEXA 13 Distrigaz)
+
+### Frontend NOU (6 pagini)
+- `HomePageV7.jsx` (Hub Ecosistem)
+- `DocumentatieIndustriiPage.jsx` (13 industrii grupate active/planificate)
+- `MarketplacePage.jsx` (filtre + create listing modal)
+- `RealEstatePage.jsx` (filtre + create modal + calculator credit inline)
+- `ForumPage.jsx` (7 categorii buttons + topic create)
+- `ServiciiPage.jsx` (3 tabs: meseriași + logistică + calculator pricing)
+
+### Placeholders V7.0 extinse din documente reale
+- 103 câmpuri noi (de la 76 la 179) extras din 5 documente reale uploaded: PV verificare calitate (FD 461 302), Referat DTAC MLPAT, Foaie de capăt, Memoriu avizare, Program faze + Lista 554 materiale OSD.
+- 6 categorii mari structurate: date_proiect, documentatie_avize, documentatie_proiectare, documentatie_executie, carte_tehnica, dispozitie_santier.
+
+
+## CHANGELOG — 2026-06-08 (V6.4) — Placeholders Extended · Faze Determinante · OCR · Essentials Config · Cross-Industry Concrete
 
 **`placeholders_registry.py` EXTENS** — de la 76 la **120 câmpuri** în **25 secțiuni** (era 16):
 - Faze determinante (FD) + PCC — sudură, săpătură, probe, acoperire șanț

@@ -2353,9 +2353,6 @@ _price_api.include_router(pricing_router)
 app.include_router(_price_api)
 
 # V7.0 — OSD Materials Catalog (554 produse din ANEXA 13 reală)
-import json as _json
-import os as _os
-_osd_cat_path = _os.path.join(_os.path.dirname(__file__), "osd_materials_catalog.json")
 try:
     with open(_osd_cat_path, "r", encoding="utf-8") as _f:
         OSD_MATERIALS = _json.load(_f)
@@ -2380,6 +2377,58 @@ async def osd_materials_catalog(q: str = "", limit: int = 100, skip: int = 0):
 
 
 app.include_router(_osd_api)
+
+
+# V7.2 — Adaptive Menu (pages × plans matrix)
+import json as _json2
+import os as _os2
+_osd_cat_path2 = _os2.path.join(_os2.path.dirname(__file__), "osd_materials_catalog.json")  # kept for backward compat
+try:
+    with open(_osd_cat_path2, "r", encoding="utf-8") as _f2:
+        _ = _json2.load(_f2)
+except Exception:
+    pass
+
+import roles_pages_matrix as _rpm  # noqa: E402
+
+_menu_api = APIRouter(prefix="/api")
+
+
+@_menu_api.get("/me/menu")
+async def my_adaptive_menu(user: User = Depends(get_current_user)):
+    """Returnează meniul adaptat planului + rolului userului curent.
+    Frontend sidebar consumă acest JSON pentru a afișa DOAR ce poate userul accesa."""
+    plan_id = getattr(user, "plan_id", "free") or "free"
+    is_admin = bool(getattr(user, "is_admin", False))
+    is_developer = bool(getattr(user, "is_developer", False))
+    pages = _rpm.get_pages_for_user(plan_id, is_admin, is_developer)
+    groups = _rpm.group_by_department(pages)
+    return {
+        "user_plan": plan_id,
+        "is_admin": is_admin,
+        "is_developer": is_developer,
+        "total_pages": len(pages),
+        "departments": groups,
+    }
+
+
+@_menu_api.get("/menu/plans-departments-matrix")
+async def plans_departments_public_matrix():
+    """Returnează matricea publică: departamente × planuri (pentru pagina /planuri-departamente)."""
+    # Find all unique plans referenced across pages
+    plans_set = set()
+    for p in _rpm.PAGES:
+        for ap in p["allowed_plans"]:
+            if ap != "*":
+                plans_set.add(ap)
+    return {
+        "departments": _rpm.DEPARTMENTS,
+        "pages": _rpm.PAGES,
+        "plans_referenced": sorted(plans_set),
+    }
+
+
+app.include_router(_menu_api)
 
 # Mount the gas-project + subscribers routers via factory (shared db + auth dep).
 _gas_router = make_gas_project_router(db, get_current_user)
