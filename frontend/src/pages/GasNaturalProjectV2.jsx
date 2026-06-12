@@ -36,6 +36,7 @@ import AppShell from '../components/AppShell';
 import api from '../lib/api';
 import { toast } from 'sonner';
 import RegistryFieldsTab from '../components/RegistryFieldsTab';
+import GasServicePipeline from '../components/GasServicePipeline';
 import {
   ArrowLeft, Save, FileSignature, Send, Download, Upload, Trash2, Plus,
   CheckCircle2, FileText, Stamp, Mail, Calculator, Package, Sparkles,
@@ -894,6 +895,14 @@ export default function GasNaturalProjectV2() {
           </button>
         </div>
       </div>
+
+      {/* SERVICE PIPELINE + AD-HOC CATALOG (de la date la livrare cu plată Stripe) */}
+      <GasServicePipeline
+        pid={pid}
+        data={data}
+        hasStamps={!!proj?.signed_assets?.length}
+        isSigned={!!proj?.signature_hash}
+      />
 
       {/* Tabs Date / Avize / Registru */}
       <div className="flex gap-1 mb-4 border-b-2 border-green-400" data-testid="gas-v2-tabs">

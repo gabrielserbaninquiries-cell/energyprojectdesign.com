@@ -2322,6 +2322,10 @@ _asset_api = APIRouter(prefix="/api")
 _asset_api.include_router(asset_router)
 app.include_router(_asset_api)
 
+# Gas project ad-hoc services (Stripe per-service checkout: express, QES, dispatch, review, print)
+from gas_services_routes import register_routes as _gas_services_register
+_gas_services_register(app, db, get_current_user, _stripe_client)
+
 # Document Preview & Sign (DOCX → PDF + ștampile + certificare)
 from document_preview import router as preview_router
 _preview_api = APIRouter(prefix="/api/document")

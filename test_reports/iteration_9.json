@@ -1,0 +1,39 @@
+{
+  "summary": "V8.3 Gas project per-service ad-hoc Stripe checkout — backend 17/17 PASSED + frontend GasServicePipeline + GasServiceCatalog rendering and buy→Stripe redirect verified. Catalog returns 5 services with correct prices (express_24h=49€, qes_signature=5€, seap_dispatch=15€, tech_review=35€, carte_legata=25€). Pipeline strip shows 6 stages (date/docs/stamps/signature/payment/delivery) with 3/6 ETAPE COMPLETE indicator on test PID. Service-checkout returns Stripe URL + session_id + amount; invalid service_id→400, unknown PID→404, unauth→401. service-status returns non-paid for fresh sessions, 404 for unknown session. V8.2 regression smoke (billing, 179-field registry, dossier 27-file ZIP, /api/payments/checkout for plan subscriptions, /api/auth/me, /api/upgrade-info, /api/stamps) all green.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_v83_gas_services.py",
+    "/app/test_reports/pytest/v83_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "gas_services_routes.py is small (170 lines) and clean. SERVICE_CATALOG as a module-level dict is fine for v1 but should move to DB-backed config once admin needs to edit prices/labels without redeploy.",
+    "service_checkout always persists a new pending row regardless of duplicate sessions for same (user, pid, service_id) — could lead to many pending rows if a user clicks Buy repeatedly. Consider deduping or auto-expiring pending purchases older than N minutes.",
+    "service_status uses get_checkout_status; relies on emergentintegrations Stripe wrapper. Works idempotently when already paid (returns already=true). No webhook handler observed — payment activation depends on the user returning to /gaze-naturale/{pid}?service_session={sid}. If the user closes the tab after paying, the purchase stays 'pending' forever. Recommend adding /webhook/stripe and/or a background reconciliation job.",
+    "GasServicePipeline.jsx (~193 lines) is single-file and reasonable, but the stageStatus derivation uses raw Object.values().filter() with ≥25/≥50 thresholds — fragile if 'data' shape changes. Extract status-compute into a pure helper for testability.",
+    "After Stripe redirect ?service_session=sid, the component calls window.history.replaceState({}, '', window.location.pathname) — fine for plain URLs but loses any other query params. Should only delete the service_session key, not the whole search.",
+    "buy() handler does window.location.href = data.url, which triggers full-page navigation (verified) — but the toast on error catches e.response.data.detail which is the FastAPI shape; if backend returns a different error envelope, message will be 'Eroare checkout'. Acceptable.",
+    "Pipeline 'date' progress threshold (≥25 filled fields) vs registry has 179 fields — the threshold should ideally be tied to category-required counts rather than a magic number. The current test PID shows 3/6 done which is consistent with stamps/payment/delivery being legitimately pending."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v83_gas_services.py (NEW — V8.3 regression suite, 17/17 passing in ~5s)"
+  ],
+  "success_rate": {
+    "backend": "100% (17/17)",
+    "frontend": "100% — pipeline + catalog + Stripe checkout redirect all verified"
+  },
+  "test_credentials": "Admin/Developer: dragosserban95@gmail.com / Test12345",
+  "seed_data_creation": "None — used existing PID gp_e79e2810cc64b5b4 owned by dragosserban95. Multiple pending rows now exist in db.gas_service_purchases (created during test runs); consider cleanup if test counts matter.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V8.3 verified end-to-end. Backend: /api/gas-project/{pid}/{services|service-checkout|service-status/{sid}} all working, SERVICE_CATALOG has 5 fixed services. Frontend: GasServicePipeline component renders ABOVE the Date/Avize/Registru tabs on /gaze-naturale/{pid} with 6-stage strip + 5-card catalog. data-testids confirmed: gas-service-pipeline, pipeline-{stage}, gas-service-catalog, service-{id}, service-buy-{id}, service-purchased-{id}. Pricing source-of-truth: gas_services_routes.SERVICE_CATALOG. Note: no Stripe webhook → completed payment must be confirmed by the user returning to the success_url; recommend adding webhook for robustness. Frontend domain: https://github-push-test.preview.emergentagent.com. Test file is reusable across iterations (PID-driven, env-driven BASE_URL).",
+  "rca_of_the_issue": "Not applicable — no bugs found, all assertions PASSED. Note on test execution: a previous attempt failed due to env var REACT_APP_BACKEND_URL not being injected into the pytest process; resolved by loading it from /app/frontend/.env at module load. /api/upgrade-info requires a `path` query param (HTTP 422 otherwise) — test updated accordingly."
+}
