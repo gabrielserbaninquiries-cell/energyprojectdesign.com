@@ -1,0 +1,38 @@
+{
+  "summary": "V8.1 backend regression — 35/35 PASSED in 7s. Verified 100% placeholder coverage delta: (1) caiet_sarcini new section 4.1 'Detalii tehnologice specifice' renders with Electrofuziune/Cupru/2.5/PVC rigid Ø110/Wavin/0.5 markers + 4.2 Repartiție traseu (18, Trotuar, carosabil) + 4.3 Conductă existentă (Aurel Vlaicu, PE 100, DN 110, SDR 11, 1.5 bar); (2) memoriu_tehnic now shows CARTOUCHE block at top (DTAC + PTH, REDUSA PRESIUNE, OL OSD 4567, ISC-NOTIF, denumire_lucrare_extinsa) while prior sections (Vaillant/0.30/Categoria/Exigențe) still present; (3) carte_tehnica now has 3-col footer signature (Proiectant/Executant/Verificator) with full ANRE auth details PDD/2022/0001 + EDD/2023/0145 + VGD-LEG-7821; (4) borderou CARTOUCHE + materiale catalog codes OSD-COD-23445/23446/87921 visible; (5) pv_calitate new sections 5 (Verdict probă presiune CORESPUNZ) + 6 (Mențiuni speciale) appear with pv_calitate_nr as fallback. REGRESSION: all 26 templates from registry (17 base + 9 extra) render 200 OK with valid DOCX (PK) > 5KB each — 3-col footer change did NOT break any. Dossier ZIP still contains 26 DOCX + 1 manifest. POST /api/payments/checkout returns valid https://checkout.stripe.com/ URL + session_id. GET /api/me/billing returns correct {current_plan{plan_id,name,price_eur,renews_at}, transactions[], activations[]} shape.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_v81_cartouche_and_full_coverage.py",
+    "/app/test_reports/pytest/v81_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "gas_doc_templates.py is now ~1220 lines; _project_cartouche + _footer_signature helpers are well-factored but the per-template builder functions (memoriu_tehnic, caiet_sarcini, carte_tehnica) are still long. Consider splitting builders into a sub-module (gas_doc_builders/) when next round of templates is added — file size is approaching the 700-line guideline threshold.",
+    "Cartouche block is rendered by calling _project_cartouche(doc, ctx) after _company_header in 4 templates (memoriu, caiet_sarcini, carte_tehnica, borderou). If any of denumire_lucrare_extinsa/faza_proiectare/presiune_categorie/ordin_lucru_nr_data is missing in ctx, the helper should render an empty cell rather than KeyError — confirmed in code via ctx.get() with default ''. Good.",
+    "3-col footer signature in _footer_signature uses a 3-cell table; the 3 ANRE auth strings (proiectant_aut_nr+grad / executant_aut_nr+grad / verificator_legitimatie_nr) are concatenated with ' / ' separator. Looks correct for all 26 templates — no rendering exception observed even for templates that didn't previously consume verificator fields.",
+    "_pv_calitate now reads pv_calitate_nr OR pv_calitate_pv_numar (good fallback). Sections 5/6 are conditionally appended only when pv_calitate_proba_admisa/mentiuni keys are truthy — verified by the PASSED assertion seeing 'Verdict' + 'Mențiuni' + 'CORESPUNZ' tokens. Good.",
+    "The dossier.zip still produces 26 DOCX + 1 manifest = 27 files; no new template was added in V8.1 (only existing ones were extended with cartouche/sections). Consistent with iteration_6 baseline.",
+    "All 26 parametrized regression renders PASSED — strong evidence the 3-col footer change is non-breaking. Total suite time 7s (10s including login)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v81_cartouche_and_full_coverage.py (NEW — V8.1 regression suite, 35/35 passing)"
+  ],
+  "success_rate": {
+    "backend": "100% (35/35)",
+    "frontend": "not tested (per request — backend only)"
+  },
+  "test_credentials": "Admin/Developer: dragosserban95@gmail.com / Test12345",
+  "seed_data_creation": "None — used existing PID gp_e79e2810cc64b5b4 already populated with all V8.1 placeholders.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V8.1 delta fully verified. Test file: /app/backend/tests/test_v81_cartouche_and_full_coverage.py (35 tests, run in <10s incl. login). Test PID: gp_e79e2810cc64b5b4. Registry now exposes ≥179 placeholder fields, 26 templates (17 base + 9 extra) all render. Cartouche helper + 3-col footer signature are the V8.1 cross-cutting changes — any future template MUST also call _project_cartouche(doc, ctx) and _footer_signature(doc, ctx) to stay consistent. Frontend domain: https://github-push-test.preview.emergentagent.com.",
+  "rca_of_the_issue": "Not applicable — no bugs found, all assertions PASSED."
+}

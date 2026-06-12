@@ -402,7 +402,7 @@ def _pv_calitate(proj: Dict[str, Any]) -> bytes:
     doc.add_paragraph()
 
     base._add_kv_table(doc, [
-        ("PV nr.",   base._get(data, "pv_calitate_pv_numar")),
+        ("PV nr.",   base._get(data, "pv_calitate_nr", base._get(data, "pv_calitate_pv_numar"))),
         ("Data",     base._get(data, "pv_calitate_data", base._today_ro())),
         ("Obiectiv", proj.get("title", "—")),
         ("Beneficiar", base._get(data, "beneficiar_nume")),
@@ -447,6 +447,20 @@ def _pv_calitate(proj: Dict[str, Any]) -> bytes:
                                   "Calitatea lucrărilor executate este CORESPUNZĂTOARE. "
                                   "Se autorizează continuarea lucrărilor și efectuarea probelor de presiune."),
                    bold=True)
+
+    # 5. Verdict probă presiune
+    proba_verdict = base._get(data, "pv_calitate_proba_admisa")
+    if proba_verdict not in ("—", "", None):
+        doc.add_paragraph()
+        base._add_para(doc, f"5. Verdict probă presiune: {proba_verdict}",
+                       bold=True, italic=(proba_verdict == "Respinsă"))
+
+    # 6. Mențiuni speciale
+    mentiuni = base._get(data, "pv_calitate_mentiuni")
+    if mentiuni not in ("—", "", None):
+        doc.add_paragraph()
+        base._add_para(doc, "6. Mențiuni speciale:", bold=True)
+        base._add_para(doc, mentiuni, italic=True)
 
     # Semnături tabelare
     doc.add_paragraph()

@@ -116,20 +116,71 @@ def _company_header(doc: Document) -> None:
 def _footer_signature(doc: Document, proj: Dict[str, Any], data: Dict[str, Any]) -> None:
     doc.add_paragraph()
     doc.add_paragraph()
-    t = doc.add_table(rows=2, cols=2)
+    t = doc.add_table(rows=2, cols=3)
     t.alignment = WD_TABLE_ALIGNMENT.LEFT
     t.rows[0].cells[0].text = "Întocmit (Proiectant)"
-    t.rows[0].cells[1].text = "Verificat (VGD/RTE)"
+    t.rows[0].cells[1].text = "Executant"
+    t.rows[0].cells[2].text = "Verificat (VGD)"
     proiectant = _get(data, "dtac_proiectant_specialitate", COMPANY["name"])
-    atestat = _get(data, "dtac_atestat_proiectant", COMPANY["anre_proiectant"])
+    proiectant_firma = _get(data, "proiectant_general_firma", proiectant)
+    proiectant_nr = _get(data, "proiectant_aut_nr", _get(data, "dtac_atestat_proiectant", COMPANY["anre_proiectant"]))
+    proiectant_grad = _get(data, "proiectant_aut_grad", "Iea (instalații exterioare apă-gaze)")
+    executant_firma = _get(data, "exec_firma")
+    executant_nr = _get(data, "executant_aut_nr", "—")
+    executant_grad = _get(data, "executant_aut_grad", "EDD (Execuție Distribuție Gaze)")
     vgd = _get(data, "dtac_verificator_vgd", "—")
-    t.rows[1].cells[0].text = f"{proiectant}\nAtestat ANRE: {atestat}\n\nSemnătură: ______________"
-    t.rows[1].cells[1].text = f"{vgd}\n\nSemnătură: ______________"
+    verificator_leg = _get(data, "verificator_legitimatie_nr", "—")
+
+    t.rows[1].cells[0].text = (
+        f"{proiectant_firma}\n"
+        f"({proiectant})\n"
+        f"Autorizație ANRE: {proiectant_nr} ({proiectant_grad})\n\n"
+        f"Semnătură: ______________"
+    )
+    t.rows[1].cells[1].text = (
+        f"{executant_firma}\n"
+        f"Autorizație ANRE: {executant_nr} ({executant_grad})\n"
+        f"RTE: {_get(data, 'exec_responsabil_tehnic', '—')}\n\n"
+        f"Semnătură: ______________"
+    )
+    t.rows[1].cells[2].text = (
+        f"{vgd}\n"
+        f"Legitimație nr.: {verificator_leg}\n\n"
+        f"Semnătură: ______________"
+    )
     doc.add_paragraph()
     if proj.get("signature_hash"):
         _add_para(doc, f"Hash SHA-256: {proj['signature_hash']}", italic=True, size=8)
         _add_para(doc, f"Semnat digital: {proj.get('signed_at','—')}", italic=True, size=8)
     _add_para(doc, f"Document generat: {_today_ro()} · Energy Project Design", italic=True, size=8)
+
+
+def _project_cartouche(doc: Document, proj: Dict[str, Any], data: Dict[str, Any]) -> None:
+    """Cartouche tehnic plasat după antet — consumă identificatorii proiectului.
+
+    Apelat în template-urile principale (memoriu, caiet, borderou, carte tehnică)
+    pentru a afișa identificatori legali completi.
+    """
+    rows = [
+        ("Denumire lucrare", _get(data, "denumire_lucrare_extinsa", proj.get("title", "—"))),
+        ("Tip lucrare", _get(data, "tipul_lucrarii")),
+        ("Faza de proiectare", _get(data, "faza_proiectare", "DTAC + PTH")),
+        ("Nr. proiect / an", _get(data, "proiect_nr_an")),
+        ("Amplasament lucrare", _get(data, "amplasament_lucrare", _get(data, "loc_consum_adresa"))),
+        ("Loc consum (imobil beneficiar)", _get(data, "amplasament_imobil_consum", _get(data, "loc_consum_adresa"))),
+        ("Categorie presiune", _get(data, "presiune_categorie")),
+        ("DN canonic conductă", _get(data, "sf_diametru_nominal_DN")),
+        ("Ordin lucru OSD", _get(data, "ordin_lucru_nr_data")),
+        ("Notificare ISC", _get(data, "isc_nr_inreg")),
+        ("Dispoziție de șantier necesară", _get(data, "dispozitie_necesara", "Nu")),
+        ("Coduri materiale (catalog OSD)", _get(data, "materiale_catalog_codes")),
+    ]
+    visible = [(k, v) for k, v in rows if v not in ("—", "", None)]
+    if not visible:
+        return
+    _add_para(doc, "CARTOUCHE PROIECT", bold=True, size=9)
+    _add_kv_table(doc, visible, col1_cm=6.5)
+    doc.add_paragraph()
 
 
 def _save(doc: Document) -> bytes:
@@ -283,6 +334,7 @@ def memoriu_tehnic(proj: Dict[str, Any]) -> bytes:
     data = proj.get("data") or {}
     doc = Document()
     _company_header(doc)
+    _project_cartouche(doc, proj, data)
 
     _add_heading(doc, "MEMORIU TEHNIC JUSTIFICATIV", level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
     _add_para(doc, "Proiect distribuție gaze naturale",
@@ -445,6 +497,7 @@ def caiet_sarcini(proj: Dict[str, Any]) -> bytes:
     data = proj.get("data") or {}
     doc = Document()
     _company_header(doc)
+    _project_cartouche(doc, proj, data)
     _add_heading(doc, "CAIET DE SARCINI — EXECUȚIE INSTALAȚIE GAZE NATURALE", level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
     _add_para(doc, "(Conform NTPEE 2018 cap. 4 + Legea 10/1995 — Calitate construcții)",
               italic=True, align=WD_ALIGN_PARAGRAPH.CENTER, size=10)
@@ -471,6 +524,37 @@ def caiet_sarcini(proj: Dict[str, Any]) -> bytes:
     doc.add_paragraph("    - 0,6 m minim în spații verzi", style="List Bullet 2")
     doc.add_paragraph("• Pat de nisip 10 cm sub și deasupra conductei", style="List Bullet")
     doc.add_paragraph("• Bandă de avertizare galbenă la 30 cm deasupra conductei", style="List Bullet")
+
+    # 4.1 Detalii tehnologice specifice (consumă 12+ placeholders tehnice)
+    _add_heading(doc, "4.1 Detalii tehnologice specifice proiectului", level=3)
+    tech_rows = [
+        ("Tip sudură electrofuziune", _get(data, "tip_sudura", "Electrofuziune cu manșoane PE 100 (preferat) sau cap-la-cap")),
+        ("Unghi minim cuplare (grade)", _get(data, "unghi_cuplare_min_grade", "90 (perpendicular pe traseu)")),
+        ("Fir trasor — material", _get(data, "fir_trasor_material", "Cupru izolat PVC")),
+        ("Fir trasor — secțiune (mm²)", _get(data, "fir_trasor_sectiune_mm2", "2.5")),
+        ("Tub de protecție", _get(data, "tub_protectie", "PVC rigid Ø110 (la traversări drumuri, sub fundații, în pereți)")),
+        ("Pat cărămizi de protecție", _get(data, "pat_caramizi", "Da — la traversare cu cabluri electrice și telefonice (Ord. ANRE)")),
+        ("Distanță minimă față de limita de proprietate (m)", _get(data, "pozare_distanta_limita", "0.5")),
+    ]
+    _add_kv_table(doc, tech_rows)
+
+    # 4.2 Traseu și lungimi (consumă lungime_*, traseu_pe_drum)
+    if any(data.get(k) for k in ["lungime_pe_drum_m", "lungime_raiser_m", "traseu_pe_drum"]):
+        _add_heading(doc, "4.2 Repartiție traseu conductă", level=3)
+        traseu_rows = [
+            ("Lungime conductă în carosabil/drum (m)", _get(data, "lungime_pe_drum_m")),
+            ("Lungime coloană ascendentă raiser (m)", _get(data, "lungime_raiser_m")),
+            ("Traseu pozare predominant", _get(data, "traseu_pe_drum", "Trotuar / spațiu verde / carosabil — vezi planul de situație D2")),
+        ]
+        _add_kv_table(doc, traseu_rows)
+
+    # 4.3 Conductă existentă (la branșament în rețea existentă)
+    if data.get("conducta_existenta_strada") or data.get("conducta_existenta_caracteristici"):
+        _add_heading(doc, "4.3 Conductă existentă (punct de racord)", level=3)
+        _add_kv_table(doc, [
+            ("Stradă conductă existentă", _get(data, "conducta_existenta_strada")),
+            ("Caracteristici (DN / material / presiune)", _get(data, "conducta_existenta_caracteristici")),
+        ])
 
     _add_heading(doc, "5. Controale și verificări", level=2)
     doc.add_paragraph("• Verificare materiale cu certificate de calitate", style="List Bullet")
@@ -500,6 +584,7 @@ def borderou(proj: Dict[str, Any]) -> bytes:
     data = proj.get("data") or {}
     doc = Document()
     _company_header(doc)
+    _project_cartouche(doc, proj, data)
     _add_heading(doc, "BORDEROU PIESE SCRISE ȘI DESENATE", level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
     _add_para(doc, f"Proiect: {proj.get('title','—')}", italic=True, align=WD_ALIGN_PARAGRAPH.CENTER)
     doc.add_paragraph()
@@ -735,6 +820,7 @@ def carte_tehnica(proj: Dict[str, Any]) -> bytes:
     data = proj.get("data") or {}
     doc = Document()
     _company_header(doc)
+    _project_cartouche(doc, proj, data)
     _add_heading(doc, "CARTEA TEHNICĂ A CONSTRUCȚIEI", level=1, align=WD_ALIGN_PARAGRAPH.CENTER)
     _add_para(doc, f"Obiect: {proj.get('title','—')}", italic=True, align=WD_ALIGN_PARAGRAPH.CENTER)
     _add_para(doc, "(Conform HG 273/1994 + Ord. MLPAT 770/1997 — 4 secțiuni obligatorii)",
