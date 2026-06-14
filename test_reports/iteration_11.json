@@ -1,0 +1,48 @@
+{
+  "summary": "V8.6 smart-fill + validate + QES-v2 stub verified end-to-end. Backend: 13/13 pytest PASS (test_v86_smart_qes.py). POST /api/placeholders/smart-fill with the spec payload returns all 8 derived keys (coeficient_renouard, sf_material_conducta, pierderi_p_admise_bar, sf_presiune_max_op_bar, pt_calcul_pierderi_presiune_bar, pt_viteza_m_s, la_sapatura_adancime_cm, categorie_importanta_HG766) with correct values (β=23200 JP, pierderi=0.005, Pmax DN32=10.0, adâncime=90cm). POST /api/placeholders/validate returns valid:false + error_count:3 + errors keyed on sudor_cnp/sf_presiune_max_op_bar/pt_calcul_pierderi_presiune_bar with Romanian messages. GET /api/qes-v2/providers returns 3 ANCOM providers (digisign/certsign/transsped) all status=STUB. POST /api/qes-v2/sign returns bundle_base64 (non-empty), certificate_serial='0x…', valid_to ~3 years (≈1095 days), is_stub:true. 400 returned for invalid CNP/hash/provider. Verify-roundtrip: valid:true, is_qualified:true, long_term_validation:true, hash_match:true. V8.5 regression intact: 221 fields / 32 sections / 8 categories / dossier.zip = 34 files / /api/me/billing OK. Frontend (Playwright on live preview): REGISTRU CÂMPURI tab — changing presiune_categorie dropdown to a NEW value fires both /smart-fill + /validate (status 200), purple hint pills 'Sugestie auto' render with data-testid='hint-coeficient_renouard' / 'hint-pierderi_p_admise_bar' below the corresponding fields (when their sections are expanded), 'Aplică →' button applies the value and clears the pill. Invalid sudor_cnp='123' shows red pill data-testid='err-sudor_cnp' with text '⚠ CNP trebuie să aibă exact 13 cifre' (validation triggered indirectly via a SMART_TRIGGERS field change).",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Validation pill on sudor_cnp",
+        "issue": "SMART_TRIGGERS list in RegistryFieldsTab.jsx (line 97-99) does NOT include sudor_cnp (or other validated-only fields). Consequently, typing a wrong CNP and blurring does NOT fire /placeholders/validate, so the error pill only appears if the user also touches one of the trigger fields (presiune_categorie, DN, debit, etc.). The pill DID render correctly in our test because we triggered presiune change after typing CNP — but a real user editing only the CNP would never see the warning. Recommend: either (a) call validate on every field change with debounce, or (b) extend SMART_TRIGGERS to include all validated fields (sudor_cnp, beneficiar_cnp, la_sapatura_adancime_cm, sf_presiune_max_op_bar, pt_calcul_pierderi_presiune_bar, debit_instalat_mc_h), or (c) run a local lightweight client-side validate on blur.",
+        "affected_selectors": ["err-sudor_cnp"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_v86_smart_qes.py",
+    "/app/test_reports/pytest/v86_results.xml"
+  ],
+  "action_items": [
+    "Frontend: extend SMART_TRIGGERS in /app/frontend/src/components/RegistryFieldsTab.jsx (lines 97-99) to include validated fields (sudor_cnp, beneficiar_cnp, la_sapatura_adancime_cm, sf_presiune_max_op_bar, pt_calcul_pierderi_presiune_bar) so validate fires when user edits THOSE fields directly — currently it only fires on smart-fill triggers and the err pill won't show if user edits CNP without touching a trigger field.",
+    "(Carry-over from iter 10, still open) Replace hardcoded 'REGISTRU CÂMPURI (179)' badge in GasNaturalProjectV2.jsx:916 with dynamic count (should read 221 in V8.6).",
+    "(Carry-over from iter 10) Update /app/memory/test_credentials.md preview URL — still listed as 57bd020b host; actual REACT_APP_BACKEND_URL = https://github-push-test.preview.emergentagent.com."
+  ],
+  "critical_code_review_comments": [
+    "qes_signature.py — _stub_verify() returns valid:true whenever hash_match AND parsed.get('stub', True) — i.e. it ALWAYS validates stub bundles. When the real DigiSign/certSIGN/TransSped API is wired in, ensure _stub_verify is replaced (or guarded by an env flag) so production never blindly accepts stub bundles. Add an explicit QES_V2_ENV='stub'|'live' env check.",
+    "qes_signature.py — bundle_base64 is base64(JSON) of the whole payload INCLUDING document_filename and signer cert. Fine for a stub, but the real flow should embed PAdES into the actual PDF bytes rather than ship JSON alongside.",
+    "gas_smart_defaults.py:186-191 — the for-loop trying to parse dn_num is dead-code-ish (the outer try/except handles parsing on the FIRST iteration; the loop variable 'prefix_dn'/'num' is never used). Could be simplified to a single try/except.",
+    "gas_smart_defaults.py:137 — renouard_pressure_drop returns delta_p in Pa, then converts to bar via /1000. NTPEE Renouard formula yields mmH2O for JP; the factor /1000 is an approximation. Document the unit assumption or use the exact NTPEE coefficient.",
+    "Frontend RegistryFieldsTab.jsx:103-110 — triggerSmartFill calls smart-fill AND validate in parallel on every trigger change, but ignores rate-limiting. If user rapidly toggles a select, multiple in-flight calls can race and last-write-wins on smartHints/validationErrors. Add an AbortController or a request token.",
+    "Validation errors are cleared only when the user fires another smart-fill (no explicit 'on success clear errors' hook for the corrected field). Once corrected, the err pill remains until next validate call — minor UX issue."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v86_smart_qes.py (NEW — V8.6 regression suite, 13/13 PASS)"
+  ],
+  "success_rate": {
+    "backend": "100% (13/13 V8.6 + V8.5 regression)",
+    "frontend": "90% — smart hint pills render with data-testid hint-{key} when section is open; CNP error pill renders with data-testid err-sudor_cnp; one usability gap: validate only fires on SMART_TRIGGERS field change, not on direct edit of validated fields"
+  },
+  "test_credentials": "Admin/Developer: dragosserban95@gmail.com / Test12345 (PID gp_e79e2810cc64b5b4). Live frontend: https://github-push-test.preview.emergentagent.com (REACT_APP_BACKEND_URL).",
+  "seed_data_creation": "None — reused PID gp_e79e2810cc64b5b4. During frontend test the project's presiune_categorie field was toggled between JP/RP/MP and sudor_cnp briefly set to '123'; both restored at end of run via PATCH /api/gas-project/{pid} (presiune_categorie='JOASA PRESIUNE (<0.05 bar)', sudor_cnp='').",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V8.6 added: (1) /api/placeholders/smart-fill — POST {data,trigger} → {derived:{...}, count}, derived contains ONLY keys whose suggested value DIFFERS from data[key]. (2) /api/placeholders/validate — POST {data} → {errors:{key:[msgs]}, valid, error_count}. (3) /api/qes-v2/providers|sign|verify — stub QES integration; bundle_base64 is base64(JSON); is_stub:true flag must be flipped when real DigiSign/certSIGN API arrives. Frontend selectors: hint-{field_key} (purple pill, click 'Aplică →' to apply), err-{field_key} (red pill). IMPORTANT: hint/err pills only render inside open sections — to test, first click cat-toggle-{cat} and sec-toggle-{section} for the relevant fields (e.g. ntpee_compliance→renouard for coeficient_renouard). SMART_TRIGGERS array in RegistryFieldsTab.jsx restricts which fields fire /smart-fill+/validate; CNP is NOT a trigger so changing only CNP won't fire validate — fire a trigger field change to surface the error.",
+  "rca_of_the_issue": "Smart hints not initially appearing in test 1 was a test-side issue: the sections containing the suggested-fields (renouard, sf, tehnic, lucrari_ascunse) were collapsed, and the hint pill JSX (line 320-326 of RegistryFieldsTab.jsx) lives inside sec-body-{secId} which only renders when section is open. Once we expanded ntpee_compliance→renouard, both hint-coeficient_renouard and hint-pierderi_p_admise_bar appeared as expected with full 'Sugestie auto: <value> Aplică →' text. CNP error pill not appearing initially was due to SMART_TRIGGERS not including sudor_cnp — implementation gap documented under integration_issues.action_items."
+}

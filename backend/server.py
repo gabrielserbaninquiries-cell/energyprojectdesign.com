@@ -2326,6 +2326,10 @@ app.include_router(_asset_api)
 from gas_services_routes import register_routes as _gas_services_register
 _gas_services_register(app, db, get_current_user, _stripe_client)
 
+# QES (Qualified Electronic Signature) stub — DigiSign / certSIGN / Trans Sped
+from qes_signature import register_into as _qes_register
+_qes_register(app, db, get_current_user)
+
 # Document Preview & Sign (DOCX → PDF + ștampile + certificare)
 from document_preview import router as preview_router
 _preview_api = APIRouter(prefix="/api/document")
@@ -2358,6 +2362,30 @@ async def get_coverage(pid: str, user=_Dep(_gcu)):
         from fastapi import HTTPException as _HE
         raise _HE(404, "Proiect inexistent")
     return compute_field_coverage(proj.get("data") or {})
+
+
+# V8.6 — Smart auto-compute + Validate field consistency
+from gas_smart_defaults import compute_derived_fields, validate_fields
+from pydantic import BaseModel as _BaseModel
+
+
+class _SmartFillBody(_BaseModel):
+    data: Dict[str, Any]
+    trigger: Optional[str] = None
+
+
+@_pr_api.post("/smart-fill")
+async def smart_fill(body: _SmartFillBody):
+    """Calcule inteligente: derivat câmpuri din selecții (Renouard, presiune, adâncime, etc.)."""
+    derived = compute_derived_fields(body.data, trigger=body.trigger)
+    return {"derived": derived, "count": len(derived)}
+
+
+@_pr_api.post("/validate")
+async def validate_data(body: _SmartFillBody):
+    """Validează coerența câmpurilor (CNP, presiune vs DN, pierderi vs categorie, etc.)."""
+    errors = validate_fields(body.data)
+    return {"errors": errors, "valid": len(errors) == 0, "error_count": sum(len(v) for v in errors.values())}
 
 
 app.include_router(_pr_api)

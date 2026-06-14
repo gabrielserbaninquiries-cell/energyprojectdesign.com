@@ -89,7 +89,32 @@ export default function RegistryFieldsTab({ data, onUpdateField, pid }) {
   const [openCats, setOpenCats] = useState({ date_proiect: true });
   const [openSecs, setOpenSecs] = useState({});
   const [coverage, setCoverage] = useState(null);
-  const [showTemplateUsage, setShowTemplateUsage] = useState(null); // key of field hovered
+  const [showTemplateUsage, setShowTemplateUsage] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
+  const [smartHints, setSmartHints] = useState({});  // {key: suggested_value}
+
+  // Trigger smart-fill + validation when KEY fields change
+  const SMART_TRIGGERS = ['presiune_categorie', 'sf_diametru_nominal_DN', 'debit_instalat_mc_h',
+    'tip_suprafata_pozare', 'categorie_consumator', 'p_initiala_rez', 'p_finala_rez',
+    'p_initiala_et', 'p_finala_et', 'sf_material_conducta', 'cladire_destinatie'];
+
+  const triggerSmartFill = async (key) => {
+    if (!SMART_TRIGGERS.includes(key)) return;
+    try {
+      const [smartRes, valRes] = await Promise.all([
+        api.post('/placeholders/smart-fill', { data, trigger: key }),
+        api.post('/placeholders/validate', { data }),
+      ]);
+      setSmartHints(smartRes.data.derived || {});
+      setValidationErrors(valRes.data.errors || {});
+    } catch { /* silent */ }
+  };
+
+  // Apply a smart-hint value to the field
+  const applyHint = (k, v) => {
+    onUpdateField(k, v);
+    setSmartHints((h) => { const n = { ...h }; delete n[k]; return n; });
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -259,6 +284,8 @@ export default function RegistryFieldsTab({ data, onUpdateField, pid }) {
                           {fieldsInSec.map((f) => {
                             const val = data?.[f.key];
                             const isFilled = val !== null && val !== undefined && val !== '' && !(Array.isArray(val) && val.length === 0);
+                            const hint = smartHints[f.key];
+                            const errs = validationErrors[f.key] || [];
                             return (
                               <div key={f.key} className="text-[10px]" data-testid={`field-wrap-${f.key}`}>
                                 <label className="flex items-start gap-1 mb-1">
@@ -286,7 +313,23 @@ export default function RegistryFieldsTab({ data, onUpdateField, pid }) {
                                     </div>
                                   </div>
                                 )}
-                                <FieldInput field={f} value={val} onChange={(v) => onUpdateField(f.key, v)} />
+                                <FieldInput field={f} value={val} onChange={(v) => { onUpdateField(f.key, v); triggerSmartFill(f.key); }} />
+                                {/* Smart-fill hint */}
+                                {hint !== undefined && hint !== val && (
+                                  <button onClick={() => applyHint(f.key, hint)}
+                                    className="mt-1 w-full text-[9px] px-1.5 py-1 bg-purple-50 border border-purple-300 text-purple-900 hover:bg-purple-100 flex items-center gap-1"
+                                    data-testid={`hint-${f.key}`}>
+                                    <span className="font-bold">💡 Sugestie auto:</span>
+                                    <span className="font-mono truncate">{String(hint).slice(0, 40)}</span>
+                                    <span className="ml-auto text-purple-700 font-semibold">Aplică →</span>
+                                  </button>
+                                )}
+                                {/* Validation errors */}
+                                {errs.length > 0 && (
+                                  <div className="mt-1 px-1.5 py-1 bg-red-50 border border-red-300 text-[9px] text-red-800" data-testid={`err-${f.key}`}>
+                                    {errs.map((e, i) => <div key={i}>⚠ {e}</div>)}
+                                  </div>
+                                )}
                                 {f.help && <div className="text-[9px] text-zinc-400 mt-0.5 italic leading-tight">{f.help}</div>}
                               </div>
                             );
