@@ -63,6 +63,8 @@ import ImplementationQueue from './pages/ImplementationQueue';
 import SelfCheck from './pages/SelfCheck';
 import ProductSkeleton from './pages/ProductSkeleton';
 import GasNaturalProjectV2 from './pages/GasNaturalProjectV2';
+import ComertLogistica from './pages/ComertLogistica';
+import FabriciUzine from './pages/FabriciUzine';
 // V7.0 — High-end ecosystem pages
 import HomePageV7 from './pages/HomePageV7';
 import DocumentatieIndustriiPage from './pages/DocumentatieIndustriiPage';
@@ -163,6 +165,10 @@ function AppRouter() {
       <Route path="/smart-pricing" element={<ProtectedRoute><ServiciiPage /></ProtectedRoute>} />
       <Route path="/planuri-departamente" element={<ProtectedRoute><PlanuriDepartamente /></ProtectedRoute>} />
       <Route path="/comisioane-tarife" element={<ProtectedRoute><ComisioaneTarife /></ProtectedRoute>} />
+
+      {/* V9.0 — Pagini ecosistem extins (Comerț + Logistică, Fabrici + Uzine) */}
+      <Route path="/comert-logistica" element={<ProtectedRoute><ComertLogistica /></ProtectedRoute>} />
+      <Route path="/fabrici-uzine" element={<ProtectedRoute><FabriciUzine /></ProtectedRoute>} />
 
       {/* Pages with UpgradeGate (modal upgrade când userul nu are plan suficient) */}
       <Route path="/anaf-efactura" element={<ProtectedRoute><UpgradeGate path="/anaf-efactura"><ANAFInvoicing /></UpgradeGate></ProtectedRoute>} />

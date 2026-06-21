@@ -1,205 +1,296 @@
+/**
+ * Landing — EPD Official Identity (post-rebranding, V9.0)
+ *
+ * Schimbări față de versiunile anterioare:
+ * - Branding 100% conform logo oficial Energy Project Design SRL (gradient violet→navy)
+ * - Tagline oficial "Redesigning projects." + sub-tagline "The Architects of Future Global Technology"
+ * - PRODUS PRINCIPAL = Gaze Naturale (în hero, deasupra tuturor)
+ * - Restul serviciilor (electric, fotovoltaice, marketplace, imobiliare, etc.) listate inteligent dedesubt
+ * - 22 servicii roadmap global păstrate
+ * - Cover photos oficiale EPD din pagina Facebook
+ * - NU se elimină nimic din construit anterior — se îmbogățește vizual
+ */
 import { Link } from 'react-router-dom';
 import {
-  Flame, FileText, Stamp, ShieldCheck, Mail, Check, ArrowRight,
+  Flame, FileText, Stamp, ShieldCheck, Mail, Check, ArrowRight, Sparkles,
   Briefcase, Building2, Store, MessageSquare, Hammer, Truck, BadgeCheck,
-  Bell, Users, Wrench, Receipt, Sun, Zap, Droplet, Phone, BookOpen,
+  Users, Wrench, Receipt, Sun, Zap, Droplet, Phone, Calculator, Package,
+  Globe, TrendingUp, FileSignature, Layers, Factory, ShoppingBag,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { BRAND, BRAND_ASSETS } from '../lib/brand';
 
-const HERO_BG = 'https://images.pexels.com/photos/36825977/pexels-photo-36825977.jpeg';
-const FEATURE_DOCS = 'https://images.pexels.com/photos/8470057/pexels-photo-8470057.jpeg';
-
-// 12 servicii principale (oglindă HomePageV7 quick-access)
-const TOP_SERVICES = [
-  { id: 'gas',         icon: Flame,         title: 'Gaze Naturale',         desc: '23 documente DOCX, ștampilă & semnătură QES', tag: 'core' },
-  { id: 'electric',    icon: Zap,           title: 'Electric',              desc: '6 template-uri instalații electrice + DTAC',  tag: 'core' },
-  { id: 'apa-canal',   icon: Droplet,       title: 'Apă-Canal',             desc: '5 documente branșament & racord',             tag: 'core' },
-  { id: 'fotovoltaice',icon: Sun,           title: 'Fotovoltaice',          desc: 'Proiecte panouri & avizare ANRE',             tag: 'new' },
-  { id: 'telecom',     icon: Phone,         title: 'Telecom',               desc: 'Avize Telekom, STB, NetCity',                 tag: 'new' },
-  { id: 'projects',    icon: Briefcase,     title: 'Proiectele Mele',       desc: 'Dashboard centralizat documente',             tag: 'core' },
-  { id: 'marketplace', icon: Store,         title: 'Marketplace',           desc: 'Șabloane, ștampile, kit-uri',                 tag: 'biz' },
-  { id: 'realestate',  icon: Building2,     title: 'Imobiliare',            desc: 'Anunțuri proprietăți & terenuri',             tag: 'biz' },
-  { id: 'jobs',        icon: Users,         title: 'Job-uri Inginerie',     desc: 'Locuri de muncă & freelance proiectanți',     tag: 'biz' },
-  { id: 'forum',       icon: MessageSquare, title: 'Forum Profesional',     desc: 'Discuții tehnice & RFI între specialiști',    tag: 'biz' },
-  { id: 'fees',        icon: Receipt,       title: 'Comisioane & Tarife',   desc: 'Tabel transparent costuri platformă',         tag: 'info' },
-  { id: 'verify',      icon: BadgeCheck,    title: 'Verificare QR',         desc: 'Validare semnătură pe orice document',        tag: 'info' },
+// PRODUS PRINCIPAL — Gaze Naturale (livrabil 100% operațional)
+const MAIN_PRODUCT_HIGHLIGHTS = [
+  { icon: FileText,      label: '33 documente DOCX',     value: 'NTPEE 2018' },
+  { icon: Layers,        label: '221 câmpuri tehnice',   value: '8 categorii' },
+  { icon: Calculator,    label: 'Renouard multi-tronson', value: 'auto-calc' },
+  { icon: Package,       label: 'Anexa 13 — 554 items',  value: 'auto-select' },
+  { icon: Stamp,         label: 'Ștampile draggable',    value: 'A4 PDF' },
+  { icon: FileSignature, label: 'Semnătură QES',          value: 'eIDAS' },
 ];
 
-// 5 ecosisteme principale
-const ECOSYSTEMS = [
-  { id: 'industries',  icon: Wrench,        title: 'Documente Tehnice',     blurb: '13 industrii × 56 subdomenii — generare automată DOCX',  cta: 'Vezi industriile', accent: '#FFB300' },
-  { id: 'marketplace', icon: Store,         title: 'Marketplace Profesional', blurb: 'Cumpărați și vindeți șabloane, ștampile, scule',         cta: 'Intrați în piață', accent: '#0EA5E9' },
-  { id: 'realestate',  icon: Building2,     title: 'Imobiliare & Terenuri', blurb: 'Anunțuri și acte de proprietate digitale',                 cta: 'Caut imobile',     accent: '#10B981' },
-  { id: 'craftsmen',   icon: Hammer,        title: 'Meșteri & Servicii',    blurb: 'Conectează beneficiarii cu meșteri verificați',            cta: 'Găsește meșteri',  accent: '#8B5CF6' },
-  { id: 'logistics',   icon: Truck,         title: 'Logistică & SEAP',      blurb: 'Notificări licitații publice, transport materiale',        cta: 'Activează alerte', accent: '#EF4444' },
+// Servicii integrate ACTIVE (în platformă)
+const ACTIVE_SERVICES = [
+  { id: 'gas',         icon: Flame,         title: 'Gaze Naturale',         desc: '33 docs · 221 câmpuri · Renouard · QES', tag: 'CORE', href: '/gaze-naturale' },
+  { id: 'electric',    icon: Zap,           title: 'Electric',              desc: '6 template-uri instalații electrice',     tag: 'BETA', href: '/industrii/electric' },
+  { id: 'apa-canal',   icon: Droplet,       title: 'Apă-Canal',             desc: '5 documente branșament & racord',         tag: 'BETA', href: '/industrii/apa-canal' },
+  { id: 'fotovoltaice',icon: Sun,           title: 'Fotovoltaice',          desc: 'Proiecte panouri & avizare ANRE',         tag: 'NEW',  href: '/industrii/fotovoltaice' },
+  { id: 'telecom',     icon: Phone,         title: 'Telecom',               desc: 'Avize Telekom, STB, NetCity',             tag: 'NEW',  href: '/industrii/telecom' },
+  { id: 'marketplace', icon: Store,         title: 'Marketplace',           desc: 'Șabloane, ștampile, kit-uri B2B',         tag: 'BIZ',  href: '/marketplace' },
+  { id: 'realestate',  icon: Building2,     title: 'Imobiliare',            desc: 'Anunțuri proprietăți & terenuri',         tag: 'BIZ',  href: '/imobiliare' },
+  { id: 'jobs',        icon: Users,         title: 'Job Board ANRE',        desc: 'Locuri de muncă pentru proiectanți',       tag: 'BIZ',  href: '/jobs' },
+  { id: 'forum',       icon: MessageSquare, title: 'Forum Profesional',     desc: 'Discuții tehnice & RFI între specialiști',tag: 'BIZ',  href: '/forum' },
+  { id: 'crafts',      icon: Hammer,        title: 'Meseriași',             desc: 'Conexiuni beneficiari ↔ meșteri verificați',tag: 'NEW', href: '/servicii' },
+  { id: 'logistics',   icon: Truck,         title: 'Comerț & Logistică',    desc: 'Lanț aprovizionare + transport materiale', tag: 'NEW', href: '/comert-logistica' },
+  { id: 'industry',    icon: Factory,       title: 'Fabrici & Uzine',       desc: 'Proiectare instalații industriale',        tag: 'NEW', href: '/fabrici-uzine' },
+  { id: 'verify',      icon: BadgeCheck,    title: 'Verificare QR',         desc: 'Validare publică semnătură document',     tag: 'CORE', href: '/verifica' },
+  { id: 'fees',        icon: Receipt,       title: 'Comisioane & Tarife',   desc: 'Transparență totală costuri platformă',   tag: 'INFO', href: '/comisioane-tarife' },
 ];
 
 // VIITOR — 22 servicii globale planificate (per master plan EPD)
 const FUTURE_SERVICES = [
-  { icon: '🏨', label: 'Lanț hoteluri', desc: 'Camere gratuite pentru oamenii străzii, prețuri de la 1$/noapte' },
-  { icon: '🛒', label: 'EPD Supermarket', desc: 'Cel mai mare supermarket global — unește toate brand-urile' },
-  { icon: '🍔', label: 'Mâncare worldwide', desc: 'Comenzi la preț, calitate, timp livrare cu door-to-door' },
-  { icon: '💼', label: 'Locuri muncă globale', desc: 'Joburi pe domenii, fără frontiere' },
-  { icon: '🚗', label: 'Vânzări auto', desc: 'Mașini la prețuri reduse, specificații complete' },
-  { icon: '🏠', label: 'Vânzări imobile', desc: 'Case + terenuri cu catalog AI personalizat' },
-  { icon: '🔧', label: 'Piese auto globale', desc: 'Brand, an, preț, stare — toate într-un singur catalog' },
-  { icon: '⚙️', label: 'Mecanici & service auto', desc: 'Calcul preț servicii + plată online + tractare la domiciliu' },
-  { icon: '💳', label: 'Motor plăți online', desc: 'Procesare plăți pentru toate serviciile EPD' },
-  { icon: '🛍️', label: 'EPD Shop', desc: 'Search produse, retaileri afiliați, order online' },
-  { icon: '📺', label: 'TV online global', desc: 'Streaming televiziune pe țări' },
-  { icon: '📻', label: 'Radio online global', desc: 'Radio pe țări și genuri muzicale' },
-  { icon: '🌳', label: 'Distribuție copaci & plante', desc: 'Plantări mediu + reforestation worldwide' },
-  { icon: '🚛', label: 'Distribuitor marfuri', desc: 'Aprovizionare magazine + supermarket worldwide' },
-  { icon: '🏗️', label: 'Constructori ↔ Finanțatori', desc: 'Lucrări publice, infrastructură, drumuri, reabilitări' },
-  { icon: '⛽', label: 'Benzinării + încărcare EV', desc: 'Stații compatibile cu rețeaua EPD' },
-  { icon: '🚿', label: 'Spălătorii auto', desc: 'Rezervare + plată online' },
-  { icon: '🍽️', label: 'Restaurante', desc: 'Comenzi + livrare + rating EPD' },
-  { icon: '⚡', label: 'Racordări energetice', desc: 'Clienții se racordează direct prin platformă' },
-  { icon: '🇪🇺', label: 'Fonduri europene', desc: 'Aplicare la finanțări nerambursabile' },
-  { icon: '🏛️', label: 'Fonduri de stat', desc: 'Infrastructură + dezvoltare urbană direct de la minister' },
-  { icon: '📧', label: 'EPD Mail', desc: 'Singurul serviciu de email global cu zero spam' },
+  { label: 'Lanț hoteluri',           desc: 'Camere gratuite pentru oamenii străzii, prețuri de la 1$/noapte' },
+  { label: 'EPD Supermarket',         desc: 'Cel mai mare supermarket global — unește toate brand-urile' },
+  { label: 'Mâncare worldwide',       desc: 'Comenzi la preț, calitate, timp livrare cu door-to-door' },
+  { label: 'Locuri muncă globale',    desc: 'Joburi pe domenii, fără frontiere' },
+  { label: 'Vânzări auto',            desc: 'Mașini la prețuri reduse, specificații complete' },
+  { label: 'Vânzări imobile',         desc: 'Case + terenuri cu catalog AI personalizat' },
+  { label: 'Piese auto globale',      desc: 'Brand, an, preț, stare — toate într-un singur catalog' },
+  { label: 'Mecanici & service auto', desc: 'Calcul preț servicii + plată online + tractare' },
+  { label: 'Motor plăți online',      desc: 'Procesare plăți pentru toate serviciile EPD' },
+  { label: 'EPD Shop',                desc: 'Search produse, retaileri afiliați, order online' },
+  { label: 'TV online global',        desc: 'Streaming televiziune pe țări' },
+  { label: 'Radio online global',     desc: 'Radio pe țări și genuri muzicale' },
+  { label: 'Distribuție copaci',      desc: 'Plantări mediu + reforestation worldwide' },
+  { label: 'Distribuitor marfuri',    desc: 'Aprovizionare magazine + supermarket worldwide' },
+  { label: 'Constructori-Finanțatori',desc: 'Lucrări publice, infrastructură, drumuri, reabilitări' },
+  { label: 'Benzinării + EV',         desc: 'Stații compatibile cu rețeaua EPD' },
+  { label: 'Spălătorii auto',         desc: 'Rezervare + plată online' },
+  { label: 'Restaurante',             desc: 'Comenzi + livrare + rating EPD' },
+  { label: 'Racordări energetice',    desc: 'Clienții se racordează direct prin platformă' },
+  { label: 'Fonduri europene',        desc: 'Aplicare la finanțări nerambursabile' },
+  { label: 'Fonduri de stat',         desc: 'Infrastructură + dezvoltare urbană direct de la minister' },
+  { label: 'EPD Mail',                desc: 'Singurul serviciu de email global cu zero spam' },
 ];
+
+// Logo component — gradient violet→navy din identitatea oficială
+function EPDLogo({ size = 'md', withText = true }) {
+  const sz = size === 'lg' ? 'w-12 h-12' : size === 'sm' ? 'w-7 h-7' : 'w-9 h-9';
+  const txt = size === 'lg' ? 'text-2xl' : size === 'sm' ? 'text-sm' : 'text-lg';
+  return (
+    <Link to="/" className="flex items-center gap-3" data-testid="brand-link">
+      <div className={`${sz} epd-gradient flex items-center justify-center rounded-lg text-white font-bold shadow-md`}>
+        <span className="text-sm tracking-tighter">EP</span>
+      </div>
+      {withText && (
+        <div className={`font-bold tracking-tight ${txt} text-slate-900`}>
+          Energy Project<span className="epd-gradient-text"> Design</span>
+        </div>
+      )}
+    </Link>
+  );
+}
+
+const TAG_STYLES = {
+  CORE: 'bg-violet-600 text-white',
+  NEW:  'bg-emerald-500 text-white',
+  BETA: 'bg-amber-500 text-white',
+  BIZ:  'bg-indigo-600 text-white',
+  INFO: 'bg-slate-200 text-slate-700',
+};
 
 export default function Landing() {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-white text-black noise-overlay">
+    <div className="min-h-screen bg-white text-slate-900 noise-overlay">
       {/* Header */}
-      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60">
+      <header className="fixed top-0 w-full z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/60">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5" data-testid="brand-link">
-            <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center">
-              <Flame className="w-4 h-4" strokeWidth={2.5} />
-            </div>
-            <div className="font-bold tracking-tight text-lg">Energy Project<span className="text-[#FFB300]"> Design</span></div>
-          </Link>
+          <EPDLogo />
           <nav className="hidden md:flex items-center gap-8 text-sm">
-            <a href="#features" className="text-gray-700 hover:text-black">Funcționalități</a>
-            <a href="#how" className="text-gray-700 hover:text-black">Cum funcționează</a>
-            <Link to="/pricing" className="text-gray-700 hover:text-black" data-testid="nav-pricing">Tarife</Link>
+            <a href="#main-product" className="text-slate-600 hover:text-violet-700 transition-colors">Gaze Naturale</a>
+            <a href="#services" className="text-slate-600 hover:text-violet-700 transition-colors">Servicii</a>
+            <a href="#roadmap" className="text-slate-600 hover:text-violet-700 transition-colors">Viziune globală</a>
+            <Link to="/pricing" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-pricing">Tarife</Link>
           </nav>
           <div className="flex items-center gap-2">
             {user ? (
-              <Link to="/dashboard" className="amber-btn text-sm py-2" data-testid="cta-dashboard">Panou</Link>
+              <Link to="/dashboard" className="epd-btn text-sm py-2" data-testid="cta-dashboard">Panou</Link>
             ) : (
               <>
                 <Link to="/login" className="ghost-btn text-sm" data-testid="nav-login">Autentificare</Link>
-                <Link to="/register" className="amber-btn text-sm py-2" data-testid="nav-register">Începe gratuit</Link>
+                <Link to="/register" className="epd-btn text-sm py-2" data-testid="nav-register">Începe gratuit</Link>
               </>
             )}
           </div>
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="pt-24 pb-20 lg:pt-32 lg:pb-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 stagger">
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-500 mb-6">
-              <span className="w-8 h-px bg-[#FFB300]" /> International electronic technical documentation
+      {/* HERO — Identitate oficială EPD */}
+      <section
+        className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(135deg, rgba(15,23,42,0.92) 0%, rgba(30,58,138,0.88) 45%, rgba(79,70,229,0.85) 100%), url(${BRAND_ASSETS.cover1Futurist})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/60 pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-200 mb-6">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>The Architects of Future Global Technology</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tighter leading-[1.05] mb-6">
-              Energy Project Design — <span className="bg-[#FFB300] px-2">certified</span> & digitally stamped technical documentation.
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter leading-[1.02] mb-6 text-white">
+              Energy Project<br/>
+              <span className="bg-gradient-to-r from-violet-300 via-fuchsia-300 to-blue-300 bg-clip-text text-transparent">Design</span>
+              <span className="text-violet-300">.</span>
             </h1>
-            <p className="text-lg text-gray-600 max-w-xl mb-8 leading-relaxed">
-              Platformă B2B multi-industrie (gaze, electric, fotovoltaice, telecom, HVAC, apă-canal, construcții, feroviar, drumuri) și multi-rol (Client, User, Angajat, Developer, Admin). Documentație inteligentă, calcul automat, ștampilă & semnătură electronică calificată (QES), AI Assistant + AI Developer, marketplace șabloane, SEAP alerts, contracte.
+            <p className="text-2xl text-violet-100 font-light mb-4 italic">{BRAND.tagline}</p>
+            <p className="text-base lg:text-lg text-slate-200 max-w-2xl mb-10 leading-relaxed">
+              Platforma globală de proiectare și documentație tehnică digitală certificată — produs principal:
+              {' '}<span className="font-semibold text-white">documentație electronică pentru instalații gaze naturale</span>, conform NTPEE 2018, eIDAS QES, cu valoare juridică.
             </p>
             <div className="flex items-center gap-3 flex-wrap">
-              <Link to="/register" className="amber-btn" data-testid="hero-cta-register">
-                Începe gratuit <ArrowRight className="w-4 h-4" />
+              <Link to={user ? '/gaze-naturale' : '/register?next=gas'} className="epd-btn text-base px-7 py-3.5" data-testid="hero-cta-gas">
+                <Flame className="w-5 h-5" />
+                Începe proiect gaze naturale
+                <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link to="/pricing" className="outline-btn" data-testid="hero-cta-pricing">Vezi tarifele</Link>
-              <Link to="/industrii" className="text-sm text-gray-600 underline hover:text-black" data-testid="hero-cta-industrii">13 industrii →</Link>
+              <Link to="/pricing" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/30 px-6 py-3.5 rounded-lg backdrop-blur-sm transition-all" data-testid="hero-cta-pricing">
+                Vezi tarifele
+              </Link>
             </div>
-            <div className="mt-10 grid grid-cols-3 gap-6 max-w-md">
-              <div>
-                <div className="text-3xl font-bold tracking-tight">13</div>
-                <div className="text-xs uppercase tracking-[0.15em] text-gray-500 mt-1">Industrii</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold tracking-tight">56+</div>
-                <div className="text-xs uppercase tracking-[0.15em] text-gray-500 mt-1">Subdomenii</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold tracking-tight">QES</div>
-                <div className="text-xs uppercase tracking-[0.15em] text-gray-500 mt-1">eIDAS</div>
-              </div>
-            </div>
-          </div>
-          <div className="lg:col-span-5 relative">
-            <div className="aspect-[4/5] overflow-hidden border border-gray-200">
-              <img src={HERO_BG} alt="Conducte de gaze industriale" className="w-full h-full object-cover" />
-            </div>
-            <div className="absolute -bottom-6 -left-6 bg-white border border-gray-200 p-5 shadow-lg max-w-[260px]">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-gray-500 mb-2">Status document</div>
-              <div className="flex items-center gap-2 text-sm font-semibold"><Check className="w-4 h-4 text-[#16A34A]" /> Semnat digital PKI</div>
-              <div className="text-xs text-gray-500 mt-1 mono">SHA-256: a3f1…b9e4</div>
+            <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl">
+              {[
+                { v: '33',   l: 'Documente legale' },
+                { v: '221',  l: 'Câmpuri tehnice' },
+                { v: '13',   l: 'Industrii' },
+                { v: 'eIDAS',l: 'QES certificat' },
+              ].map(s => (
+                <div key={s.l}>
+                  <div className="text-4xl font-bold tracking-tight text-white tabular-nums">{s.v}</div>
+                  <div className="text-[11px] uppercase tracking-[0.2em] text-violet-200 mt-1.5">{s.l}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features bento */}
-      <section id="features" className="py-20 bg-[#F9FAFB] border-y border-gray-200">
+      {/* PRODUS PRINCIPAL — Gaze Naturale (deasupra tuturor) */}
+      <section id="main-product" className="py-24 bg-gradient-to-b from-white via-violet-50/30 to-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="label mb-3">// Funcționalități cheie</div>
-          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-12 max-w-2xl">Fluxul complet, de la șablon la livrare prin email.</h2>
-          <div className="grid md:grid-cols-12 gap-px bg-gray-200 border border-gray-200">
-            <div className="md:col-span-7 bg-white p-8 lg:p-10">
-              <FileText className="w-7 h-7 mb-6" />
-              <h3 className="text-xl font-semibold mb-2">Șabloane DOCX dinamice</h3>
-              <p className="text-gray-600 text-sm leading-relaxed mb-6 max-w-md">Marcați variabilele cu <span className="mono bg-gray-100 px-1.5 py-0.5">{'{{nume_client}}'}</span> în Microsoft Word. La încărcare detectăm automat câmpurile și generăm formularul.</p>
-              <img src={FEATURE_DOCS} alt="Plan inginerie" className="w-full h-48 object-cover border border-gray-200" />
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-4">
+                <span className="w-8 h-px bg-violet-600" />
+                Produs principal · operațional 100%
+              </div>
+              <h2 className="text-4xl lg:text-5xl font-bold tracking-tighter leading-[1.05] mb-5 text-slate-900">
+                Documentație tehnică electronică <span className="epd-gradient-text">Gaze Naturale</span>
+              </h2>
+              <p className="text-lg text-slate-600 leading-relaxed mb-8 max-w-xl">
+                Generează automat dosar complet pentru branșament, instalație utilizare sau extindere conductă —
+                cu memoriu tehnic, caiet de sarcini, borderou, DTAC, cerere AC, PTH, carte tehnică și 26 de documente
+                legale conform NTPEE 2018, HG 273/1994, Legea 50/1991 și Ord. ANRE 89/2018.
+              </p>
+              <div className="grid sm:grid-cols-2 gap-3 mb-8">
+                {MAIN_PRODUCT_HIGHLIGHTS.map((h) => {
+                  const Icon = h.icon;
+                  return (
+                    <div key={h.label} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:border-violet-300 hover:shadow-sm transition-all">
+                      <div className="w-9 h-9 rounded-md epd-gradient flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-white" strokeWidth={2.2} />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-sm font-semibold text-slate-900 leading-tight">{h.label}</div>
+                        <div className="text-[11px] uppercase tracking-wider text-violet-600 font-medium mt-0.5">{h.value}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex items-center gap-3 flex-wrap">
+                <Link to={user ? '/gaze-naturale' : '/register?next=gas'} className="epd-btn" data-testid="main-product-cta">
+                  <Flame className="w-4 h-4" /> Începe primul proiect (5 gratuit)
+                </Link>
+                <Link to="/pricing" className="outline-btn" data-testid="main-product-pricing">Planuri și tarife</Link>
+              </div>
             </div>
-            <div className="md:col-span-5 bg-white p-8 lg:p-10">
-              <Stamp className="w-7 h-7 mb-6" />
-              <h3 className="text-xl font-semibold mb-2">Ștampile cu poziționare</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">Încărcați ștampila firmei (PNG transparent), alegeți poziția pe pagină și dimensiunea în centimetri.</p>
-            </div>
-            <div className="md:col-span-5 bg-white p-8 lg:p-10">
-              <ShieldCheck className="w-7 h-7 mb-6 text-[#FFB300]" />
-              <h3 className="text-xl font-semibold mb-2">Semnătură digitală PKI</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">Importați certificatul <span className="mono">.p12</span> și generați semnătură CMS detașată conformă eIDAS.</p>
-            </div>
-            <div className="md:col-span-7 bg-white p-8 lg:p-10">
-              <Mail className="w-7 h-7 mb-6" />
-              <h3 className="text-xl font-semibold mb-2">Trimitere directă pe email</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">Adăugați destinatari, subiect și mesaj — documentul stampilat și semnătura <span className="mono">.p7s</span> sunt atașate automat.</p>
+
+            <div className="lg:col-span-5">
+              <div className="relative">
+                <div className="aspect-[4/5] overflow-hidden rounded-xl border border-slate-200 epd-shadow-lg">
+                  <img src={BRAND_ASSETS.cover3Office} alt="EPD office — proiectare gaze naturale" className="w-full h-full object-cover" />
+                </div>
+                <div className="absolute -bottom-5 -left-5 bg-white border border-slate-200 p-5 rounded-lg epd-shadow max-w-[280px]">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Document semnat</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm font-semibold text-slate-900"><Check className="w-4 h-4 text-emerald-500" /> Semnătură PKI QES</div>
+                  <div className="text-xs text-slate-500 mt-1 font-mono">SHA-256: a3f1…b9e4</div>
+                  <div className="mt-3 pt-3 border-t border-slate-100 text-[10px] uppercase tracking-wider text-violet-600 font-semibold">eIDAS conform</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TOP 12 SERVICII — recomandarea paginilor principale către vizitator */}
-      <section id="services" className="py-20 border-b border-gray-200">
+      {/* ECOSISTEM EPD — toate serviciile platformei */}
+      <section id="services" className="py-24 bg-slate-50 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="label mb-3">// Servicii principale</div>
-          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-2 max-w-3xl">12 servicii integrate, un singur cont.</h2>
-          <p className="text-gray-600 mb-10 max-w-2xl">Toate paginile principale ale platformei. Începeți cu un click — primele 5 documente sunt gratuite.</p>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {TOP_SERVICES.map((s) => {
+          <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+            <div>
+              <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">Ecosistem EPD · 14 servicii integrate</div>
+              <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter text-slate-900 max-w-2xl">
+                Un singur cont. Toate serviciile.
+              </h2>
+              <p className="text-slate-600 mt-3 max-w-2xl">
+                Pe lângă produsul principal Gaze Naturale, EPD oferă ecosistem complet pentru orice activitate de proiectare,
+                execuție și comercializare în domeniul ingineriei.
+              </p>
+            </div>
+            <div className="text-right">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-1">// active acum</div>
+              <div className="text-5xl font-bold tabular-nums epd-gradient-text">14</div>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {ACTIVE_SERVICES.map((s) => {
               const Icon = s.icon;
-              const tagColor = s.tag === 'core' ? 'bg-[#FFB300] text-black'
-                : s.tag === 'new' ? 'bg-green-600 text-white'
-                : s.tag === 'biz' ? 'bg-blue-600 text-white'
-                : 'bg-zinc-200 text-zinc-700';
+              const isMain = s.id === 'gas';
               return (
                 <Link
                   key={s.id}
-                  to={user ? '/acasa' : `/register?next=${s.id}`}
+                  to={user ? s.href : `/register?next=${s.id}`}
                   data-testid={`landing-service-${s.id}`}
-                  className="group bg-white border border-gray-200 hover:border-black hover:shadow-md p-4 transition-all"
+                  className={`group relative bg-white border rounded-xl p-5 transition-all hover:-translate-y-1 ${
+                    isMain
+                      ? 'border-violet-300 epd-shadow ring-1 ring-violet-100'
+                      : 'border-slate-200 hover:border-violet-300 hover:shadow-md'
+                  }`}
                 >
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="w-9 h-9 bg-zinc-50 border border-gray-200 group-hover:bg-[#FFB300]/10 flex items-center justify-center">
-                      <Icon className="w-4 h-4 text-zinc-700 group-hover:text-black" strokeWidth={2} />
+                  {isMain && (
+                    <div className="absolute -top-2 left-5 px-2 py-0.5 epd-gradient text-white text-[9px] uppercase tracking-wider font-bold rounded">
+                      Produs principal
                     </div>
-                    <span className={`text-[9px] px-1.5 py-0.5 uppercase tracking-wider font-semibold ${tagColor}`}>{s.tag}</span>
+                  )}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`w-11 h-11 rounded-lg flex items-center justify-center ${isMain ? 'epd-gradient' : 'bg-slate-100 group-hover:bg-violet-50'} transition-colors`}>
+                      <Icon className={`w-5 h-5 ${isMain ? 'text-white' : 'text-slate-700 group-hover:text-violet-700'}`} strokeWidth={2} />
+                    </div>
+                    <span className={`text-[9px] px-2 py-0.5 uppercase tracking-wider font-bold rounded ${TAG_STYLES[s.tag] || TAG_STYLES.INFO}`}>{s.tag}</span>
                   </div>
-                  <div className="text-sm font-semibold leading-tight mb-1">{s.title}</div>
-                  <div className="text-[11px] text-gray-500 leading-relaxed">{s.desc}</div>
-                  <div className="text-[10px] uppercase tracking-[0.15em] text-gray-400 group-hover:text-black mt-3 flex items-center gap-1">
+                  <div className="text-base font-semibold leading-tight mb-1.5 text-slate-900">{s.title}</div>
+                  <div className="text-xs text-slate-500 leading-relaxed mb-4">{s.desc}</div>
+                  <div className="text-[10px] uppercase tracking-[0.18em] font-semibold text-violet-600 group-hover:text-violet-800 flex items-center gap-1 group-hover:gap-2 transition-all">
                     Acces serviciu <ArrowRight className="w-3 h-3" />
                   </div>
                 </Link>
@@ -209,115 +300,119 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* 5 ECOSISTEME — descriere extinsă a marilor module */}
-      <section id="ecosystems" className="py-20 bg-[#0B0B0B] text-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="label mb-3 text-[#FFB300]">// 5 ecosisteme integrate</div>
-          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-2 max-w-3xl">De la documentul tehnic la piață, totul într-un singur loc.</h2>
-          <p className="text-zinc-400 mb-10 max-w-2xl">Energy Project Design unește 5 ecosisteme distincte. Fiecare poate funcționa standalone, dar împreună acoperă întreaga viață a unui proiect.</p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-3">
-            {ECOSYSTEMS.map((e) => {
-              const Icon = e.icon;
-              return (
-                <div key={e.id}
-                  data-testid={`landing-eco-${e.id}`}
-                  className="bg-zinc-950 border border-zinc-800 hover:border-[#FFB300]/50 p-5 transition-all group"
-                >
-                  <div className="w-10 h-10 mb-4 flex items-center justify-center" style={{ backgroundColor: `${e.accent}20`, borderLeft: `3px solid ${e.accent}` }}>
-                    <Icon className="w-5 h-5" style={{ color: e.accent }} strokeWidth={2} />
-                  </div>
-                  <div className="text-base font-semibold mb-2 tracking-tight">{e.title}</div>
-                  <div className="text-xs text-zinc-400 leading-relaxed mb-4">{e.blurb}</div>
-                  <Link to={user ? '/acasa' : '/register'}
-                    className="text-[10px] uppercase tracking-[0.18em] font-semibold flex items-center gap-1 hover:gap-2 transition-all"
-                    style={{ color: e.accent }}>
-                    {e.cta} <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
+      {/* Banner — The Architects of Future Global Technology */}
+      <section className="relative py-24 overflow-hidden text-white"
+        style={{
+          backgroundImage: `linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(76,29,149,0.8) 100%), url(${BRAND_ASSETS.cover4Architects})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+          <div className="text-xs uppercase tracking-[0.25em] text-violet-300 font-semibold mb-4">// Viziunea EPD</div>
+          <h2 className="text-4xl lg:text-6xl font-bold tracking-tighter leading-[1.05] max-w-4xl mx-auto mb-6">
+            We are the architects of the<br/>
+            <span className="bg-gradient-to-r from-violet-300 via-fuchsia-300 to-blue-300 bg-clip-text text-transparent">future global technology.</span>
+          </h2>
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            Energy Project Design unește documentație tehnică digitală, marketplace, imobiliare,
+            servicii și logistică într-un singur ecosistem global — cu standarde de calitate uniforme și
+            preț democratizat pentru întreaga lume.
+          </p>
         </div>
       </section>
 
-      {/* ROADMAP 22 SERVICII VIITOARE — full potential EPD */}
-      <section id="roadmap" className="py-20 bg-gradient-to-b from-zinc-50 to-white border-b border-gray-200">
+      {/* ROADMAP 22 SERVICII VIITOARE */}
+      <section id="roadmap" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+          <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
             <div>
-              <div className="label mb-3 text-[#FFB300]">// roadmap global — viitorul EPD</div>
-              <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-2 max-w-3xl">22 servicii globale planificate.</h2>
-              <p className="text-gray-600 max-w-2xl">EPD vizează să devină singura platformă din lume care unește toate produsele și serviciile esențiale, într-un singur brand global cu standarde de calitate uniforme.</p>
+              <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">// roadmap global EPD</div>
+              <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter text-slate-900 max-w-3xl">22 servicii globale în dezvoltare.</h2>
+              <p className="text-slate-600 mt-3 max-w-2xl">
+                EPD devine singura platformă din lume care unește toate produsele și serviciile esențiale —
+                un singur brand global, standarde uniforme, preț democratizat.
+              </p>
             </div>
             <div className="text-right">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-1">// totaluri</div>
-              <div className="text-4xl font-bold tabular-nums">22</div>
-              <div className="text-[10px] text-zinc-500">servicii viitoare</div>
+              <Globe className="w-12 h-12 text-violet-300 ml-auto mb-2" strokeWidth={1.5} />
+              <div className="text-5xl font-bold tabular-nums epd-gradient-text">22</div>
+              <div className="text-[10px] uppercase tracking-wider text-slate-500">servicii viitoare</div>
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2.5" data-testid="roadmap-grid">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3" data-testid="roadmap-grid">
             {FUTURE_SERVICES.map((s, idx) => (
-              <div key={idx} className="bg-white border border-zinc-200 hover:border-black hover:shadow-sm p-3 transition-all group" data-testid={`roadmap-${idx}`}>
-                <div className="text-2xl mb-2">{s.icon}</div>
-                <div className="text-xs font-bold leading-tight mb-1 text-zinc-900">{s.label}</div>
-                <div className="text-[10px] text-zinc-500 leading-snug">{s.desc}</div>
-                <div className="text-[9px] uppercase tracking-wider text-amber-600 font-semibold mt-2">În roadmap</div>
+              <div key={idx} className="bg-white border border-slate-200 hover:border-violet-300 hover:shadow-sm p-4 rounded-lg transition-all group" data-testid={`roadmap-${idx}`}>
+                <div className="w-7 h-7 rounded-md epd-gradient mb-3 opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="text-xs font-bold leading-tight mb-1 text-slate-900">{s.label}</div>
+                <div className="text-[10px] text-slate-500 leading-snug">{s.desc}</div>
+                <div className="text-[9px] uppercase tracking-wider text-violet-500 font-semibold mt-3">În roadmap</div>
               </div>
             ))}
           </div>
-          <div className="mt-8 p-4 bg-black text-white text-center" data-testid="roadmap-vision">
-            <div className="text-[10px] uppercase tracking-[0.18em] text-[#FFB300] mb-1">// viziunea EPD</div>
-            <div className="text-sm leading-relaxed">
-              Singura platformă globală • Singurul brand pentru toate serviciile • Singurul brand pentru toate produsele (no brand — product serial according to quality) • Singurul brand pentru toate resursele • Singurul brand de energie.
+        </div>
+      </section>
+
+      {/* CTA final */}
+      <section className="py-24 bg-slate-900 text-white relative overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,58,138,0.9) 100%), url(${BRAND_ASSETS.cover2Smartcity})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-12 items-end relative">
+          <div>
+            <div className="text-xs uppercase tracking-[0.25em] text-violet-300 font-semibold mb-3">// Începe astăzi</div>
+            <h2 className="text-4xl lg:text-5xl font-bold tracking-tighter leading-[1.05] mb-4">
+              5 documente gratuit.<br/>Fără card. Fără bătăi de cap.
+            </h2>
+            <p className="text-slate-300 max-w-md">Înregistrare în 30 de secunde. Începeți primul proiect Gaze Naturale chiar acum.</p>
+          </div>
+          <div className="flex md:justify-end gap-3 flex-wrap">
+            <Link to="/register" className="epd-btn" data-testid="cta-bottom-register">Creează cont gratuit</Link>
+            <Link to="/pricing" className="inline-flex items-center gap-2 bg-white text-slate-900 hover:bg-slate-100 font-semibold px-6 py-3 rounded-lg transition-all">Vezi planurile</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-200 bg-white py-12">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="grid md:grid-cols-4 gap-8 mb-10">
+            <div>
+              <EPDLogo size="sm" />
+              <p className="text-xs text-slate-500 mt-4 leading-relaxed">{BRAND.description}</p>
+            </div>
+            <div>
+              <div className="label text-violet-600 mb-3">Produse</div>
+              <ul className="space-y-2 text-sm">
+                <li><Link to="/gaze-naturale" className="text-slate-600 hover:text-violet-700">Gaze Naturale</Link></li>
+                <li><Link to="/industrii" className="text-slate-600 hover:text-violet-700">Industrii</Link></li>
+                <li><Link to="/marketplace" className="text-slate-600 hover:text-violet-700">Marketplace</Link></li>
+                <li><Link to="/pricing" className="text-slate-600 hover:text-violet-700">Planuri</Link></li>
+              </ul>
+            </div>
+            <div>
+              <div className="label text-violet-600 mb-3">Legal</div>
+              <ul className="space-y-2 text-sm">
+                <li><Link to="/termeni" className="text-slate-600 hover:text-violet-700" data-testid="footer-termeni">Termeni</Link></li>
+                <li><Link to="/confidentialitate" className="text-slate-600 hover:text-violet-700" data-testid="footer-confidentialitate">Confidențialitate</Link></li>
+                <li><Link to="/gdpr" className="text-slate-600 hover:text-violet-700" data-testid="footer-gdpr">GDPR</Link></li>
+              </ul>
+            </div>
+            <div>
+              <div className="label text-violet-600 mb-3">Contact</div>
+              <ul className="space-y-2 text-sm text-slate-600">
+                <li>{BRAND.contactEmail}</li>
+                <li>{BRAND.address}</li>
+                <li>CUI {BRAND.cui} · {BRAND.regCom}</li>
+              </ul>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* How */}
-      <section id="how" className="py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="label mb-3">// Cum funcționează</div>
-          <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-12">Patru pași până la documentul final.</h2>
-          <ol className="grid md:grid-cols-4 gap-px bg-gray-200 border border-gray-200">
-            {[
-              { n: '01', t: 'Încarcă șablonul', d: 'Document .docx cu marcaje {{variabile}}.' },
-              { n: '02', t: 'Completează datele', d: 'Formular generat automat pentru fiecare câmp.' },
-              { n: '03', t: 'Aplică ștampila & semnează', d: 'Ștampilă imagine + semnătură PKI .p12.' },
-              { n: '04', t: 'Trimite pe email', d: 'Către beneficiar, autoritate sau colegi.' },
-            ].map((s) => (
-              <li key={s.n} className="bg-white p-8">
-                <div className="mono text-xs text-[#FFB300] mb-4">{s.n}</div>
-                <div className="font-semibold mb-2">{s.t}</div>
-                <div className="text-sm text-gray-600">{s.d}</div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-20 bg-black text-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-12 items-end">
-          <div>
-            <div className="label mb-3 text-[#FFB300]">// Începe astăzi</div>
-            <h2 className="text-3xl lg:text-5xl font-bold tracking-tighter leading-[1.05]">5 documente gratuit. Fără card. Fără bătaie de cap.</h2>
-          </div>
-          <div className="flex md:justify-end gap-3">
-            <Link to="/register" className="amber-btn" data-testid="cta-bottom-register">Creează cont gratuit</Link>
-            <Link to="/pricing" className="outline-btn bg-white">Vezi planurile</Link>
-          </div>
-        </div>
-      </section>
-
-      <footer className="border-t border-gray-200 py-10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <div>© {new Date().getFullYear()} ENERGY PROJECT DESIGN SRL · CUI 43151074 · J40/12982/2020</div>
-          <div className="flex gap-6">
-            <Link to="/termeni" className="hover:text-black" data-testid="footer-termeni">Termeni</Link>
-            <Link to="/confidentialitate" className="hover:text-black" data-testid="footer-confidentialitate">Confidențialitate</Link>
-            <Link to="/gdpr" className="hover:text-black" data-testid="footer-gdpr">GDPR</Link>
-            <span>contact@energyprojectdesign.ro</span>
+          <div className="pt-6 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+            <div>© {new Date().getFullYear()} {BRAND.legalName.toUpperCase()} · Toate drepturile rezervate</div>
+            <div className="italic text-violet-600">{BRAND.tagline}</div>
           </div>
         </div>
       </footer>

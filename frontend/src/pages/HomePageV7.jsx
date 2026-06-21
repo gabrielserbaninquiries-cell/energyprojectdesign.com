@@ -167,38 +167,79 @@ export default function HomePageV7() {
   return (
     <AppShell title="Acasă" subtitle="Ecosistemul tehnic complet · 5 module · documentație + marketplace + imobiliare + forum + servicii">
 
-      {/* ============ HERO COMPACT ============ */}
-      <section className="mb-6 relative overflow-hidden bg-zinc-950 text-white rounded-lg" data-testid="home-hero">
-        <div className="absolute inset-0 opacity-[0.06] pointer-events-none"
+      {/* ============ HERO compact — EPD identity ============ */}
+      <section className="mb-6 relative overflow-hidden text-white rounded-xl epd-shadow" data-testid="home-hero"
+        style={{
+          backgroundImage: `linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(76,29,149,0.85) 60%, rgba(30,58,138,0.9) 100%)`,
+        }}
+      >
+        <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
           style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="absolute -top-20 -right-20 w-80 h-80 bg-orange-600/30 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-violet-500/30 rounded-full blur-3xl pointer-events-none" />
         <div className="relative px-6 md:px-10 py-8 md:py-10 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
           <div className="flex-1">
             <div className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.25em] border border-white/20 px-2.5 py-1 mb-3 bg-white/5 backdrop-blur rounded">
-              <Sparkles className="w-3 h-3 text-orange-400" /> V7.4 · Ecosistem tehnic
+              <Sparkles className="w-3 h-3 text-violet-300" /> The Architects of Future Global Technology
             </div>
             <h1 className="text-2xl md:text-4xl font-bold tracking-tight leading-tight mb-2">
-              Bine ai venit. <span className="text-orange-400">5 module. O singură platformă.</span>
+              Bine ai venit. <span className="bg-gradient-to-r from-violet-300 via-fuchsia-300 to-blue-300 bg-clip-text text-transparent">Redesigning projects.</span>
             </h1>
-            <p className="text-sm text-zinc-400 max-w-2xl">
-              Documentație legală generată automat · marketplace · imobiliare · forum + comunitate · meseriași & transport. Listare GRATUITĂ peste tot.
+            <p className="text-sm text-slate-300 max-w-2xl">
+              Produs principal: <strong className="text-white">documentație tehnică gaze naturale</strong> · plus marketplace · imobiliare · forum · meseriași & transport.
             </p>
           </div>
 
           {/* Search bar global */}
           <form onSubmit={onSearch} className="flex-shrink-0 w-full md:w-80" data-testid="home-search-form">
             <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Caută anunțuri, materiale, meseriași..."
-                className="w-full bg-white/10 backdrop-blur border border-white/20 pl-9 pr-3 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:bg-white/15 focus:border-orange-400 outline-none rounded-md"
+                className="w-full bg-white/10 backdrop-blur border border-white/20 pl-9 pr-3 py-2.5 text-sm text-white placeholder:text-slate-400 focus:bg-white/15 focus:border-violet-400 outline-none rounded-md"
                 data-testid="home-search-input"
               />
             </div>
           </form>
         </div>
+      </section>
+
+      {/* ============ MAIN PRODUCT SPOTLIGHT — Gaze Naturale ============ */}
+      <section className="mb-8" data-testid="home-main-product">
+        <Link to="/gaze-naturale" className="group block relative overflow-hidden rounded-xl border border-violet-200 bg-gradient-to-br from-white via-violet-50/30 to-indigo-50/20 hover:border-violet-400 hover:shadow-lg transition-all">
+          <div className="grid md:grid-cols-3 gap-0">
+            <div className="md:col-span-2 p-6 md:p-8">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-[9px] uppercase tracking-[0.2em] font-bold epd-gradient text-white px-2 py-0.5 rounded">Produs principal</span>
+                <span className="text-[10px] uppercase tracking-wider text-emerald-600 font-bold">100% operațional</span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-2">
+                Studio Gaze Naturale
+                <span className="epd-gradient-text"> · 33 documente legale</span>
+              </h2>
+              <p className="text-sm text-slate-600 max-w-xl mb-4 leading-relaxed">
+                Generează automat dosar complet pentru branșament, instalație utilizare sau extindere conductă — cu Renouard multi-tronson, dimensionare contor/regulator și Anexa 13 (554 materiale OSD).
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['NTPEE 2018', 'HG 273/1994', 'Ord. ANRE 89/2018', 'QES eIDAS', '221 câmpuri', 'Stripe ad-hoc'].map(b => (
+                  <span key={b} className="text-[10px] font-semibold uppercase tracking-wider text-violet-700 bg-violet-100 px-2 py-1 rounded">{b}</span>
+                ))}
+              </div>
+              <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-violet-700 group-hover:gap-3 transition-all">
+                Deschide Studio <ArrowUpRight className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="hidden md:flex items-center justify-center bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-700 p-8 relative">
+              <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, white 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
+              <div className="relative text-center text-white">
+                <Flame className="w-16 h-16 mx-auto mb-3 opacity-90" strokeWidth={1.5} />
+                <div className="text-5xl font-bold tabular-nums mb-1">221</div>
+                <div className="text-[10px] uppercase tracking-[0.2em] text-violet-200">câmpuri inginerești</div>
+              </div>
+            </div>
+          </div>
+        </Link>
       </section>
 
       {/* ============ PAGINI PRINCIPALE — 12 quick-access pills ============ */}

@@ -75,16 +75,16 @@ export default function AppShell({ children, title, subtitle }) {
     : 'bg-sky-600 text-white';
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] flex">
-      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col sticky top-0 h-screen overflow-y-auto" data-testid="app-sidebar">
-        <div className="px-6 py-5 border-b border-gray-200">
+    <div className="min-h-screen bg-slate-50 flex">
+      <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen overflow-y-auto" data-testid="app-sidebar">
+        <div className="px-6 py-5 border-b border-slate-200">
           <Link to="/dashboard" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-black text-[#FFB300] flex items-center justify-center">
-              <Flame className="w-5 h-5" strokeWidth={2.5} />
+            <div className="w-9 h-9 epd-gradient text-white flex items-center justify-center rounded-lg shadow-md font-bold">
+              <span className="text-xs tracking-tighter">EP</span>
             </div>
             <div>
-              <div className="font-bold tracking-tight text-[15px] leading-tight">Energy Project<span className="text-[#FFB300]"> Design</span></div>
-              <div className="text-[9px] uppercase tracking-[0.22em] text-gray-500 mt-0.5">v5.2 · Services</div>
+              <div className="font-bold tracking-tight text-[15px] leading-tight text-slate-900">Energy Project<span className="epd-gradient-text"> Design</span></div>
+              <div className="text-[9px] uppercase tracking-[0.22em] text-violet-600 mt-0.5 font-semibold">Redesigning projects.</div>
             </div>
           </Link>
         </div>
@@ -155,24 +155,24 @@ export default function AppShell({ children, title, subtitle }) {
           )}
         </nav>
 
-        <div className="border-t border-gray-200 p-4">
+        <div className="border-t border-slate-200 p-4">
           <div className="flex items-center gap-3 mb-3">
             {user?.picture ? (
               <img src={user.picture} alt="" className="w-9 h-9 rounded-full object-cover" />
             ) : (
-              <div className="w-9 h-9 bg-[#FFB300] text-black font-bold flex items-center justify-center rounded-full text-sm">
+              <div className="w-9 h-9 epd-gradient text-white font-bold flex items-center justify-center rounded-full text-sm">
                 {user?.name?.[0]?.toUpperCase() || 'U'}
               </div>
             )}
             <div className="min-w-0 flex-1">
-              <div className="text-sm font-medium truncate" data-testid="user-name">{user?.name}</div>
-              <div className="text-[10px] text-gray-500 uppercase tracking-wider">Plan: {user?.plan}</div>
+              <div className="text-sm font-medium truncate text-slate-900" data-testid="user-name">{user?.name}</div>
+              <div className="text-[10px] text-violet-600 uppercase tracking-wider font-semibold">Plan: {user?.plan}</div>
             </div>
           </div>
           <button
             data-testid="logout-btn"
             onClick={async () => { await logout(); navigate('/'); }}
-            className="w-full flex items-center gap-2 text-sm text-gray-700 hover:text-black px-3 py-2 hover:bg-gray-100 rounded-sm"
+            className="w-full flex items-center gap-2 text-sm text-slate-700 hover:text-violet-700 px-3 py-2 hover:bg-violet-50 rounded-lg transition-colors"
           >
             <LogOut className="w-4 h-4" /> Deconectare
           </button>

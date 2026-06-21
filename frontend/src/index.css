@@ -5,18 +5,26 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root {
+  /* EPD Brand palette — extracted from official logo gradient */
   --bg-primary: #FFFFFF;
-  --bg-secondary: #F9FAFB;
-  --bg-tertiary: #F3F4F6;
-  --text-primary: #0A0A0A;
-  --text-secondary: #4B5563;
-  --text-tertiary: #6B7280;
-  --accent: #FFB300;
-  --accent-hover: #FFA000;
-  --accent-secondary: #2563EB;
-  --danger: #DC2626;
-  --success: #16A34A;
-  --border: #E5E7EB;
+  --bg-secondary: #F8FAFC;
+  --bg-tertiary: #F1F5F9;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-tertiary: #64748B;
+  --epd-violet: #7C3AED;
+  --epd-violet-light: #A78BFA;
+  --epd-indigo: #4F46E5;
+  --epd-blue: #2563EB;
+  --epd-navy: #1E3A8A;
+  --epd-slate-900: #0F172A;
+  /* Primary accent now = EPD violet (was amber #FFB300 — kept for backwards compat) */
+  --accent: #7C3AED;
+  --accent-hover: #6D28D9;
+  --accent-secondary: #4F46E5;
+  --danger: #EF4444;
+  --success: #10B981;
+  --border: #E2E8F0;
 }
 
 html, body, #root {
@@ -37,8 +45,25 @@ code, .mono {
 }
 
 ::selection {
-  background: var(--accent);
-  color: #000;
+  background: var(--epd-violet);
+  color: #fff;
+}
+
+/* EPD logo gradient utility */
+.epd-gradient {
+  background: linear-gradient(135deg, #A78BFA 0%, #7C3AED 25%, #4F46E5 55%, #1E3A8A 85%, #0F172A 100%);
+}
+.epd-gradient-text {
+  background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.epd-shadow {
+  box-shadow: 0 10px 40px -10px rgba(124, 58, 237, 0.25), 0 4px 12px -4px rgba(30, 58, 138, 0.15);
+}
+.epd-shadow-lg {
+  box-shadow: 0 25px 60px -15px rgba(124, 58, 237, 0.4), 0 10px 25px -8px rgba(30, 58, 138, 0.25);
 }
 
 /* Grid skeleton borders */
@@ -63,25 +88,25 @@ code, .mono {
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 4%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 4%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 4%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 42 100% 50%;
-    --accent-foreground: 0 0% 4%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 42 100% 50%;
-    --radius: 0.125rem;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 262 83% 58%;
+    --radius: 0.5rem;
   }
 }
 
@@ -111,17 +136,28 @@ code, .mono {
 .stagger > *:nth-child(5) { animation-delay: 0.36s; }
 .stagger > *:nth-child(6) { animation-delay: 0.44s; }
 
-.amber-btn {
-  @apply inline-flex items-center justify-center gap-2 bg-[#FFB300] text-black hover:bg-[#FFA000] font-semibold px-6 py-3 transition-all shadow-sm rounded-sm hover:-translate-y-px hover:shadow-md;
+/* Primary CTA — EPD violet→indigo gradient. `amber-btn` kept as alias for backwards compat. */
+.epd-btn, .amber-btn {
+  @apply inline-flex items-center justify-center gap-2 text-white font-semibold px-6 py-3 transition-all rounded-lg hover:-translate-y-0.5;
+  background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+  box-shadow: 0 4px 14px -2px rgba(124, 58, 237, 0.4);
+}
+.epd-btn:hover, .amber-btn:hover {
+  background: linear-gradient(135deg, #6D28D9 0%, #4338CA 100%);
+  box-shadow: 0 8px 20px -4px rgba(124, 58, 237, 0.5);
+}
+.epd-btn:disabled, .amber-btn:disabled {
+  background: linear-gradient(135deg, #C4B5FD 0%, #A5B4FC 100%);
+  transform: none;
 }
 .ghost-btn {
-  @apply inline-flex items-center justify-center gap-2 bg-transparent text-gray-700 hover:bg-gray-100 hover:text-black transition-colors px-4 py-2 rounded-sm;
+  @apply inline-flex items-center justify-center gap-2 bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors px-4 py-2 rounded-lg;
 }
 .outline-btn {
-  @apply inline-flex items-center justify-center gap-2 bg-white text-black border border-gray-200 hover:bg-gray-50 px-5 py-2.5 transition-colors rounded-sm;
+  @apply inline-flex items-center justify-center gap-2 bg-white text-slate-900 border border-slate-200 hover:border-violet-400 hover:text-violet-700 px-5 py-2.5 transition-colors rounded-lg;
 }
 .label {
-  @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-500;
+  @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-600;
 }
 
 /* Forum markdown styles */
