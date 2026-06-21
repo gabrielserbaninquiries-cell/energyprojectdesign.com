@@ -2441,15 +2441,9 @@ async def materials_suggest(body: _SmartFillBody):
     suggestions = auto_suggest_materials(body.data, limit=30)
     return {
         "suggestions": suggestions,
-        "total_available": len(_load_catalog_helper()) if False else get_catalog_stats()["total_items"],
+        "total_available": get_catalog_stats()["total_items"],
         "count_returned": len(suggestions),
     }
-
-
-def _load_catalog_helper():
-    """Inline helper for materials count."""
-    from gas_engineering import _load_catalog as _lc
-    return _lc()
 
 
 app.include_router(_pr_api)

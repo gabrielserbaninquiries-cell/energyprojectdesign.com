@@ -137,7 +137,7 @@ def latime_sant_recomandata(dn_size: int, spatiu_lucru_cm: int = 30) -> Dict[str
     if not pipe:
         return {"error": f"DN {dn_size} nu există în catalog PE 100"}
     de = pipe["de_mm"]  # diametru exterior mm
-    latime_min_cm = round((de / 10.0) + (spatiu_lucru_cm / 1.0), 1)  # cm
+    latime_min_cm = round((de / 10.0) + spatiu_lucru_cm, 1)  # de mm → cm + spațiu lucru cm
     # Adâncime min depinde de suprafață (folosim trotuar default 0.90m)
     return {
         "diametru_exterior_mm": de,

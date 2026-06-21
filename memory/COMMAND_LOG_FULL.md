@@ -710,3 +710,37 @@ _End of COMMAND LOG. Pentru întrebări sau continuare → ask_human._
 - gas_materials_smart.py — Auto-suggest din 554 items catalog OSD
 - Endpoints: /tronsons, /smart-sizing, /materials/auto-suggest
 - Frontend: TronsonsTab component + SmartSizingPanel
+
+### V8.7 DELIVERED (2026-06-21)
+
+✅ Backend module nou `gas_engineering.py` (340 lines):
+   - PE100_SDR11 dict (14 diametre)
+   - CONTOARE_CATALOG (15 modele G1.6-G1000)
+   - REGULATOARE_CATALOG (7 modele FE6-25 până Reflux 919)
+   - renouard_jp() + viteza_jp() + compute_tronson_table()
+   - latime_sant_recomandata() + dimensionare_contor() + dimensionare_regulator()
+   - auto_suggest_materials() — score-based filtering pe 554 itemi OSD
+
+✅ 3 endpoint-uri noi:
+   - POST /api/placeholders/tronsons-renouard (multi-tronson dynamic)
+   - POST /api/placeholders/smart-sizing (auto-dimensioning)
+   - POST /api/placeholders/materials/auto-suggest (top-30 din 554)
+
+✅ Frontend `GasEngineeringPanel.jsx` (292 lines, 3 secțiuni colapsabile)
+   - Multi-tronson dynamic table cu CRUD în-line
+   - Smart sizing live cu lățime șanț + contor + regulator
+   - Materials recommended sortat după score
+
+✅ Al 4-lea tab "INGINERIE (RENOUARD + SIZING)" în pagina Gaze Naturale
+
+✅ Testing: 8/8 pytest PASS (test_v87_gas_engineering.py)
+✅ Real values verified: T1 32m DN26 4m³/h → Δp 0.0014 bar / v 2.09 m/s
+
+### Total cumulative după V8.7:
+- 33 DOCX templates
+- 221 registry fields × 8 cat × 32 sec
+- 5 ad-hoc Stripe services
+- 6-stage pipeline
+- 3 calculatoare inginerești reale
+- 4 tabs în Gaze Naturale studio
+- 96+/96+ tests PASSED (iter 5-12)

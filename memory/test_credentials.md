@@ -1,6 +1,6 @@
 # /app/memory/test_credentials.md
 
-Last updated: 2026-06-12 (V8.5)
+Last updated: 2026-06-21 (V8.7)
 
 ## Live preview URL (READ FROM .env, do not hardcode)
 - Current: `https://github-push-test.preview.emergentagent.com`
@@ -29,10 +29,10 @@ Use this account to test:
 - MONGO_URL=mongodb://localhost:27017
 - DB_NAME=energy_project_design
 - EMERGENT_LLM_KEY (configured)
-- PUBLIC_VERIFY_BASE=https://57bd020b-829b-4403-b2b9-09912868b634.preview.emergentagent.com
+- PUBLIC_VERIFY_BASE=https://github-push-test.preview.emergentagent.com
 
 ## Frontend env (already configured in /app/frontend/.env)
-- REACT_APP_BACKEND_URL=https://57bd020b-829b-4403-b2b9-09912868b634.preview.emergentagent.com
+- REACT_APP_BACKEND_URL=https://github-push-test.preview.emergentagent.com
 
 ## Sample gas project for testing
 - PID: `gp_54135e822f25f7d7` (already created, signed, in DB)
