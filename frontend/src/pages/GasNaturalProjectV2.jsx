@@ -36,7 +36,7 @@ import AppShell from '../components/AppShell';
 import api from '../lib/api';
 import { toast } from 'sonner';
 import RegistryFieldsTab from '../components/RegistryFieldsTab';
-import GasServicePipeline from '../components/GasServicePipeline';
+import GasChronologicalStepper from '../components/GasChronologicalStepper';
 import GasEngineeringPanel from '../components/GasEngineeringPanel';
 import {
   ArrowLeft, Save, FileSignature, Send, Download, Upload, Trash2, Plus,
@@ -905,13 +905,8 @@ export default function GasNaturalProjectV2() {
         </div>
       </div>
 
-      {/* SERVICE PIPELINE + AD-HOC CATALOG (de la date la livrare cu plată Stripe) */}
-      <GasServicePipeline
-        pid={pid}
-        data={data}
-        hasStamps={!!proj?.signed_assets?.length}
-        isSigned={!!proj?.signature_hash}
-      />
+      {/* V9.1 — STEPPER CRONOLOGIC (înlocuiește pipeline-ul de pachete ad-hoc) */}
+      <GasChronologicalStepper data={data} />
 
       {/* Tabs Date / Avize / Registru */}
       <div className="flex gap-1 mb-4 border-b-2 border-green-400" data-testid="gas-v2-tabs">

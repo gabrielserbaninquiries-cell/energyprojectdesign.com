@@ -1,0 +1,37 @@
+{
+  "summary": "V9.1 frontend-only test PASS. Verified new GasChronologicalStepper (10 steps) replaces ad-hoc GasServicePipeline in Studio Gaze. Stripe publishable key added to .env without overwriting REACT_APP_BACKEND_URL. All required data-testids present. V9.0 rebranding regression smoke passed.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "tests_executed": [
+    {"id": "STUDIO_GAZE_STEPPER_VISIBLE", "status": "PASS", "detail": "data-testid='gas-chronological-stepper' rendered at top of /gaze-naturale/gp_e79e2810cc64b5b4 in place of old GasServicePipeline"},
+    {"id": "STEPPER_10_STEPS_TESTIDS", "status": "PASS", "detail": "10/10 step testids found: stepper-date-proiect, stepper-date-tehnice, stepper-avize, stepper-dtac, stepper-ac, stepper-pth, stepper-avize-finale, stepper-dispozitie-santier, stepper-carte-tehnica, stepper-receptie"},
+    {"id": "STEPPER_COMPLETION_PCT", "status": "PASS", "detail": "Demo project gp_e79e2810cc64b5b4 (302 fields) shows '10/10 finalizate' and '100% progres total' — all stage criteria met, '✓ Toate etapele complete' label visible. Global progress bar at 100% width."},
+    {"id": "NO_ADHOC_PACKAGES", "status": "PASS", "detail": "Phrases NOT present on Studio Gaze page: 'pachete ad-hoc', 'express dispatch', 'carte_legata', 'carte legata'. Note: literal string 'ad-hoc' matches the unrelated sidebar nav item 'Anunțuri ad-hoc' (Marketplace classifieds) and the landing-page Studio Gaze module card chip 'STRIPE AD-HOC' — these are unrelated to the removed gas service pipeline packages."},
+    {"id": "STUDIO_GAZE_TABS_INTACT", "status": "PASS", "detail": "All 4 tabs present and counted=1: DATE OPERAȚIONALE, AVIZE HUB, REGISTRU CÂMPURI, INGINERIE"},
+    {"id": "HEADER_BUTTONS", "status": "PASS", "detail": "data-testid='gas-v2-save' and 'gas-v2-finalize' present in header"},
+    {"id": "V9_REBRANDING_REGRESSION", "status": "PASS", "detail": "Landing shows 'Bine ai venit. Redesigning projects.' tagline, EP gradient logo in sidebar, Studio Gaze 33 documente card, 221 câmpuri counter, 5 module integrate grid intact"},
+    {"id": "ENV_INTEGRITY", "status": "PASS", "detail": "/app/frontend/.env contains both REACT_APP_BACKEND_URL=https://github-push-test.preview.emergentagent.com AND REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_live_51Thc7C... (backend URL preserved, Stripe key added cleanly)"},
+    {"id": "DEAD_CODE_GASSERVICEPIPELINE", "status": "INFO", "detail": "/app/frontend/src/components/GasServicePipeline.jsx file still exists on disk but is no longer imported anywhere (grep confirms only the comment reference in GasChronologicalStepper.jsx). Safe to delete in a future cleanup pass."}
+  ],
+  "test_report_links": [],
+  "action_items": [
+    "(optional cleanup) Delete /app/frontend/src/components/GasServicePipeline.jsx since it is now unused dead code (still on disk but no imports). Not blocking.",
+    "(optional polish) Studio Gaze module card on Acasă landing still displays the chip 'STRIPE AD-HOC' (see PRODUS PRINCIPAL card). Since ad-hoc Stripe checkout was removed at user's explicit request, consider updating this chip label to reflect the new model (e.g., 'STRIPE PLANS' or removing it). Cosmetic only."
+  ],
+  "critical_code_review_comments": [
+    "GasChronologicalStepper.stepCompletion() treats string '0' and numeric 0 as filled (truthy check is `v !== ''`) — correct behavior for numeric fields like debit; no issue.",
+    "Stepper has min-w-[1200px] horizontal scroll on viewports <xl which is acceptable (user asked for 10 etape orizontal sus).",
+    "Stripe publishable key is hardcoded committed to .env in cleartext — this is fine since pk_live_* is meant to be public, but ensure no SECRET key (sk_live_*) is ever committed."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (frontend-only test)", "frontend": "100% (9/9 checks)"},
+  "test_credentials": "dragosserban95@gmail.com / Test12345 (from /app/memory/test_credentials.md)",
+  "seed_data_creation": "None — used existing demo project gp_e79e2810cc64b5b4 (302 fields).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V9.1 delta verified end-to-end on the frontend. Stripe publishable key is in .env but no Stripe checkout flow has been wired in code yet (per STRIPE_PRICING_SETUP.md, products still need to be created in Stripe Dashboard by the user before any real checkout integration can be tested). If user/main agent wires the Stripe Checkout buttons next, retest payment buttons → Stripe redirect."
+}
