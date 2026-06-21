@@ -1,0 +1,52 @@
+{
+  "summary": "V8.7 — Real engineering tools verified end-to-end. Backend: 8/8 pytest PASS (test_v87_gas_engineering.py). All 3 new endpoints work correctly. POST /api/placeholders/tronsons-renouard with the spec payload (T1: L=32m, DN=26mm, Q=4 + T2: L=15m, DN=26mm, Q=3, p_initial=0.025 bar) returns delta_p_mbar=1.4003 (spec ~1.40 ✓), delta_p_bar=0.0014 (spec ~0.0014 ✓), viteza=2.09 m/s (spec ~2.09 ✓), verdict='OK', pressures chained descending (T1 p_intrare=0.025 → p_finala=0.0236; T2 p_intrare=0.0236 → p_finala=0.0232). POST /api/placeholders/smart-sizing returns latime_recomandata_cm=43.2 ✓, contor G4 qmax=6.0 ✓, regulator FE6-25 qmax_jp=10 ✓, catalogs={pe100=14, contoare=15, regulatoare=7} ✓. POST /api/placeholders/materials/auto-suggest returns total_available=554 ✓, count_returned=30 ✓, sorted by score (first: '8022028 COT SUD CAP CAP PE 100 SDR11 DN32X45°'). Regression intact: /api/placeholders/registry → 221 fields/32 sections/8 categories ✓, /api/gas-project/{pid}/dossier.zip = 34 files ✓, smart-fill + validate work ✓. Frontend (Playwright on live preview): tab-engineering visible, opening it renders gas-engineering-panel with all 3 collapsible sections (eng-tronsons, eng-sizing, eng-materials). Clicking eng-calc-tronsons populates the T1 row → delta_p_bar=0.0013, p_finala=0.0237, v=2.09, verdict='✓ OK'. eng-tronson-add adds row → 2 rows. Opening eng-sizing-toggle renders the 3 sub-panels with correct values ('Lățime șanț 43.2 cm', 'Contor G4 Qmax=6 m³/h', 'Regulator FE6-25 Qmax JP=10 m³/h') including formula+norma text. Opening eng-materials-toggle renders 30 material rows (eng-mat-0..29) with code+name. Landing roadmap (regression): 22 roadmap-{n} cards + roadmap-vision banner visible after scroll. Login (regression): brand 'Energy Project Design (EPD).' visible (login-brand-name), email/parolă primary, Google secondary with exact label 'Continuă cu Google (cont nou)'. Bonus: REGISTRU CÂMPURI tab badge now correctly shows '(221)' — fixing the carry-over from iter 10/11.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "GasNaturalProjectV2 (gas project studio header)",
+        "issues": [
+          "Cosmetic HTML hydration warning in console: 'In HTML, <button> cannot be a descendant of <button>' (pre-existing, not regression-blocking) — should be fixed by main agent for cleaner DOM."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_v87_gas_engineering.py",
+    "/app/test_reports/pytest/v87_results.xml"
+  ],
+  "action_items": [
+    "(Carry-over, partially fixed) REGISTRU CÂMPURI badge now correctly shows 221 — close.",
+    "(Carry-over from iter 11) Extend SMART_TRIGGERS in /app/frontend/src/components/RegistryFieldsTab.jsx to include validated fields (sudor_cnp, beneficiar_cnp, la_sapatura_adancime_cm, sf_presiune_max_op_bar, pt_calcul_pierderi_presiune_bar) so direct edits to these fields fire /placeholders/validate.",
+    "(Carry-over) Update /app/memory/test_credentials.md preview URL block — still listed as 57bd020b host; actual REACT_APP_BACKEND_URL = https://github-push-test.preview.emergentagent.com.",
+    "Fix nested <button> hydration warning in GasNaturalProjectV2.jsx header area (cosmetic, but pollutes console)."
+  ],
+  "critical_code_review_comments": [
+    "gas_engineering.py:71 — Renouard formula uses single β=23200 for all JP cases; should differentiate between JP/RP/MP coefficients per NTPEE 2018 (β_RP≈48600, β_MP differs). Document the formula's domain of validity (D<50mm, JP only) in the docstring or extend to other regimes.",
+    "gas_engineering.py:185 — dimensionare_regulator's loop accepts both p_intrare_max >= presiune_intrare AND qmax_jp >= target; if user passes tip_presiune='RP', the JP qmax field is still keyed when field='qmax_rp', good — but no validation on tip_presiune value (anything other than 'JP' triggers RP branch silently). Add pydantic Literal['JP','RP','MP'].",
+    "gas_engineering.py:222 auto_suggest_materials — score=0 items get filtered out, but the scoring system is brittle (substring matching on 'pe 100' vs 'pe100'). Consider precomputing normalized tokens per catalog item at module load.",
+    "gas_engineering.py:140 — latime_min_cm = de/10 + spatiu_lucru_cm/1.0 — the division by 1.0 is a no-op (likely intended /10 → mm to cm but applied to cm already). Code works because spatiu_lucru_cm is already in cm; rename or simplify the formula.",
+    "server.py:2438-2446 — materials_suggest reuses _SmartFillBody (data dict only) but also creates dead _load_catalog_helper() function via 'if False else'. Replace 'if False else get_catalog_stats()' with a direct call to get_catalog_stats(). Dead-code-ish.",
+    "server.py:2399 _TronsonsBody.tronsons is List[Dict[str, Any]] — no per-tronson Pydantic validation. Sending {tronsons:[{'lungime_m':'abc'}]} would error inside compute_tronson_table not at request boundary. Add a TronsonItem(BaseModel) with lungime_m, dn_mm, debit_mc_h validators.",
+    "GasEngineeringPanel.jsx is 292 lines — acceptable for now but consider splitting the 3 sections into separate sub-components (TronsonsTable, SizingPanel, MaterialsList) for future maintainability.",
+    "Frontend section toggles (eng-tronsons-toggle / eng-sizing-toggle / eng-materials-toggle) — verify ARIA roles (button + aria-expanded) for accessibility; currently divs styled as buttons."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v87_gas_engineering.py (NEW — V8.7 regression suite, 8/8 PASS)"
+  ],
+  "success_rate": {
+    "backend": "100% (8/8 V8.7 + V8.5/V8.6 regression incl. dossier ZIP=34 files / registry=221)",
+    "frontend": "100% — INGINERIE tab opens panel with all 3 sections, Calculează populates table with correct Renouard values (Δp=0.0013 bar, v=2.09 m/s, OK), sizing auto-populates G4+FE6-25+43.2cm, materials shows 30 rows from 554 catalog. Login + roadmap regression pass."
+  },
+  "test_credentials": "Admin/Developer: dragosserban95@gmail.com / Test12345 (PID gp_e79e2810cc64b5b4). Live frontend: https://github-push-test.preview.emergentagent.com (REACT_APP_BACKEND_URL).",
+  "seed_data_creation": "None — read-only tests on PID gp_e79e2810cc64b5b4. Tronsons calculator runs in-memory and does not persist.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V8.7 added 3 endpoints under /api/placeholders/: (a) tronsons-renouard — body {tronsons:[{id,lungime_m,dn_mm,debit_mc_h}], p_initial_bar} → {results:[...]} with delta_p_mbar/delta_p_bar/p_intrare_bar/p_finala_bar/viteza_m_s/verdict; chains pressures (p_finala_i becomes p_intrare_{i+1}). (b) smart-sizing — body {dn_size,debit_max_mc_h,presiune_intrare_bar,tip_presiune} → {latime_sant, contor, regulator, catalogs}; partial payload supported (omit debit → no contor/regulator). (c) materials/auto-suggest — body {data:{...project fields}} → {suggestions, total_available=554, count_returned}. Frontend selectors: gas-engineering-panel (root), eng-tronsons/eng-sizing/eng-materials (3 cards), eng-tronsons-toggle/eng-sizing-toggle/eng-materials-toggle (headers), eng-calc-tronsons (run Renouard), eng-tronson-add (add row), eng-tronson-{idx} (row), eng-tronson-remove-{idx} (remove), eng-p-initial (input), eng-sizing-sant/eng-sizing-contor/eng-sizing-regulator (sub-panels), eng-sizing-refresh (recompute), eng-mat-{idx} (material row). REGISTRU CÂMPURI badge is now dynamic and shows (221). Roadmap section lives on Landing (/) — there is no /roadmap route; tests must navigate to / and scroll to render the 22 cards.",
+  "rca_of_the_issue": "N/A — no bugs found in V8.7 delta. All numeric values match the spec to within rounding (Δp=1.4003 mbar vs spec ~1.40, viteza=2.09 m/s exact, latime=43.2 cm exact, G4 + FE6-25 contor+regulator picks exact, 554 catalog total exact, 30 returned)."
+}

@@ -37,6 +37,7 @@ import api from '../lib/api';
 import { toast } from 'sonner';
 import RegistryFieldsTab from '../components/RegistryFieldsTab';
 import GasServicePipeline from '../components/GasServicePipeline';
+import GasEngineeringPanel from '../components/GasEngineeringPanel';
 import {
   ArrowLeft, Save, FileSignature, Send, Download, Upload, Trash2, Plus,
   CheckCircle2, FileText, Stamp, Mail, Calculator, Package, Sparkles,
@@ -923,7 +924,14 @@ export default function GasNaturalProjectV2() {
         <button onClick={() => setActiveTab('registru')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'registru' ? 'bg-green-400 border-green-500 text-white' : 'bg-white border-green-300 text-gray-700 hover:bg-green-50'}`} data-testid="tab-registru">
           REGISTRU CÂMPURI {regFieldsCount ? `(${regFieldsCount})` : ''}
         </button>
+        <button onClick={() => setActiveTab('engineering')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'engineering' ? 'bg-blue-400 border-blue-500 text-white' : 'bg-white border-blue-300 text-gray-700 hover:bg-blue-50'}`} data-testid="tab-engineering">
+          INGINERIE (RENOUARD + SIZING)
+        </button>
       </div>
+
+      {activeTab === 'engineering' && (
+        <GasEngineeringPanel data={data} pid={pid} />
+      )}
 
       {activeTab === 'registru' && (
         <RegistryFieldsTab

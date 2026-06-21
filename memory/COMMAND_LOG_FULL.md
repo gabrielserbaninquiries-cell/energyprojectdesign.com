@@ -645,3 +645,68 @@ _End of COMMAND LOG. Pentru întrebări sau continuare → ask_human._
 
 ### Cerință literală user (mesajul 20)
 > "Nu mai are crash. In schimb, nu-mi place deloc pagina. Intreg site-ul defapt. Nu e structurat cum trebuie, in special meniul, iar paginile principale nu se afla in 'acasa' in partea de sus, sau site-ul nu ofera toate serviciile mentionate de pagina. Te rog pretinde ca esti un utilizator al platformei pentru fiecare functie pe care o are site-ul, apoi gandeste si restructureaza site-ul si schimba interfata site-ului intr-asa fel incat template-ul ales sa fie mai catchy, dar si user friendly."
+
+
+## 21. APPENDIX V8.0-V8.6 (2026-06-12 to 2026-06-21) — END-TO-END BUILDOUT GAZE NATURALE
+
+### V8.0 — +3 templates legale + Stripe webhook idempotent
+- dtac_lista_avize, pv_calitate, program_faze_isc → +28 placeholders
+- Idempotency check `already_paid` in /webhook/stripe + db.plan_activation_log audit
+
+### V8.1 — 100% placeholder coverage 179/179
+- Caiet Sarcini secțiuni 4.1/4.2/4.3 detalii pozare
+- _project_cartouche helper aplicat în 4 templates principale
+- Footer signature 2→3 coloane (Proiectant/Executant/Verificator)
+
+### V8.2 — Stamp Absolute + Billing UI
+- insert_stamp() extended cu x_cm/y_cm (wp:anchor + EMU)
+- StampPlacement.jsx draggable A4 simulat 378×535px
+- Billing.jsx consumă /api/me/billing
+
+### V8.3 — Service Pipeline + Ad-hoc Stripe
+- 5 servicii premium per proiect (express 49€, QES 5€, dispatch 15€, review 35€, carte_legata 25€)
+- /api/gas-project/{pid}/services + service-checkout + service-status
+- GasServicePipeline.jsx (6 stages: Date→Docs→Ștampile→Semnătură→Plată→Livrare)
+
+### V8.4 — +7 documente legale ROMÂNE
+- declaratie_conformitate, buletin_proba_rezistenta, buletin_proba_etanseitate
+- pv_receptie_finala (PVRF), pv_pif_semnat (PIF OSD), fisa_sudor, plan_ssm
+- 33 templates DOCX total în dossier ZIP
+
+### V8.5 — NTPEE 2018 fields + Smart-Fill
+- +21 fields după web search Ord. ANRE 89/2018 art. 12
+- compute_derived_fields() + validate_fields() funcții
+- Endpoint /placeholders/smart-fill + /placeholders/validate
+- QES stub /api/qes-v2/ cu 3 furnizori (DigiSign/certSIGN/TransSped)
+
+### V8.6 — Login EPD + Landing Roadmap 22 + OSD complet
+- Login: "Energy Project Design (EPD)." + email primary + Google secondary
+- Landing /roadmap: 22 servicii globale planificate (lanț hoteluri, EPD Supermarket, mâncare worldwide, EPD Mail etc.)
+- tipul_lucrarii: 6→16 opțiuni, atr_osd: 5→31 OSD operatori ANRE
+
+### Cumulative totals după V8.6:
+- 33 DOCX templates Gaze Naturale
+- 221 registry fields × 8 categorii × 32 secțiuni
+- 5 servicii ad-hoc Stripe per proiect
+- 6-stage pipeline complete
+- 88+/88+ tests PASSED (iter 5-10)
+
+
+## 22. APPENDIX V8.7 (2026-06-21) — REAL ENGINEERING TOOLS (mesaj 22 user)
+
+### Cerință literală user (mesaj 22 — interpretare prin filtrul autistului)
+> "Calcule Renouard multi-tronson + Lățime șanț automată = DN_exterior + 0.3m + spațiu lucru + Dimensionare contor/regulator pe baza debitului maxim + Lista materiale Anexa 13 inteligentă (auto-selecție din 554 itemi pe baza câmpurilor) + Plan + zoning real-time + Roluri 6 perspective complete + memorare comenzi în command log + 'incearca sa imi dai un produs real de listat pe google, nu doar un template creat de un autist. incearca sa interpretezi comenzile prin filtrul mintii unui autist si sa construiesti pagina dupa cerintele date de el, dupa intentiile personajului care iti da comenzile.'"
+
+### Înțelegere intent:
+1. User este inginer real (gaze naturale) — vrea **calculatoare inginerești reale**, nu UI dummy
+2. User este meticulos — vrea ca CALCULELE să fie EXACT corecte conform NTPEE 2018
+3. User crede în VIZIUNE MAXIMALĂ (EPD = global brand) — dar începem mic cu Gaze Naturale
+4. Auzul "produs real listat pe Google" = REALI utilizatori plătind pentru servicii REALE
+5. Filtru autist = TOATE detaliile contează, NIMIC nu e generic, fiecare câmp e funcțional
+
+### Implementare V8.7 (in progress):
+- gas_multitronson.py — Multi-tronson Renouard sub-tabel dinamic
+- gas_smart_sizing.py — Lățime șanț + contor/regulator dimensioning  
+- gas_materials_smart.py — Auto-suggest din 554 items catalog OSD
+- Endpoints: /tronsons, /smart-sizing, /materials/auto-suggest
+- Frontend: TronsonsTab component + SmartSizingPanel

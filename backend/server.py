@@ -2388,6 +2388,70 @@ async def validate_data(body: _SmartFillBody):
     return {"errors": errors, "valid": len(errors) == 0, "error_count": sum(len(v) for v in errors.values())}
 
 
+# V8.7 — Real engineering tools: multi-tronson Renouard + smart sizing + materials auto-suggest
+from gas_engineering import (
+    compute_tronson_table, latime_sant_recomandata,
+    dimensionare_contor, dimensionare_regulator,
+    auto_suggest_materials, get_catalog_stats, CONTOARE_CATALOG, REGULATOARE_CATALOG, PE100_SDR11,
+)
+
+
+class _TronsonsBody(_BaseModel):
+    tronsons: List[Dict[str, Any]]
+    p_initial_bar: float = 0.025
+
+
+@_pr_api.post("/tronsons-renouard")
+async def calc_tronsons(body: _TronsonsBody):
+    """Calculează tabelul Renouard pentru lanț de tronsoane.
+    
+    Body: {tronsons: [{id, lungime_m, dn_mm (interior), debit_mc_h}, ...], p_initial_bar}
+    """
+    return {"results": compute_tronson_table(body.tronsons, body.p_initial_bar)}
+
+
+class _SizingBody(_BaseModel):
+    debit_max_mc_h: Optional[float] = None
+    dn_size: Optional[int] = None
+    spatiu_lucru_cm: int = 30
+    presiune_intrare_bar: float = 4.0
+    tip_presiune: str = "JP"
+
+
+@_pr_api.post("/smart-sizing")
+async def smart_sizing(body: _SizingBody):
+    """Recomandări sizing automat pentru lățime șanț + contor + regulator."""
+    out = {}
+    if body.dn_size:
+        out["latime_sant"] = latime_sant_recomandata(body.dn_size, body.spatiu_lucru_cm)
+    if body.debit_max_mc_h:
+        out["contor"] = dimensionare_contor(body.debit_max_mc_h)
+        out["regulator"] = dimensionare_regulator(body.debit_max_mc_h, body.presiune_intrare_bar, body.tip_presiune)
+    out["catalogs"] = {
+        "pe100_sdr11_count": len(PE100_SDR11),
+        "contoare_count": len(CONTOARE_CATALOG),
+        "regulatoare_count": len(REGULATOARE_CATALOG),
+    }
+    return out
+
+
+@_pr_api.post("/materials/auto-suggest")
+async def materials_suggest(body: _SmartFillBody):
+    """Auto-suggest materiale din catalogul OSD (554 items) pe baza câmpurilor proiectului."""
+    suggestions = auto_suggest_materials(body.data, limit=30)
+    return {
+        "suggestions": suggestions,
+        "total_available": len(_load_catalog_helper()) if False else get_catalog_stats()["total_items"],
+        "count_returned": len(suggestions),
+    }
+
+
+def _load_catalog_helper():
+    """Inline helper for materials count."""
+    from gas_engineering import _load_catalog as _lc
+    return _lc()
+
+
 app.include_router(_pr_api)
 
 # Cross-Industry Clone (potential improvement implementat)
