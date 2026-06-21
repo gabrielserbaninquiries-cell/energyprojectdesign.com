@@ -55,3 +55,37 @@ Noi documente generate per `gas_doc_templates_legal.py`:
 
 ## V7.3 și anterior
 Vezi `/app/memory/PRD.md` pentru detalii.
+
+## V9.0 — 2026-06-21 (sesiune fork de finalizare)
+
+### REBRANDING TOTAL EPD oficial (cerință user mesaj 23)
+- `lib/brand.js` (NOU) — single source: BRAND_ASSETS (5 URLs Facebook), BRAND_COLORS, BRAND_GRADIENTS
+- Paletă: violet→indigo→navy→negru (extras din logo cub EP gradient diagonal 135°)
+- `index.css` — variabile + .epd-btn + .epd-gradient + .epd-shadow + radius 0.5rem
+- Tailwind primary 262 83% 58% (violet-600)
+
+### Pagini rescrise cu brand oficial
+- `Landing.jsx` — full rewrite; hero deep-navy cu cover Facebook; **Gaze Naturale featured ca PRODUS PRINCIPAL** ÎNAINTE de restul serviciilor; 14 servicii active grid; banner "Architects of Future Global Technology"; 22 servicii viitoare păstrate
+- `Login.jsx` — brand panel cu cover Facebook + form modernizat cu focus violet
+- `HomePageV7.jsx` — hero nou + MAIN PRODUCT SPOTLIGHT card Gaze Naturale featured deasupra
+- `AppShell.jsx` — sidebar logo EP cub gradient + tagline "Redesigning projects."
+
+### Pagini NOI (cerute mesaj 22+23, NU se elimină nimic)
+- `/comert-logistica` — `ComertLogistica.jsx` cu 8 sub-servicii + CTA Gaze
+- `/fabrici-uzine` — `FabriciUzine.jsx` cu 8 specialități industriale + 3 proiecte referință
+- Rutele adăugate în App.js
+
+### Demo cap-coadă enrichment (cerință "proiect real bransament")
+- `seed_demo_gas_project.py` — script de enrichment demo
+- PID `gp_e79e2810cc64b5b4`: îmbogățit de la 111 la **302 fields** (+191)
+- Date reale extrase din artefactele Facebook: Memoriu Avizare, Foaie Capăt, Referat DTAC, Program Faze, Anexa 13
+- 22 categorii populate complet (proiect, beneficiar, amplasament, tehnice, consumatori, conductă BR/CND, post reglare, OSD, CU/AC, 8 avize, 3 semnături, probe NTPEE, recepție, materiale Anexa 13, exigențe A/B/C/D, SSM, 10 emails, 5 faze determinante, carte tehnică)
+
+### Re-compilare COMMAND_LOG_FULL.md
+- Appendix V9.0 adăugat (secțiunea 23) cu citatele literale ale userului
+- Document acum 863 linii — completă referință end-to-end
+
+### Testing (iter 13)
+- testing_agent_v3_fork: 50/50 PASS frontend (Landing + Login + Acasa + Sidebar + 2 pagini noi + Studio demo + 4 regression pages)
+- Zero erori critice, zero blockers
+- Site PRODUCTION READY pentru listare Google
