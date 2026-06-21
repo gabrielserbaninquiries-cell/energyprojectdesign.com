@@ -89,3 +89,43 @@ Vezi `/app/memory/PRD.md` pentru detalii.
 - testing_agent_v3_fork: 50/50 PASS frontend (Landing + Login + Acasa + Sidebar + 2 pagini noi + Studio demo + 4 regression pages)
 - Zero erori critice, zero blockers
 - Site PRODUCTION READY pentru listare Google
+
+## V9.1 — 2026-06-21 (continuare sesiune fork)
+
+### Cerință user (mesaj 24)
+> "Stepper cronologic vizual (optional): 10 etape orizontal sus în Studio Gaze...
+> introdu cheia stripe in site pentru validare plati pk_live_51Thc7C...
+> da-mi preturile pachetelor sa le listez in stripe, pentru a putea fi cumparate,
+> si elimina adaugarea de pachete ad hoc."
+
+### IMPLEMENTAT V9.1
+1. **GasChronologicalStepper.jsx (NOU)** — componenta cu 10 etape:
+   `Date proiect → Date tehnice → Avize → DTAC → AC/Acord drum → PTH → Avize finale → Dispoziție șantier → Carte tehnică → Recepție`
+   - Calculează automat % completion per etapă bazat pe fields din FIELDS_REGISTRY
+   - Status: pending / started / progress / done (cu styling diferit)
+   - Bar progres global jos + "Următoarea etapă"
+   - Demo project gp_e79e2810cc64b5b4 (302 fields) afișează 10/10 finalizate (100%)
+
+2. **Eliminat ad-hoc services UI** — GasServicePipeline înlocuit cu noul stepper:
+   - 5 pachete (express 49€, QES 5€, dispatch 15€, review 35€, carte_legata 25€) NU mai sunt vizibile
+   - Codul backend `gas_services_routes.py` rămâne (compatibilitate istorică, dar dezactivat UI)
+   - Fișier `GasServicePipeline.jsx` ȘTERS din `/app/frontend/src/components/`
+
+3. **Stripe publishable key adăugat** — `/app/frontend/.env`:
+   - `REACT_APP_STRIPE_PUBLISHABLE_KEY=pk_live_51Thc7C...`
+   - BACKEND URL păstrat intact
+
+4. **STRIPE_PRICING_SETUP.md** — document NOU în `/app/memory/`:
+   - 11 planuri listate (1 trial + 10 plătite, de la 49€ la 349€/lună)
+   - Procedură pas-cu-pas pentru creare produse în Stripe Dashboard
+   - Tabel mapping ID intern → Stripe price ID
+   - Warning despre secret key (sk_live_*) pendant la user
+
+5. **Polish minor** — chip "Stripe ad-hoc" pe HomePage înlocuit cu "Stripe planuri lunare"
+
+### Testing iter 14: 9/9 PASS frontend
+- Stepper vizibil cu toate 10 etape + data-testid corecte
+- 100% completion afișat pentru demo project
+- Zero ad-hoc packages vizibile
+- Stripe key în .env fără să afecteze BACKEND_URL
+- Regression rebranding V9.0 intact

@@ -222,7 +222,7 @@ export default function HomePageV7() {
                 Generează automat dosar complet pentru branșament, instalație utilizare sau extindere conductă — cu Renouard multi-tronson, dimensionare contor/regulator și Anexa 13 (554 materiale OSD).
               </p>
               <div className="flex flex-wrap gap-2">
-                {['NTPEE 2018', 'HG 273/1994', 'Ord. ANRE 89/2018', 'QES eIDAS', '221 câmpuri', 'Stripe ad-hoc'].map(b => (
+                {['NTPEE 2018', 'HG 273/1994', 'Ord. ANRE 89/2018', 'QES eIDAS', '221 câmpuri', 'Stripe planuri lunare'].map(b => (
                   <span key={b} className="text-[10px] font-semibold uppercase tracking-wider text-violet-700 bg-violet-100 px-2 py-1 rounded">{b}</span>
                 ))}
               </div>
