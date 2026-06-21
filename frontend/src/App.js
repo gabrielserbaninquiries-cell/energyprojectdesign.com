@@ -66,6 +66,9 @@ import GasNaturalProjectV2 from './pages/GasNaturalProjectV2';
 import ComertLogistica from './pages/ComertLogistica';
 import FabriciUzine from './pages/FabriciUzine';
 import Sponsorizeaza from './pages/Sponsorizeaza';
+import Constructii from './pages/Constructii';
+import DocumentatieElectronica from './pages/DocumentatieElectronica';
+import Contact from './pages/Contact';
 // V7.0 — High-end ecosystem pages
 import HomePageV7 from './pages/HomePageV7';
 import DocumentatieIndustriiPage from './pages/DocumentatieIndustriiPage';
@@ -173,6 +176,11 @@ function AppRouter() {
 
       {/* V9.5 — Sponsorizează cauza EPD (public, fără autentificare) */}
       <Route path="/sponsorizeaza" element={<Sponsorizeaza />} />
+
+      {/* V10.1 — Pagini SEO public pentru Google indexing (energyprojectdesign.com) */}
+      <Route path="/constructii" element={<Constructii />} />
+      <Route path="/documentatie-electronica" element={<DocumentatieElectronica />} />
+      <Route path="/contact" element={<Contact />} />
 
       {/* Pages with UpgradeGate (modal upgrade când userul nu are plan suficient) */}
       <Route path="/anaf-efactura" element={<ProtectedRoute><UpgradeGate path="/anaf-efactura"><ANAFInvoicing /></UpgradeGate></ProtectedRoute>} />

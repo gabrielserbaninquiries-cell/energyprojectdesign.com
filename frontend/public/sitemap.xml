@@ -1,61 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
-  <!-- Homepage -->
-  <url>
-    <loc>https://github-push-test.preview.emergentagent.com/</loc>
-    <lastmod>2026-02-07</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <!-- Auth -->
-  <url><loc>https://github-push-test.preview.emergentagent.com/login</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/register</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-
-  <!-- Industrii Hub + 13 industrii -->
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/gaze-naturale</loc><priority>0.95</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/electrice</loc><priority>0.9</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/telecomunicatii</loc><priority>0.9</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/feroviar</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/constructii-civile</loc><priority>0.9</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/fotovoltaice</loc><priority>0.95</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/apa-canal</loc><priority>0.9</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/salubritate</loc><priority>0.8</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/hvac</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/mediu-avize</loc><priority>0.8</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/drumuri-poduri</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/iluminat-public</loc><priority>0.8</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/industrii/constructii-imobile</loc><priority>0.85</priority></url>
-
-  <!-- Gaze subdomenii (industria activă operațional) -->
-  <url><loc>https://github-push-test.preview.emergentagent.com/gaze-naturale/bransamente</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/gaze-naturale/instalatii-utilizare</loc><priority>0.9</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/gaze-naturale/extinderi</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/gaze-naturale/studii-fezabilitate</loc><priority>0.8</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/gaze-naturale/inlocuiri-modernizari</loc><priority>0.8</priority></url>
-
-  <!-- Funcționalități platformă -->
-  <url><loc>https://github-push-test.preview.emergentagent.com/feat-uri</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/jobs</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/marketplace</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/forum</loc><priority>0.8</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/ai-agents</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/energy-advisor</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/anaf-invoicing</loc><priority>0.7</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/crm</loc><priority>0.7</priority></url>
-
-  <!-- Roluri / pagini per persona -->
-  <url><loc>https://github-push-test.preview.emergentagent.com/pentru/clienti</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/pentru/utilizatori</loc><priority>0.85</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/pentru/angajati</loc><priority>0.8</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/pentru/developeri</loc><priority>0.8</priority></url>
-
-  <!-- Legal & contact -->
-  <url><loc>https://github-push-test.preview.emergentagent.com/gdpr</loc><priority>0.5</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/confidentialitate</loc><priority>0.5</priority></url>
-  <url><loc>https://github-push-test.preview.emergentagent.com/legislatie</loc><priority>0.5</priority></url>
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.energyprojectdesign.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/gaze-naturale</loc><changefreq>daily</changefreq><priority>0.95</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/constructii</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/imobiliare</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/documentatie-electronica</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/sponsorizeaza</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/pricing</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/industrii</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/fabrici-uzine</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/comert-logistica</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/marketplace</loc><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/forum</loc><changefreq>daily</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/jobs</loc><changefreq>daily</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/servicii</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/curierat</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/transport-persoane</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/mediu</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/spitale</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/caritabile</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/biserica</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/termeni</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/confidentialitate</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/gdpr</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
 </urlset>

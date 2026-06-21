@@ -104,11 +104,13 @@ export default function Landing() {
       <header className="fixed top-0 w-full z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/60">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
           <EPDLogo />
-          <nav className="hidden md:flex items-center gap-8 text-sm">
+          <nav className="hidden md:flex items-center gap-6 text-sm">
             <a href="#main-product" className="text-slate-600 hover:text-violet-700 transition-colors">Gaze Naturale</a>
-            <a href="#services" className="text-slate-600 hover:text-violet-700 transition-colors">Servicii</a>
-            <a href="#roadmap" className="text-slate-600 hover:text-violet-700 transition-colors">Viziune globală</a>
-            <Link to="/sponsorizeaza" className="text-fuchsia-600 hover:text-fuchsia-800 transition-colors font-semibold" data-testid="nav-sponsor">♥ Sponsorizează</Link>
+            <Link to="/constructii" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-constructii">Construcții</Link>
+            <Link to="/imobiliare" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-imobiliare">Imobiliare</Link>
+            <Link to="/documentatie-electronica" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-docs">Documentație</Link>
+            <Link to="/sponsorizeaza" className="text-fuchsia-600 hover:text-fuchsia-800 transition-colors font-semibold" data-testid="nav-sponsor">♥ Donații</Link>
+            <Link to="/contact" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-contact">Contact</Link>
             <Link to="/pricing" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-pricing">Tarife</Link>
           </nav>
           <div className="flex items-center gap-2">
