@@ -3,7 +3,7 @@
  * Indexabilă pe Google sub site:energyprojectdesign.com → "Contact"
  */
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Building2, Globe } from 'lucide-react';
+import { Mail, Building2, Globe } from 'lucide-react';
 import EPDLogo from '../components/EPDLogo';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
 
@@ -58,14 +58,6 @@ export default function Contact() {
                   <div className="text-base font-semibold text-slate-900 group-hover:text-violet-700">support@energyprojectdesign.com</div>
                 </div>
               </a>
-
-              <div className="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-lg">
-                <MapPin className="w-5 h-5 text-violet-600 mt-0.5" />
-                <div>
-                  <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold">Sediu social</div>
-                  <div className="text-base text-slate-900">{BRAND.address}</div>
-                </div>
-              </div>
 
               <div className="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-lg">
                 <Building2 className="w-5 h-5 text-violet-600 mt-0.5" />

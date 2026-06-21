@@ -73,152 +73,89 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.energyprojectdesign.com/">
     
-    <!-- Schema.org Markup -->
+    <!-- V10.2 — Single consolidated JSON-LD @graph (eliminates Google 3x duplication
+         per cerință user mesaj 32: "vad energy project design de 3 ori in loc sa fie
+         o singura data cu subpagini sub link").
+         Folosim @id pentru a lega toate entitățile la aceeași organizație canonică. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Energy Project Design",
-      "legalName": "ENERGY PROJECT DESIGN S.R.L.",
-      "url": "https://www.energyprojectdesign.com",
-      "logo": "https://www.energyprojectdesign.com/logo.png",
-      "foundingDate": "2020",
-      "founders": [{
-        "@type": "Person",
-        "name": "Dragos Serban"
-      }],
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Str. Lt. Alexandru Popescu nr. 9B",
-        "addressLocality": "București",
-        "addressRegion": "Sectorul 3",
-        "postalCode": "030167",
-        "addressCountry": "RO"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+40-XXX-XXX-XXX",
-        "contactType": "Customer Service",
-        "email": "contact@energyprojectdesign.com",
-        "availableLanguage": ["Romanian", "English"]
-      },
-      "sameAs": [
-        "https://www.facebook.com/energyprojectdesign.srl",
-        "https://www.linkedin.com/company/energy-project-design"
-      ],
-      "description": "Platformă profesională pentru întocmirea documentației tehnice în industria gazelor naturale din România. Conformitate cu legislația ANRE și NTPEE-2018.",
-      "taxID": "43151074",
-      "vatID": "RO43151074",
-      "areaServed": {
-        "@type": "Country",
-        "name": "Romania"
-      },
-      "knowsAbout": [
-        "Branșamente gaze naturale",
-        "Instalații utilizare gaze",
-        "Documentație tehnică ANRE",
-        "Verificare proiecte VGD",
-        "Carte tehnică construcții",
-        "NTPEE-2018",
-        "Legislație construcții România"
-      ]
-    }
-    </script>
-    
-    <!-- Service Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "serviceType": "Documentație Tehnică Gaze Naturale",
-      "provider": {
-        "@type": "Organization",
-        "name": "Energy Project Design"
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "Romania"
-      },
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Servicii Documentație Gaze Naturale",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Branșamente Gaze Naturale",
-              "description": "Documentație completă pentru branșamente gaze naturale conform NTPEE-2018"
-            }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.energyprojectdesign.com/#organization",
+          "name": "Energy Project Design",
+          "legalName": "ENERGY PROJECT DESIGN S.R.L.",
+          "url": "https://www.energyprojectdesign.com",
+          "logo": {
+            "@type": "ImageObject",
+            "@id": "https://www.energyprojectdesign.com/#logo",
+            "url": "https://www.energyprojectdesign.com/logo.png",
+            "contentUrl": "https://www.energyprojectdesign.com/logo.png",
+            "width": 512,
+            "height": 512,
+            "caption": "Energy Project Design"
           },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Instalații Utilizare Gaze",
-              "description": "Proiecte și verificări pentru instalații utilizare gaze naturale"
-            }
+          "image": {"@id": "https://www.energyprojectdesign.com/#logo"},
+          "foundingDate": "2020",
+          "founders": [{"@type": "Person", "name": "Dragos Serban"}],
+          "contactPoint": [
+            {"@type": "ContactPoint", "contactType": "customer service", "email": "office@energyprojectdesign.com", "availableLanguage": ["Romanian", "English"]},
+            {"@type": "ContactPoint", "contactType": "technical support", "email": "support@energyprojectdesign.com", "availableLanguage": ["Romanian", "English"]}
+          ],
+          "sameAs": ["https://www.facebook.com/energyprojectdesign.srl"],
+          "description": "Platformă B2B globală pentru documentație tehnică digitală certificată: gaze naturale, construcții, imobiliare, electrice, fotovoltaice, telecomunicații.",
+          "taxID": "43151074",
+          "vatID": "RO43151074",
+          "areaServed": {"@type": "Country", "name": "Romania"},
+          "knowsAbout": [
+            "Branșamente gaze naturale",
+            "Instalații utilizare gaze",
+            "Documentație tehnică ANRE",
+            "Verificare proiecte VGD",
+            "Carte tehnică construcții",
+            "NTPEE-2018",
+            "Legislație construcții România"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.energyprojectdesign.com/#website",
+          "url": "https://www.energyprojectdesign.com",
+          "name": "Energy Project Design",
+          "publisher": {"@id": "https://www.energyprojectdesign.com/#organization"},
+          "inLanguage": "ro-RO",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {"@type": "EntryPoint", "urlTemplate": "https://www.energyprojectdesign.com/cauta?q={search_term_string}"},
+            "query-input": "required name=search_term_string"
           },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Verificare Proiecte VGD",
-              "description": "Verificare tehnică proiecte gaze de către verificatori atestați ANRE"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Carte Tehnică Construcții",
-              "description": "Întocmire carte tehnică conform Legea 10/1995"
-            }
+          "hasPart": [
+            {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/gaze-naturale#page", "url": "https://www.energyprojectdesign.com/gaze-naturale", "name": "Gaze Naturale", "description": "Documentație tehnică completă pentru proiecte gaze naturale"},
+            {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/constructii#page", "url": "https://www.energyprojectdesign.com/constructii", "name": "Construcții", "description": "Documentație și management proiecte construcții"},
+            {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/imobiliare#page", "url": "https://www.energyprojectdesign.com/imobiliare", "name": "Imobiliare", "description": "Marketplace proprietăți, vânzări și închirieri"},
+            {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/documentatie-electronica#page", "url": "https://www.energyprojectdesign.com/documentatie-electronica", "name": "Documentație Electronică Digitală", "description": "Documentație tehnică digitală certificată cu QES"},
+            {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/sponsorizeaza#page", "url": "https://www.energyprojectdesign.com/sponsorizeaza", "name": "Donații", "description": "Sponsorizează cauza EPD — donații RON și EUR"},
+            {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/contact#page", "url": "https://www.energyprojectdesign.com/contact", "name": "Contact", "description": "Contact Energy Project Design — support@energyprojectdesign.com"}
+          ]
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://www.energyprojectdesign.com/#service",
+          "name": "Energy Project Design — Documentație tehnică",
+          "provider": {"@id": "https://www.energyprojectdesign.com/#organization"},
+          "areaServed": {"@type": "Country", "name": "Romania"},
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Servicii Documentație Gaze Naturale",
+            "itemListElement": [
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Branșamente Gaze Naturale", "description": "Documentație completă pentru branșamente conform NTPEE-2018"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Instalații Utilizare Gaze", "description": "Proiecte și verificări instalații utilizare gaze"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Verificare Proiecte VGD", "description": "Verificare tehnică proiecte de verificatori atestați ANRE"}},
+              {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Carte Tehnică Construcții", "description": "Întocmire carte tehnică conform Legea 10/1995"}}
+            ]
           }
-        ]
-      }
-    }
-    </script>
-
-    <!-- V10.1 — SiteLinks Sitelink Search Box + SUB-PAGES (cerință user mesaj 31)
-         Listă paginile secundare ce trebuie să apară în Google sub site:
-         gaze naturale · construcții · imobiliare · documentație electronică digitală · donații · contact -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Energy Project Design",
-      "alternateName": ["EPD", "Energy Project Design SRL", "energyprojectdesign.com"],
-      "url": "https://www.energyprojectdesign.com",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://www.energyprojectdesign.com/cauta?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      },
-      "hasPart": [
-        {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/gaze-naturale", "name": "Gaze Naturale", "description": "Documentație tehnică completă pentru proiecte gaze naturale"},
-        {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/constructii", "name": "Construcții", "description": "Documentație și management proiecte construcții"},
-        {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/imobiliare", "name": "Imobiliare", "description": "Marketplace proprietăți, vânzări și închirieri"},
-        {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/documentatie-electronica", "name": "Documentație Electronică Digitală", "description": "Documentație tehnică digitală certificată cu QES"},
-        {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/sponsorizeaza", "name": "Donații", "description": "Sponsorizează cauza EPD — donații RON și EUR"},
-        {"@type": "WebPage", "@id": "https://www.energyprojectdesign.com/contact", "name": "Contact", "description": "Contact Energy Project Design — support@energyprojectdesign.com"}
-      ]
-    }
-    </script>
-
-    <!-- BreadcrumbList pentru paginile principale -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "Pagini principale Energy Project Design",
-      "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Gaze Naturale",                       "url": "https://www.energyprojectdesign.com/gaze-naturale"},
-        {"@type": "ListItem", "position": 2, "name": "Construcții",                         "url": "https://www.energyprojectdesign.com/constructii"},
-        {"@type": "ListItem", "position": 3, "name": "Imobiliare",                          "url": "https://www.energyprojectdesign.com/imobiliare"},
-        {"@type": "ListItem", "position": 4, "name": "Documentație Electronică Digitală",   "url": "https://www.energyprojectdesign.com/documentatie-electronica"},
-        {"@type": "ListItem", "position": 5, "name": "Donații",                             "url": "https://www.energyprojectdesign.com/sponsorizeaza"},
-        {"@type": "ListItem", "position": 6, "name": "Contact",                             "url": "https://www.energyprojectdesign.com/contact"}
+        }
       ]
     }
     </script>

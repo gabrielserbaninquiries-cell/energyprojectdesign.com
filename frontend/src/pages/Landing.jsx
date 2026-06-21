@@ -464,7 +464,7 @@ export default function Landing() {
               <div className="label text-violet-600 mb-3">Contact</div>
               <ul className="space-y-2 text-sm text-slate-600">
                 <li>{BRAND.contactEmail}</li>
-                <li>{BRAND.address}</li>
+                <li>support@energyprojectdesign.com</li>
                 <li>CUI {BRAND.cui} · {BRAND.regCom}</li>
               </ul>
             </div>

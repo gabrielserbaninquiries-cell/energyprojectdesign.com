@@ -1,43 +1,56 @@
-# /app/memory/test_credentials.md
+# Energy Project Design — Test Credentials (V10.2)
 
-Last updated: 2026-06-21 (V9.0 — rebranding total + demo cap-coadă)
+Last updated: 2026-06-21 (V10.2 — focus Gaze Naturale + credentials reset)
 
-## Live preview URL (READ FROM .env, do not hardcode)
-- Current: `https://github-push-test.preview.emergentagent.com`
-- Source of truth: `REACT_APP_BACKEND_URL` in `/app/frontend/.env`
+## 🔑 PAROLA ACTUALĂ (folosește email/parolă, NU Google login)
 
-## Admin / Developer account (full platform access)
 - **Email:** `dragosserban95@gmail.com`
-- **Password:** `Test12345`
-- **Role:** developer + admin (is_developer=True, is_admin=True)
-- **Plan:** developer (gratuit, acces nelimitat)
+- **Parolă NOUĂ:** `Nuamparola_9`
+- **Plan:** `society_admin` (proprietar platformă)
+- **Roluri:** `is_admin=True`, `is_society_admin=True`, `is_developer=True`
 
-## Demo Gas Project — END-TO-END CAP-COADĂ (V9.0 enriched)
+**IMPORTANT**: Contul tău este creat cu EMAIL + PAROLĂ în baza de date. NU este conectat la Google OAuth. Butonul "Continue cu Google" creează un cont SEPARAT (chiar dacă email-ul coincide), de aceea ai fost redirecționat la un cont diferit. **Folosește mereu butonul "Autentificare EPD"** (formularul cu email + parolă) — NU butonul Google.
+
+## Live preview URL
+- Preview: `https://github-push-test.preview.emergentagent.com`
+- Production (deployed): `https://github-push-test.emergent.host`
+- **Target final** (după DNS switch): `https://www.energyprojectdesign.com`
+
+## Demo Gas Project — END-TO-END CAP-COADĂ (302 fields populate)
 - **PID:** `gp_e79e2810cc64b5b4`
 - **Title:** "Demo End-to-End — Branșament Aurel Vlaicu 15 (V9.0)"
 - **Owner:** dragosserban95@gmail.com
-- **Fields populate:** 302 (cap-coadă, conform fișierelor atașate de user)
 - URL: `/gaze-naturale/gp_e79e2810cc64b5b4`
-- Date reale: branșament PE100 SDR11 Dn32, debit 4.5 mc/h, putere 47.7 kW, București
+- Dossier ZIP: 1.2MB, 34 fișiere DOCX generate automat
 
-## Backend env (already configured in /app/backend/.env)
-- MONGO_URL=mongodb://localhost:27017
-- DB_NAME=energy_project_design
-- EMERGENT_LLM_KEY (configured)
-- PUBLIC_VERIFY_BASE=https://github-push-test.preview.emergentagent.com
+## Gas Natural Module Health Check (V10.2)
+- ✅ 4 proiecte salvate în DB
+- ✅ 33 DOCX templates active (`GET /api/gas-project/doc-templates`)
+- ✅ 221 câmpuri în registry (8 categorii × 32 secțiuni)
+- ✅ Demo project generates 34-file dossier ZIP (1.2MB)
+- ✅ Engineering API: Renouard, Anexa 13, groapa sudare, tub protecție, probe presiune, consumatori-debit
+- ✅ 11 planuri publice (trial → societate, 0-399€/lună)
+- ✅ Planuri ascunse: developer_elite ($999,999), society_admin, cofounder, inside_full, free
 
-## Frontend env (already configured in /app/frontend/.env)
-- REACT_APP_BACKEND_URL=https://github-push-test.preview.emergentagent.com
+## Stripe LIVE
+- Publishable key: `pk_live_51Thc7C...` (în /app/frontend/.env)
+- Secret key: `sk_live_51Thc7C...` (în /app/backend/.env)
+- Restricted key: `rk_live_51Thc7C...` (în /app/backend/.env)
+- Donații LIVE: `POST /api/donations/checkout` (RON sau EUR, min 5/1, max 100k)
 
-## EPD Brand identity sources
-- `/app/frontend/src/lib/brand.js` — single source of truth
-- Cover photos oficiale uploadate de user (5 URLs în BRAND_ASSETS)
+## Gmail SMTP (donor forwarding)
+- User: `dragosserban95@gmail.com`
+- Password: `Nuamparola_9` — **NU FUNCȚIONEAZĂ** (Gmail necesită App Password 16-char cu 2FA)
+- Pentru email-uri reale: generează App Password la https://myaccount.google.com/apppasswords
+- Fallback: mesajele se salvează în `db.donations`, vizibile manual
 
 ## Quick test
 ```bash
-TOKEN=$(curl -s -X POST $BACKEND/api/auth/login -H "Content-Type: application/json" -d '{"email":"dragosserban95@gmail.com","password":"Test12345"}' | python3 -c "import sys,json;print(json.load(sys.stdin)['token'])")
-curl -H "Authorization: Bearer $TOKEN" "$BACKEND/api/gas-project/gp_e79e2810cc64b5b4/dossier.zip" -o dosar.zip
+URL=https://github-push-test.preview.emergentagent.com
+TOKEN=$(curl -s -X POST $URL/api/auth/login -H "Content-Type: application/json" \
+  -d '{"email":"dragosserban95@gmail.com","password":"Nuamparola_9"}' | \
+  python3 -c "import sys,json;print(json.load(sys.stdin)['token'])")
+curl -H "Authorization: Bearer $TOKEN" \
+  "$URL/api/gas-project/gp_e79e2810cc64b5b4/dossier.zip" -o /tmp/dosar.zip
+unzip -l /tmp/dosar.zip   # 34 fișiere
 ```
-
-## Test data: alt sample project
-- PID: `gp_54135e822f25f7d7` (vechi, semnat, în DB)
