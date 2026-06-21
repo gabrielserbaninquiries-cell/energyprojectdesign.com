@@ -34,6 +34,32 @@ const ECOSYSTEMS = [
   { id: 'logistics',   icon: Truck,         title: 'Logistică & SEAP',      blurb: 'Notificări licitații publice, transport materiale',        cta: 'Activează alerte', accent: '#EF4444' },
 ];
 
+// VIITOR — 22 servicii globale planificate (per master plan EPD)
+const FUTURE_SERVICES = [
+  { icon: '🏨', label: 'Lanț hoteluri', desc: 'Camere gratuite pentru oamenii străzii, prețuri de la 1$/noapte' },
+  { icon: '🛒', label: 'EPD Supermarket', desc: 'Cel mai mare supermarket global — unește toate brand-urile' },
+  { icon: '🍔', label: 'Mâncare worldwide', desc: 'Comenzi la preț, calitate, timp livrare cu door-to-door' },
+  { icon: '💼', label: 'Locuri muncă globale', desc: 'Joburi pe domenii, fără frontiere' },
+  { icon: '🚗', label: 'Vânzări auto', desc: 'Mașini la prețuri reduse, specificații complete' },
+  { icon: '🏠', label: 'Vânzări imobile', desc: 'Case + terenuri cu catalog AI personalizat' },
+  { icon: '🔧', label: 'Piese auto globale', desc: 'Brand, an, preț, stare — toate într-un singur catalog' },
+  { icon: '⚙️', label: 'Mecanici & service auto', desc: 'Calcul preț servicii + plată online + tractare la domiciliu' },
+  { icon: '💳', label: 'Motor plăți online', desc: 'Procesare plăți pentru toate serviciile EPD' },
+  { icon: '🛍️', label: 'EPD Shop', desc: 'Search produse, retaileri afiliați, order online' },
+  { icon: '📺', label: 'TV online global', desc: 'Streaming televiziune pe țări' },
+  { icon: '📻', label: 'Radio online global', desc: 'Radio pe țări și genuri muzicale' },
+  { icon: '🌳', label: 'Distribuție copaci & plante', desc: 'Plantări mediu + reforestation worldwide' },
+  { icon: '🚛', label: 'Distribuitor marfuri', desc: 'Aprovizionare magazine + supermarket worldwide' },
+  { icon: '🏗️', label: 'Constructori ↔ Finanțatori', desc: 'Lucrări publice, infrastructură, drumuri, reabilitări' },
+  { icon: '⛽', label: 'Benzinării + încărcare EV', desc: 'Stații compatibile cu rețeaua EPD' },
+  { icon: '🚿', label: 'Spălătorii auto', desc: 'Rezervare + plată online' },
+  { icon: '🍽️', label: 'Restaurante', desc: 'Comenzi + livrare + rating EPD' },
+  { icon: '⚡', label: 'Racordări energetice', desc: 'Clienții se racordează direct prin platformă' },
+  { icon: '🇪🇺', label: 'Fonduri europene', desc: 'Aplicare la finanțări nerambursabile' },
+  { icon: '🏛️', label: 'Fonduri de stat', desc: 'Infrastructură + dezvoltare urbană direct de la minister' },
+  { icon: '📧', label: 'EPD Mail', desc: 'Singurul serviciu de email global cu zero spam' },
+];
+
 export default function Landing() {
   const { user } = useAuth();
 
@@ -210,6 +236,40 @@ export default function Landing() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* ROADMAP 22 SERVICII VIITOARE — full potential EPD */}
+      <section id="roadmap" className="py-20 bg-gradient-to-b from-zinc-50 to-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+            <div>
+              <div className="label mb-3 text-[#FFB300]">// roadmap global — viitorul EPD</div>
+              <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight mb-2 max-w-3xl">22 servicii globale planificate.</h2>
+              <p className="text-gray-600 max-w-2xl">EPD vizează să devină singura platformă din lume care unește toate produsele și serviciile esențiale, într-un singur brand global cu standarde de calitate uniforme.</p>
+            </div>
+            <div className="text-right">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-1">// totaluri</div>
+              <div className="text-4xl font-bold tabular-nums">22</div>
+              <div className="text-[10px] text-zinc-500">servicii viitoare</div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2.5" data-testid="roadmap-grid">
+            {FUTURE_SERVICES.map((s, idx) => (
+              <div key={idx} className="bg-white border border-zinc-200 hover:border-black hover:shadow-sm p-3 transition-all group" data-testid={`roadmap-${idx}`}>
+                <div className="text-2xl mb-2">{s.icon}</div>
+                <div className="text-xs font-bold leading-tight mb-1 text-zinc-900">{s.label}</div>
+                <div className="text-[10px] text-zinc-500 leading-snug">{s.desc}</div>
+                <div className="text-[9px] uppercase tracking-wider text-amber-600 font-semibold mt-2">În roadmap</div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 p-4 bg-black text-white text-center" data-testid="roadmap-vision">
+            <div className="text-[10px] uppercase tracking-[0.18em] text-[#FFB300] mb-1">// viziunea EPD</div>
+            <div className="text-sm leading-relaxed">
+              Singura platformă globală • Singurul brand pentru toate serviciile • Singurul brand pentru toate produsele (no brand — product serial according to quality) • Singurul brand pentru toate resursele • Singurul brand de energie.
+            </div>
           </div>
         </div>
       </section>

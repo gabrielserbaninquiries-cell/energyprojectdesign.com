@@ -93,10 +93,13 @@ export default function RegistryFieldsTab({ data, onUpdateField, pid }) {
   const [validationErrors, setValidationErrors] = useState({});
   const [smartHints, setSmartHints] = useState({});  // {key: suggested_value}
 
-  // Trigger smart-fill + validation when KEY fields change
+  // Trigger smart-fill + validation when KEY fields change.
+  // Includes both calculation-trigger fields and validate-only fields (V8.6 fix per iter11).
   const SMART_TRIGGERS = ['presiune_categorie', 'sf_diametru_nominal_DN', 'debit_instalat_mc_h',
     'tip_suprafata_pozare', 'categorie_consumator', 'p_initiala_rez', 'p_finala_rez',
-    'p_initiala_et', 'p_finala_et', 'sf_material_conducta', 'cladire_destinatie'];
+    'p_initiala_et', 'p_finala_et', 'sf_material_conducta', 'cladire_destinatie',
+    'sudor_cnp', 'beneficiar_cnp', 'sf_presiune_max_op_bar', 'pt_calcul_pierderi_presiune_bar',
+    'la_sapatura_adancime_cm'];
 
   const triggerSmartFill = async (key) => {
     if (!SMART_TRIGGERS.includes(key)) return;
