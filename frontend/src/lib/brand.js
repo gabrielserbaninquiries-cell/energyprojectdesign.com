@@ -10,7 +10,16 @@
  */
 
 // Official EPD logo files (uploaded by founder Dragoș Șerban)
+// Acestea sunt URL-urile oficiale ale logo-ului din pagina Facebook EPD SRL.
+// Folosim imaginea completă "EP" cu textul "ENERGY PROJECT DESIGN / Redesigning projects."
+// pentru contexte mari (Landing hero, Login brand panel, About).
+// Pentru contexte mici (header, sidebar, favicon) folosim doar cub-ul izolat.
 export const BRAND_ASSETS = {
+  // Logo curat — cub EP cu text dedesubt, fundal crem (versiunea principală)
+  logoFull: 'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/3x5homqi_722490090_122280146870059458_1686842917685227154_n.jpg',
+  // Logo doar cub (pentru header / sidebar — preferăm imaginea crop)
+  logoMark: 'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/3x5homqi_722490090_122280146870059458_1686842917685227154_n.jpg',
+  // Alias compatibil cu versiunea anterioară
   logoCleanWhite: 'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/3x5homqi_722490090_122280146870059458_1686842917685227154_n.jpg',
   cover1Futurist: 'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/6qg0the2_723491525_122280142184059458_1980364817366870376_n.jfif',
   cover2Smartcity: 'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/0juohzrp_724811747_122280139406059458_936218039712510715_n.jpg',

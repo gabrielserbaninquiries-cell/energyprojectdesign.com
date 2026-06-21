@@ -78,10 +78,13 @@ export default function AppShell({ children, title, subtitle }) {
     <div className="min-h-screen bg-slate-50 flex">
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen overflow-y-auto" data-testid="app-sidebar">
         <div className="px-6 py-5 border-b border-slate-200">
-          <Link to="/dashboard" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 epd-gradient text-white flex items-center justify-center rounded-lg shadow-md font-bold">
-              <span className="text-xs tracking-tighter">EP</span>
-            </div>
+          <Link to="/dashboard" className="flex items-center gap-2.5" data-testid="sidebar-brand-link">
+            <img
+              src="https://customer-assets.emergentagent.com/job_github-push-test/artifacts/3x5homqi_722490090_122280146870059458_1686842917685227154_n.jpg"
+              alt="Energy Project Design"
+              className="w-9 h-9 rounded-lg shadow-md shrink-0 epd-logo-mark-crop overflow-hidden"
+              data-testid="sidebar-brand-logo"
+            />
             <div>
               <div className="font-bold tracking-tight text-[15px] leading-tight text-slate-900">Energy Project<span className="epd-gradient-text"> Design</span></div>
               <div className="text-[9px] uppercase tracking-[0.22em] text-violet-600 mt-0.5 font-semibold">Redesigning projects.</div>

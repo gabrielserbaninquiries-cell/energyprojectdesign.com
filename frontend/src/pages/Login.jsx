@@ -41,9 +41,12 @@ export default function Login() {
         }}
       >
         <Link to="/" className="flex items-center gap-3" data-testid="login-brand-link">
-          <div className="w-10 h-10 rounded-lg epd-gradient flex items-center justify-center font-bold text-white shadow-lg">
-            <span className="text-sm tracking-tighter">EP</span>
-          </div>
+          <img
+            src={BRAND_ASSETS.logoMark}
+            alt="Energy Project Design"
+            className="w-10 h-10 rounded-lg shadow-lg epd-logo-mark-crop overflow-hidden"
+            data-testid="login-brand-logo"
+          />
           <div className="font-bold tracking-tight text-lg" data-testid="login-brand-name">
             Energy Project Design
           </div>
@@ -81,9 +84,11 @@ export default function Login() {
         <div className="w-full max-w-md">
           <div className="md:hidden mb-8">
             <Link to="/" className="flex items-center gap-3" data-testid="login-brand-link-mobile">
-              <div className="w-9 h-9 rounded-lg epd-gradient flex items-center justify-center text-white font-bold">
-                <span className="text-xs">EP</span>
-              </div>
+              <img
+                src={BRAND_ASSETS.logoMark}
+                alt="Energy Project Design"
+                className="w-9 h-9 rounded-lg shadow-md epd-logo-mark-crop overflow-hidden"
+              />
               <div className="font-bold tracking-tight text-slate-900">Energy Project Design</div>
             </Link>
           </div>

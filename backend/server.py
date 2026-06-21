@@ -2446,6 +2446,56 @@ async def materials_suggest(body: _SmartFillBody):
     }
 
 
+# V9.2 — Calcule derivate din MEMORIU AVIZARE (groapa sudare, tub protectie, probe, consumatori)
+class _GroapaBody(_BaseModel):
+    dn_mm: int
+    latime_sant_m: Optional[float] = None
+
+
+@_pr_api.post("/groapa-sudare")
+async def calc_groapa(body: _GroapaBody):
+    """Calculează dimensiuni groapă sudare conform NTPEE 2018 art. 56."""
+    from gas_engineering import groapa_sudare
+    return groapa_sudare(body.dn_mm, body.latime_sant_m)
+
+
+class _TubProtectieBody(_BaseModel):
+    dn_mm: int
+    intersectii_utilitati: bool = False
+    distanta_min_m: float = 0.5
+
+
+@_pr_api.post("/tub-protectie")
+async def calc_tub_protectie(body: _TubProtectieBody):
+    """Decide dacă este necesar tub protecție conform NTPEE 2018 art. 82."""
+    from gas_engineering import tub_protectie_decizie
+    return tub_protectie_decizie(body.dn_mm, body.intersectii_utilitati, body.distanta_min_m)
+
+
+class _ProbePresiuneBody(_BaseModel):
+    regim_presiune: str
+    material: str = "PE 100 SDR 11"
+
+
+@_pr_api.post("/probe-presiune")
+async def calc_probe_presiune(body: _ProbePresiuneBody):
+    """Returnează parametrii probelor presiune conform NTPEE 2018 cap. 6."""
+    from gas_engineering import probe_presiune
+    return probe_presiune(body.regim_presiune, body.material)
+
+
+class _ConsumatoriBody(_BaseModel):
+    consumatori: List[Dict[str, Any]]
+    coef_simultaneitate: Optional[float] = None
+
+
+@_pr_api.post("/consumatori-debit")
+async def calc_consumatori(body: _ConsumatoriBody):
+    """Calculează debit instalat + simultan + putere termică conform NTPEE 2018 anexa 4."""
+    from gas_engineering import debit_total_consumatori
+    return debit_total_consumatori(body.consumatori, body.coef_simultaneitate)
+
+
 app.include_router(_pr_api)
 
 # Cross-Industry Clone (potential improvement implementat)

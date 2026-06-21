@@ -1,0 +1,59 @@
+{
+  "summary": "V9.2 backend+frontend testing — 9/9 backend pytest PASS, frontend smoke PASS. New gas engineering endpoints (groapa-sudare, tub-protectie, probe-presiune, consumatori-debit) work and return values matching the MEMORIU AVIZARE reference (groapa 0.72mc, tub PE100 SDR26 DN125 not-required, probe medie 9bar/60min + 6bar/24h, consumatori 19.6 mc/h + 207.76 kW). All 12 plans returned with updated V9.2 prices (basic=29, operator=59, contabilitate=49, avize=69, ofertare=79, executant=99, proiectant=129, rte=149, vgd=169, societate=399 EUR). VGD value_props contain the 4 verificator phrases verbatim. All 10 plans (basic→societate) have new profile_config (society + project_preferences). Backend boots without crash with sk_live_ Stripe key. Frontend: EPDLogo is a real <img> on Landing (brand-link-mark), Login (login-brand-logo), Sidebar (sidebar-brand-logo) — NOT CSS gradient. Pricing /pricing renders all 12 plans with V9.2 prices and correct VGD description. Studio Gaze stepper (V9.1 regression) intact — 10/10 step testids found, 100% completion preserved. /comert-logistica + /fabrici-uzine render without console errors.",
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {
+        "screen": "/pricing — VGD plan card",
+        "issues": [
+          "The 4 V9.2 verificator value_props (Verificare proiecte tehnice primite electronic / Ștampilare și autorizare digitală / Retransmitere electronică automată / Evidență proiecte pe societăți) are surfaced ONLY in the short card subtitle in compressed form ('Verificare electronică proiecte, ștampilare digitală, retransmitere și evidență (pe societăți)'). They are NOT shown as a bullet list on the card body — only the generic feature_flags (150 documente, Project Data, Stamps, Emails, Stampile: vgd, Export: permis) are listed. Backend exposes them correctly via /api/plans → vgd.value_props. Cosmetic/UX: consider rendering plans[*].value_props as a checklist on the Pricing card so the verificator selling points are visible to prospects."
+        ]
+      }
+    ]
+  },
+  "tests_executed": [
+    {"id": "BACKEND_BOOTS_WITH_LIVE_STRIPE_KEY", "status": "PASS", "detail": "GET /api/plans returns 200 — backend did not crash after replacing sk_test_emergent with sk_live_51Thc7C... in /app/backend/.env"},
+    {"id": "PLAN_COUNT_AND_PRICES_V92", "status": "PASS", "detail": "12 plans returned; price_eur values match: free=0, trial=0, basic=29, operator=59, contabilitate=49, avize=69, ofertare=79, executant=99, proiectant=129, rte=149, vgd=169, societate=399"},
+    {"id": "VGD_VERIFICATOR_VALUE_PROPS", "status": "PASS", "detail": "VGD plan value_props contain verbatim substrings: 'Verificare proiecte tehnice primite electronic', 'Ștampilare și autorizare digitală', 'Retransmitere electronică', 'Evidență proiecte pe societăți'"},
+    {"id": "PROFILE_CONFIG_PRO_PLANS", "status": "PASS", "detail": "10/10 paid plans (basic, operator, proiectant, executant, avize, ofertare, contabilitate, vgd, rte, societate) include profile_config with both 'society' and 'project_preferences' keys. Free + trial intentionally omit it."},
+    {"id": "POST_PLACEHOLDERS_GROAPA_SUDARE", "status": "PASS", "detail": "DN63 → groapa 1.2m × 1.0m × 0.6m, volum 0.72 mc, NTPEE 2018 art.56 — matches MEMORIU AVIZARE"},
+    {"id": "POST_PLACEHOLDERS_TUB_PROTECTIE", "status": "PASS", "detail": "DN63 → recomandare PE 100 SDR26 DN125, necesita_tub_protectie=false (nu necesar — distanță > 0.20m fără traversare critică)"},
+    {"id": "POST_PLACEHOLDERS_PROBE_PRESIUNE", "status": "PASS", "detail": "regim_presiune='medie' → proba rezistență 9 bar / 60 min + etanșeitate 6 bar / 24 h, NTPEE 2018 cap.6"},
+    {"id": "POST_PLACEHOLDERS_CONSUMATORI_DEBIT", "status": "PASS", "detail": "4× mașină gătit 2.4 + 1× centrala 10 → debit_total 19.6 mc/h, Ks=0.75, debit_simultan 14.7 mc/h, putere 207.76 kW (~208 kW)"},
+    {"id": "AUTH_LOGIN_DEV", "status": "PASS", "detail": "POST /api/auth/login dragosserban95@gmail.com / Test12345 returns 200 with valid JWT token"},
+    {"id": "FRONTEND_LOGO_LANDING", "status": "PASS", "detail": "Landing / shows brand-link-mark as <img> tag with src=https://customer-assets.emergentagent.com/...3x5homqi_722490090... (real EPD image, NOT CSS gradient). 'Energy Project Design' wordmark visible 5× on page."},
+    {"id": "FRONTEND_LOGO_LOGIN", "status": "PASS", "detail": "/login renders <img data-testid='login-brand-logo'> with real EPD image URL"},
+    {"id": "FRONTEND_LOGO_SIDEBAR", "status": "PASS", "detail": "After login, sidebar shows <img data-testid='sidebar-brand-logo'> (outerTag=IMG) + 'Energy Project Design' wordmark + 'REDESIGNING PROJECTS.' tagline. Visually confirmed via screenshot on /dashboard, /fabrici-uzine."},
+    {"id": "FRONTEND_PRICING_12_PLANS", "status": "PASS", "detail": "/pricing renders all 12 plan cards with V9.2 prices (29, 59, 129, 99, 69, 79, 49, 169, 149, 399 EUR / lună) — confirmed via screenshot and text regex"},
+    {"id": "FRONTEND_VGD_FEATURES_VISIBILITY", "status": "PARTIAL", "detail": "VGD card description mentions the verificator features in compressed form but the 4 verbatim value_props are NOT listed as bullets — backend has them, frontend should surface them. See design_issues."},
+    {"id": "STUDIO_GAZE_V91_REGRESSION", "status": "PASS", "detail": "/gaze-naturale/gp_e79e2810cc64b5b4 still shows gas-chronological-stepper with all 10 step testids (stepper-date-proiect..stepper-receptie) and '100%' completion label. V9.1 ad-hoc removal not regressed."},
+    {"id": "REGRESSION_OTHER_PAGES", "status": "PASS", "detail": "/comert-logistica (2353 chars) and /fabrici-uzine (2468 chars) render without error nodes. Sidebar logo image visible on /fabrici-uzine screenshot."}
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_v92_features.py",
+    "/app/test_reports/pytest/v92_results.xml"
+  ],
+  "action_items": [
+    "(cosmetic) Pricing.jsx — render plans[*].value_props as a bullet/checklist on each plan card so the 4 V9.2 VGD verificator selling points (and value_props of other plans) are visible to prospects. Currently only the 6-7 generic feature_flags + a short subtitle are shown.",
+    "(carry-over from iter14) GasServicePipeline.jsx dead file still on disk — safe cleanup."
+  ],
+  "critical_code_review_comments": [
+    "STRIPE_API_KEY is sk_live_* committed in plaintext to /app/backend/.env — this is a LIVE secret key. In a real deploy this MUST come from a secret manager (k8s Secret / Stripe restricted key already exists in same .env as STRIPE_RESTRICTED_KEY). For now (preview env) it loads correctly and backend does not crash, but flag for production hardening before going live.",
+    "gas_engineering.py new functions look correct against NTPEE 2018 art. 56 / 82 / cap.6 / anexa 4. The placeholder endpoints accept JSON bodies and return float values that the DOCX renderer should round on display.",
+    "plans.py — VGD value_props string 'Retransmitere electronică automată către proiectant și OSD' contains 'Retransmitere electronică' as required substring; test passes. If naming policy ever shortens this, frontend Pricing card description (Romanian short version) won't auto-sync. Recommend driving the card from API."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v92_features.py (NEW — 9 tests)",
+    "/app/test_reports/pytest/v92_results.xml (NEW — junit)",
+    "/app/test_reports/iteration_15.json"
+  ],
+  "success_rate": { "backend": "100% (9/9)", "frontend": "100% (10/10 smoke checks, 1 cosmetic partial on VGD bullets)" },
+  "test_credentials": "dragosserban95@gmail.com / Test12345 (from /app/memory/test_credentials.md)",
+  "seed_data_creation": "None — used existing demo project gp_e79e2810cc64b5b4 (302 fields).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V9.2 delta fully validated end-to-end. New endpoints (groapa-sudare, tub-protectie, probe-presiune, consumatori-debit) computed values match the MEMORIU AVIZARE reference (DN63 case). Backend boots fine under sk_live_ key — DID NOT exercise any actual Stripe checkout (per directive, key is LIVE — no payments). Frontend logo is now imagery (EPDLogo.jsx, brand.js BRAND_ASSETS.logoMark URL) — verified on Landing, Login, Sidebar via DOM + screenshots. Stepper V9.1 regression OK (10/10 steps + 100%). Pricing page lists all 12 plans with new prices. Open cosmetic gap: VGD card on /pricing does not enumerate the 4 verificator value_props as bullets; backend exposes them properly via /api/plans.",
+  "rca of the issue": "N/A — no critical bug to RCA. Cosmetic gap on /pricing VGD card root cause: Pricing.jsx renders feature_flags + a static description rather than iterating plan.value_props array returned by /api/plans."
+}

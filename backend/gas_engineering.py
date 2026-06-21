@@ -291,3 +291,169 @@ def get_catalog_stats() -> Dict[str, Any]:
         "source": "Anexa 13 — Lista materiale aprobată OSD",
         "sample": cat[:5] if cat else [],
     }
+
+
+# ============================================================================
+# 5. CALCULE DERIVATE DIN MEMORIU AVIZARE (V9.2)
+# Extract complet din /app/memory/MEMORIU_PLACEHOLDERS.md (audit V9.2).
+# ============================================================================
+
+def groapa_sudare(dn_mm: int, latime_sant_m: float = None) -> Dict[str, Any]:
+    """Dimensiuni groapă sudare pentru cuplare la conductă (NTPEE 2018 art. 56).
+
+    Formule:
+    - lățime = lățime șanț + 0.6m
+    - lungime = 1.2m (fixă)
+    - adâncime = 0.6m sub partea inferioară a conductei
+    """
+    if latime_sant_m is None:
+        # Lățime șanț = 0.4m pentru Dn<100, 0.4m + Dn/1000 pentru Dn>=100
+        latime_sant_m = 0.4 if dn_mm < 100 else round(0.4 + dn_mm / 1000.0, 2)
+    return {
+        "dn_mm": dn_mm,
+        "latime_sant_m": latime_sant_m,
+        "groapa_lungime_m": 1.2,
+        "groapa_latime_m": round(latime_sant_m + 0.6, 2),
+        "groapa_adancime_m": 0.6,
+        "groapa_volum_mc": round(1.2 * (latime_sant_m + 0.6) * 0.6, 3),
+        "formula_descriere": f"Groapă sudare = lungime 1.2m × lățime {latime_sant_m + 0.6}m (= L_șanț+0.6m) × adâncime 0.6m (sub conductă)",
+        "norma": "NTPEE 2018 (ORD. ANRE 89/2018) art. 56",
+    }
+
+
+def tub_protectie_decizie(dn_mm: int, intersectii_utilitati: bool = False,
+                          distanta_min_m: float = 0.5) -> Dict[str, Any]:
+    """Decide dacă este necesar tub de protecție pentru bransament.
+
+    Regulă (NTPEE 2018 art. 82): tub protecție OBLIGATORIU dacă:
+    - distanță față de alte rețele < 0.20m
+    - traversare carosabil principal
+    - traversare cale ferată / drum național
+
+    Pentru bransamente PE, tubul de protecție recomandat este PE100 SDR26 cu
+    diametru interior >= D_exterior_conducta + 50mm.
+    """
+    pipe = PE100_SDR11.get(dn_mm)
+    if not pipe:
+        return {"error": f"DN {dn_mm} nu există în catalog PE 100"}
+    de = pipe["de_mm"]
+    di_tub_min = de + 50  # mm
+
+    # Alege tubul de protecție din catalog standard PE100 SDR26
+    tub_options = [125, 160, 200, 250, 315, 400]
+    tub_ales = next((t for t in tub_options if t >= di_tub_min), tub_options[-1])
+
+    necesar = intersectii_utilitati and distanta_min_m < 0.2
+
+    return {
+        "dn_conducta_mm": dn_mm,
+        "diametru_exterior_conducta_mm": de,
+        "diametru_interior_tub_minim_mm": di_tub_min,
+        "tub_recomandat_dn_mm": tub_ales,
+        "material_tub": "PE 100 SDR26",
+        "necesita_tub_protectie": necesar,
+        "motivatie": (
+            f"Necesar — distanță {distanta_min_m}m < 0.20m față de alte instalații"
+            if necesar
+            else "Nu necesar — distanță față de alte utilități > 0.20m, fără traversare critică"
+        ),
+        "formula": f"Di_tub_min = De_conducta ({de}mm) + 50mm = {di_tub_min}mm",
+        "norma": "NTPEE 2018 (ORD. ANRE 89/2018) art. 82",
+    }
+
+
+def probe_presiune(regim_presiune: str, material: str = "PE 100 SDR 11") -> Dict[str, Any]:
+    """Returnează parametrii probelor de presiune conform NTPEE 2018 cap. 6.
+
+    regim_presiune: 'joasa' / 'redusa' / 'medie' / 'inalta'
+    """
+    regim = (regim_presiune or "").lower().replace("ă", "a")
+    PROBE_MAP = {
+        "joasa": {  # până la 0.1 bar
+            "proba_rezistenta_bar": 0.5,
+            "rezistenta_durata_min": 60,
+            "etanseitate_bar": 0.1,
+            "etanseitate_durata_h": 24,
+        },
+        "redusa": {  # 0.1 - 2 bar
+            "proba_rezistenta_bar": 4.0,
+            "rezistenta_durata_min": 60,
+            "etanseitate_bar": 2.0,
+            "etanseitate_durata_h": 24,
+        },
+        "medie": {  # 2 - 6 bar
+            "proba_rezistenta_bar": 9.0,
+            "rezistenta_durata_min": 60,
+            "etanseitate_bar": 6.0,
+            "etanseitate_durata_h": 24,
+        },
+        "inalta": {  # > 6 bar
+            "proba_rezistenta_bar": 1.5 * 6.0,  # 1.5 × Pmax operare
+            "rezistenta_durata_min": 60,
+            "etanseitate_bar": 1.1 * 6.0,
+            "etanseitate_durata_h": 48,
+        },
+    }
+    params = PROBE_MAP.get(regim) or PROBE_MAP["redusa"]
+    return {
+        "regim_presiune": regim,
+        "material": material,
+        **params,
+        "aparat_masura": "Manometru clasă exactitate min. 1.5",
+        "metoda": "Aer comprimat curat și uscat",
+        "norma": "NTPEE 2018 (ORD. ANRE 89/2018) cap. 6 — Probe de rezistență și etanșeitate",
+    }
+
+
+def debit_total_consumatori(consumatori: List[Dict[str, Any]],
+                            coef_simultaneitate: float = None) -> Dict[str, Any]:
+    """Calculează debitul instalat + simultan pentru o listă de consumatori.
+
+    consumatori: lista de dict cu {tip, debit_unitar_mc_h, numar_buc}
+    coef_simultaneitate: dacă None, se calculează automat după nr_aparate
+    """
+    if not consumatori:
+        return {"debit_total_mc_h": 0, "putere_kw": 0, "consumatori": []}
+
+    items = []
+    debit_total = 0.0
+    for c in consumatori:
+        qi = float(c.get("debit_unitar_mc_h", 0))
+        n = int(c.get("numar_buc", 1))
+        qt = qi * n
+        items.append({
+            "tip": c.get("tip", "necunoscut"),
+            "debit_unitar_mc_h": qi,
+            "numar_buc": n,
+            "debit_total_mc_h": qt,
+        })
+        debit_total += qt
+
+    # Coeficient simultaneitate Ks (NTPEE 2018 anexa 4)
+    if coef_simultaneitate is None:
+        total_aparate = sum(int(c.get("numar_buc", 1)) for c in consumatori)
+        if total_aparate <= 1:
+            ks = 1.0
+        elif total_aparate <= 3:
+            ks = 0.9
+        elif total_aparate <= 5:
+            ks = 0.75
+        elif total_aparate <= 10:
+            ks = 0.6
+        else:
+            ks = 0.5
+    else:
+        ks = float(coef_simultaneitate)
+
+    debit_simultan = round(debit_total * ks, 2)
+    putere_kw = round(debit_total * 10.6, 2)  # PCI gaz natural ~10.6 kWh/m³
+
+    return {
+        "consumatori": items,
+        "debit_total_mc_h": round(debit_total, 2),
+        "coeficient_simultaneitate_Ks": ks,
+        "debit_simultan_mc_h": debit_simultan,
+        "putere_termica_instalata_kw": putere_kw,
+        "norma": "NTPEE 2018 (ORD. ANRE 89/2018) anexa 4",
+    }
+

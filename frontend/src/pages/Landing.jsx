@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
+import EPDLogo from '../components/EPDLogo';
 
 // PRODUS PRINCIPAL — Gaze Naturale (livrabil 100% operațional)
 const MAIN_PRODUCT_HIGHLIGHTS = [
@@ -74,23 +75,8 @@ const FUTURE_SERVICES = [
   { label: 'EPD Mail',                desc: 'Singurul serviciu de email global cu zero spam' },
 ];
 
-// Logo component — gradient violet→navy din identitatea oficială
-function EPDLogo({ size = 'md', withText = true }) {
-  const sz = size === 'lg' ? 'w-12 h-12' : size === 'sm' ? 'w-7 h-7' : 'w-9 h-9';
-  const txt = size === 'lg' ? 'text-2xl' : size === 'sm' ? 'text-sm' : 'text-lg';
-  return (
-    <Link to="/" className="flex items-center gap-3" data-testid="brand-link">
-      <div className={`${sz} epd-gradient flex items-center justify-center rounded-lg text-white font-bold shadow-md`}>
-        <span className="text-sm tracking-tighter">EP</span>
-      </div>
-      {withText && (
-        <div className={`font-bold tracking-tight ${txt} text-slate-900`}>
-          Energy Project<span className="epd-gradient-text"> Design</span>
-        </div>
-      )}
-    </Link>
-  );
-}
+// Logo component pulled from shared EPDLogo (uses real image, not CSS gradient cube)
+// to align with founder's explicit V9.2 request: "foloseste logo-ul acesta".
 
 const TAG_STYLES = {
   CORE: 'bg-violet-600 text-white',

@@ -65,6 +65,15 @@ code, .mono {
 .epd-shadow-lg {
   box-shadow: 0 25px 60px -15px rgba(124, 58, 237, 0.4), 0 10px 25px -8px rgba(30, 58, 138, 0.25);
 }
+/* EPD logo image — crop to focus on the cube portion (upper-center of the full logo image).
+   Folosit pe img.logo-mark când vrem doar cub-ul izolat la dimensiuni mici (header/sidebar). */
+.epd-logo-mark-crop {
+  object-fit: cover;
+  object-position: 50% 35%;
+  background: #F5F0E8;
+  transform: scale(1.6);
+  transform-origin: 50% 38%;
+}
 
 /* Grid skeleton borders */
 .grid-skeleton > * {
