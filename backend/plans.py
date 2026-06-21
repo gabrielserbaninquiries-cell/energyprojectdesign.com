@@ -30,10 +30,13 @@ DOC_TYPES = [
 ]
 
 PLANS: Dict[str, Dict] = {
+    # V9.3 — Demo plan ELIMINAT din public listing per cerință user (mesaj 26).
+    # Rămâne în catalog pentru status downgrade după expirare trial, dar nu mai apare la /pricing.
     "free": {
-        "id": "free", "name": "Free", "label": "Demo / Trial expirat",
+        "id": "free", "name": "Free", "label": "Cont expirat",
+        "internal": True,  # NU mai apare în public_plans() — V9.3
         "price_eur": 0, "currency": "eur", "currency_label": "Gratuit",
-        "tagline": "Acces minim de demonstrație, după expirarea trial-ului. Doar Date proiect + 1 calcul.",
+        "tagline": "Acces minim după expirarea trial-ului. Doar Date proiect + 1 calcul.",
         "documents_per_month": 0,
         "users_allowed": 1,
         "features": [F_PROJECT, F_TECHNICAL, F_CALC],

@@ -73,6 +73,31 @@ def _apply_patterns(text: str) -> Dict[str, Any]:
 # ============================================================================
 # Extractors per file type
 # ============================================================================
+def _extract_doc_legacy(blob: bytes) -> str:
+    """Extract text from legacy .doc (Word 97-2003 binary format) via antiword.
+
+    V9.3 — cerință user: "nu se pot incarca fisiere doc word, ci doar docx".
+    Folosim antiword (instalat la /usr/bin/antiword) sau fallback la decode best-effort.
+    """
+    import subprocess
+    import tempfile
+    try:
+        with tempfile.NamedTemporaryFile(suffix=".doc", delete=False) as tmp:
+            tmp.write(blob)
+            tmp_path = tmp.name
+        result = subprocess.run(
+            ["antiword", tmp_path],
+            capture_output=True, timeout=30, check=False,
+        )
+        text = (result.stdout or b"").decode("utf-8", errors="ignore")
+        return text
+    except FileNotFoundError:
+        # antiword not installed — best-effort UTF-8 strip
+        return blob.decode("latin-1", errors="ignore")
+    except Exception:
+        return ""
+
+
 def _extract_docx(blob: bytes) -> str:
     try:
         from docx import Document
@@ -124,6 +149,9 @@ async def extract_fields(file: UploadFile = File(...), user=Depends(get_current_
     text = ""
     if fname_low.endswith(".docx"):
         text = _extract_docx(blob)
+    elif fname_low.endswith(".doc"):
+        # V9.3 — suport pentru .doc legacy (Word 97-2003) via antiword
+        text = _extract_doc_legacy(blob)
     elif fname_low.endswith(".pdf"):
         text = _extract_pdf(blob)
     else:
@@ -146,9 +174,125 @@ async def known_patterns():
     """Listează tipurile de câmpuri pe care le poate extrage OCR-ul."""
     return {
         "patterns": [{"key": p["key"], "description": p["regex"][:80]} for p in PATTERNS],
-        "supported_formats": [".docx", ".pdf"],
+        "supported_formats": [".docx", ".pdf", ".doc"],
         "experimental_formats": [".png", ".jpg", ".jpeg"],
     }
+
+
+# ============================================================================
+# V9.3 — Template Placeholder Detector
+# Cerință user: "Mi-ar placea ca platforma sa poata introduce automat in documente
+# placeholdere necesare. Sa recunoasca campuri de introdus si sa afiseze casete
+# text in platforma pentru introducerea datelor sau variabilelor reale necesare
+# inlocuirii acelor placeholdere/campuri."
+# ============================================================================
+class TemplatePlaceholdersResult(BaseModel):
+    placeholders: List[Dict[str, Any]]   # [{ key, label, sample_context, suggested_field, type }]
+    structure: Dict[str, Any]            # { sections, total_chars, candidate_count }
+    text_preview: str
+
+
+# Heuristici pentru detectarea câmpurilor în template — fraze sau variabile
+# evidente care variază de la proiect la proiect.
+TEMPLATE_HINTS: List[Dict[str, Any]] = [
+    # Pattern: cuvinte CAPITALIZATE explicit înlocuibile
+    {"regex": r"<([^>]{2,40})>",                       "label": "Tag explicit <{}>",          "type": "tag"},
+    {"regex": r"\{\{?\s*([A-Za-zĂÂÎȘȚăâîșț_][A-Za-zĂÂÎȘȚăâîșț_0-9\s]{1,30})\s*\}?\}", "label": "Tag {{var}}",       "type": "tag"},
+    {"regex": r"_{3,}",                                 "label": "Underscore (loc gol)",       "type": "blank"},
+    {"regex": r"\.{4,}",                                "label": "Linie cu puncte (loc gol)",  "type": "blank"},
+    # Pattern: paranteze cu cuvinte explicative
+    {"regex": r"\(([Aa]ici[^)]{2,40})\)",               "label": "Indicație ({})",             "type": "hint"},
+    {"regex": r"\(([Cc]ompleta[țt]i[^)]{0,40})\)",      "label": "(Completați...)",            "type": "hint"},
+    {"regex": r"\(([Dd]e\s+[Cc]ompletat)\)",            "label": "(De completat)",             "type": "hint"},
+    {"regex": r"\(([Vv]ariabil[ăa])\)",                 "label": "(Variabilă)",                "type": "hint"},
+    # Pattern: cifre/date specifice care probabil variază
+    {"regex": r"(?:[Nn]r\.?|[Nn]umar)\s*([0-9]+(?:[/.][0-9]+)+)",   "label": "Număr document {}", "type": "number"},
+    {"regex": r"\bDn\s*([0-9]{2,4})\b",                  "label": "Diametru Dn{}",              "type": "spec"},
+    {"regex": r"([0-9]+(?:[.,][0-9]+)?)\s*[Nn]mc/h",     "label": "Debit {} Nmc/h",             "type": "spec"},
+    {"regex": r"([0-9]+(?:[.,][0-9]+)?)\s*bar\b",       "label": "Presiune {} bar",            "type": "spec"},
+    {"regex": r"([0-9]+(?:[.,][0-9]+)?)\s*m(?:bar|et?ri?)?\b", "label": "Mărime {} m/mbar",     "type": "spec"},
+]
+
+
+def _detect_template_placeholders(text: str, limit: int = 60) -> List[Dict[str, Any]]:
+    """Identifică toate locurile care par a fi placeholder-uri în template-ul DOC."""
+    out: List[Dict[str, Any]] = []
+    seen = set()
+    for hint in TEMPLATE_HINTS:
+        for m in re.finditer(hint["regex"], text):
+            full = m.group(0)
+            inner = m.group(1) if m.groups() else full
+            label_tpl = hint["label"]
+            label = label_tpl.format(inner) if "{}" in label_tpl else label_tpl
+            ctx_start = max(0, m.start() - 80)
+            ctx_end = min(len(text), m.end() + 80)
+            context = text[ctx_start:ctx_end].replace("\n", " ").strip()
+            sig = (hint["type"], inner.strip()[:30])
+            if sig in seen:
+                continue
+            seen.add(sig)
+            # Sugestie de mapping către FIELDS_REGISTRY (best effort)
+            suggested = None
+            inner_low = inner.lower() if isinstance(inner, str) else ""
+            if "denumire" in inner_low or "lucrare" in inner_low: suggested = "proiect_titlu"
+            elif "strada" in inner_low or "strad" in inner_low:   suggested = "loc_consum_strada"
+            elif "nr" in inner_low and len(inner_low) < 6:        suggested = "loc_consum_numar"
+            elif "beneficiar" in inner_low:                       suggested = "beneficiar_nume"
+            elif "cnp" in inner_low or "cui" in inner_low:        suggested = "beneficiar_cnp_cui"
+            elif "diametru" in inner_low or "dn" in inner_low:    suggested = "br_diametru_dn"
+            elif "lungime" in inner_low:                          suggested = "br_lungime_m"
+            elif "debit" in inner_low:                            suggested = "debit_instalat_mc_h"
+            elif "presiune" in inner_low:                         suggested = "presiune_max_op_bar"
+            out.append({
+                "match": full[:60],
+                "inner": inner if isinstance(inner, str) else str(inner),
+                "label": label[:80],
+                "type": hint["type"],
+                "context": context[:200],
+                "suggested_field": suggested,
+                "position": m.start(),
+            })
+            if len(out) >= limit:
+                return out
+    return out
+
+
+@router.post("/template-placeholders", response_model=TemplatePlaceholdersResult)
+async def detect_template_placeholders(file: UploadFile = File(...), user=Depends(get_current_user)):
+    """V9.3 — Detectează automat placeholder-urile/câmpurile variabile dintr-un template DOC/DOCX/PDF.
+
+    User-ul upload-ează un model de document (de ex. MEMORIU AVIZARE) și platforma
+    întoarce o listă cu câmpurile detectate ca fiind variabile (placeholdere, tag-uri,
+    spații goale etc.) pe care apoi le poate completa direct din interfață.
+    """
+    blob = await file.read()
+    if not blob:
+        return TemplatePlaceholdersResult(placeholders=[], structure={}, text_preview="")
+
+    fname = (file.filename or "").lower()
+    if fname.endswith(".docx"):
+        text = _extract_docx(blob)
+    elif fname.endswith(".doc"):
+        text = _extract_doc_legacy(blob)
+    elif fname.endswith(".pdf"):
+        text = _extract_pdf(blob)
+    else:
+        text = blob.decode("utf-8", errors="ignore")
+
+    placeholders = _detect_template_placeholders(text, limit=60)
+    # Detectează secțiuni (titluri în capitale)
+    sections = re.findall(r"\n([A-ZĂÂÎȘȚ\s]{6,80})\n", text)
+    structure = {
+        "total_chars": len(text),
+        "sections_detected": [s.strip() for s in sections[:20]],
+        "candidate_count": len(placeholders),
+        "supported_formats": [".docx", ".doc", ".pdf"],
+    }
+    return TemplatePlaceholdersResult(
+        placeholders=placeholders,
+        structure=structure,
+        text_preview=text[:1500],
+    )
 
 
 # ============================================================================

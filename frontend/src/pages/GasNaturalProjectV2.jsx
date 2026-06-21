@@ -599,6 +599,9 @@ function DocPacksMenu({ pid, backendUrl }) {
 // ====================================================================
 function OcrImportButton({ pid, onExtracted }) {
   const [busy, setBusy] = useState(false);
+  const [tplBusy, setTplBusy] = useState(false);
+  const [tplResult, setTplResult] = useState(null);
+
   const handle = async (e) => {
     const f = e.target.files?.[0];
     if (!f) return;
@@ -632,12 +635,74 @@ function OcrImportButton({ pid, onExtracted }) {
       setBusy(false); e.target.value = '';
     }
   };
+
+  // V9.3 — Template placeholder detector — cerință user (mesaj 26):
+  // "platforma sa poata introduce automat in documente placeholdere necesare.
+  //  Sa recunoasca campuri de introdus si sa afiseze casete text in platforma".
+  const detectTemplate = async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setTplBusy(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', f);
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/ocr/template-placeholders`, {
+        method: 'POST', credentials: 'include', body: fd,
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setTplResult(data);
+      toast.success(`${data.placeholders?.length || 0} placeholdere detectate, ${data.structure?.sections_detected?.length || 0} secțiuni`);
+    } catch (err) {
+      toast.error(`Detectare eșuată: ${err.message}`);
+    } finally {
+      setTplBusy(false); e.target.value = '';
+    }
+  };
+
   return (
-    <label className="text-xs inline-flex items-center gap-1 bg-teal-600 text-white px-3 py-1.5 hover:bg-teal-700 cursor-pointer" data-testid="ocr-import-btn">
-      {busy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
-      Import auto (OCR)
-      <input type="file" className="hidden" onChange={handle} accept=".pdf,.docx,.doc" />
-    </label>
+    <>
+      <label className="text-xs inline-flex items-center gap-1 bg-teal-600 text-white px-3 py-1.5 hover:bg-teal-700 cursor-pointer rounded" data-testid="ocr-import-btn">
+        {busy ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+        Import auto (OCR)
+        <input type="file" className="hidden" onChange={handle} accept=".pdf,.docx,.doc" />
+      </label>
+      <label className="text-xs inline-flex items-center gap-1 bg-violet-600 text-white px-3 py-1.5 hover:bg-violet-700 cursor-pointer rounded" data-testid="tpl-detect-btn" title="Detectează placeholder-urile dintr-un template DOC/DOCX/PDF (de ex. MEMORIU AVIZARE)">
+        {tplBusy ? <Loader2 className="w-3 h-3 animate-spin" /> : <FileText className="w-3 h-3" />}
+        Detectează template
+        <input type="file" className="hidden" onChange={detectTemplate} accept=".pdf,.docx,.doc" />
+      </label>
+      {tplResult && tplResult.placeholders?.length > 0 && (
+        <div className="fixed inset-x-4 bottom-4 lg:right-4 lg:left-auto lg:w-[480px] z-50 bg-white border border-violet-300 rounded-xl epd-shadow-lg max-h-[70vh] overflow-y-auto" data-testid="tpl-result-panel">
+          <div className="sticky top-0 bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-4 py-3 flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wider opacity-80">// Template Analizat</div>
+              <div className="text-sm font-bold">{tplResult.placeholders.length} placeholdere detectate</div>
+            </div>
+            <button onClick={() => setTplResult(null)} className="text-white hover:bg-white/20 rounded p-1" data-testid="tpl-close">
+              ✕
+            </button>
+          </div>
+          <div className="p-3 space-y-2">
+            {tplResult.placeholders.slice(0, 30).map((p, idx) => (
+              <div key={idx} className="border border-slate-200 rounded p-2 text-xs hover:border-violet-300 hover:bg-violet-50 transition-colors" data-testid={`tpl-ph-${idx}`}>
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <div className="font-mono text-violet-700 truncate">{p.inner || p.match}</div>
+                  <span className="text-[9px] uppercase tracking-wider font-bold text-slate-500 shrink-0">{p.type}</span>
+                </div>
+                <div className="text-[10px] text-slate-500 italic line-clamp-2">{p.context}</div>
+                {p.suggested_field && (
+                  <div className="mt-1 text-[10px] text-emerald-700">→ Sugerat câmp: <code className="font-mono">{p.suggested_field}</code></div>
+                )}
+              </div>
+            ))}
+            {tplResult.placeholders.length > 30 && (
+              <div className="text-center text-xs text-slate-500 italic">+ {tplResult.placeholders.length - 30} placeholdere mai în template</div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -697,6 +762,95 @@ function AvizeList({ items, onChange, prefix = 'aviz' }) {
           )}
         </div>
       ))}
+    </div>
+  );
+}
+
+// V9.3 — Project picker pentru /gaze-naturale fără PID
+function GasProjectPicker({ nav }) {
+  const [projects, setProjects] = useState(null);
+  const [creating, setCreating] = useState(false);
+  const [title, setTitle] = useState('Branșament nou — locuință');
+
+  useEffect(() => {
+    api.get('/gas-project').then(({ data }) => {
+      setProjects(Array.isArray(data) ? data : (data?.items || []));
+    }).catch(() => setProjects([]));
+  }, []);
+
+  const createNew = async () => {
+    setCreating(true);
+    try {
+      const { data } = await api.post('/gas-project', { title, country: 'RO', subdomain: 'bransament-casnic' });
+      if (data?.pid) {
+        toast.success('Proiect creat. Începe să introduci datele!');
+        nav(`/gaze-naturale/${data.pid}`);
+      }
+    } catch (e) {
+      toast.error(`Eroare la creare: ${e?.response?.data?.detail || e.message}`);
+    } finally { setCreating(false); }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Hero create */}
+      <div className="bg-gradient-to-br from-violet-50 via-white to-indigo-50 border border-violet-200 rounded-xl p-6 epd-shadow" data-testid="gas-picker-create">
+        <div className="text-[10px] uppercase tracking-[0.25em] text-violet-600 font-semibold mb-2">// Studio Gaze Naturale · Creează proiect nou</div>
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 mb-3">Începe un proiect real de gaze naturale</h2>
+        <p className="text-sm text-slate-600 mb-5 max-w-2xl">
+          Introdu un titlu și apasă „Creează proiect&rdquo;. Vei accesa apoi cele 221 câmpuri tehnice,
+          calculatoarele Renouard, Anexa 13 materiale, ștampile A4, generare DOCX legale.
+        </p>
+        <div className="flex gap-3 flex-wrap items-center">
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="ex: Branșament Str. Aurel Vlaicu 15"
+            className="border border-slate-300 px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 min-w-[300px]"
+            data-testid="gas-picker-title-input"
+          />
+          <button onClick={createNew} disabled={creating || !title.trim()} className="epd-btn text-sm" data-testid="gas-picker-create-btn">
+            {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+            Creează proiect
+          </button>
+        </div>
+      </div>
+
+      {/* Existing projects */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-lg font-bold text-slate-900">Proiectele tale</h3>
+          <div className="text-xs text-slate-500" data-testid="gas-picker-count">
+            {projects ? `${projects.length} proiect${projects.length === 1 ? '' : 'e'}` : 'Se încarcă...'}
+          </div>
+        </div>
+        {projects === null ? (
+          <div className="text-center py-12"><Loader2 className="w-6 h-6 animate-spin mx-auto text-violet-500" /></div>
+        ) : projects.length === 0 ? (
+          <div className="bg-slate-50 border border-dashed border-slate-300 rounded-lg p-8 text-center" data-testid="gas-picker-empty">
+            <FileText className="w-10 h-10 mx-auto text-slate-300 mb-2" />
+            <div className="text-sm text-slate-600">Niciun proiect creat încă. Folosește butonul de mai sus.</div>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-testid="gas-picker-list">
+            {projects.map((p) => (
+              <button
+                key={p.pid}
+                onClick={() => nav(`/gaze-naturale/${p.pid}`)}
+                className="text-left bg-white border border-slate-200 hover:border-violet-400 hover:shadow-md rounded-lg p-4 transition-all group"
+                data-testid={`gas-picker-item-${p.pid}`}
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <div className="text-xs font-mono text-violet-600">{p.pid}</div>
+                  <div className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 uppercase tracking-wider font-semibold">{p.status || 'draft'}</div>
+                </div>
+                <div className="text-sm font-semibold text-slate-900 leading-tight mb-1 group-hover:text-violet-700 transition-colors">{p.title || 'Proiect fără titlu'}</div>
+                <div className="text-xs text-slate-500">{Object.keys(p.data || {}).length} câmpuri completate</div>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -869,11 +1023,31 @@ export default function GasNaturalProjectV2() {
     }
   };
 
+  // V9.3 FIX — Disfuncționalitate raportată user (mesaj 26):
+  // "Sectiunea gaze naturale este complet disfunctionala. Nu se incarca si nu se poate completa in ea."
+  // Root cause: când /gaze-naturale e accesat fără PID, !proj rămâne true și se afișează
+  // spinner infinit. Soluție: redirect către listing/create dacă nu există PID.
+  if (!pid) {
+    return (
+      <AppShell title="Gaze Naturale" subtitle="Selectează un proiect sau creează unul nou">
+        <GasProjectPicker nav={nav} />
+      </AppShell>
+    );
+  }
+
   if (!proj) {
     return (
-      <AppShell title="Gaze Naturale · Operare proiect" subtitle="Se încarcă...">
-        <div className="text-center py-12 text-gray-400">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto" />
+      <AppShell title="Gaze Naturale · Operare proiect" subtitle="Se încarcă proiectul...">
+        <div className="text-center py-12 text-slate-400" data-testid="gas-loading">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3" />
+          <div className="text-sm">Se încarcă datele proiectului <span className="font-mono text-xs text-slate-500">{pid}</span>...</div>
+          <button
+            onClick={() => nav('/gaze-naturale')}
+            className="mt-4 text-xs text-violet-600 hover:text-violet-800 underline"
+            data-testid="gas-back-to-list"
+          >
+            ← Înapoi la lista de proiecte
+          </button>
         </div>
       </AppShell>
     );

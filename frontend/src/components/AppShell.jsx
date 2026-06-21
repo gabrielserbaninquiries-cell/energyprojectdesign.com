@@ -8,7 +8,7 @@ import CommandBar from './CommandBar';
 import {
   LayoutDashboard, ClipboardList, Settings2, Calculator, FileText, FileCheck2,
   Stamp, ShieldCheck, Mail, BadgeCheck, GaugeCircle, CreditCard, Settings, LogOut,
-  Sparkles, Wrench, ListChecks, Flame, ChevronRight, FolderKanban, Github, Banknote, MessageSquare, Building2,
+  Sparkles, Wrench, ListChecks, Flame, ChevronRight, FolderKanban, Banknote, MessageSquare, Building2,
   Layers, Compass, BarChart3, Sun, Bot, FileSearch, Users as UsersIcon, Receipt, AlertTriangle, X,
   Lock, Terminal, Package, ListOrdered, Home, ShoppingBag, Truck, KeyRound,
 } from 'lucide-react';
@@ -142,8 +142,10 @@ export default function AppShell({ children, title, subtitle }) {
                   ['/self-check', 'Self Check', ListChecks, 'nav-self-check'],
                   ['/skeleton', 'Product Skeleton', Package, 'nav-skeleton'],
                   ['/inside', 'Inside Full', Lock, 'nav-inside'],
-                  ['/developer/github', 'Push pe GitHub', Github, 'nav-developer-github'],
                   ['/admin/payment-accounts', 'Conturi încasări', Banknote, 'nav-payment-accounts'],
+                  // V9.3 — Buton GitHub eliminat din sidebar per cerință user
+                  // ("nu mai apara nimic cu GITHUB"). Funcționalitatea push către
+                  // repository rămâne disponibilă prin meniul "Save to GitHub" al platformei.
                 ].map(([path, label, Icon, tid]) => (
                   <Link key={path} to={path} data-testid={tid}
                     className={`flex items-center gap-2.5 px-3 py-1.5 text-[12.5px] transition-colors rounded-sm border-l-2 ${
