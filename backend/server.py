@@ -1202,6 +1202,51 @@ async def stripe_webhook(request: Request):
     return {"received": True}
 
 
+# V10.4 — Plan + Usage endpoint (used by frontend for UI gating per capability)
+@api.get("/me/plan")
+async def me_plan(user: User = Depends(get_current_user)):
+    """Returns current plan, capability flags, and live usage counters (projects/docs this month).
+    Frontend uses this to gate buttons + show usage badges (P1 per user request V10.4)."""
+    user_doc = await db.users.find_one({"user_id": user.user_id}, {"_id": 0, "plan": 1, "plan_renews_at": 1, "role": 1, "is_admin": 1})
+    plan_id = (user_doc or {}).get("plan", "free")
+    limits = plans_module.get_plan_limits(plan_id)
+    now = datetime.now(timezone.utc)
+    month_start_iso = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).isoformat()
+    try:
+        projects_this_month = await db.gas_projects.count_documents({
+            "owner_id": user.user_id,
+            "deleted": {"$ne": True},
+            "created_at": {"$gte": month_start_iso},
+        })
+    except Exception:
+        projects_this_month = 0
+    try:
+        coll_names = await db.list_collection_names()
+        docs_this_month = await db.doc_generation_log.count_documents({
+            "user_id": user.user_id,
+            "generated_at": {"$gte": month_start_iso},
+        }) if "doc_generation_log" in coll_names else 0
+    except Exception:
+        docs_this_month = 0
+    projects_quota = limits["projects_per_month"]
+    docs_quota = limits["documents_per_month"]
+    return {
+        **limits,
+        "role": (user_doc or {}).get("role"),
+        "is_admin": bool((user_doc or {}).get("is_admin", False)),
+        "renews_at": (user_doc or {}).get("plan_renews_at"),
+        "usage": {
+            "projects_this_month": projects_this_month,
+            "documents_this_month": docs_this_month,
+            "projects_remaining": max(0, projects_quota - projects_this_month) if projects_quota < 99999 else None,
+            "documents_remaining": max(0, docs_quota - docs_this_month) if docs_quota < 99999 else None,
+            "projects_pct": min(100, round(100 * projects_this_month / projects_quota)) if projects_quota and projects_quota < 99999 else 0,
+            "documents_pct": min(100, round(100 * docs_this_month / docs_quota)) if docs_quota and docs_quota < 99999 else 0,
+        },
+        "month_start": month_start_iso,
+    }
+
+
 @api.get("/me/billing")
 async def me_billing(user: User = Depends(get_current_user)):
     """Returns active plan, renewal date, and last 10 transactions."""

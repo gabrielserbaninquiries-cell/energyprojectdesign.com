@@ -445,8 +445,69 @@ PLANS: Dict[str, Dict] = {
 DEFAULT_PLAN = "basic"
 
 
+# V10.4 — Quota limits per plan (proiecte / lună)
+# Source of truth: user explicit request "50 proiecte/luna" pentru planuri standard.
+# Higher tiers get more. Internal/owner plans are unlimited.
+_PROJECT_QUOTA = {
+    "free": 0,
+    "trial": 5,
+    "basic": 10,
+    "operator": 25,
+    "proiectant": 50,         # ← cerință explicită
+    "executant": 50,          # ← cerință explicită
+    "avize": 50,
+    "ofertare": 50,
+    "contabilitate": 50,
+    "vgd": 50,
+    "rte": 50,
+    "societate": 200,
+    "developer": 99999,
+    "developer_elite": 99999,
+    "inside_full": 99999,
+    "cofounder": 99999,
+    "society_admin": 99999,
+}
+
+# V10.4 — Capability flags (UI gating)
+# These map to features but provide a stable, single-purpose API for the frontend.
+_CAPABILITY_MAP = {
+    "can_generate_docs": F_DOCS,
+    "can_certify": F_CERT,
+    "can_dispatch_emails": F_EMAIL,
+    "can_export": F_EXPORT,
+    "can_audit": F_AUDIT,
+    "can_use_stamps": F_STAMPS,
+    "can_use_ai": F_AI,
+    "can_offer": F_OFFER,
+    "can_accounting": F_ACCOUNT,
+}
+
+
 def get_plan(plan_id: str) -> Dict:
     return PLANS.get(plan_id, PLANS[DEFAULT_PLAN])
+
+
+def get_plan_limits(plan_id: str) -> Dict:
+    """V10.4 — Return quotas + capability flags for a plan (used by /api/me/plan)."""
+    plan = get_plan(plan_id)
+    caps = {cap: (feat in plan.get("features", [])) for cap, feat in _CAPABILITY_MAP.items()}
+    # F_TRANSFER is implicit for any plan with F_DOCS + F_EMAIL (transfer = send to colab)
+    caps["can_transfer"] = caps["can_generate_docs"] and caps["can_dispatch_emails"]
+    return {
+        "plan_id": plan.get("id", DEFAULT_PLAN),
+        "plan_name": plan.get("name"),
+        "plan_label": plan.get("label"),
+        "documents_per_month": plan.get("documents_per_month", 0),
+        "projects_per_month": _PROJECT_QUOTA.get(plan_id, 10),
+        "users_allowed": plan.get("users_allowed", 1),
+        "stamps_allowed": plan.get("stamps_allowed") or [],
+        "recipients_allowed": plan.get("recipients_allowed") or [],
+        "documents_allowed": plan.get("documents_allowed") or [],
+        "export_allowed": bool(plan.get("export_allowed", False)),
+        "internal": bool(plan.get("internal", False)),
+        "is_owner": bool(plan.get("is_owner", False)),
+        "capabilities": caps,
+    }
 
 
 def has_feature(plan_id: str, feature: str) -> bool:

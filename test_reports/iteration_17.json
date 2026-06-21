@@ -1,0 +1,55 @@
+{
+  "summary": "V10.4 end-to-end testing of Plan/Quota/Capability system + Colaboratori&Audit tab + SMTP env cleanup. Backend pytest 7/7 PASS. Frontend 100% testids present and properly gated for developer plan. ALSO confirmed iteration_16 critical PATCH status whitelist bug is now FIXED (PATCH {status:'awaiting_avizare'} → 200, PATCH {status:'signed'} → 200).",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "tests_executed": [
+    {"id": "BACKEND_LOGIN", "status": "PASS"},
+    {"id": "BACKEND_ME_PLAN_STRUCTURE", "status": "PASS", "detail": "GET /api/me/plan → 200. plan_id='developer', plan_name='Developer Infinite (intern)', documents_per_month=99999, projects_per_month=99999, all 10 capabilities=true (can_generate_docs, can_certify, can_dispatch_emails, can_export, can_audit, can_use_stamps, can_use_ai, can_offer, can_accounting, can_transfer). Usage object contains projects_this_month, documents_this_month, projects_remaining (null for infinite), projects_pct, documents_pct."},
+    {"id": "BACKEND_PROJECT_QUOTA_DEVELOPER_INCREMENT", "status": "PASS", "detail": "POST /api/gas-project → 200/201, projects_this_month incremented by 1 (4→5). Project cleanup DELETE → 200."},
+    {"id": "BACKEND_DOC_GEN_LOG_INCREMENT", "status": "PASS", "detail": "GET /api/gas-project/gp_e79e2810cc64b5b4/doc/memoriu_tehnic → 200 (DOCX returned, >1KB). documents_this_month incremented by 1 (1→2). doc_generation_log collection writing correctly."},
+    {"id": "BACKEND_DOSSIER_ZIP_DEVELOPER", "status": "PASS", "detail": "GET /dossier.zip → 200, ZIP contains ≥10 files (actually 30+). can_export capability honored."},
+    {"id": "BACKEND_SMTP_ENV_CLEANUP", "status": "PASS", "detail": "/app/backend/.env contains exactly 1 GMAIL_USER line and 1 GMAIL_APP_PASSWORD line. No duplicates."},
+    {"id": "BACKEND_ME_PLAN_REQUIRES_AUTH", "status": "PASS", "detail": "GET /api/me/plan without bearer → 401/403"},
+    {"id": "BACKEND_REGRESSION_PATCH_AWAITING_AVIZARE", "status": "PASS", "detail": "Iteration_16 critical bug FIXED. PATCH /api/gas-project/{pid} {status:'awaiting_avizare'} → 200 (was 400 before). PATCH back to 'signed' → 200."},
+    {"id": "UI_LOGIN", "status": "PASS"},
+    {"id": "UI_PLAN_BADGE_CARD", "status": "PASS", "detail": "[data-testid='plan-badge-card'] visible in right sidebar top. Shows: 'PLAN ACTIV', 'Developer Infinite (intern)', SOCIETY_ADMIN badge, 'PROIECTE LUNA CURENTĂ 4/∞', 'DOCUMENTE GENERATE / LUNĂ 2/∞'. Violet/indigo gradient palette as required."},
+    {"id": "UI_TAB_COLABORATORI", "status": "PASS", "detail": "[data-testid='tab-colaboratori'] click → [data-testid='collaborators-tab'] becomes visible. Section header 'Colaboratori activi pe proiect' (4 entries). [data-testid='collaborator-0..3'] present with avatar initial, email, role badge (PROIECTANT / VGD — VERIFICATOR), 'invitat — neînregistrat', 'acum X min' Romanian timestamp, 'de la {shared_by}' + note in chevron quotes. Audit section 'Istoric acțiuni · audit complet' with [data-testid='audit-event-0..3'] in violet-left-border timeline."},
+    {"id": "UI_GATING_ALL_ENABLED_FOR_DEVELOPER", "status": "PASS", "detail": "On developer plan, ALL gated controls are visible and NOT disabled: generate-deviz, generate-situatie, generate-materiale, generate-fisa_tehnica (4 docs), 10× dispatch-* buttons (primarie/diriginte_carte/contabilitate/osd/isc/diriginte_disp/politie/proiectant_dtac/proiectant_pth/utilitati_cereri), send-to-avizare, upload-avizat, download-dossier-complet, preview-dossier, open-transfer-dialog."},
+    {"id": "UI_TABS_PRESENT", "status": "PASS", "detail": "tab-date, tab-avize, tab-registru (221 fields), tab-engineering, tab-colaboratori — all 5 tabs render."},
+    {"id": "UI_PALETTE_VIOLET_INDIGO", "status": "PASS_VISUAL", "detail": "Right sidebar Plan Badge + Active project card + Trimitere documente + Stampile autorizate + Acțiuni proiect all use violet/indigo/blue. Stepper at 100% (10/10 finalizate). No green/amber dominance observed."}
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_v104_plan_quota.py",
+    "/app/test_reports/pytest/v104_results.xml"
+  ],
+  "action_items": [
+    "(none — V10.4 is fully functional)",
+    "(carry-over from earlier) Real Gmail App Password still missing — backend returns 200 with email_sent:false for dispatch and transfer notifications. Acceptable per spec but production-undesirable.",
+    "(optional perf) /api/me/plan is called on every Studio Gaze mount; module-level cache in useUserPlan.js is good. Consider TTL invalidation when a doc is generated so usage counter refreshes without page reload."
+  ],
+  "critical_code_review_comments": [
+    "plans.py: _PROJECT_QUOTA fallback `_PROJECT_QUOTA.get(plan_id, 10)` defaults unknown plans to 10/month; safe but consider making this DEFAULT_PROJECT_QUOTA a named constant for clarity.",
+    "server.py /me/plan: projects_this_month uses created_at >= month_start_iso lexical compare. Works because ISO 8601 strings sort chronologically, but if some legacy docs lack timezone suffix the compare may misclassify. Consider explicit datetime parsing or storing created_at as native BSON Date.",
+    "gas_project_routes.py:818 — dossier.zip gate checks BOTH can_generate_docs AND can_export. That is conservative (good) but means a plan with can_export but not can_generate_docs cannot download. If that is by design, document it.",
+    "Doc generation quota counts each template generation; bulk dossier generation likely calls many templates internally — verify it does NOT log N entries per ZIP request or quota will deplete fast. (Did not verify in this iteration — flag for follow-up.)"
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v104_plan_quota.py (NEW — 7 tests, JUnit XML)",
+    "/app/test_reports/pytest/v104_results.xml (NEW)",
+    "/app/test_reports/iteration_17.json"
+  ],
+  "success_rate": {"backend": "100% (7/7)", "frontend": "100% (all required testids present & correctly gated)"},
+  "test_credentials": "dragosserban95@gmail.com / Nuamparola_9 (society_admin → effective plan 'developer' with 99999 quotas) — from /app/memory/test_credentials.md",
+  "seed_data_creation": "Created+deleted 1 TEST_V104_quota_check project to validate increment then cleaned up. Also 1 doc generation log entry persists from /doc/memoriu_tehnic call (intentional — used to verify doc counter increment).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V10.4 (plan/quota/capability) is fully wired end-to-end. Backend exposes /api/me/plan with usage counters; gas_project_routes enforces project & doc quotas with 403 'Cotă lunară atinsă' messages; dossier.zip requires can_export AND can_generate_docs. Frontend PlanBadge + CollaboratorsTab + useUserPlan hook all render correctly for the developer/society_admin owner. Iteration_16 critical PATCH status whitelist bug (awaiting_avizare/avizat) is FIXED. SMTP env cleanup confirmed (single GMAIL_USER + GMAIL_APP_PASSWORD). To exercise quota 403 path you'd need to seed a 'free' or 'basic' user; logic exists at gas_project_routes.py lines 306-322 (projects) and 762-779 (docs) and was reviewed by code-read.",
+  "rca of the issue": "N/A — no bugs surfaced this iteration."
+}

@@ -303,6 +303,27 @@ def make_gas_project_router(db, get_current_user):
         sub = catalog.get_subdomain(payload.country, "gaze-naturale", payload.subdomain)
         if not sub:
             raise HTTPException(400, "Subdomeniu invalid pentru această țară.")
+        # V10.4 — Enforce projects-per-month quota
+        try:
+            import plans as plans_module
+            user_doc = await db.users.find_one({"user_id": user.user_id}, {"_id": 0, "plan": 1})
+            plan_id = (user_doc or {}).get("plan", "free")
+            limits = plans_module.get_plan_limits(plan_id)
+            quota = limits.get("projects_per_month", 0)
+            if quota < 99999:
+                now = datetime.now(timezone.utc)
+                month_start_iso = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).isoformat()
+                used = await db.gas_projects.count_documents({
+                    "owner_id": user.user_id,
+                    "deleted": {"$ne": True},
+                    "created_at": {"$gte": month_start_iso},
+                })
+                if used >= quota:
+                    raise HTTPException(403, f"Cotă lunară atinsă: {used}/{quota} proiecte pe planul «{limits['plan_name']}». Upgradează planul pentru mai multe.")
+        except HTTPException:
+            raise
+        except Exception:
+            pass  # never block on quota infra failures
         pid = _new_id("gp_")
         now = datetime.now(timezone.utc).isoformat()
         doc = {
@@ -738,10 +759,43 @@ def make_gas_project_router(db, get_current_user):
         doc = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}}, {"_id": 0})
         if not doc:
             raise HTTPException(404, "Proiect inexistent")
+        # V10.4 — Enforce documents-per-month quota + capability check
+        try:
+            import plans as plans_module
+            user_doc = await db.users.find_one({"user_id": user.user_id}, {"_id": 0, "plan": 1})
+            plan_id = (user_doc or {}).get("plan", "free")
+            limits = plans_module.get_plan_limits(plan_id)
+            if not limits["capabilities"].get("can_generate_docs"):
+                raise HTTPException(403, f"Planul «{limits['plan_name']}» nu permite generare documente. Upgradează planul.")
+            quota = limits.get("documents_per_month", 0)
+            if quota < 99999:
+                now = datetime.now(timezone.utc)
+                month_start_iso = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).isoformat()
+                used = await db.doc_generation_log.count_documents({
+                    "user_id": user.user_id,
+                    "generated_at": {"$gte": month_start_iso},
+                })
+                if used >= quota:
+                    raise HTTPException(403, f"Cotă lunară atinsă: {used}/{quota} documente pe planul «{limits['plan_name']}». Upgradează planul.")
+        except HTTPException:
+            raise
+        except Exception:
+            pass
         result = doc_templates.generate(template_id, doc)
         if not result:
             raise HTTPException(400, f"Template necunoscut: {template_id}")
         data_bytes, fname = result
+        # V10.4 — Log generation for usage tracking (fire-and-forget)
+        try:
+            await db.doc_generation_log.insert_one({
+                "user_id": user.user_id,
+                "pid": pid,
+                "template_id": template_id,
+                "generated_at": datetime.now(timezone.utc).isoformat(),
+                "filename": fname,
+            })
+        except Exception:
+            pass
         return StreamingResponse(
             io.BytesIO(data_bytes),
             media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -750,11 +804,33 @@ def make_gas_project_router(db, get_current_user):
 
     @r.get("/{pid}/dossier.zip")
     async def download_full_dossier(pid: str, user=Depends(get_current_user)):
-        """Generate ZIP with ALL 8 DOCX templates — turns 10h work into 30min."""
+        """Generate ZIP with ALL DOCX templates — turns 10h work into 30min."""
         import zipfile
         doc = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}}, {"_id": 0})
         if not doc:
             raise HTTPException(404, "Proiect inexistent")
+        # V10.4 — Capability check + quota (counts as N documents — one per template generated)
+        try:
+            import plans as plans_module
+            user_doc = await db.users.find_one({"user_id": user.user_id}, {"_id": 0, "plan": 1})
+            plan_id = (user_doc or {}).get("plan", "free")
+            limits = plans_module.get_plan_limits(plan_id)
+            if not limits["capabilities"].get("can_generate_docs") or not limits["capabilities"].get("can_export"):
+                raise HTTPException(403, f"Planul «{limits['plan_name']}» nu permite export ZIP. Upgradează planul.")
+            quota = limits.get("documents_per_month", 0)
+            if quota < 99999:
+                now = datetime.now(timezone.utc)
+                month_start_iso = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).isoformat()
+                used = await db.doc_generation_log.count_documents({
+                    "user_id": user.user_id,
+                    "generated_at": {"$gte": month_start_iso},
+                })
+                if used >= quota:
+                    raise HTTPException(403, f"Cotă lunară atinsă: {used}/{quota} documente pe planul «{limits['plan_name']}».")
+        except HTTPException:
+            raise
+        except Exception:
+            pass
         zip_buf = io.BytesIO()
         with zipfile.ZipFile(zip_buf, "w", zipfile.ZIP_DEFLATED) as zf:
             for tpl in doc_templates.list_templates():
