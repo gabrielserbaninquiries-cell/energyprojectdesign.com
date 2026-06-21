@@ -939,6 +939,91 @@ async def list_plans_v2():
     return plans_module.public_plans()
 
 
+# ============================================================================
+# V9.5 — Donații EPD (Sponsorizează cauza)
+# Cerință user: secțiune nouă pe Landing cu sumar misiune EPD + posibilitate donare
+# RON / EUR flexibilă în contul societății Energy Project Design SRL.
+# Endpoint public (NU necesită autentificare) — donații anonime sunt permise.
+# ============================================================================
+class _DonationRequest(BaseModel):
+    amount: float
+    currency: str = "ron"           # 'ron' sau 'eur'
+    donor_name: Optional[str] = None
+    donor_email: Optional[str] = None
+    message: Optional[str] = None
+    origin_url: Optional[str] = None
+
+
+@api.post("/donations/checkout")
+async def donation_checkout(req: _DonationRequest, request: Request):
+    """Creează sesiune Stripe Checkout pentru donație one-time în RON sau EUR."""
+    currency = (req.currency or "ron").lower()
+    if currency not in ("ron", "eur"):
+        raise HTTPException(status_code=400, detail="Moneda trebuie să fie 'ron' sau 'eur'.")
+
+    # Limite siguranță donații
+    min_amount = 5.0 if currency == "ron" else 1.0
+    max_amount = 100000.0
+    if req.amount < min_amount:
+        raise HTTPException(status_code=400, detail=f"Suma minimă: {min_amount} {currency.upper()}.")
+    if req.amount > max_amount:
+        raise HTTPException(status_code=400, detail=f"Suma maximă: {max_amount} {currency.upper()}.")
+
+    origin = (req.origin_url or str(request.base_url)).rstrip("/")
+    success_url = f"{origin}/sponsorizeaza?status=success&session_id={{CHECKOUT_SESSION_ID}}"
+    cancel_url = f"{origin}/sponsorizeaza?status=cancelled"
+
+    sc = _stripe_client(request)
+    co_req = CheckoutSessionRequest(
+        amount=float(req.amount),
+        currency=currency,
+        success_url=success_url,
+        cancel_url=cancel_url,
+        metadata={
+            "type": "donation",
+            "donor_name": (req.donor_name or "Anonim")[:60],
+            "donor_email": (req.donor_email or "")[:80],
+            "message": (req.message or "")[:200],
+        },
+    )
+    session = await sc.create_checkout_session(co_req)
+
+    # Persist donation audit log
+    donation_doc = {
+        "donation_id": new_id("don_"),
+        "session_id": session.session_id,
+        "amount": float(req.amount),
+        "currency": currency,
+        "donor_name": req.donor_name or "Anonim",
+        "donor_email": req.donor_email,
+        "message": req.message,
+        "status": "initiated",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    await db.donations.insert_one(donation_doc)
+    return {"url": session.url, "session_id": session.session_id}
+
+
+@api.get("/donations/stats")
+async def donation_stats():
+    """Statistici publice donații (pentru afișare pe Landing — încredere socială)."""
+    cursor = db.donations.find({"status": {"$in": ["paid", "completed"]}})
+    total_count = 0
+    total_ron = 0.0
+    total_eur = 0.0
+    async for d in cursor:
+        total_count += 1
+        if d.get("currency") == "ron":
+            total_ron += float(d.get("amount", 0))
+        elif d.get("currency") == "eur":
+            total_eur += float(d.get("amount", 0))
+    return {
+        "total_donations": total_count,
+        "total_ron": round(total_ron, 2),
+        "total_eur": round(total_eur, 2),
+    }
+
+
 @api.post("/payments/checkout")
 async def create_checkout(req: CheckoutRequest, request: Request, user: User = Depends(get_current_user)):
     plan = PLANS.get(req.plan_id)

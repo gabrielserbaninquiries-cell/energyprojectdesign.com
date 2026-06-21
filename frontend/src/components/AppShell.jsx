@@ -195,10 +195,22 @@ export default function AppShell({ children, title, subtitle }) {
             <button onClick={() => setBannerDismissed(true)} className="opacity-70 hover:opacity-100" data-testid="banner-dismiss"><X className="w-4 h-4" /></button>
           </div>
         )}
-        <header className="sticky top-0 z-40 bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between gap-4">
-          <div className="min-w-0">
-            <h1 className="text-xl font-semibold tracking-tight" data-testid="page-title">{title}</h1>
-            {subtitle && <div className="text-xs text-gray-500 mt-0.5 truncate">{subtitle}</div>}
+        <header className="sticky top-0 z-40 bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between gap-4">
+          <div className="min-w-0 flex items-center gap-3">
+            {/* V9.4 — Home button vizibil sus, cerință user mesaj 27 */}
+            <Link
+              to="/"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-violet-700 bg-violet-50 hover:bg-violet-100 border border-violet-200 rounded-lg transition-colors shrink-0"
+              data-testid="header-home-button"
+              title="Înapoi la pagina de prezentare"
+            >
+              <Home className="w-3.5 h-3.5" />
+              Acasă
+            </Link>
+            <div className="min-w-0">
+              <h1 className="text-xl font-semibold tracking-tight text-slate-900" data-testid="page-title">{title}</h1>
+              {subtitle && <div className="text-xs text-slate-500 mt-0.5 truncate">{subtitle}</div>}
+            </div>
           </div>
           <div className="flex items-center gap-2 flex-1 max-w-[800px] justify-end">
             <CommandBar variant="user" />

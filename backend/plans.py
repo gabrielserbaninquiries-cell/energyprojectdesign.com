@@ -340,6 +340,106 @@ PLANS: Dict[str, Dict] = {
         "internal": True,
         "inside": True,
     },
+
+    # V9.4 — Developer plan (NEW, ELITE, $999,999 = €100,000)
+    # Cerință user (mesaj 27): "Planul developer este inclus aici si costa 999.999$."
+    # Acces tehnic la configurarea/îmbunătățirea platformei DAR NU pot modifica
+    # conținutul (data clienților, semnături, plăți). Restricții stricte de comenzi.
+    "developer_elite": {
+        "id": "developer_elite", "name": "Developer Elite", "label": "Developer Elite (asignat manual)",
+        "price_eur": 100000, "price_usd": 999999, "currency": "usd", "currency_label": "$999,999 / lună",
+        "tagline": "Acces tehnic complet la configurarea platformei — fără modificarea conținutului clienților.",
+        "documents_per_month": 99999,
+        "users_allowed": 1,
+        "features": [F_PROJECT, F_TECHNICAL, F_CALC, F_DOCS, F_STAMPS, F_EMAIL, F_CERT, F_VERIFY, F_EXPORT, F_AUDIT, F_AI, F_DEV],
+        "stamps_allowed": [],
+        "recipients_allowed": [],
+        "documents_allowed": [],
+        "export_allowed": True,
+        "internal": True,  # NU apare pe /pricing — doar prin asignare manuală
+        "transferable_by_email": True,
+        "restrictions": {
+            "can_modify_user_data": False,
+            "can_modify_client_projects": False,
+            "can_modify_payments": False,
+            "can_modify_signatures": False,
+            "can_modify_platform_config": True,
+            "can_deploy": True,
+            "can_view_logs": True,
+            "can_view_metrics": True,
+        },
+        "value_props": [
+            "Acces tehnic complet (config, deploy, logs, métrici)",
+            "Read-only pe datele clienților (proiecte, semnături, plăți)",
+            "Acces la termenii confidențiali (placeholder, registry, calc engine)",
+            "1 utilizator per plan; transferabil doar prin schimbare email",
+        ],
+    },
+
+    # V9.4 — Co-founder plan (HIDDEN, TRANSFERABLE)
+    # Cerință user: "Sa existe planuri pentru co-founderi, fara sa existe listate,
+    # transmisibile, conturi cu optiune de co-founderi ce pot prelua din atributiile
+    # administratorului."
+    "cofounder": {
+        "id": "cofounder", "name": "Co-Founder", "label": "Co-Fondator (transferabil)",
+        "price_eur": 0, "currency": "eur", "currency_label": "Acces complet · transferabil",
+        "tagline": "Cont co-fondator — atribuții administrative complete, transferabil.",
+        "documents_per_month": 99999,
+        "users_allowed": 1,
+        "features": [F_PROJECT, F_TECHNICAL, F_CALC, F_DOCS, F_STAMPS, F_EMAIL, F_CERT, F_VERIFY, F_EXPORT, F_AUDIT, F_AI, F_OFFER, F_ACCOUNT],
+        "stamps_allowed": ["proiectant", "executant", "vgd", "rte", "societate"],
+        "recipients_allowed": ROLES,
+        "documents_allowed": DOC_TYPES,
+        "export_allowed": True,
+        "internal": True,  # NU apare pe /pricing — asignare manuală
+        "transferable_by_email": True,
+        "admin_takeover": True,  # Poate prelua atribuții administrator
+        "restrictions": {
+            "can_modify_pricing": True,
+            "can_modify_admin_roles": True,
+            "can_modify_legal": True,
+            "can_assign_developers": True,
+        },
+        "value_props": [
+            "Acces administrativ complet (preț, planuri, useri)",
+            "Poate prelua atribuții administrator la cerere",
+            "Acces toate metrici business + financial",
+            "Transferabil numai prin schimbare email validată",
+        ],
+    },
+
+    # V9.4 — Society Administrator (NEW — distinct from regular societate)
+    # Cerință user: "dragosserban95@gmail.com are rol de administrator societate, nu
+    # de developer. Planul administrator este transmisibil doar pe baza de schimbare
+    # email din platforma, deci de vanzare a platformei."
+    "society_admin": {
+        "id": "society_admin", "name": "Society Admin", "label": "Administrator Societate (proprietar)",
+        "price_eur": 0, "currency": "eur", "currency_label": "Proprietar platformă",
+        "tagline": "Cont administrator proprietar Energy Project Design SRL — transferabil prin email.",
+        "documents_per_month": 99999,
+        "users_allowed": 999,
+        "features": [F_PROJECT, F_TECHNICAL, F_CALC, F_DOCS, F_STAMPS, F_EMAIL, F_CERT, F_VERIFY, F_EXPORT, F_AUDIT, F_AI, F_OFFER, F_ACCOUNT],
+        "stamps_allowed": ["proiectant", "executant", "vgd", "rte", "societate"],
+        "recipients_allowed": ROLES,
+        "documents_allowed": DOC_TYPES,
+        "export_allowed": True,
+        "internal": True,  # NU apare pe /pricing
+        "transferable_by_email": True,
+        "is_owner": True,
+        "restrictions": {
+            "can_modify_everything": True,
+            "can_view_all_users": True,
+            "can_assign_cofounders": True,
+            "can_assign_developers": True,
+            "can_sell_platform": True,
+        },
+        "value_props": [
+            "Acces total — proprietar platformă",
+            "Atribuie roluri co-fondator + developer",
+            "Vede toate datele financiare + business",
+            "Transferabil DOAR prin schimbare email (= vânzare platformă)",
+        ],
+    },
 }
 
 DEFAULT_PLAN = "basic"

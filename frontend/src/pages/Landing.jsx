@@ -99,6 +99,7 @@ export default function Landing() {
             <a href="#main-product" className="text-slate-600 hover:text-violet-700 transition-colors">Gaze Naturale</a>
             <a href="#services" className="text-slate-600 hover:text-violet-700 transition-colors">Servicii</a>
             <a href="#roadmap" className="text-slate-600 hover:text-violet-700 transition-colors">Viziune globală</a>
+            <Link to="/sponsorizeaza" className="text-fuchsia-600 hover:text-fuchsia-800 transition-colors font-semibold" data-testid="nav-sponsor">♥ Sponsorizează</Link>
             <Link to="/pricing" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-pricing">Tarife</Link>
           </nav>
           <div className="flex items-center gap-2">
@@ -339,6 +340,66 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* V9.5 — SPONSORIZEAZĂ CAUZA EPD (NEW) */}
+      <section className="py-20 bg-gradient-to-br from-violet-50 via-fuchsia-50/40 to-indigo-50 border-y border-violet-100" id="sponsorizeaza">
+        <div className="max-w-5xl mx-auto px-6 lg:px-12 grid md:grid-cols-5 gap-10 items-center">
+          <div className="md:col-span-3">
+            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-fuchsia-500" />
+              Sponsorizează cauza EPD
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter leading-[1.05] mb-4 text-slate-900">
+              Susține construcția unei platforme<br/>
+              <span className="epd-gradient-text">care schimbă o industrie întreagă.</span>
+            </h2>
+            <p className="text-slate-600 leading-relaxed mb-6 max-w-xl">
+              Energy Project Design este o inițiativă privată independentă care reduce birocrația
+              proiectării tehnice. Fiecare contribuție — în lei sau euro — susține direct dezvoltarea
+              platformei, certificările legale și democratizarea accesului la documentație tehnică
+              certificată pentru toată industria gazelor naturale din România.
+            </p>
+            <Link
+              to="/sponsorizeaza"
+              className="epd-btn inline-flex items-center gap-2"
+              data-testid="landing-sponsor-cta"
+            >
+              <span className="text-base">♥</span>
+              Sponsorizează acum
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          <div className="md:col-span-2">
+            <div className="bg-white rounded-xl border border-violet-200 p-6 epd-shadow">
+              <div className="text-[10px] uppercase tracking-[0.2em] text-violet-600 font-bold mb-3">// Donație flexibilă RON / EUR</div>
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                {['25 RON', '50 RON', '100 RON', '5 EUR', '25 EUR', '100 EUR'].map((p, idx) => (
+                  <Link
+                    key={p}
+                    to="/sponsorizeaza"
+                    className="text-center py-2 border border-slate-200 hover:border-violet-400 hover:bg-violet-50 rounded-lg text-sm font-semibold text-slate-700 hover:text-violet-700 transition-all"
+                    data-testid={`landing-sponsor-quick-${idx}`}
+                  >
+                    {p}
+                  </Link>
+                ))}
+              </div>
+              <Link
+                to="/sponsorizeaza"
+                className="block text-center text-xs uppercase tracking-wider font-semibold text-violet-700 hover:text-violet-900 py-2"
+                data-testid="landing-sponsor-custom"
+              >
+                sau sumă personalizată →
+              </Link>
+              <div className="mt-4 pt-4 border-t border-slate-100 text-[10px] text-slate-500 uppercase tracking-wider font-semibold space-y-1">
+                <div>✓ Plată securizată Stripe</div>
+                <div>✓ Chitanță automată email</div>
+                <div>✓ 100% reinvestit în platformă</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA final */}
       <section className="py-24 bg-slate-900 text-white relative overflow-hidden"
         style={{
@@ -377,6 +438,7 @@ export default function Landing() {
                 <li><Link to="/industrii" className="text-slate-600 hover:text-violet-700">Industrii</Link></li>
                 <li><Link to="/marketplace" className="text-slate-600 hover:text-violet-700">Marketplace</Link></li>
                 <li><Link to="/pricing" className="text-slate-600 hover:text-violet-700">Planuri</Link></li>
+                <li><Link to="/sponsorizeaza" className="text-fuchsia-600 hover:text-fuchsia-800 font-semibold" data-testid="footer-sponsor">♥ Sponsorizează</Link></li>
               </ul>
             </div>
             <div>
