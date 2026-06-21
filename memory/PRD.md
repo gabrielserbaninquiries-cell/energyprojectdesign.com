@@ -1,4 +1,4 @@
-# Energy Project Design — PRD (V9.0, 2026-06-21)
+# Energy Project Design — PRD (V10.3, 2026-06-21)
 
 ## Original problem statement
 Consolidate 5 repos into a single platform that generates legal Romanian construction
@@ -10,6 +10,21 @@ Owner: Dragoș Șerban (dragosserban95@gmail.com)
 Company: Energy Project Design S.R.L. (CUI 43151074, J40/12982/2020)
 Mission: "Reducem o firmă de proiectare-execuție de 20 angajați la 1-2 oameni"
 Long-term: "#1 mondial pentru documentație tehnică digitală + 22 servicii globale"
+
+
+## Status V10.3 — STUDIO GAZE REDESIGN + END-TO-END FUNCTIONAL (2026-06-21)
+- ✅ Studio Gaze rescris vizual în paletă strict violet/indigo/blue (zero verde/amber/negru)
+- ✅ 3 coloane Consumatori (mențin/dezafectează/noi) cu color-coding + total Qmin live
+- ✅ 5 panouri sidebar premium uniforme cu gradient ribbons + epd-shadow
+- ✅ Transfer proiect între utilizatori (POST /transfer + audit_log + shared_access + email notificare)
+- ✅ Send-to-avizare PATCH status='awaiting_avizare' (status whitelist extins)
+- ✅ Upload-avizat PATCH status='avizat' (real upload + PATCH chained)
+- ✅ Email dispatch wired la /phase/{id}/dispatch (NU mai e toast.success() fals)
+- ✅ Logo sidebar → `/` (Landing publică) + HomeRedirect simplificat
+- ✅ Audit log endpoint GET /audit-log pentru trasabilitate cross-department
+- 🟡 Plan restrictions detailate per rol (proiectant/executant/VGD/RTE/operator) — partial implementat prin opțiunile de transfer role; UI gating per capability rămas pentru P1
+- 🔵 Configurare SMTP Gmail backend (GMAIL_USER + GMAIL_APP_PASSWORD în .env) — pendant input user
+
 
 ## Status V9.0 — REBRANDING TOTAL + GAZE NATURALE 100% OPERAȚIONAL + DEMO REAL CAP-COADĂ
 

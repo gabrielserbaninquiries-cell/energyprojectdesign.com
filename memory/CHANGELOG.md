@@ -1,5 +1,36 @@
 # Energy Project Design — Changelog
 
+## V10.3 — 2026-06-21 (current session) — Studio Gaze REDESIGN + END-TO-END functional
+
+### 🎨 UI redesign masiv — paletă strict violet/indigo/blue (zero verde/amber/negru)
+- `GasNaturalProjectV2.jsx` (~1800 lines): toate componentele inline rescrise — `ConsumerList` (accent prop violet/indigo/blue), `AvizeList` (border-violet, ribboane uniforme), 3 coloane Consumatori cu ribboane color-coded (mențin/dezafectează/noi) + total Qmin live
+- Secțiuni „Generare documente DOCX" + „Acte uploads" rescrise cu carduri premium (gradient hover, lucide icons properly themed)
+- Right sidebar: 5 panouri premium uniforme (User info, Email dispatch, Stamps, Downloads, Acțiuni proiect) cu gradient ribbons și consistent epd-shadow
+- `GasChronologicalStepper.jsx` — bg-amber-500 → bg-violet-600 (pct badge)
+- `Preflight panel` redesignat — border-violet, gradient-from-violet header, status badges violet/indigo în loc de green/amber
+
+### ⚡ Funcționalitate end-to-end reală (toate butoanele cuplate la backend)
+- **NEW** `POST /api/gas-project/{pid}/transfer` — endpoint nou, transfer proiect între utilizatori cu shared_access + audit_log persistat în Mongo + email notificare best-effort
+- **NEW** `GET /api/gas-project/{pid}/audit-log` — returnează `{audit_log, shared_access}` pentru trasabilitate
+- **NEW** model `TransferPayload` (target_email, target_role, note)
+- `TransferProjectDialog` component (modal cu 7 roluri: proiectant/executant/vgd/rte/operator/contabilitate/ofertare)
+- `UploadAvizatButton` — real upload la `/api/upload` (category=`proiect_avizat`) + PATCH status la `avizat`
+- `sendEmailRoute` — POST `/phase/{id}/dispatch` cu phase mapping (primarie→dtac, osd→avize, isc→executie, etc.)
+- `sendToAvizare` — PATCH status='awaiting_avizare' + reload proiect
+- Status whitelist extins: `{draft, in_review, awaiting_avizare, avizat, approved, signed, archived}` (era doar 5 stări)
+
+### 🔗 Logo navigation fix
+- `AppShell.jsx` — sidebar logo `to="/dashboard"` → `to="/"` (Landing publică)
+- `App.js` — `HomeRedirect` simplificat la `<Landing />` și pentru utilizatorii logați (înainte redirecta forțat la `/acasa`)
+- Click pe logo din orice pagină internă duce la pagina de prezentare publică
+
+### 🧪 Testing (iteration_16.json)
+- Backend: 10/11 pytest PASS (1 critical bug PATCH status whitelist — FIXAT post-test)
+- Frontend: 21/21 (toate testids prezente, paletă confirmată)
+- Transfer endpoint validat E2E: ok:true, shared_access persistat, audit_log corect
+- Status `awaiting_avizare` și `avizat` testate manual via curl post-fix — ✅
+
+
 ## V8.4 — 2026-06-12 (current session, very late)
 
 ### 🎯 +7 documente legale ROMÂNE obligatorii (33 templates total)

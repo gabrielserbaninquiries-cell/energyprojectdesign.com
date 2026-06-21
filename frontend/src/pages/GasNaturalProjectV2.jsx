@@ -382,7 +382,7 @@ function CloneIndustryMenu({ pid, nav }) {
             >
               <div className="flex items-center justify-between">
                 <span className="font-semibold">{t.label}</span>
-                <span className={`text-[9px] uppercase tracking-wider px-1 ${t.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                <span className={`text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded font-semibold ${t.status === 'active' ? 'bg-violet-100 text-violet-700' : 'bg-slate-100 text-slate-500'}`}>
                   {t.status}
                 </span>
               </div>
@@ -490,24 +490,24 @@ function PreflightPanel({ pid }) {
     <div className="relative" data-testid="preflight-panel">
       <button
         onClick={() => setOpen(!open)}
-        className={`text-xs inline-flex items-center gap-1 px-3 py-1.5 ${data?.overall_ready ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-amber-500 text-white hover:bg-amber-600'}`}
+        className={`text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md font-semibold transition-colors ${data?.overall_ready ? 'bg-violet-600 text-white hover:bg-violet-700' : 'bg-indigo-500 text-white hover:bg-indigo-600'}`}
         data-testid="preflight-toggle"
       >
         {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <ShieldCheck className="w-3 h-3" />}
         Pre-flight {data ? (data.overall_ready ? '✓' : '⚠') : ''}
       </button>
       {open && (
-        <div className="absolute right-0 mt-1 w-96 bg-white border-2 border-gray-300 shadow-xl z-50 max-h-[70vh] overflow-auto">
-          <div className="px-3 py-2 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
-            <div className="text-xs font-bold">Verificare câmpuri per document</div>
-            <button onClick={run} disabled={loading} className="text-[10px] text-blue-600 hover:underline">Refresh</button>
+        <div className="absolute right-0 mt-1 w-96 bg-white border border-violet-200 shadow-2xl rounded-xl z-50 max-h-[70vh] overflow-auto">
+          <div className="px-3 py-2 border-b border-violet-100 bg-gradient-to-r from-violet-50 to-indigo-50 flex items-center justify-between rounded-t-xl">
+            <div className="text-xs font-bold text-violet-900">Verificare câmpuri per document</div>
+            <button onClick={run} disabled={loading} className="text-[10px] text-violet-700 hover:underline font-semibold">Refresh</button>
           </div>
-          {!data && <div className="p-4 text-center text-xs text-gray-500">{loading ? 'Verifică...' : 'Apasă Refresh'}</div>}
+          {!data && <div className="p-4 text-center text-xs text-slate-500">{loading ? 'Verifică...' : 'Apasă Refresh'}</div>}
           {data?.per_template && Object.entries(data.per_template).map(([tid, info]) => (
-            <div key={tid} className="px-3 py-2 border-b border-gray-100 text-[11px]">
+            <div key={tid} className="px-3 py-2 border-b border-slate-100 text-[11px]">
               <div className="flex items-center justify-between">
-                <span className="font-semibold">{tid}</span>
-                <span className={`px-1.5 py-0.5 text-[10px] ${info.ready ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                <span className="font-semibold text-slate-800">{tid}</span>
+                <span className={`px-1.5 py-0.5 text-[10px] rounded font-semibold ${info.ready ? 'bg-violet-100 text-violet-700' : 'bg-indigo-100 text-indigo-700'}`}>
                   {info.coverage_pct}% · {info.ready ? 'gata' : `${info.missing_required.length} req. lipsă`}
                 </span>
               </div>

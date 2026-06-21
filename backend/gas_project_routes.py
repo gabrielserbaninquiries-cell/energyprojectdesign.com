@@ -382,7 +382,9 @@ def make_gas_project_router(db, get_current_user):
                 raise HTTPException(400, "Faza invalidă pentru acest subdomeniu")
             updates["phase"] = payload.phase
         if payload.status is not None:
-            if payload.status not in {"draft", "in_review", "approved", "signed", "archived"}:
+            # V10.3 — extended workflow states for end-to-end gas project lifecycle:
+            # draft → in_review → awaiting_avizare → avizat → approved → signed → archived
+            if payload.status not in {"draft", "in_review", "awaiting_avizare", "avizat", "approved", "signed", "archived"}:
                 raise HTTPException(400, "Status invalid")
             updates["status"] = payload.status
         if payload.data is not None:

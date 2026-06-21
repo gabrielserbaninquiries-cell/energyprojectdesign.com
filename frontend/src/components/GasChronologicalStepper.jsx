@@ -163,7 +163,7 @@ export default function GasChronologicalStepper({ data = {} }) {
                     <Icon className="w-5 h-5" strokeWidth={2.2} />
                     {/* Bulina cu pct */}
                     {!isDone && s.pct > 0 && (
-                      <div className="absolute -top-1 -right-1 bg-amber-500 text-white text-[9px] font-bold rounded-full px-1.5 py-0.5">
+                      <div className="absolute -top-1 -right-1 bg-violet-600 text-white text-[9px] font-bold rounded-full px-1.5 py-0.5 shadow-md">
                         {s.pct}%
                       </div>
                     )}
