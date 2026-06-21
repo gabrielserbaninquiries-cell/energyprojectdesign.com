@@ -12,6 +12,57 @@ from email.message import EmailMessage
 from typing import List, Optional, Tuple
 
 
+def send_plain_email(
+    to: List[str],
+    subject: str,
+    body: str,
+    cc: Optional[List[str]] = None,
+    bcc: Optional[List[str]] = None,
+    from_name_override: Optional[str] = None,
+) -> dict:
+    """Send a plain text email without any attachments.
+
+    Used for system notifications (thank-you notes, donor message forwarding,
+    welcome emails). Falls back to platform-wide GMAIL_USER / GMAIL_APP_PASSWORD.
+    """
+    gmail_user = os.environ.get("GMAIL_USER", "").strip()
+    gmail_password = os.environ.get("GMAIL_APP_PASSWORD", "").strip()
+
+    if not gmail_user or not gmail_password:
+        return {"ok": False, "error": "Platform email nu este configurat (GMAIL_USER / GMAIL_APP_PASSWORD)."}
+
+    recipients = [t for t in (to or []) if t and t.strip()]
+    if not recipients:
+        return {"ok": False, "error": "Lista destinatari este goală."}
+
+    from_name = (from_name_override or os.environ.get("SMTP_FROM_NAME", "Energy Project Design")).strip()
+    from_header = f"{from_name} <{gmail_user}>" if from_name else gmail_user
+
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = from_header
+    msg["To"] = ", ".join(recipients)
+    cc_list = [c for c in (cc or []) if c and c.strip()]
+    if cc_list:
+        msg["Cc"] = ", ".join(cc_list)
+    bcc_list = [b for b in (bcc or []) if b and b.strip()]
+    if bcc_list:
+        # SMTP needs BCC in envelope but not in headers
+        pass
+    msg.set_content(body or "")
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=20) as server:
+            server.login(gmail_user, gmail_password)
+            all_recipients = recipients + cc_list + bcc_list
+            server.send_message(msg, to_addrs=all_recipients)
+        return {"ok": True, "to": recipients, "cc": cc_list, "bcc": bcc_list}
+    except smtplib.SMTPAuthenticationError:
+        return {"ok": False, "error": "Autentificare Gmail eșuată."}
+    except Exception as e:
+        return {"ok": False, "error": f"Eroare SMTP: {str(e)}"}
+
+
 def send_email_with_attachment(
     gmail_user: str,
     gmail_password: str,

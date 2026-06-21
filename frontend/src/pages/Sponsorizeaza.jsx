@@ -53,9 +53,11 @@ export default function Sponsorizeaza() {
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
   const [stats, setStats] = useState(null);
+  const [thankNote, setThankNote] = useState(null);
 
   useEffect(() => {
     api.get('/donations/stats').then(({ data }) => setStats(data)).catch(() => {});
+    api.get('/donations/thank-you-note').then(({ data }) => setThankNote(data)).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -109,6 +111,35 @@ export default function Sponsorizeaza() {
           </Link>
         </div>
       </header>
+
+      {/* V9.5 — Banner success cu mesajul personal (afișat doar după donație reușită) */}
+      {status === 'success' && thankNote && (
+        <section className="bg-gradient-to-br from-fuchsia-50 via-violet-50 to-indigo-50 border-b-2 border-fuchsia-200 py-12" data-testid="thank-you-banner">
+          <div className="max-w-3xl mx-auto px-6 lg:px-12">
+            <div className="flex items-center gap-2 mb-4">
+              <Heart className="w-5 h-5 text-fuchsia-500 fill-fuchsia-500" />
+              <div className="text-xs uppercase tracking-[0.25em] text-fuchsia-700 font-bold">// Mesaj personal de la EPD</div>
+            </div>
+            <div className="bg-white border border-fuchsia-200 rounded-xl p-8 epd-shadow-lg">
+              <div className="text-slate-800 leading-relaxed whitespace-pre-line text-[15px] font-light italic" data-testid="thank-you-note-text">
+                {thankNote.note}
+              </div>
+              <div className="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between gap-4 flex-wrap">
+                <div className="text-sm text-slate-600">
+                  — <span className="font-semibold text-slate-900">{thankNote.signed_by}</span>
+                </div>
+                <a
+                  href={`mailto:${thankNote.support_email}?subject=Opinia%20mea%20despre%20cauza%20EPD`}
+                  className="text-xs uppercase tracking-wider font-semibold text-fuchsia-700 hover:text-fuchsia-900 inline-flex items-center gap-1.5 transition-colors"
+                  data-testid="thank-you-feedback-link"
+                >
+                  ♥ Lasă-ne opinia ta → {thankNote.support_email}
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Hero */}
       <section
@@ -351,7 +382,7 @@ export default function Sponsorizeaza() {
               <div className="text-slate-500">Email contact:</div><div className="font-semibold text-violet-700">{BRAND.contactEmail}</div>
             </div>
           </div>
-          <p className="text-xs text-slate-500 mt-5 italic">Mențiune obligatorie: „Donație - dezvoltare platformă EPD"</p>
+          <p className="text-xs text-slate-500 mt-5 italic">Mențiune obligatorie: „Donație - dezvoltare platformă EPD&rdquo;</p>
         </div>
       </section>
 

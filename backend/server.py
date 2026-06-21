@@ -1001,6 +1001,43 @@ async def donation_checkout(req: _DonationRequest, request: Request):
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     await db.donations.insert_one(donation_doc)
+
+    # V9.5 — Forward donor message to support@ + queue thank-you email
+    # Cerință user: "Mesajele primite din donatii, te rog sa le centralizezi pe
+    # support@energyprojectdesign.com"
+    try:
+        from donation_messages import (
+            DONOR_SUPPORT_INBOX, DONATION_THANK_YOU_SUBJECT,
+            build_thank_you_email_body, build_support_forward_body,
+        )
+        from email_sender import send_plain_email
+
+        # 1. Forward donor message to support@ (only if donor wrote something)
+        if req.message and req.message.strip():
+            forward_body = build_support_forward_body(
+                req.donor_name, req.donor_email, req.amount, currency,
+                req.message, donation_doc["donation_id"],
+            )
+            send_plain_email(
+                to=[DONOR_SUPPORT_INBOX],
+                subject=f"[EPD Donații] Mesaj nou de la {req.donor_name or 'Anonim'}",
+                body=forward_body,
+            )
+
+        # 2. Send thank-you email to donor (only if donor email provided)
+        if req.donor_email and req.donor_email.strip():
+            thank_body = build_thank_you_email_body(
+                req.donor_name, req.amount, currency, req.message,
+            )
+            send_plain_email(
+                to=[req.donor_email],
+                subject=DONATION_THANK_YOU_SUBJECT,
+                body=thank_body,
+            )
+    except Exception as _email_err:
+        # Email failures should NOT break the donation flow
+        logger.warning(f"Donation email forward/thank-you failed: {_email_err}")
+
     return {"url": session.url, "session_id": session.session_id}
 
 
@@ -1021,6 +1058,18 @@ async def donation_stats():
         "total_donations": total_count,
         "total_ron": round(total_ron, 2),
         "total_eur": round(total_eur, 2),
+    }
+
+
+@api.get("/donations/thank-you-note")
+async def donation_thank_you_note():
+    """V9.5 — Mesajul personal de mulțumire în vocea founderul EPD.
+    Folosit de pagina /sponsorizeaza pentru afișare după donație reușită."""
+    from donation_messages import DONATION_THANK_YOU_NOTE, DONOR_SUPPORT_INBOX
+    return {
+        "note": DONATION_THANK_YOU_NOTE,
+        "support_email": DONOR_SUPPORT_INBOX,
+        "signed_by": "Dragoș și echipa Energy Project Design",
     }
 
 
