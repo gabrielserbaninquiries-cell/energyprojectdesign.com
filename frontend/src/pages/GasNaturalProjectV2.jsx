@@ -184,7 +184,7 @@ const DEFAULT_DATA = {
 function Field({ label, children, span = 1, testid }) {
   return (
     <div className={`col-span-${span}`} data-testid={testid}>
-      <label className="text-[10px] uppercase tracking-wider text-gray-600 block mb-1">{label}</label>
+      <label className="text-[10px] uppercase tracking-[0.18em] text-violet-700 font-semibold block mb-1.5">{label}</label>
       {children}
     </div>
   );
@@ -197,7 +197,7 @@ function Input({ value, onChange, type = 'text', placeholder, className = '', te
       value={value ?? ''}
       onChange={(e) => onChange(type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value)}
       placeholder={placeholder}
-      className={`w-full bg-green-100/60 border border-green-300 px-2 py-1 text-xs outline-none focus:border-green-600 focus:bg-white mono ${className}`}
+      className={`w-full bg-white border border-slate-300 px-3 py-2 text-sm rounded-md outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-colors ${className}`}
       data-testid={testid}
     />
   );
@@ -205,13 +205,13 @@ function Input({ value, onChange, type = 'text', placeholder, className = '', te
 
 function Toggle({ value, onChange, options = ['Da', 'Nu'], testid }) {
   return (
-    <div className="inline-flex gap-1" data-testid={testid}>
+    <div className="inline-flex bg-slate-100 rounded-md p-0.5" data-testid={testid}>
       {options.map((opt) => (
         <button
           key={opt}
           type="button"
           onClick={() => onChange(opt)}
-          className={`px-2 py-0.5 text-[10px] border ${value === opt ? 'bg-green-600 text-white border-green-700' : 'bg-white border-gray-300 hover:bg-gray-50'}`}
+          className={`px-3 py-1 text-xs font-semibold rounded transition-all ${value === opt ? 'bg-violet-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
         >
           {opt}
         </button>
@@ -225,7 +225,7 @@ function Select({ value, onChange, options, testid }) {
     <select
       value={value ?? ''}
       onChange={(e) => onChange(e.target.value)}
-      className="bg-green-100/60 border border-green-300 px-2 py-1 text-xs outline-none focus:border-green-600 focus:bg-white mono w-full"
+      className="bg-white border border-slate-300 px-3 py-2 text-sm rounded-md outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-colors w-full cursor-pointer"
       data-testid={testid}
     >
       {(options || []).map((o) => <option key={o} value={o}>{o}</option>)}
@@ -233,22 +233,17 @@ function Select({ value, onChange, options, testid }) {
   );
 }
 
-function SectionCard({ id, title, children, collapsed, onToggle, accent = 'green' }) {
-  const colorMap = {
-    green: 'border-green-400 bg-green-50/30',
-    amber: 'border-amber-400 bg-amber-50/30',
-    blue: 'border-blue-400 bg-blue-50/30',
-  };
+function SectionCard({ id, title, children, collapsed, onToggle, accent = 'violet' }) {
   return (
-    <section id={id} className={`border-2 ${colorMap[accent]} mb-4`} data-testid={`section-${id}`}>
+    <section id={id} className="bg-white border border-slate-200 hover:border-violet-200 rounded-xl mb-4 overflow-hidden transition-colors epd-shadow" data-testid={`section-${id}`}>
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-4 py-2.5 bg-white border-b-2 border-green-300 hover:bg-green-50"
+        className="w-full flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-violet-50/40 to-transparent hover:from-violet-50 border-b border-slate-200/60 transition-all group"
       >
-        <h3 className="text-sm font-bold tracking-tight">{title}</h3>
-        {collapsed ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+        <h3 className="text-sm font-bold tracking-tight text-slate-900 group-hover:text-violet-700 transition-colors">{title}</h3>
+        <ChevronDown className={`w-4 h-4 text-violet-600 transition-transform ${collapsed ? '' : 'rotate-180'}`} />
       </button>
-      {!collapsed && <div className="p-4">{children}</div>}
+      {!collapsed && <div className="p-5">{children}</div>}
     </section>
   );
 }
@@ -1055,9 +1050,10 @@ export default function GasNaturalProjectV2() {
 
   return (
     <AppShell title={`Gaze Naturale · ${proj.title || 'Proiect'}`} subtitle={`PID: ${pid} · Status: ${proj.status || '—'}${dirty ? ' · ⚠️ modificări nesalvate' : ''}`}>
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <button onClick={() => nav('/gaze-naturale')} className="text-xs inline-flex items-center gap-1 text-gray-600 hover:text-black" data-testid="back-to-projects">
-          <ArrowLeft className="w-3 h-3" /> Înapoi la registru
+      {/* Header — actions bar professional */}
+      <div className="mb-5 flex items-center justify-between gap-3 flex-wrap bg-white rounded-xl border border-slate-200 p-3 epd-shadow">
+        <button onClick={() => nav('/gaze-naturale')} className="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-violet-700 transition-colors font-semibold" data-testid="back-to-projects">
+          <ArrowLeft className="w-3.5 h-3.5" /> Înapoi la registru
         </button>
         <div className="flex items-center gap-2 flex-wrap">
           <PreflightPanel pid={pid} />
@@ -1069,12 +1065,15 @@ export default function GasNaturalProjectV2() {
           }} />
           <PreviewSectionMenu pid={pid} backendUrl={backendUrl} />
           <CloneIndustryMenu pid={pid} nav={nav} />
-          <button onClick={save} disabled={saving || !dirty} className="text-xs inline-flex items-center gap-1 bg-green-600 text-white px-3 py-1.5 hover:bg-green-700 disabled:opacity-50" data-testid="gas-v2-save">
-            {saving ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
-            Salvează preferințe
+          <button onClick={downloadDossier} className="text-xs inline-flex items-center gap-1.5 bg-violet-600 text-white px-3 py-2 hover:bg-violet-700 rounded-md font-semibold transition-colors" data-testid="gas-dossier-download" title="Descarcă dosar complet ZIP cu toate documentele DOCX generate">
+            <Package className="w-3.5 h-3.5" /> Descarcă dosar ZIP
           </button>
-          <button onClick={async () => { await save(); toast.success('Proiect finalizat'); }} disabled={saving} className="text-xs inline-flex items-center gap-1 bg-black text-white px-3 py-1.5 hover:bg-gray-800 disabled:opacity-50" data-testid="gas-v2-finalize">
-            <CheckCircle2 className="w-3 h-3" /> Salvează și finalizează
+          <button onClick={save} disabled={saving || !dirty} className="text-xs inline-flex items-center gap-1.5 bg-slate-100 text-slate-800 px-3 py-2 hover:bg-slate-200 disabled:opacity-50 rounded-md font-semibold transition-colors" data-testid="gas-v2-save">
+            {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+            Salvează
+          </button>
+          <button onClick={async () => { await save(); toast.success('Proiect finalizat'); }} disabled={saving} className="text-xs inline-flex items-center gap-1.5 epd-gradient text-white px-3 py-2 hover:opacity-90 disabled:opacity-50 rounded-md font-semibold transition-all" data-testid="gas-v2-finalize">
+            <CheckCircle2 className="w-3.5 h-3.5" /> Finalizează
           </button>
         </div>
       </div>
@@ -1082,19 +1081,19 @@ export default function GasNaturalProjectV2() {
       {/* V9.1 — STEPPER CRONOLOGIC (înlocuiește pipeline-ul de pachete ad-hoc) */}
       <GasChronologicalStepper data={data} />
 
-      {/* Tabs Date / Avize / Registru */}
-      <div className="flex gap-1 mb-4 border-b-2 border-green-400" data-testid="gas-v2-tabs">
-        <button onClick={() => setActiveTab('date')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'date' ? 'bg-green-400 border-green-500 text-white' : 'bg-white border-green-300 text-gray-700 hover:bg-green-50'}`} data-testid="tab-date">
-          DATE OPERAȚIONALE
+      {/* Tabs — EPD professional styling */}
+      <div className="flex gap-1 mb-5 border-b border-slate-200" data-testid="gas-v2-tabs">
+        <button onClick={() => setActiveTab('date')} className={`px-5 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-all ${activeTab === 'date' ? 'border-violet-600 text-violet-700 bg-violet-50/50' : 'border-transparent text-slate-600 hover:text-violet-700 hover:bg-slate-50'}`} data-testid="tab-date">
+          Date operaționale
         </button>
-        <button onClick={() => setActiveTab('avize')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'avize' ? 'bg-green-400 border-green-500 text-white' : 'bg-white border-green-300 text-gray-700 hover:bg-green-50'}`} data-testid="tab-avize">
-          AVIZE HUB
+        <button onClick={() => setActiveTab('avize')} className={`px-5 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-all ${activeTab === 'avize' ? 'border-violet-600 text-violet-700 bg-violet-50/50' : 'border-transparent text-slate-600 hover:text-violet-700 hover:bg-slate-50'}`} data-testid="tab-avize">
+          Avize Hub
         </button>
-        <button onClick={() => setActiveTab('registru')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'registru' ? 'bg-green-400 border-green-500 text-white' : 'bg-white border-green-300 text-gray-700 hover:bg-green-50'}`} data-testid="tab-registru">
-          REGISTRU CÂMPURI {regFieldsCount ? `(${regFieldsCount})` : ''}
+        <button onClick={() => setActiveTab('registru')} className={`px-5 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-all ${activeTab === 'registru' ? 'border-violet-600 text-violet-700 bg-violet-50/50' : 'border-transparent text-slate-600 hover:text-violet-700 hover:bg-slate-50'}`} data-testid="tab-registru">
+          Registru câmpuri {regFieldsCount ? <span className="ml-1 px-1.5 py-0.5 text-[10px] bg-violet-100 text-violet-700 rounded font-bold">{regFieldsCount}</span> : null}
         </button>
-        <button onClick={() => setActiveTab('engineering')} className={`px-4 py-2 text-sm font-semibold border-2 border-b-0 ${activeTab === 'engineering' ? 'bg-blue-400 border-blue-500 text-white' : 'bg-white border-blue-300 text-gray-700 hover:bg-blue-50'}`} data-testid="tab-engineering">
-          INGINERIE (RENOUARD + SIZING)
+        <button onClick={() => setActiveTab('engineering')} className={`px-5 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-all ${activeTab === 'engineering' ? 'border-violet-600 text-violet-700 bg-violet-50/50' : 'border-transparent text-slate-600 hover:text-violet-700 hover:bg-slate-50'}`} data-testid="tab-engineering">
+          Inginerie · Renouard + Sizing
         </button>
       </div>
 
@@ -1114,11 +1113,15 @@ export default function GasNaturalProjectV2() {
       )}
 
       {activeTab === 'avize' && (
-        <div className="bg-white border-2 border-green-400 p-6">
-          <h2 className="text-lg font-bold mb-3">Avize Hub</h2>
-          <p className="text-sm text-gray-600 mb-4">Vezi statusul avizelor, generează ZIP per fiecare aviz, marchează primite/respinse.</p>
-          <button onClick={() => nav(`/gaze-naturale-v1/${pid}`)} className="text-xs inline-flex items-center gap-1 bg-blue-600 text-white px-3 py-1.5 hover:bg-blue-700">
-            <ExternalLink className="w-3 h-3" /> Deschide Avize Hub (vizualizare V1)
+        <div className="bg-white border border-slate-200 rounded-xl p-8 epd-shadow">
+          <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">// Avize Hub · 13 instituții</div>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 mb-3">Status avize + dispatch automat</h2>
+          <p className="text-slate-600 mb-6 max-w-2xl">
+            Vizualizează statusul fiecărui aviz, generează ZIP cu cerere + manifest anexe per instituție,
+            trimite automat prin email și marchează ca primit / respins / expirat.
+          </p>
+          <button onClick={() => nav(`/gaze-naturale-v1/${pid}`)} className="epd-btn text-sm" data-testid="open-avize-hub-v1">
+            <ExternalLink className="w-4 h-4" /> Deschide Avize Hub complet
           </button>
         </div>
       )}
