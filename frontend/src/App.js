@@ -88,9 +88,9 @@ function ProtectedRoute({ children }) {
 }
 
 function HomeRedirect() {
-  const { user, loading } = useAuth();
-  if (loading) return <div className="h-screen flex items-center justify-center text-sm text-gray-500">Se încarcă…</div>;
-  if (user) return <Navigate to="/acasa" replace />;
+  // V10.3 — Logged-in users can ALSO see Landing (per user request: "click pe logo
+  // sa duca la pagina de prezentare"). Post-login redirect is handled separately
+  // by Login.jsx → navigate('/dashboard'), not here.
   return <Landing />;
 }
 

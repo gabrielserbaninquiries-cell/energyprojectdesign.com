@@ -701,29 +701,40 @@ function OcrImportButton({ pid, onExtracted }) {
   );
 }
 
-function ConsumerList({ items, onChange, columnId }) {
+function ConsumerList({ items, onChange, columnId, accent = 'violet' }) {
   const add = () => onChange([...items, { tip: CONSUMER_TYPES[0], nr_aparate: 1, debit_nmc_h: 0.5 }]);
   const upd = (idx, key, val) => onChange(items.map((it, i) => i === idx ? { ...it, [key]: val } : it));
   const rm = (idx) => onChange(items.filter((_, i) => i !== idx));
+  // Color palette: violet/indigo/blue only (no green)
+  const palette = {
+    violet: { ring: 'focus:ring-violet-200', border: 'border-violet-200', focus: 'focus:border-violet-500', btn: 'text-violet-700 hover:bg-violet-50' },
+    indigo: { ring: 'focus:ring-indigo-200', border: 'border-indigo-200', focus: 'focus:border-indigo-500', btn: 'text-indigo-700 hover:bg-indigo-50' },
+    blue:   { ring: 'focus:ring-blue-200',   border: 'border-blue-200',   focus: 'focus:border-blue-500',   btn: 'text-blue-700 hover:bg-blue-50' },
+  }[accent] || { ring: 'focus:ring-violet-200', border: 'border-violet-200', focus: 'focus:border-violet-500', btn: 'text-violet-700 hover:bg-violet-50' };
+
   return (
     <div data-testid={`consumers-${columnId}`}>
-      {items.length === 0 && <div className="text-[10px] text-gray-500 italic mb-2">Niciun consumator</div>}
+      {items.length === 0 && (
+        <div className="text-[11px] text-slate-400 italic mb-2 py-3 px-2 border border-dashed border-slate-200 rounded text-center">
+          Niciun consumator încă
+        </div>
+      )}
       {items.map((c, i) => (
-        <div key={i} className="grid grid-cols-12 gap-1 mb-1.5 items-center text-xs">
+        <div key={i} className="grid grid-cols-12 gap-1.5 mb-1.5 items-center text-xs">
           <select value={c.tip} onChange={(e) => upd(i, 'tip', e.target.value)}
-            className="col-span-6 bg-green-100/60 border border-green-300 px-1.5 py-1 text-[11px] mono">
+            className={`col-span-6 bg-white border ${palette.border} ${palette.focus} ${palette.ring} focus:ring-2 px-2 py-1.5 text-[11px] rounded outline-none transition-colors`}>
             {CONSUMER_TYPES.map((t) => <option key={t}>{t}</option>)}
           </select>
           <input type="number" value={c.nr_aparate} onChange={(e) => upd(i, 'nr_aparate', parseInt(e.target.value) || 0)}
-            className="col-span-2 bg-green-100/60 border border-green-300 px-1.5 py-1 text-[11px] mono" />
+            className={`col-span-2 bg-white border ${palette.border} ${palette.focus} ${palette.ring} focus:ring-2 px-2 py-1.5 text-[11px] rounded outline-none font-mono tabular-nums transition-colors`} />
           <input type="number" step="0.01" value={c.debit_nmc_h} onChange={(e) => upd(i, 'debit_nmc_h', parseFloat(e.target.value) || 0)}
-            className="col-span-3 bg-green-100/60 border border-green-300 px-1.5 py-1 text-[11px] mono" />
-          <button onClick={() => rm(i)} className="col-span-1 text-red-600 hover:bg-red-50 p-1" data-testid={`consumer-${columnId}-rm-${i}`}>
+            className={`col-span-3 bg-white border ${palette.border} ${palette.focus} ${palette.ring} focus:ring-2 px-2 py-1.5 text-[11px] rounded outline-none font-mono tabular-nums transition-colors`} />
+          <button onClick={() => rm(i)} className="col-span-1 text-rose-500 hover:bg-rose-50 p-1 rounded transition-colors" data-testid={`consumer-${columnId}-rm-${i}`}>
             <Trash2 className="w-3 h-3" />
           </button>
         </div>
       ))}
-      <button onClick={add} className="text-[10px] inline-flex items-center gap-1 text-green-700 hover:underline mt-1" data-testid={`consumer-${columnId}-add`}>
+      <button onClick={add} className={`text-[11px] inline-flex items-center gap-1 ${palette.btn} mt-2 px-2 py-1 rounded font-semibold transition-colors`} data-testid={`consumer-${columnId}-add`}>
         <Plus className="w-3 h-3" /> Adaugă consumator
       </button>
     </div>
@@ -736,22 +747,22 @@ function AvizeList({ items, onChange, prefix = 'aviz' }) {
   return (
     <div className="space-y-1.5" data-testid="avize-obtinute-list">
       {items.map((a, i) => (
-        <div key={a.id || i} className="grid grid-cols-12 gap-1 items-center text-xs">
-          <div className="col-span-3 text-[11px] font-semibold">{a.label}</div>
+        <div key={a.id || i} className="grid grid-cols-12 gap-1.5 items-center text-xs bg-white border border-slate-200 hover:border-violet-300 transition-colors rounded-md p-1.5">
+          <div className="col-span-3 text-[11px] font-semibold text-slate-800 pl-1">{a.label}</div>
           <input value={a.serie_nr_data} onChange={(e) => updItem(i, 'serie_nr_data', e.target.value)}
             placeholder="Serie / Nr / Data" data-testid={`${prefix}-${a.id || i}-serie`}
-            className="col-span-5 bg-green-100/60 border border-green-300 px-1.5 py-1 text-[11px] mono" />
-          <button title="Încarcă aviz" className="col-span-1 text-green-700 hover:bg-green-100 p-1.5 border border-green-300 bg-white" data-testid={`${prefix}-${a.id || i}-upload-aviz`}>
+            className="col-span-5 bg-slate-50 border border-slate-200 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 px-2 py-1.5 text-[11px] rounded outline-none font-mono tabular-nums transition-colors" />
+          <button title="Încarcă aviz" className="col-span-1 text-violet-700 hover:bg-violet-50 p-1.5 border border-violet-200 bg-white rounded transition-colors flex items-center justify-center" data-testid={`${prefix}-${a.id || i}-upload-aviz`}>
             <Upload className="w-3 h-3" />
           </button>
-          <button title="Plată" className="col-span-1 text-green-700 hover:bg-green-100 p-1.5 border border-green-300 bg-white" data-testid={`${prefix}-${a.id || i}-upload-plata`}>
+          <button title="Dovadă plată" className="col-span-1 text-indigo-700 hover:bg-indigo-50 p-1.5 border border-indigo-200 bg-white rounded transition-colors flex items-center justify-center" data-testid={`${prefix}-${a.id || i}-upload-plata`}>
             <Upload className="w-3 h-3" />
           </button>
-          <button title="Documentație" className="col-span-1 text-green-700 hover:bg-green-100 p-1.5 border border-green-300 bg-white" data-testid={`${prefix}-${a.id || i}-upload-doc`}>
+          <button title="Documentație aviz" className="col-span-1 text-blue-700 hover:bg-blue-50 p-1.5 border border-blue-200 bg-white rounded transition-colors flex items-center justify-center" data-testid={`${prefix}-${a.id || i}-upload-doc`}>
             <Upload className="w-3 h-3" />
           </button>
           {!a.id?.startsWith?.('default-') && a.id !== 'ac' && (
-            <button onClick={() => rm(i)} className="col-span-1 text-red-600 hover:bg-red-50 p-1.5">
+            <button onClick={() => rm(i)} className="col-span-1 text-rose-500 hover:bg-rose-50 p-1.5 rounded transition-colors flex items-center justify-center">
               <Trash2 className="w-3 h-3" />
             </button>
           )}
@@ -850,6 +861,146 @@ function GasProjectPicker({ nav }) {
   );
 }
 
+// ====================================================================
+// UPLOAD AVIZAT BUTTON — încarcă proiectul avizat (PDF) și marchează ca primit
+// ====================================================================
+function UploadAvizatButton({ pid, onUploaded }) {
+  const [busy, setBusy] = useState(false);
+  const onPick = async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setBusy(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', f);
+      fd.append('category', 'proiect_avizat');
+      fd.append('pid', pid);
+      fd.append('label', 'Proiect avizat OSD');
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/upload`, {
+        method: 'POST', credentials: 'include', body: fd,
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      // Update project status to "avizat"
+      try {
+        await api.patch(`/gas-project/${pid}`, { status: 'avizat' });
+      } catch { /* status update best-effort */ }
+      toast.success('Proiect avizat încărcat cu succes');
+      onUploaded?.();
+    } catch (err) {
+      toast.error(`Eroare upload: ${err.message}`);
+    } finally {
+      setBusy(false); e.target.value = '';
+    }
+  };
+  return (
+    <label className="w-full text-xs inline-flex items-center justify-center gap-2 bg-white text-slate-800 border border-slate-300 hover:border-violet-400 hover:bg-violet-50 px-3 py-2.5 cursor-pointer rounded-md font-semibold transition-colors" data-testid="upload-avizat">
+      {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Upload className="w-3.5 h-3.5" />}
+      <span>Încarcă proiect avizat</span>
+      <input type="file" className="hidden" onChange={onPick} accept=".pdf,.docx,.doc,.zip" />
+    </label>
+  );
+}
+
+// ====================================================================
+// TRANSFER PROJECT DIALOG — transferă proiectul către alt utilizator (email)
+// ====================================================================
+function TransferProjectDialog({ pid, onClose, onTransferred }) {
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('proiectant');
+  const [note, setNote] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  const submit = async () => {
+    if (!email.trim()) return toast.error('Introduce email-ul destinatarului');
+    setBusy(true);
+    try {
+      const { data: res } = await api.post(`/gas-project/${pid}/transfer`, {
+        target_email: email.trim(),
+        target_role: role,
+        note: note.trim() || null,
+      });
+      toast.success(res.message || `Transfer inițiat către ${email}`);
+      onTransferred?.();
+    } catch (e) {
+      toast.error(`Eroare transfer: ${e?.response?.data?.detail || e.message}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" data-testid="transfer-dialog">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+        <div className="bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-4 flex items-center justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.22em] text-white/80 font-bold">// Transfer proiect</div>
+            <div className="text-lg font-bold text-white">Trimite proiectul către alt utilizator</div>
+          </div>
+          <button onClick={onClose} className="text-white/80 hover:text-white p-1 rounded transition-colors" data-testid="transfer-close">✕</button>
+        </div>
+        <div className="p-5 space-y-4">
+          <div>
+            <label className="text-[10px] uppercase tracking-[0.18em] text-violet-700 font-bold block mb-1.5">Email destinatar</label>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="proiectant@example.ro"
+              type="email"
+              className="w-full bg-white border border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 px-3 py-2 text-sm rounded-md outline-none transition-colors"
+              data-testid="transfer-email"
+            />
+          </div>
+          <div>
+            <label className="text-[10px] uppercase tracking-[0.18em] text-violet-700 font-bold block mb-1.5">Rol asignat</label>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full bg-white border border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 px-3 py-2 text-sm rounded-md outline-none transition-colors"
+              data-testid="transfer-role"
+            >
+              <option value="proiectant">Proiectant (preia DTAC)</option>
+              <option value="executant">Executant (preia PTH + carte tehnică)</option>
+              <option value="vgd">VGD — verificator (validează DTAC/PTH)</option>
+              <option value="rte">RTE — responsabil execuție (validează cartea)</option>
+              <option value="operator">Operator (introduce date)</option>
+              <option value="contabilitate">Contabilitate (facturare)</option>
+              <option value="ofertare">Ofertare</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-[10px] uppercase tracking-[0.18em] text-violet-700 font-bold block mb-1.5">Notă (opțional)</label>
+            <textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="ex: Te rog să finalizezi memoriul tehnic până vineri."
+              rows={3}
+              className="w-full bg-white border border-slate-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 px-3 py-2 text-sm rounded-md outline-none transition-colors resize-none"
+              data-testid="transfer-note"
+            />
+          </div>
+          <div className="text-[11px] text-slate-600 bg-violet-50 border border-violet-200 rounded-lg p-3 leading-relaxed">
+            <strong className="text-violet-900">Cum funcționează:</strong> Beneficiarul, numărul cadastral, tipul lucrării, adresa și societatea se moștenesc automat. Destinatarul primește notificare prin email + acces la proiect cu rolul ales. Audit-log persistent.
+          </div>
+        </div>
+        <div className="border-t border-slate-200 px-5 py-3 flex items-center justify-end gap-2 bg-slate-50">
+          <button onClick={onClose} className="text-xs px-4 py-2 text-slate-600 hover:text-slate-800 font-semibold transition-colors" data-testid="transfer-cancel">
+            Anulează
+          </button>
+          <button
+            onClick={submit}
+            disabled={busy || !email.trim()}
+            className="text-xs inline-flex items-center gap-1.5 epd-gradient text-white px-4 py-2 hover:opacity-90 disabled:opacity-50 rounded-md font-semibold transition-all"
+            data-testid="transfer-submit"
+          >
+            {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+            Transferă proiect
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function GasNaturalProjectV2() {
   const { pid } = useParams();
   const nav = useNavigate();
@@ -861,6 +1012,10 @@ export default function GasNaturalProjectV2() {
   const [dirty, setDirty] = useState(false);
   // Dynamic registry field count (V8.5+ avoids hardcoded label)
   const [regFieldsCount, setRegFieldsCount] = useState(null);
+  // V10.3 — End-to-end functional state
+  const [sendingAvizare, setSendingAvizare] = useState(false);
+  const [showTransfer, setShowTransfer] = useState(false);
+  const [dispatchingRoute, setDispatchingRoute] = useState(null);
 
   useEffect(() => {
     api.get('/placeholders/registry')
@@ -1015,6 +1170,65 @@ export default function GasNaturalProjectV2() {
       toast.success('Dosar complet descărcat');
     } catch (e) {
       toast.error(`Eroare: ${e.message}`);
+    }
+  };
+
+  // V10.3 — Send email dispatch with REAL backend call (per route id)
+  // Route id maps to backend phase id semantically. We persist email in proj.data.emails
+  // and trigger a save-and-dispatch combined action.
+  const sendEmailRoute = async (routeId, label) => {
+    const recipient = data.emails?.[routeId];
+    if (!recipient || !recipient.includes('@')) {
+      toast.error(`Setează un email valid pentru: ${label}`);
+      return;
+    }
+    setDispatchingRoute(routeId);
+    try {
+      // Save first so backend has latest data
+      if (dirty) await save();
+      // Map route id → backend phase id (using same id where possible)
+      const phaseMap = {
+        primarie: 'dtac',
+        diriginte_carte: 'carte-tehnica',
+        contabilitate: 'facturare',
+        osd: 'avize',
+        isc: 'execucucie',
+        diriginte_disp: 'pth',
+        politie: 'avize',
+        proiectant_dtac: 'dtac',
+        proiectant_pth: 'pth',
+        utilitati_cereri: 'avize',
+      };
+      const phaseId = phaseMap[routeId] || 'tema';
+      const { data: res } = await api.post(`/gas-project/${pid}/phase/${phaseId}/dispatch`, {
+        recipients: [recipient],
+        message: `Documentație ${label} — proiect ${proj?.title || pid}. Trimis automat din platforma Energy Project Design.`,
+        include_pdf: true,
+      });
+      if (res?.ok) {
+        toast.success(`Email trimis: ${label} → ${recipient}`);
+      } else {
+        toast.warning(`Email salvat în coadă: ${res?.error || 'configurare SMTP necesară'}`);
+      }
+    } catch (e) {
+      toast.error(`Eroare trimitere: ${e?.response?.data?.detail || e.message}`);
+    } finally {
+      setDispatchingRoute(null);
+    }
+  };
+
+  // V10.3 — Send project to VGD/OSD verification (changes status)
+  const sendToAvizare = async () => {
+    setSendingAvizare(true);
+    try {
+      if (dirty) await save();
+      await api.patch(`/gas-project/${pid}`, { status: 'awaiting_avizare' });
+      toast.success('Proiect trimis spre avizare · status: awaiting_avizare');
+      await load();
+    } catch (e) {
+      toast.error(`Eroare: ${e?.response?.data?.detail || e.message}`);
+    } finally {
+      setSendingAvizare(false);
     }
   };
 
@@ -1253,30 +1467,49 @@ export default function GasNaturalProjectV2() {
             </div>
           </SectionCard>
 
-          {/* SECTION 5 — Consumatori (3 columns) */}
-          <SectionCard id="consumatori" title="Consumatori (3 categorii)" collapsed={collapsed['consumatori']} onToggle={() => toggleSection('consumatori')}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="border border-green-300 p-3 bg-white">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-green-700 mb-2">Existenți (se mențin)</div>
-                <div className="grid grid-cols-12 gap-1 mb-2 text-[9px] uppercase text-gray-500">
-                  <div className="col-span-6">Tip</div><div className="col-span-2">Nr.</div><div className="col-span-3">Debit Nmc/h</div><div className="col-span-1"></div>
+          {/* SECTION 5 — Consumatori (3 columns) — premium violet/indigo/blue */}
+          <SectionCard id="consumatori" title="Consumatori — bilanț debit (Nmc/h)" collapsed={collapsed['consumatori']} onToggle={() => toggleSection('consumatori')}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {/* MENTINUTI — violet (existenți păstrați) */}
+              <div className="bg-gradient-to-br from-violet-50/60 to-white border border-violet-200 rounded-lg p-3" data-testid="consumer-col-mentinuti">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-1.5 h-6 bg-violet-500 rounded-full"></div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-violet-700">Mențin (existenți)</div>
                 </div>
-                <ConsumerList items={data.consumatori_mentinuti} onChange={upd('consumatori_mentinuti')} columnId="mentinuti" />
-              </div>
-              <div className="border border-amber-300 p-3 bg-white">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-2">Existenți (se dezafectează)</div>
-                <div className="grid grid-cols-12 gap-1 mb-2 text-[9px] uppercase text-gray-500">
-                  <div className="col-span-6">Tip</div><div className="col-span-2">Nr.</div><div className="col-span-3">Debit Nmc/h</div><div className="col-span-1"></div>
+                <div className="grid grid-cols-12 gap-1 mb-2 text-[9px] uppercase tracking-wider text-slate-500 font-semibold px-1">
+                  <div className="col-span-6">Tip aparat</div><div className="col-span-2 text-center">Nr.</div><div className="col-span-3 text-center">Debit</div><div className="col-span-1"></div>
                 </div>
-                <ConsumerList items={data.consumatori_dezafectati} onChange={upd('consumatori_dezafectati')} columnId="dezafectati" />
+                <ConsumerList items={data.consumatori_mentinuti} onChange={upd('consumatori_mentinuti')} columnId="mentinuti" accent="violet" />
               </div>
-              <div className="border border-blue-300 p-3 bg-white">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-blue-700 mb-2">Noi</div>
-                <div className="grid grid-cols-12 gap-1 mb-2 text-[9px] uppercase text-gray-500">
-                  <div className="col-span-6">Tip</div><div className="col-span-2">Nr.</div><div className="col-span-3">Debit Nmc/h</div><div className="col-span-1"></div>
+
+              {/* DEZAFECTATI — indigo (existenți care se elimină) */}
+              <div className="bg-gradient-to-br from-indigo-50/60 to-white border border-indigo-200 rounded-lg p-3" data-testid="consumer-col-dezafectati">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-1.5 h-6 bg-indigo-500 rounded-full"></div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-indigo-700">Se dezafectează</div>
                 </div>
-                <ConsumerList items={data.consumatori_noi} onChange={upd('consumatori_noi')} columnId="noi" />
+                <div className="grid grid-cols-12 gap-1 mb-2 text-[9px] uppercase tracking-wider text-slate-500 font-semibold px-1">
+                  <div className="col-span-6">Tip aparat</div><div className="col-span-2 text-center">Nr.</div><div className="col-span-3 text-center">Debit</div><div className="col-span-1"></div>
+                </div>
+                <ConsumerList items={data.consumatori_dezafectati} onChange={upd('consumatori_dezafectati')} columnId="dezafectati" accent="indigo" />
               </div>
+
+              {/* NOI — blue (consumatori noi adăugați) */}
+              <div className="bg-gradient-to-br from-blue-50/60 to-white border border-blue-200 rounded-lg p-3" data-testid="consumer-col-noi">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-1.5 h-6 bg-blue-500 rounded-full"></div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-blue-700">Noi (adăugați)</div>
+                </div>
+                <div className="grid grid-cols-12 gap-1 mb-2 text-[9px] uppercase tracking-wider text-slate-500 font-semibold px-1">
+                  <div className="col-span-6">Tip aparat</div><div className="col-span-2 text-center">Nr.</div><div className="col-span-3 text-center">Debit</div><div className="col-span-1"></div>
+                </div>
+                <ConsumerList items={data.consumatori_noi} onChange={upd('consumatori_noi')} columnId="noi" accent="blue" />
+              </div>
+            </div>
+            {/* Total bar */}
+            <div className="mt-4 flex items-center justify-between bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5">
+              <div className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">Total debit calculat (Qmin)</div>
+              <div className="font-mono tabular-nums text-lg font-bold epd-gradient-text" data-testid="consumer-total-qmin">{qmin_calc} Nmc/h</div>
             </div>
           </SectionCard>
 
@@ -1333,38 +1566,41 @@ export default function GasNaturalProjectV2() {
           </SectionCard>
 
           {/* SECTION 10 — Avize obtinute */}
-          <SectionCard id="avize-list" title="Avize obținute" collapsed={collapsed['avize-list']} onToggle={() => toggleSection('avize-list')} accent="amber">
-            <div className="grid grid-cols-12 gap-1 mb-2 text-[9px] uppercase text-gray-500 font-semibold">
+          <SectionCard id="avize-list" title="Avize obținute" collapsed={collapsed['avize-list']} onToggle={() => toggleSection('avize-list')}>
+            <div className="grid grid-cols-12 gap-1.5 mb-2 text-[9px] uppercase tracking-wider text-slate-500 font-semibold px-1.5">
               <div className="col-span-3">Denumire</div>
               <div className="col-span-5">Seria / Nr + Data</div>
               <div className="col-span-1 text-center">Aviz</div>
-              <div className="col-span-1 text-center">Plata</div>
+              <div className="col-span-1 text-center">Plată</div>
               <div className="col-span-1 text-center">Doc.</div>
               <div className="col-span-1"></div>
             </div>
             <AvizeList items={data.avize_obtinute} onChange={upd('avize_obtinute')} />
             <button
-              onClick={() => upd('avize_obtinute')([...data.avize_obtinute, { id: `custom_${Date.now()}`, label: 'Alt aviz', serie_nr_data: '' }])}
-              className="mt-3 text-xs inline-flex items-center gap-1 bg-amber-100 text-amber-800 border border-amber-300 px-2 py-1 hover:bg-amber-200"
+              onClick={() => upd('avize_obtinute')([...data.avize_obtinute, { id: `custom_${Date.now()}`, label: 'Aviz nou', serie_nr_data: '' }])}
+              className="mt-3 text-xs inline-flex items-center gap-1.5 bg-violet-50 text-violet-700 hover:bg-violet-100 border border-violet-200 px-3 py-1.5 rounded-md font-semibold transition-colors"
               data-testid="add-aviz-custom"
             >
-              <Plus className="w-3 h-3" /> Adaugă aviz
+              <Plus className="w-3.5 h-3.5" /> Adaugă aviz personalizat
             </button>
           </SectionCard>
 
           {/* SECTION 11 — Generare documente */}
-          <SectionCard id="generare-documente" title="Generare documente (Deviz · Situație · Listă materiale · Fișă tehnică)" collapsed={collapsed['generare-documente']} onToggle={() => toggleSection('generare-documente')} accent="blue">
+          <SectionCard id="generare-documente" title="Generare documente DOCX (Deviz · Situație · Listă materiale · Fișă tehnică)" collapsed={collapsed['generare-documente']} onToggle={() => toggleSection('generare-documente')}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {GENERATE_DOCS.map((g) => (
                 <button
                   key={g.id}
                   onClick={() => downloadDoc(g.template, `${g.id}_${pid}.docx`)}
-                  className="border-2 border-blue-300 bg-white p-3 hover:bg-blue-50 text-left"
+                  className="group relative overflow-hidden bg-white border border-slate-200 hover:border-violet-400 hover:shadow-lg rounded-lg p-4 text-left transition-all"
                   data-testid={`generate-${g.id}`}
                 >
-                  <FileText className="w-4 h-4 text-blue-600 mb-2" />
-                  <div className="text-xs font-semibold">{g.label}</div>
-                  <div className="text-[10px] text-gray-500 mt-1">Generează DOCX →</div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-violet-50/0 to-violet-50/0 group-hover:from-violet-50/40 group-hover:to-indigo-50/30 transition-all"></div>
+                  <FileText className="w-5 h-5 text-violet-600 mb-2 relative" />
+                  <div className="text-xs font-bold text-slate-900 relative">{g.label}</div>
+                  <div className="text-[10px] text-violet-600 mt-1 relative font-semibold flex items-center gap-1">
+                    Generează DOCX <Download className="w-2.5 h-2.5" />
+                  </div>
                 </button>
               ))}
             </div>
@@ -1372,68 +1608,87 @@ export default function GasNaturalProjectV2() {
 
           {/* SECTION 12 — Acte uploads (REAL upload backend) */}
           <SectionCard id="acte-uploads" title="Acte beneficiar · Acte lucrare · Planuri lucrare (upload real)" collapsed={collapsed['acte-uploads']} onToggle={() => toggleSection('acte-uploads')}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               {[
-                { id: 'acte_beneficiar', label: 'Acte beneficiar', items: ['Acte proprietate', 'CI/CUI beneficiar', 'Extras CF'] },
-                { id: 'act_lucrare',     label: 'Acte lucrare', items: ['Contract prestări servicii', 'Contract salubrizare', 'Predare amplasament', 'Aviz Poliție'] },
-                { id: 'plan_lucrare',    label: 'Planuri lucrare', items: ['Plan situație', 'Plan încadrare', 'Plan semnalizare', 'Schemă izometrică'] },
-              ].map((bucket) => (
-                <div key={bucket.id} className="border border-gray-300 bg-white p-3">
-                  <div className="text-[11px] font-bold uppercase tracking-wider mb-2">{bucket.label}</div>
-                  <div className="space-y-1">
-                    {bucket.items.map((it) => (
-                      <div key={it} className="flex items-center gap-2 text-xs">
-                        <FileText className="w-3 h-3 text-gray-500 shrink-0" />
-                        <span className="flex-1 truncate">{it}</span>
-                        <RealUploadButton
-                          pid={pid}
-                          category={bucket.id === 'acte_beneficiar' ? 'act_beneficiar' : bucket.id}
-                          bucketKey={`${bucket.id}.${it}`}
-                          label={it}
-                        />
-                      </div>
-                    ))}
+                { id: 'acte_beneficiar', label: 'Acte beneficiar', accent: 'violet', items: ['Acte proprietate', 'CI/CUI beneficiar', 'Extras CF'] },
+                { id: 'act_lucrare',     label: 'Acte lucrare',    accent: 'indigo', items: ['Contract prestări servicii', 'Contract salubrizare', 'Predare amplasament', 'Aviz Poliție'] },
+                { id: 'plan_lucrare',    label: 'Planuri lucrare', accent: 'blue',   items: ['Plan situație', 'Plan încadrare', 'Plan semnalizare', 'Schemă izometrică'] },
+              ].map((bucket) => {
+                const acc = { violet: 'border-violet-200 hover:border-violet-400', indigo: 'border-indigo-200 hover:border-indigo-400', blue: 'border-blue-200 hover:border-blue-400' }[bucket.accent];
+                const accText = { violet: 'text-violet-700', indigo: 'text-indigo-700', blue: 'text-blue-700' }[bucket.accent];
+                return (
+                  <div key={bucket.id} className={`bg-white border ${acc} rounded-lg p-3 transition-colors`}>
+                    <div className={`text-[11px] font-bold uppercase tracking-wider mb-2.5 ${accText}`}>{bucket.label}</div>
+                    <div className="space-y-1.5">
+                      {bucket.items.map((it) => (
+                        <div key={it} className="flex items-center gap-2 text-xs bg-slate-50/60 hover:bg-slate-50 rounded p-1.5 transition-colors">
+                          <FileText className="w-3 h-3 text-slate-400 shrink-0" />
+                          <span className="flex-1 truncate text-slate-700">{it}</span>
+                          <RealUploadButton
+                            pid={pid}
+                            category={bucket.id === 'acte_beneficiar' ? 'act_beneficiar' : bucket.id}
+                            bucketKey={`${bucket.id}.${it}`}
+                            label={it}
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </SectionCard>
 
         </div>
 
-        {/* RIGHT SIDEBAR — emails + stamps + downloads + actions */}
+        {/* RIGHT SIDEBAR — premium violet/indigo cards · 100% functional */}
         <aside className="xl:col-span-3 space-y-4">
 
-          {/* User info card */}
-          <div className="border-2 border-gray-300 bg-white p-3" data-testid="user-info-card">
-            <div className="grid grid-cols-2 gap-2 text-[10px]">
-              <div><div className="text-gray-500 uppercase tracking-wider">Utilizator</div><div className="font-semibold">Administrator</div></div>
-              <div><div className="text-gray-500 uppercase tracking-wider">Atribuții</div><div className="font-semibold">Toate comenzile</div></div>
-              <div className="col-span-2"><div className="text-gray-500 uppercase tracking-wider">Nume</div><div className="font-semibold">{proj.title}</div></div>
+          {/* User & plan info card */}
+          <div className="bg-gradient-to-br from-violet-50 via-white to-indigo-50 border border-violet-200 rounded-xl p-4 epd-shadow" data-testid="user-info-card">
+            <div className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-bold mb-2">// Sesiune activă</div>
+            <div className="text-sm font-bold text-slate-900 truncate" title={proj.title}>{proj.title}</div>
+            <div className="text-[10px] text-slate-500 font-mono mt-1">{pid}</div>
+            <div className="mt-3 pt-3 border-t border-violet-200/60 grid grid-cols-2 gap-2 text-[10px]">
+              <div>
+                <div className="text-slate-500 uppercase tracking-wider mb-0.5">Status</div>
+                <div className="font-semibold text-slate-800">{proj.status || 'draft'}</div>
+              </div>
+              <div>
+                <div className="text-slate-500 uppercase tracking-wider mb-0.5">Fază</div>
+                <div className="font-semibold text-slate-800">{proj.phase || 'tema'}</div>
+              </div>
             </div>
           </div>
 
-          {/* Email dispatch */}
-          <div className="border-2 border-green-400 bg-green-50/40 p-3" data-testid="email-dispatch-panel">
-            <div className="text-[10px] uppercase tracking-wider text-gray-700 mb-2 font-bold">// adresa mail · trimiteri</div>
-            <div className="space-y-2">
+          {/* Email dispatch — VIOLET premium */}
+          <div className="bg-white border border-violet-200 rounded-xl epd-shadow overflow-hidden" data-testid="email-dispatch-panel">
+            <div className="bg-gradient-to-r from-violet-50 to-indigo-50 border-b border-violet-100 px-4 py-2.5">
+              <div className="flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-violet-600" />
+                <div className="text-[10px] uppercase tracking-[0.18em] text-violet-700 font-bold">Trimitere documentație</div>
+              </div>
+              <div className="text-[10px] text-slate-500 mt-0.5">10 destinatari · email automat cu PDF</div>
+            </div>
+            <div className="p-3 space-y-2.5 max-h-[420px] overflow-y-auto">
               {EMAIL_DISPATCH_ROUTES.map((r) => (
                 <div key={r.id} className="text-[10px]">
-                  <div className="text-gray-700 leading-tight mb-1">{r.label}</div>
+                  <div className="text-slate-700 leading-tight mb-1 font-semibold">{r.label}</div>
                   <div className="flex gap-1">
                     <input
                       value={data.emails?.[r.id] || ''}
                       onChange={(e) => upd('emails')({ ...data.emails, [r.id]: e.target.value })}
                       placeholder={r.def}
                       data-testid={`email-${r.id}`}
-                      className="flex-1 bg-white border border-green-300 px-1.5 py-1 text-[10px] mono"
+                      className="flex-1 bg-slate-50 border border-slate-200 focus:border-violet-500 focus:ring-2 focus:ring-violet-100 px-2 py-1 text-[10px] rounded font-mono outline-none transition-colors"
                     />
                     <button
-                      onClick={() => toast.success(`Trimis: ${r.label}`)}
-                      className="bg-green-600 text-white px-2 py-1 text-[10px] hover:bg-green-700"
+                      onClick={() => sendEmailRoute(r.id, r.label)}
+                      disabled={!data.emails?.[r.id] || dispatchingRoute === r.id}
+                      className="bg-violet-600 text-white px-2 py-1 text-[10px] hover:bg-violet-700 disabled:opacity-40 disabled:cursor-not-allowed rounded font-semibold transition-colors min-w-[55px] inline-flex items-center justify-center"
                       data-testid={`dispatch-${r.id}`}
                     >
-                      Trimite
+                      {dispatchingRoute === r.id ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Trimite'}
                     </button>
                   </div>
                 </div>
@@ -1441,14 +1696,20 @@ export default function GasNaturalProjectV2() {
             </div>
           </div>
 
-          {/* Stamps uploads (REAL upload) */}
-          <div className="border-2 border-blue-400 bg-blue-50/40 p-3" data-testid="stamps-panel">
-            <div className="text-[10px] uppercase tracking-wider text-gray-700 mb-2 font-bold">// ștampile (upload real)</div>
-            <div className="space-y-1.5">
+          {/* Stamps uploads — INDIGO */}
+          <div className="bg-white border border-indigo-200 rounded-xl epd-shadow overflow-hidden" data-testid="stamps-panel">
+            <div className="bg-gradient-to-r from-indigo-50 to-violet-50 border-b border-indigo-100 px-4 py-2.5">
+              <div className="flex items-center gap-2">
+                <Stamp className="w-3.5 h-3.5 text-indigo-600" />
+                <div className="text-[10px] uppercase tracking-[0.18em] text-indigo-700 font-bold">Ștampile autorizate</div>
+              </div>
+              <div className="text-[10px] text-slate-500 mt-0.5">PNG transparent · plasare automată A4</div>
+            </div>
+            <div className="p-3 space-y-1.5">
               {STAMPS_UPLOAD.map((s) => (
-                <div key={s.id} className="flex items-center gap-2 text-[10px]">
-                  <Stamp className="w-3 h-3 text-blue-600 shrink-0" />
-                  <span className="flex-1 leading-tight">{s.label}</span>
+                <div key={s.id} className="flex items-center gap-2 text-[11px] bg-slate-50/60 hover:bg-slate-50 rounded p-1.5 transition-colors">
+                  <Stamp className="w-3 h-3 text-indigo-500 shrink-0" />
+                  <span className="flex-1 leading-tight text-slate-700">{s.label}</span>
                   <RealUploadButton
                     pid={pid}
                     category={s.category}
@@ -1460,56 +1721,82 @@ export default function GasNaturalProjectV2() {
             </div>
           </div>
 
-          {/* Final downloads */}
-          <div className="border-2 border-amber-400 bg-amber-50/40 p-3" data-testid="final-downloads-panel">
-            <div className="text-[10px] uppercase tracking-wider text-gray-700 mb-2 font-bold">// descărcare documente</div>
-            <div className="space-y-1.5">
+          {/* Final downloads — BLUE premium */}
+          <div className="bg-white border border-blue-200 rounded-xl epd-shadow overflow-hidden" data-testid="final-downloads-panel">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 px-4 py-2.5">
+              <div className="flex items-center gap-2">
+                <Download className="w-3.5 h-3.5 text-blue-600" />
+                <div className="text-[10px] uppercase tracking-[0.18em] text-blue-700 font-bold">Descărcare documente</div>
+              </div>
+            </div>
+            <div className="p-3 space-y-1.5">
               {FINAL_DOWNLOADS.map((d) => (
-                <div key={d.id} className="flex items-center justify-between text-xs">
-                  <span className="font-semibold">{d.label}</span>
+                <div key={d.id} className="flex items-center justify-between text-xs bg-slate-50/60 rounded p-2">
+                  <span className="font-semibold text-slate-800">{d.label}</span>
                   <button
                     onClick={() => downloadDoc(d.template, `${d.id}_${pid}.docx`)}
-                    className="bg-amber-600 text-white px-2 py-1 text-[10px] inline-flex items-center gap-1 hover:bg-amber-700"
+                    className="bg-blue-600 text-white px-2.5 py-1 text-[10px] inline-flex items-center gap-1 hover:bg-blue-700 rounded font-semibold transition-colors"
                     data-testid={`download-${d.id}`}
                   >
-                    <Download className="w-3 h-3" /> Download
+                    <Download className="w-3 h-3" /> DOCX
                   </button>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Final actions */}
-          <div className="border-2 border-black bg-white p-3" data-testid="final-actions-panel">
-            <div className="space-y-2">
-              <button className="w-full text-xs inline-flex items-center justify-center gap-2 bg-black text-white px-3 py-2 hover:bg-gray-800" data-testid="send-to-avizare">
-                <Send className="w-3 h-3" /> Trimite proiectul către avizare
+          {/* Final actions — EPD gradient premium */}
+          <div className="bg-white border border-violet-200 rounded-xl epd-shadow overflow-hidden" data-testid="final-actions-panel">
+            <div className="bg-gradient-to-r from-violet-600 to-indigo-600 px-4 py-2.5">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-white" />
+                <div className="text-[10px] uppercase tracking-[0.18em] text-white font-bold">Acțiuni proiect</div>
+              </div>
+            </div>
+            <div className="p-3 space-y-2">
+              <button onClick={sendToAvizare} disabled={sendingAvizare} className="w-full text-xs inline-flex items-center justify-center gap-2 epd-gradient text-white px-3 py-2.5 hover:opacity-90 disabled:opacity-50 rounded-md font-semibold transition-all" data-testid="send-to-avizare">
+                {sendingAvizare ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                Trimite spre avizare
               </button>
-              <button className="w-full text-xs inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-800 border border-gray-300 px-3 py-2 hover:bg-gray-200" data-testid="upload-avizat">
-                <Upload className="w-3 h-3" /> Încarcă proiectul avizat
-              </button>
+              <UploadAvizatButton pid={pid} onUploaded={load} />
               <button
                 onClick={downloadDossier}
-                className="w-full text-xs inline-flex items-center justify-center gap-2 bg-green-600 text-white px-3 py-2 hover:bg-green-700"
+                className="w-full text-xs inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-3 py-2.5 hover:bg-slate-800 rounded-md font-semibold transition-colors"
                 data-testid="download-dossier-complet"
               >
-                <Package className="w-3 h-3" /> Descarcă toate documentele
+                <Package className="w-3.5 h-3.5" /> Descarcă dosar ZIP
               </button>
               <button
-                onClick={() => toast.success('Preview generat')}
-                className="w-full text-xs inline-flex items-center justify-center gap-2 bg-white text-black border border-gray-400 px-3 py-2 hover:bg-gray-50"
+                onClick={() => window.open(`${backendUrl}/api/gas-project/${pid}/dossier.zip`, '_blank')}
+                className="w-full text-xs inline-flex items-center justify-center gap-2 bg-white text-violet-700 border border-violet-300 hover:bg-violet-50 px-3 py-2.5 rounded-md font-semibold transition-colors"
                 data-testid="preview-dossier"
               >
-                <Eye className="w-3 h-3" /> Previzualizează dosar complet
+                <Eye className="w-3.5 h-3.5" /> Previzualizează dosar
+              </button>
+              <button
+                onClick={() => setShowTransfer(true)}
+                className="w-full text-xs inline-flex items-center justify-center gap-2 bg-white text-indigo-700 border border-indigo-300 hover:bg-indigo-50 px-3 py-2.5 rounded-md font-semibold transition-colors"
+                data-testid="open-transfer-dialog"
+              >
+                <Send className="w-3.5 h-3.5 rotate-90" /> Transferă către alt utilizator
               </button>
             </div>
-            <div className="mt-3 text-[10px] text-center text-gray-600 italic leading-tight border-t border-gray-200 pt-2">
-              Documente generate cu succes! Planurile tale și calculele sunt în drum spre un proiectant care se va ocupa de elaborarea acestora.
+            <div className="px-3 pb-3 text-[10px] text-center text-slate-500 italic leading-tight border-t border-slate-100 pt-2">
+              Documente generate · semnătură SHA-256 · trasabilitate completă în registrul de audit.
             </div>
           </div>
 
         </aside>
       </div>
+      )}
+
+      {/* Transfer dialog */}
+      {showTransfer && (
+        <TransferProjectDialog
+          pid={pid}
+          onClose={() => setShowTransfer(false)}
+          onTransferred={() => { setShowTransfer(false); load(); }}
+        />
       )}
     </AppShell>
   );

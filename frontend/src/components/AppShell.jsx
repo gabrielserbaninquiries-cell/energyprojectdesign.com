@@ -78,7 +78,7 @@ export default function AppShell({ children, title, subtitle }) {
     <div className="min-h-screen bg-slate-50 flex">
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen overflow-y-auto" data-testid="app-sidebar">
         <div className="px-6 py-5 border-b border-slate-200">
-          <Link to="/dashboard" className="flex items-center gap-2.5" data-testid="sidebar-brand-link">
+          <Link to="/" className="flex items-center gap-2.5 group" data-testid="sidebar-brand-link" title="Înapoi la pagina de prezentare">
             <img
               src="https://customer-assets.emergentagent.com/job_github-push-test/artifacts/3x5homqi_722490090_122280146870059458_1686842917685227154_n.jpg"
               alt="Energy Project Design"

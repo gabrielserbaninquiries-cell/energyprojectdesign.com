@@ -117,6 +117,12 @@ class AvizDispatch(BaseModel):
     include_attachments_b64: Optional[List[Dict[str, str]]] = None  # [{name, content_b64}]
 
 
+class TransferPayload(BaseModel):
+    target_email: EmailStr
+    target_role: str = "proiectant"
+    note: Optional[str] = None
+
+
 def _ascii_safe(s: str, maxlen: int = 60) -> str:
     """Strip non-latin chars for HTTP filename headers."""
     import unicodedata
@@ -395,6 +401,90 @@ def make_gas_project_router(db, get_current_user):
         if res.matched_count == 0:
             raise HTTPException(404, "Proiect inexistent")
         return {"ok": True}
+
+    # V10.3 — Transfer project to another user by email (cross-department workflow)
+    # Use case: operator finishes data entry → transfers to proiectant; proiectant finishes
+    # memoriu → transfers to VGD for validation; VGD validates → transfers back; etc.
+    @r.post("/{pid}/transfer")
+    async def transfer_project(pid: str, payload: TransferPayload, user=Depends(get_current_user)):
+        doc = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}}, {"_id": 0})
+        if not doc:
+            raise HTTPException(404, "Proiect inexistent sau nu deții acces")
+        target_email = payload.target_email.lower().strip()
+        if target_email == user.email.lower():
+            raise HTTPException(400, "Nu poți transfera proiectul către tine însuți")
+        # Look up target user (best-effort; if user doesn't exist, we still log + send invite email)
+        target_user = await db.users.find_one({"email": target_email}, {"_id": 0, "user_id": 1, "name": 1, "email": 1})
+        now_iso = datetime.now(timezone.utc).isoformat()
+        # Add shared_access entry on project + audit log
+        shared_entry = {
+            "email": target_email,
+            "user_id": (target_user or {}).get("user_id"),
+            "role": payload.target_role,
+            "shared_at": now_iso,
+            "shared_by": user.email,
+            "note": (payload.note or "").strip() or None,
+        }
+        await db.gas_projects.update_one(
+            {"pid": pid},
+            {
+                "$push": {"shared_access": shared_entry, "audit_log": {
+                    "action": "transfer",
+                    "by": user.email,
+                    "to": target_email,
+                    "role": payload.target_role,
+                    "note": shared_entry["note"],
+                    "at": now_iso,
+                }},
+                "$set": {"updated_at": now_iso},
+            }
+        )
+        # Attempt email notification (best-effort)
+        try:
+            from email_sender import send_plain_email
+            subject = f"[EPD] Proiect transferat: {doc.get('title', pid)}"
+            body_lines = [
+                f"Bună {target_user.get('name') if target_user else target_email},",
+                "",
+                f"{user.email} a transferat proiectul «{doc.get('title', pid)}» către tine.",
+                f"Rol asignat: {payload.target_role}",
+                f"PID: {pid}",
+            ]
+            if shared_entry["note"]:
+                body_lines += ["", "Notă din partea expeditorului:", f"  {shared_entry['note']}"]
+            body_lines += [
+                "",
+                "Accesează proiectul:",
+                f"  https://www.energyprojectdesign.com/gaze-naturale/{pid}",
+                "",
+                "— Energy Project Design",
+            ]
+            send_result = send_plain_email(
+                to=[target_email],
+                subject=subject,
+                body="\n".join(body_lines),
+            )
+            email_ok = bool(send_result.get("ok"))
+            email_err = send_result.get("error")
+        except Exception as ex:
+            email_ok = False
+            email_err = str(ex)
+        return {
+            "ok": True,
+            "message": f"Proiect transferat către {target_email} (rol: {payload.target_role})",
+            "target_exists_in_platform": target_user is not None,
+            "email_sent": email_ok,
+            "email_error": email_err if not email_ok else None,
+            "shared_access": shared_entry,
+        }
+
+    @r.get("/{pid}/audit-log")
+    async def get_audit_log(pid: str, user=Depends(get_current_user)):
+        doc = await db.gas_projects.find_one({"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}},
+                                              {"_id": 0, "audit_log": 1, "shared_access": 1})
+        if doc is None:
+            raise HTTPException(404, "Proiect inexistent")
+        return {"audit_log": doc.get("audit_log") or [], "shared_access": doc.get("shared_access") or []}
 
     @r.post("/{pid}/sign")
     async def sign_project(pid: str, payload: SignPayload, user=Depends(get_current_user)):
