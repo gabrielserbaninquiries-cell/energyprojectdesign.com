@@ -16,6 +16,7 @@ import {
   Briefcase, Building2, Store, MessageSquare, Hammer, Truck, BadgeCheck,
   Users, Wrench, Receipt, Sun, Zap, Droplet, Phone, Calculator, Package,
   Globe, TrendingUp, FileSignature, Layers, Factory, ShoppingBag,
+  Leaf, HeartPulse, Heart, Church, Bus, PackageOpen,
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
@@ -47,6 +48,13 @@ const ACTIVE_SERVICES = [
   { id: 'industry',    icon: Factory,       title: 'Fabrici & Uzine',       desc: 'Proiectare instalații industriale',        tag: 'NEW', href: '/fabrici-uzine' },
   { id: 'verify',      icon: BadgeCheck,    title: 'Verificare QR',         desc: 'Validare publică semnătură document',     tag: 'CORE', href: '/verifica' },
   { id: 'fees',        icon: Receipt,       title: 'Comisioane & Tarife',   desc: 'Transparență totală costuri platformă',   tag: 'INFO', href: '/comisioane-tarife' },
+  // V10.0 — Servicii noi (cerere user: curierat, transport persoane, mediu, spitale, caritabile, biserică)
+  { id: 'curierat',    icon: PackageOpen,   title: 'Curierat',              desc: 'Livrări rapide nationale, tracking real-time',tag: 'SOON', href: '/curierat' },
+  { id: 'transport',   icon: Bus,           title: 'Transport Persoane',    desc: 'Microbuze, taxi inter-orașe, partajat',     tag: 'SOON', href: '/transport-persoane' },
+  { id: 'mediu',       icon: Leaf,          title: 'Mediu',                 desc: 'Plantări, recuperare, reciclare, sustenabilitate', tag: 'SOON', href: '/mediu' },
+  { id: 'spitale',     icon: HeartPulse,    title: 'Spitale & Sănătate',    desc: 'Conexiuni clinici, doctori, programări',    tag: 'SOON', href: '/spitale' },
+  { id: 'caritabile',  icon: Heart,         title: 'Cauze Caritabile',      desc: 'Donații verificate, transparență totală',   tag: 'SOON', href: '/caritabile' },
+  { id: 'biserica',    icon: Church,        title: 'Biserică & Comunitate', desc: 'Comunități spirituale, evenimente, donații', tag: 'SOON', href: '/biserica' },
 ];
 
 // VIITOR — 22 servicii globale planificate (per master plan EPD)
@@ -84,6 +92,7 @@ const TAG_STYLES = {
   BETA: 'bg-amber-500 text-white',
   BIZ:  'bg-indigo-600 text-white',
   INFO: 'bg-slate-200 text-slate-700',
+  SOON: 'bg-fuchsia-500 text-white',
 };
 
 export default function Landing() {
@@ -234,18 +243,18 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
             <div>
-              <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">Ecosistem EPD · 14 servicii integrate</div>
+              <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">Ecosistem EPD · 20 servicii integrate</div>
               <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter text-slate-900 max-w-2xl">
                 Un singur cont. Toate serviciile.
               </h2>
               <p className="text-slate-600 mt-3 max-w-2xl">
                 Pe lângă produsul principal Gaze Naturale, EPD oferă ecosistem complet pentru orice activitate de proiectare,
-                execuție și comercializare în domeniul ingineriei.
+                execuție, comercializare, logistică, transport, sănătate și comunitate.
               </p>
             </div>
             <div className="text-right">
               <div className="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-1">// active acum</div>
-              <div className="text-5xl font-bold tabular-nums epd-gradient-text">14</div>
+              <div className="text-5xl font-bold tabular-nums epd-gradient-text">20</div>
             </div>
           </div>
 
