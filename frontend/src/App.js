@@ -182,6 +182,23 @@ function AppRouter() {
       <Route path="/documentatie-electronica" element={<DocumentatieElectronica />} />
       <Route path="/contact" element={<Contact />} />
 
+      {/* V10.6 — 15+ industry SEO pages (public, multilingual, hreflang) */}
+      <Route path="/investitori" element={<IndustrySeoPage />} />
+      <Route path="/aviatie" element={<IndustrySeoPage />} />
+      <Route path="/airflight" element={<IndustrySeoPage />} />
+      <Route path="/spatial" element={<IndustrySeoPage />} />
+      <Route path="/spaceflight" element={<IndustrySeoPage />} />
+      <Route path="/satelite" element={<IndustrySeoPage />} />
+      <Route path="/drone-uav" element={<IndustrySeoPage />} />
+      <Route path="/electric" element={<IndustrySeoPage />} />
+      <Route path="/fotovoltaice" element={<IndustrySeoPage />} />
+      <Route path="/telecom" element={<IndustrySeoPage />} />
+      <Route path="/hvac" element={<IndustrySeoPage />} />
+      <Route path="/apa-canal" element={<IndustrySeoPage />} />
+      <Route path="/feroviar" element={<IndustrySeoPage />} />
+      <Route path="/sanatate" element={<IndustrySeoPage />} />
+      <Route path="/sport-stadioane" element={<IndustrySeoPage />} />
+
       {/* Pages with UpgradeGate (modal upgrade când userul nu are plan suficient) */}
       <Route path="/anaf-efactura" element={<ProtectedRoute><UpgradeGate path="/anaf-efactura"><ANAFInvoicing /></UpgradeGate></ProtectedRoute>} />
       <Route path="/seap-alerts" element={<ProtectedRoute><UpgradeGate path="/seap-alerts"><SEAPAlerts /></UpgradeGate></ProtectedRoute>} />
