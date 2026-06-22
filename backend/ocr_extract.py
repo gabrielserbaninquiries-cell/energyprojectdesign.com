@@ -30,31 +30,59 @@ router = APIRouter()
 # Pattern recognition rules (regex over Romanian text)
 # ============================================================================
 PATTERNS: List[Dict[str, Any]] = [
-    # CNP / CUI
-    {"key": "beneficiar_cnp_cui", "regex": r"(?:CNP|CUI|CIF)\s*:?\s*([0-9]{2,13})", "group": 1},
-    # AC
-    {"key": "ac_numar", "regex": r"[Aa]utoriza[țt]ie\s+de\s+[Cc]onstruire\s+nr\.?\s*([0-9/\.-]+)", "group": 1},
+    # CNP / CUI / CIF — multiple formats
+    {"key": "beneficiar_cnp_cui", "regex": r"(?:CNP|CUI|CIF|J\d+)\s*:?\s*([0-9]{2,13})", "group": 1},
+    # AC — Autorizație de Construire (flexible spaces + diacritics)
+    {"key": "ac_numar", "regex": r"[Aa]utoriza[țt]i[ae]\s+(?:de\s+)?[Cc]onstruir[ei]\s+nr\.?\s*([0-9/\.\-]+)", "group": 1},
     {"key": "ac_data_emitere", "regex": r"AC.*?din\s+([0-9]{1,2}[./-][0-9]{1,2}[./-][0-9]{2,4})", "group": 1},
-    # CU
-    {"key": "cu_numar", "regex": r"[Cc]ertificat\s+de\s+[Uu]rbanism\s+nr\.?\s*([0-9/\.-]+)", "group": 1},
-    # ATR
-    {"key": "atr_numar", "regex": r"ATR\s*nr\.?\s*([0-9/\.-]+)", "group": 1},
-    # Cadastru
-    {"key": "loc_consum_cadastru", "regex": r"(?:[Nn]r\.?\s*[Cc]adastral|CF)\s*:?\s*([0-9]{4,10})", "group": 1},
-    # Lungime conductă (m)
-    {"key": "sf_lungime_conducta_m", "regex": r"[Ll]ungime\s+(?:total[ăa]?\s+)?(?:branșament|conduct[ăa])\s*:?\s*([0-9]+(?:[.,][0-9]+)?)\s*m", "group": 1},
-    # DN
-    {"key": "sf_diametru_nominal_DN", "regex": r"DN\s*([0-9]+)", "group": 1, "prefix": "DN "},
+    # CU — Certificat de Urbanism
+    {"key": "cu_numar", "regex": r"[Cc]ertificat(?:ul)?\s+(?:de\s+)?[Uu]rbanism\s+nr\.?\s*([0-9/\.\-]+)", "group": 1},
+    # ATR — Acord Tehnic de Racordare
+    {"key": "atr_numar", "regex": r"(?:ATR|Acord(?:ul)?\s+Tehnic\s+de\s+Racordare|Acord(?:ul)?\s+de\s+acces)\s*(?:nr\.?)?\s*([0-9/\.\-]+)", "group": 1},
+    # Cadastru / CF
+    {"key": "loc_consum_cadastru", "regex": r"(?:[Nn]r\.?\s*[Cc]adastral|CF\s*nr\.?|[Cc]adastral)\s*:?\s*([0-9]{4,10})", "group": 1},
+    # Lungime conductă/branșament — V10.5: more flexible (matches "lungimea de 4 m", "L = 25,5 m", "25,5 m total")
+    {"key": "sf_lungime_conducta_m",
+     "regex": r"(?:[Ll]ungime[a]?(?:\s+(?:total[ăa]?|de))?|[Ll]\s*=)\s*(?:de\s+)?([0-9]+(?:[.,][0-9]+)?)\s*m(?:\s|\.|,|$|\))",
+     "group": 1},
+    # DN — accept both "DN 32" and "Dn 63 mm"
+    {"key": "sf_diametru_nominal_DN", "regex": r"[Dd]n\s*([0-9]{2,4})(?:\s*mm)?", "group": 1, "prefix": "DN "},
     # Debit instalat
-    {"key": "debit_instalat_mc_h", "regex": r"[Dd]ebit\s+instalat\s*:?\s*([0-9]+(?:[.,][0-9]+)?)\s*m[³3]/h", "group": 1},
+    {"key": "debit_instalat_mc_h",
+     "regex": r"[Dd]ebit(?:ul)?\s+(?:instalat|simultan|total)?\s*:?\s*([0-9]+(?:[.,][0-9]+)?)\s*(?:m[³3]/h|Nmc/h)",
+     "group": 1},
     # Presiune
-    {"key": "sf_presiune_max_op_bar", "regex": r"[Pp]resiune\s+(?:max\.?|maxim[ăa])\s*:?\s*([0-9]+(?:[.,][0-9]+)?)\s*bar", "group": 1},
+    {"key": "sf_presiune_max_op_bar",
+     "regex": r"[Pp]resiune[a]?\s+(?:max\.?|maxim[ăa])\s*:?\s*([0-9]+(?:[.,][0-9]+)?)\s*bar",
+     "group": 1},
     # Telefon
     {"key": "beneficiar_telefon", "regex": r"[Tt]el\.?\s*:?\s*(\+?[0-9 ]{8,15})", "group": 1},
     # Email
     {"key": "beneficiar_email", "regex": r"[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,}", "group": 0},
-    # Beneficiar (heuristic: line ce începe cu "Beneficiar:")
-    {"key": "beneficiar_nume", "regex": r"[Bb]eneficiar\s*:?\s*([A-ZĂÂÎȘȚ][A-Za-zĂÂÎȘȚăâîșț\s\.&\-]{3,80})", "group": 1},
+    # Beneficiar — V10.5: also matches "Client:", "Beneficiarul investitiei:", "Investitor:"
+    {"key": "beneficiar_nume",
+     "regex": r"(?:[Bb]eneficiar(?:ul\s+investi[țt]iei)?|[Cc]lient(?:ul)?|[Ii]nvestitor(?:ul)?)\s*:?\s*([A-ZĂÂÎȘȚ][A-Za-zĂÂÎȘȚăâîșțéè\.\s&\-\d]{3,80}?)(?:\n|$|;|,\s+[A-Z])",
+     "group": 1},
+    # Adresa imobil / amplasament — multi-format
+    {"key": "loc_consum_adresa",
+     "regex": r"(?:[Aa]mplasament(?:ul)?(?:\s+(?:imobilului|lucr[ăa]rii))?|[Aa]dres[ăa])\s*:?\s*((?:Str|Bd|Bulevardul|Calea|Aleea|Sos|Strada)[\.\s][A-ZĂÂÎȘȚ][^\n;]{5,150})",
+     "group": 1},
+    # Localitate (Sector / Județ / Oraș)
+    {"key": "loc_consum_localitate",
+     "regex": r"(?:Sector|Sect\.?)\s+([0-9]+)\s*,?\s*(?:BUCURE[ȘS]TI|Bucure[șs]ti)",
+     "group": 0},
+    # Proiectant
+    {"key": "proiectant_nume",
+     "regex": r"[Pp]roiectant\s*:?\s*([A-Z][A-Z\s\.\-&]{2,60}(?:SRL|S\.R\.L\.|SA|S\.A\.))",
+     "group": 1},
+    # Executant
+    {"key": "executant_nume",
+     "regex": r"[Ee]xecutant\s*:?\s*([A-Z][A-Z\s\.\-&]{2,60}(?:SRL|S\.R\.L\.|SA|S\.A\.))",
+     "group": 1},
+    # Tip lucrare
+    {"key": "tip_lucrare",
+     "regex": r"(?:Bran[șs]ament\s+(?:nou|individual|colectiv)|Extindere\s+rețea|Modificare\s+contor)",
+     "group": 0},
 ]
 
 
@@ -143,28 +171,45 @@ class ExtractResult(BaseModel):
 async def extract_fields(file: UploadFile = File(...), user=Depends(get_current_user)):
     blob = await file.read()
     if not blob:
-        return ExtractResult(detected_fields={}, confidence="low", text_preview="", field_count=0)
+        return ExtractResult(detected_fields={}, confidence="low", text_preview="(fișier gol)", field_count=0)
 
     fname_low = (file.filename or "").lower()
     text = ""
+    extraction_note = ""
     if fname_low.endswith(".docx"):
         text = _extract_docx(blob)
+        if not text:
+            extraction_note = "DOCX corupt sau gol — verifică fișierul."
     elif fname_low.endswith(".doc"):
         # V9.3 — suport pentru .doc legacy (Word 97-2003) via antiword
-        text = _extract_doc_legacy(blob)
+        # V10.5 — detectează dacă e DOCX renamed ca .doc (zip header PK)
+        if blob[:2] == b"PK":
+            # Are signature ZIP → e de fapt DOCX cu extensia greșită
+            extraction_note = "Fișierul are extensia .doc dar conține DOCX. Tratăm ca DOCX."
+            text = _extract_docx(blob)
+        else:
+            text = _extract_doc_legacy(blob)
+            if not text:
+                extraction_note = "DOC legacy ilizibil — convertește la DOCX prin LibreOffice/Word."
     elif fname_low.endswith(".pdf"):
         text = _extract_pdf(blob)
+        if not text:
+            extraction_note = "PDF scanat (fără text OCR) sau corupt. Folosește o versiune cu text selectabil."
+    elif fname_low.endswith((".png", ".jpg", ".jpeg", ".webp")):
+        extraction_note = "Format imagine — folosește în loc /smart-extract-llm pentru OCR AI."
+        text = ""
     else:
-        # imagine / format necunoscut → text vid (în viitor: chemăm gemini-3-flash)
+        extraction_note = f"Format nesuportat: {fname_low.split('.')[-1] if '.' in fname_low else 'unknown'}. Acceptăm: .docx .doc .pdf"
         text = ""
 
     fields = _apply_patterns(text) if text else {}
     confidence = "high" if len(fields) >= 5 else "medium" if len(fields) >= 2 else "low"
 
+    preview = (extraction_note + "\n\n" + text[:1000]) if extraction_note else text[:1000]
     return ExtractResult(
         detected_fields=fields,
         confidence=confidence,
-        text_preview=text[:1000],
+        text_preview=preview,
         field_count=len(fields),
     )
 
@@ -335,3 +380,129 @@ async def apply_extract_to_project(payload: ApplyExtractRequest, user=Depends(ge
         "applied": applied,
         "skipped": skipped,
     }
+
+
+# ============================================================================
+# V10.5 — SMART LLM-POWERED PLACEHOLDER DETECTOR
+# Use case (literal user request): "merge sa introduc un document care nu are
+# placehold-uri si recunoaste datele de introdus si adauga placehold-uri si
+# casete text corespunzatoare"
+#
+# Strategy: extract text → send to Claude Sonnet → ask for VARIABLE values (names,
+# addresses, numbers, dates) that should become editable form fields. Returns
+# JSON with [{ original_text, suggested_key, suggested_label, field_type, position }]
+# ============================================================================
+class SmartPlaceholdersResult(BaseModel):
+    placeholders: List[Dict[str, Any]]
+    text_preview: str
+    extraction_note: str
+    field_count: int
+
+
+_SMART_DETECTOR_PROMPT = (
+    "Ești un asistent expert în documentație tehnică de gaze naturale din România. "
+    "Primești textul unui document Word/PDF (memoriu, deviz, referat etc.) și trebuie "
+    "să identifici TOATE valorile VARIABILE care ar trebui transformate în câmpuri "
+    "editabile (placeholdere) pentru reutilizare în alte proiecte. "
+    "Valori variabile = nume persoane, denumiri societăți, adrese, numere de "
+    "documente/autorizații, date calendaristice, sume (lei/euro), lungimi (m), "
+    "diametre (DN), debite (Nmc/h), presiuni (bar), număr cadastral, sectoare, etc.\n\n"
+    "NU include în răspuns: cuvinte generice precum 'beneficiar', 'proiectant', etc. "
+    "(care sunt etichete), titluri de secțiuni, cuvinte de legătură.\n\n"
+    "Răspunde STRICT cu un JSON array (fără comentarii, fără markdown), cu maxim 30 "
+    "elemente, format: \n"
+    "[{\"original\":\"valoarea găsită în text\",\"suggested_key\":\"snake_case_field\","
+    "\"suggested_label\":\"Etichetă RO\",\"field_type\":\"text|number|date|address\"}]\n\n"
+    "Cheile cunoscute pe care să le folosești prioritar: beneficiar_nume, "
+    "beneficiar_cnp_cui, beneficiar_telefon, beneficiar_email, loc_consum_adresa, "
+    "loc_consum_strada, loc_consum_numar, loc_consum_localitate, loc_consum_cadastru, "
+    "proiectant_nume, executant_nume, cu_numar, ac_numar, atr_numar, "
+    "sf_diametru_nominal_DN, sf_lungime_conducta_m, debit_instalat_mc_h, "
+    "sf_presiune_max_op_bar, tip_lucrare. Pentru altele, alege snake_case descriptiv."
+)
+
+
+@router.post("/smart-extract-llm", response_model=SmartPlaceholdersResult)
+async def smart_extract_llm(file: UploadFile = File(...), user=Depends(get_current_user)):
+    """V10.5 — AI-powered field detection for documents WITHOUT explicit placeholders.
+
+    Folosește Claude Sonnet (prin Emergent LLM Key) pentru a identifica automat
+    valorile variabile dintr-un document (memoriu/deviz/referat) și le convertește
+    în propuneri de câmpuri editabile cu key + label + tip.
+    """
+    blob = await file.read()
+    if not blob:
+        return SmartPlaceholdersResult(placeholders=[], text_preview="", extraction_note="Fișier gol.", field_count=0)
+    fname = (file.filename or "").lower()
+    if fname.endswith(".docx") or (blob[:2] == b"PK" and fname.endswith(".doc")):
+        text = _extract_docx(blob)
+    elif fname.endswith(".doc"):
+        text = _extract_doc_legacy(blob)
+    elif fname.endswith(".pdf"):
+        text = _extract_pdf(blob)
+    else:
+        text = blob.decode("utf-8", errors="ignore")
+    if not text or len(text) < 50:
+        return SmartPlaceholdersResult(
+            placeholders=[], text_preview=text[:500] if text else "",
+            extraction_note="Text insuficient pentru analiză AI (< 50 caractere).", field_count=0,
+        )
+    # Truncate to keep LLM cost reasonable
+    text_for_llm = text[:8000]
+    try:
+        from ai_agents import _ask
+        import json as _json
+        reply = await _ask(
+            agent="proiectant",  # any agent works, we override system msg next
+            message=f"{_SMART_DETECTOR_PROMPT}\n\nDocument:\n```\n{text_for_llm}\n```\n\nJSON:",
+            session_id=f"smart_extract_{user.user_id}",
+        )
+        # Try to extract JSON array from the reply
+        m = re.search(r"\[\s*\{.*?\}\s*\]", reply, re.DOTALL)
+        raw = m.group(0) if m else reply.strip()
+        parsed = _json.loads(raw)
+        if not isinstance(parsed, list):
+            parsed = []
+        # Sanitize
+        out: List[Dict[str, Any]] = []
+        for it in parsed[:40]:
+            if not isinstance(it, dict):
+                continue
+            orig = str(it.get("original") or "").strip()[:200]
+            if not orig:
+                continue
+            key = str(it.get("suggested_key") or "").strip()[:60] or "campa_" + str(len(out))
+            label = str(it.get("suggested_label") or key).strip()[:80]
+            ftype = str(it.get("field_type") or "text").strip()[:20]
+            # Position of original in text (best-effort)
+            pos = text.find(orig) if orig else -1
+            out.append({
+                "original": orig,
+                "suggested_key": key,
+                "suggested_label": label,
+                "field_type": ftype,
+                "position": pos,
+                "context": (text[max(0, pos - 60):pos + 120] if pos >= 0 else "").replace("\n", " ").strip()[:200],
+            })
+        return SmartPlaceholdersResult(
+            placeholders=out,
+            text_preview=text[:1500],
+            extraction_note=f"Detectate {len(out)} câmpuri variabile prin AI (Claude Sonnet 4.6).",
+            field_count=len(out),
+        )
+    except Exception as e:
+        # Fallback to heuristic detector if LLM fails
+        fallback = _detect_template_placeholders(text, limit=40)
+        return SmartPlaceholdersResult(
+            placeholders=[{
+                "original": p.get("inner", ""),
+                "suggested_key": p.get("suggested_field") or f"campa_{idx}",
+                "suggested_label": p.get("label", ""),
+                "field_type": p.get("type", "text"),
+                "position": p.get("position", -1),
+                "context": p.get("context", ""),
+            } for idx, p in enumerate(fallback)],
+            text_preview=text[:1500],
+            extraction_note=f"AI indisponibil ({str(e)[:80]}). Folosit detector euristic ca fallback.",
+            field_count=len(fallback),
+        )

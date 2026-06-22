@@ -120,6 +120,9 @@ const DEFAULT_DATA = {
   amplasament_alte_detalii: '',
   instalatie_utilizare: 'Da', iu_tip: 'IUGN', iu_suplimentare_debit: 'Nu', iu_presiune: 'Joasă',
   conducta_noua: 'Nu',
+  // V10.5 — Smart skip logic flags
+  are_cu_existent: 'Nu',   // Are CU emis? Da → skip-faza avize în stepper
+  skip_avize: false,        // Manual override (admin only)
   // Material BR
   br_material: 'Polietilenă', br_diametru_dn: '32 mm', br_presiune: 'Redusă',
   br_lungime_m: 12, br_lungime_km: 0.012, br_subteran: 'Subteran',
@@ -1081,6 +1084,62 @@ export default function GasNaturalProjectV2() {
   const br_lungime_km_calc = useMemo(() => Math.round(((Number(data.br_lungime_m) || 0) / 1000) * 1000) / 1000, [data.br_lungime_m]);
   const cnd_n_lungime_km_calc = useMemo(() => Math.round(((Number(data.cnd_n_lungime_m) || 0) / 1000) * 1000) / 1000, [data.cnd_n_lungime_m]);
 
+  // V10.5 — SMART AUTO-FILL: bife & câmpuri se completează inteligent în funcție de alte alegeri
+  // Per cerință user: "asigura-te ca toate bifele din aplicatie actioneaza calculand inteligent
+  //                    asupra celorlalte functii si bife pentru completare inteligenta"
+  useEffect(() => {
+    setData((d) => {
+      const next = { ...d };
+      let changed = false;
+      // 1) Adresa imobil = amplasament când e bifat "Da"
+      if (d.adresa_imobil_egala_amplasament === 'Da' && d.adresa_imobil !== d.amplasament_strada && d.amplasament_strada) {
+        next.adresa_imobil = d.amplasament_strada;
+        changed = true;
+      }
+      // 2) CU existent → activează skip_avize implicit
+      const cuExistent = d.are_cu_existent === 'Da' || d.are_cu_existent === true;
+      if (cuExistent && d.skip_avize !== true) {
+        next.skip_avize = true;
+        changed = true;
+      }
+      if (!cuExistent && d.skip_avize === true && !d.skip_avize_manual) {
+        next.skip_avize = false;
+        changed = true;
+      }
+      // 3) Presiune IUGN → sugestie p_max_op (în bar) când e gol
+      if (!d.sf_presiune_max_op_bar) {
+        const pmap = { 'Joasă': '0.05', 'Redusă': '0.5', 'Medie': '2.0' };
+        const suggested = pmap[d.iu_presiune];
+        if (suggested) { next.sf_presiune_max_op_bar = suggested; changed = true; }
+      }
+      // 4) Conductă nouă = 'Nu' → resetează diametru/lungime sugerate doar dacă tip lucrare = Modificare contoar
+      if (d.conducta_noua === 'Nu' && d.tipul_lucrarii === 'Mărire debit') {
+        if (d.br_lungime_m !== 0) { next.br_lungime_m = 0; changed = true; }
+      }
+      // 5) IUGN suplimentare debit = 'Da' → asigură că debit_instalat e setat (sugerează 1 m³/h dacă gol)
+      if (d.iu_suplimentare_debit === 'Da' && (!d.debit_instalat_mc_h || d.debit_instalat_mc_h === '0')) {
+        next.debit_instalat_mc_h = '1.0';
+        changed = true;
+      }
+      // 6) Material = Oțel → forțează "br_subteran = Subteran" (PE poate fi suprateran, OL nu)
+      if (d.br_material === 'Oțel' && d.br_subteran !== 'Subteran') {
+        next.br_subteran = 'Subteran';
+        changed = true;
+      }
+      // 7) Tip lucrare = 'Branșament gaze naturale' → bifează conducta_noua=Da automat dacă gol
+      if (d.tipul_lucrarii === 'Branșament gaze naturale' && !d._auto_conducta_set && d.conducta_noua === 'Nu') {
+        next.conducta_noua = 'Da';
+        next._auto_conducta_set = true;
+        changed = true;
+      }
+      return changed ? next : d;
+    });
+  }, [
+    data.adresa_imobil_egala_amplasament, data.amplasament_strada,
+    data.are_cu_existent, data.iu_presiune, data.conducta_noua, data.tipul_lucrarii,
+    data.iu_suplimentare_debit, data.br_material,
+  ]);
+
   // Auto-map V2 form fields → FIELDS_REGISTRY canonical keys (used by DOCX templates).
   // Aplică doar dacă cheia registry e GOALĂ (nu suprascrie ce a editat userul în tab Registru).
   const applyAutoMap = (src) => {
@@ -1402,6 +1461,24 @@ export default function GasNaturalProjectV2() {
               <div className="md:col-span-3"><Field label="Suplimentare debit"><Toggle value={data.iu_suplimentare_debit} onChange={upd('iu_suplimentare_debit')} /></Field></div>
               <div className="md:col-span-3"><Field label="Presiune (IUGN)"><Select value={data.iu_presiune} onChange={upd('iu_presiune')} options={['Joasă', 'Redusă', 'Medie']} /></Field></div>
               <div className="md:col-span-3"><Field label="Conductă nouă"><Toggle value={data.conducta_noua} onChange={upd('conducta_noua')} /></Field></div>
+              {/* V10.5 — Smart skip: CU existent permite continuarea fără faza Avize */}
+              <div className="md:col-span-6">
+                <Field label="Are CU emis deja? (sare peste faza Avize)">
+                  <div className="flex items-center gap-3">
+                    <Toggle value={data.are_cu_existent} onChange={upd('are_cu_existent')} />
+                    {(data.are_cu_existent === 'Da' || data.are_cu_existent === true) && (
+                      <span className="text-[10px] text-amber-700 font-semibold bg-amber-50 border border-amber-300 px-2 py-1 rounded inline-flex items-center gap-1" data-testid="cu-skip-badge">
+                        ⏭ Faza Avize va fi omisă în stepper
+                      </span>
+                    )}
+                  </div>
+                </Field>
+              </div>
+              <div className="md:col-span-3">
+                <Field label="Nr. CU (dacă există)">
+                  <Input value={data.cu_numar} onChange={upd('cu_numar')} placeholder="ex: 1234/15.03.2024" testid="cu-numar-input" />
+                </Field>
+              </div>
             </div>
           </SectionCard>
 

@@ -104,21 +104,34 @@ function stepCompletion(step, data) {
 }
 
 export default function GasChronologicalStepper({ data = {} }) {
+  // V10.5 — Smart skip logic per user request:
+  // "in cadrul proiectelor de bransament exista posibilitatea sa sarim peste partea
+  //  de avize, in cazul in care exista bifa «are CU? da/nu», permite continuarea
+  //  lucrarii fara obtinerea de avize"
+  // Triggered when: are_cu_existent === true (user already has a CU which implies
+  // utility approvals were obtained), OR when phases are explicitly skipped.
   const stepsWithStatus = useMemo(() => {
+    const cuExistent = data?.are_cu_existent === true || data?.are_cu_existent === 'Da' || data?.are_cu_existent === 'da';
+    const skipAvize = data?.skip_avize === true || cuExistent;
     return STEPS.map((s) => {
       const pct = stepCompletion(s, data);
+      // Skip logic: avize step is auto-marked done when CU is existing
+      if (s.id === 'avize' && skipAvize) {
+        return { ...s, pct: 100, status: 'skipped', skippedReason: cuExistent ? 'CU existent — avize obținute' : 'Manual skip' };
+      }
       const status = pct === 100 ? 'done' : pct >= 50 ? 'progress' : pct > 0 ? 'started' : 'pending';
       return { ...s, pct, status };
     });
   }, [data]);
 
-  // Activitate curentă = prima etapă care nu e done
-  const currentStepIdx = stepsWithStatus.findIndex((s) => s.status !== 'done');
+  // Activitate curentă = prima etapă care nu e done/skipped
+  const currentStepIdx = stepsWithStatus.findIndex((s) => s.status !== 'done' && s.status !== 'skipped');
 
   const stats = useMemo(() => {
-    const done = stepsWithStatus.filter((s) => s.status === 'done').length;
+    const done = stepsWithStatus.filter((s) => s.status === 'done' || s.status === 'skipped').length;
+    const skipped = stepsWithStatus.filter((s) => s.status === 'skipped').length;
     const total = stepsWithStatus.length;
-    return { done, total, pct: Math.round((done / total) * 100) };
+    return { done, total, skipped, pct: Math.round((done / total) * 100) };
   }, [stepsWithStatus]);
 
   return (
@@ -149,6 +162,7 @@ export default function GasChronologicalStepper({ data = {} }) {
             const isLast = idx === stepsWithStatus.length - 1;
             const isCurrent = idx === currentStepIdx;
             const isDone = s.status === 'done';
+            const isSkipped = s.status === 'skipped';
             const isProgress = s.status === 'progress' || s.status === 'started';
 
             return (
@@ -157,14 +171,20 @@ export default function GasChronologicalStepper({ data = {} }) {
                   {/* Cerc icon */}
                   <div className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all
                     ${isDone ? 'epd-gradient text-white shadow-lg'
+                      : isSkipped ? 'bg-amber-50 border-2 border-amber-400 text-amber-700'
                       : isCurrent ? 'bg-white border-2 border-violet-500 text-violet-600 ring-4 ring-violet-100'
                       : isProgress ? 'bg-violet-100 border-2 border-violet-300 text-violet-700'
-                      : 'bg-slate-100 border border-slate-300 text-slate-400'}`}>
+                      : 'bg-slate-100 border border-slate-300 text-slate-400'}`} title={isSkipped ? s.skippedReason || 'Etapă omisă' : ''}>
                     <Icon className="w-5 h-5" strokeWidth={2.2} />
                     {/* Bulina cu pct */}
-                    {!isDone && s.pct > 0 && (
+                    {!isDone && !isSkipped && s.pct > 0 && (
                       <div className="absolute -top-1 -right-1 bg-violet-600 text-white text-[9px] font-bold rounded-full px-1.5 py-0.5 shadow-md">
                         {s.pct}%
+                      </div>
+                    )}
+                    {isSkipped && (
+                      <div className="absolute -top-1 -right-1 bg-amber-500 text-white text-[8px] font-bold rounded-full px-1 py-0.5 shadow-md">
+                        ⏭
                       </div>
                     )}
                   </div>
@@ -174,8 +194,9 @@ export default function GasChronologicalStepper({ data = {} }) {
                     <div className="text-[9px] uppercase tracking-wider font-bold text-violet-600 mb-0.5">
                       Etapa {idx + 1}
                     </div>
-                    <div className={`text-xs font-semibold leading-tight ${isDone ? 'text-slate-900' : isCurrent ? 'text-violet-900' : 'text-slate-600'}`}>
+                    <div className={`text-xs font-semibold leading-tight ${isDone ? 'text-slate-900' : isSkipped ? 'text-amber-700' : isCurrent ? 'text-violet-900' : 'text-slate-600'}`}>
                       {s.label}
+                      {isSkipped && <span className="block text-[9px] font-normal text-amber-600 mt-0.5">(omis · CU existent)</span>}
                     </div>
                     <div className="text-[10px] text-slate-500 leading-tight mt-1 line-clamp-2">
                       {s.desc}
@@ -186,7 +207,7 @@ export default function GasChronologicalStepper({ data = {} }) {
                 {/* Conector între etape */}
                 {!isLast && (
                   <div className="flex items-center px-1 pt-6">
-                    <ChevronRight className={`w-4 h-4 ${isDone ? 'text-violet-500' : 'text-slate-300'}`} strokeWidth={2.5} />
+                    <ChevronRight className={`w-4 h-4 ${isDone || isSkipped ? 'text-violet-500' : 'text-slate-300'}`} strokeWidth={2.5} />
                   </div>
                 )}
               </div>
