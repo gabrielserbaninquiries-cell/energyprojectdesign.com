@@ -39,6 +39,7 @@ import RegistryFieldsTab from '../components/RegistryFieldsTab';
 import GasChronologicalStepper from '../components/GasChronologicalStepper';
 import GasEngineeringPanel from '../components/GasEngineeringPanel';
 import CollaboratorsTab from '../components/CollaboratorsTab';
+import TemplateFillTab from '../components/TemplateFillTab';
 import PlanBadge from '../components/PlanBadge';
 import useUserPlan from '../hooks/useUserPlan';
 import {
@@ -1493,7 +1494,15 @@ export default function GasNaturalProjectV2() {
         <button onClick={() => setActiveTab('colaboratori')} className={`px-5 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-all ${activeTab === 'colaboratori' ? 'border-violet-600 text-violet-700 bg-violet-50/50' : 'border-transparent text-slate-600 hover:text-violet-700 hover:bg-slate-50'}`} data-testid="tab-colaboratori">
           Colaboratori & Audit
         </button>
+        <button onClick={() => setActiveTab('completare')} className={`px-5 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-all ${activeTab === 'completare' ? 'border-violet-600 text-violet-700 bg-violet-50/50' : 'border-transparent text-slate-600 hover:text-violet-700 hover:bg-slate-50'}`} data-testid="tab-completare">
+          Completare Document
+          <span className="ml-1.5 px-1.5 py-0.5 text-[9px] bg-gradient-to-r from-violet-500 to-indigo-500 text-white rounded font-bold uppercase tracking-wider">nou</span>
+        </button>
       </div>
+
+      {activeTab === 'completare' && (
+        <TemplateFillTab pid={pid} projectData={data} />
+      )}
 
       {activeTab === 'colaboratori' && (
         <CollaboratorsTab pid={pid} />

@@ -1,0 +1,57 @@
+{
+  "summary": "V10.6 end-to-end testing PASS — Backend 15/15 + Frontend 100% testids. Hybrid Auth verified (login returns token + Set-Cookie SameSite=None/Secure/HttpOnly; /auth/me accepts Bearer-only, cookie-only, or both). Stripe LIVE donation of 2 RON returns cs_live_* session. OCR template-placeholders returns 5 placeholders (≥3 required) with inner/label/type, smart-extract-llm (Claude Sonnet) returns ≥1 placeholder with suggested_key/label/field_type. NEW /api/ocr/fill-template endpoint works: replaces placeholders in DOCX, returns DOCX MIME + attachment Content-Disposition + X-Replacements-Applied=3 header; rejects PDF with 400 'Doar DOCX'; rejects invalid JSON; accepts empty replacements with applied=0. Frontend: tab-completare visible at /gaze-naturale/{pid}; upload→detect heuristic flow renders 5 placeholder-cards/inputs, filled-counter '0/5 completate', save & download buttons. Regression intact: /api/me/plan=developer, GET project pid match, dossier.zip with ≥10 files.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "tests_executed": [
+    {"id": "BE_LOGIN_TOKEN_AND_COOKIE", "status": "PASS"},
+    {"id": "BE_LOGIN_COOKIE_ATTRS_SAMESITE_NONE_SECURE_HTTPONLY", "status": "PASS"},
+    {"id": "BE_ME_BEARER_ONLY_NO_COOKIE", "status": "PASS", "detail": "Simulates Safari ITP mobile — Bearer token alone is sufficient for /auth/me."},
+    {"id": "BE_ME_COOKIE_ONLY", "status": "PASS"},
+    {"id": "BE_ME_COOKIE_AND_BEARER", "status": "PASS"},
+    {"id": "BE_STRIPE_DONATION_2_RON_LIVE", "status": "PASS", "detail": "session_id starts with cs_live_, URL is checkout.stripe.com."},
+    {"id": "BE_OCR_TEMPLATE_PLACEHOLDERS", "status": "PASS", "detail": "5 placeholders detected for DOCX with <NUME>, <ADRESA>, <EMAIL>, (Completați...), ________. Fields inner/label/type present."},
+    {"id": "BE_OCR_SMART_EXTRACT_LLM", "status": "PASS", "detail": "Claude Sonnet returns placeholders[] with original/suggested_key/suggested_label/field_type."},
+    {"id": "BE_FILL_TEMPLATE_BASIC", "status": "PASS", "detail": "POST /api/ocr/fill-template returns DOCX MIME + attachment + X-Replacements-Applied=3. Returned DOCX contains 'Ion Popescu', 'Str. Aurel Vlaicu 15', 'ion@example.com'; '<NUME>' removed."},
+    {"id": "BE_FILL_TEMPLATE_REJECTS_PDF", "status": "PASS", "detail": "400 with detail containing 'DOCX'."},
+    {"id": "BE_FILL_TEMPLATE_INVALID_JSON", "status": "PASS", "detail": "400 returned for non-JSON replacements field."},
+    {"id": "BE_FILL_TEMPLATE_EMPTY_REPLACEMENTS", "status": "PASS", "detail": "200 + X-Replacements-Applied=0."},
+    {"id": "BE_REGRESSION_ME_PLAN", "status": "PASS", "detail": "plan_id=developer."},
+    {"id": "BE_REGRESSION_GET_PROJECT", "status": "PASS", "detail": "pid=gp_e79e2810cc64b5b4."},
+    {"id": "BE_REGRESSION_DOSSIER_ZIP", "status": "PASS", "detail": "≥10 files in ZIP."},
+    {"id": "UI_LOGIN", "status": "PASS"},
+    {"id": "UI_TAB_COMPLETARE_VISIBLE", "status": "PASS", "detail": "[data-testid='tab-completare'] present at /gaze-naturale/gp_e79e2810cc64b5b4 with NOU badge."},
+    {"id": "UI_INITIAL_TESTIDS", "status": "PASS", "detail": "upload-dropzone, select-file-btn, mode-toggle, mode-ai-btn, mode-heuristic-btn, detect-btn all present."},
+    {"id": "UI_UPLOAD_AND_DETECT_HEURISTIC", "status": "PASS", "detail": "After file-input set_input_files + click detect-btn: fill-form-section appears, 5 placeholder-card-*, 5 placeholder-input-*, filled-counter='0 / 5 completate', save-to-project-btn + download-filled-btn visible."}
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_v106_features.py",
+    "/app/test_reports/pytest/v106_results.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "ocr_extract.py file is now 673 lines — getting close to the 700-line refactor threshold. Consider splitting /fill-template + _docx_replace_text into a separate module (e.g., ocr_fill.py) since it has different concerns (template completion vs. extraction).",
+    "fill-template endpoint accepts replacements as a Form string and re-parses JSON — works but a Pydantic JSON body alongside an UploadFile would be cleaner via fastapi.Body(...) or a dedicated multipart model. Current design is acceptable; FastAPI's multipart+JSON combination is awkward by spec.",
+    "The 'NOU' badge on tab-completare is hardcoded in the JSX. Recommend a small util/feature-flag so future tabs flagged 'NEW' can fade out automatically after N days or once a user has interacted with them.",
+    "No backend test was found for /api/ocr/fill-template prior to this iteration — recommend wiring this suite into CI so regressions on the multipart DOCX endpoint are caught early.",
+    "Hybrid Auth: verify that the SameSite=None cookie also works in Firefox strict tracking-protection mode (covered by current code path but worth a manual cross-browser sanity check at production deploy time)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v106_features.py (NEW — 15 tests, JUnit XML)",
+    "/app/test_reports/pytest/v106_results.xml (NEW)",
+    "/app/test_reports/iteration_19.json"
+  ],
+  "success_rate": {"backend": "100% (15/15)", "frontend": "100% (all required testids verified + end-to-end upload/detect flow)"},
+  "test_credentials": "dragosserban95@gmail.com / Nuamparola_9 (developer plan, is_admin=true) — from /app/memory/test_credentials.md",
+  "seed_data_creation": "Read-only tests. Stripe checkout test creates a real LIVE Checkout Session (no payment captured, abandoned). One real Stripe cs_live_* session generated per test run — operationally harmless.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V10.6 PASS 15/15 backend + full UI flow. Test DOCX fixture is built inline in pytest via python-docx (no external file). To re-test fill-template, the same test_v106_features.py is reusable. Test DOCX file at /tmp/test_template_v106.docx contains: <NUME>, <ADRESA>, (Completați telefonul), ________, <EMAIL> placeholders → 5 placeholders detected by heuristic. Stripe LIVE 2 RON works (Stripe enforces a min ~RON 2 equiv; this test confirms the gate). Bearer-only auth path is functional for Safari ITP fallback. Frontend tab path: /gaze-naturale/<pid> → click [data-testid='tab-completare']. File input is hidden — use page.locator('[data-testid=file-input]').set_input_files(...) NOT click select-file-btn.",
+  "rca of the issue": "N/A — no bugs found in this iteration."
+}

@@ -15,10 +15,12 @@ peste DEFAULT_DATA.
 from __future__ import annotations
 import base64
 import io
+import json as _json_top
 import re
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from auth import get_current_user
@@ -506,3 +508,165 @@ async def smart_extract_llm(file: UploadFile = File(...), user=Depends(get_curre
             extraction_note=f"AI indisponibil ({str(e)[:80]}). Folosit detector euristic ca fallback.",
             field_count=len(fallback),
         )
+
+
+# ============================================================================
+# V10.6 — FILL TEMPLATE ENDPOINT
+# Cerință literală user (mesaj 26.06): "fa tot UI-ul necesar completarii
+# documentului incarcat - proiect gaze naturale".
+#
+# Workflow: utilizatorul încarcă un template DOCX, completează în UI fiecare
+# placeholder detectat, iar acest endpoint primește template-ul + lista de
+# înlocuiri și returnează DOCX-ul completat pentru descărcare/print.
+#
+# Strategy: walk pe paragrafe + tabele, înlocuire la nivel de run (păstrăm
+# formatarea) cu fallback pe paragraph-level dacă textul e spart pe multiple
+# runs (cazul tipic în template-uri Word generate manual).
+# ============================================================================
+class _FillReplacement(BaseModel):
+    original: str
+    replacement: str
+
+
+def _docx_replace_text(doc, replacements: List[Dict[str, str]]) -> int:
+    """Înlocuiește textul în DOCX păstrând formatarea per-run.
+
+    Returnează numărul de potriviri găsite și înlocuite.
+    """
+    if not replacements:
+        return 0
+    # Sortăm înlocuirile descrescător după lungime ca să prevenim coliziunile
+    # (de ex. "Sector 1" → înlocuiește înainte de "Sector").
+    ordered = sorted(
+        [r for r in replacements if r.get("original")],
+        key=lambda r: len(r.get("original", "")),
+        reverse=True,
+    )
+    matches = 0
+
+    def _replace_in_paragraph(paragraph) -> int:
+        nonlocal matches
+        local = 0
+        # Optimizare: dacă paragraful nu conține nicio cheie, sărim
+        full_text = paragraph.text or ""
+        if not any(r["original"] in full_text for r in ordered):
+            return 0
+        # Strategy A: înlocuire pe runs individuale dacă potrivirea e
+        # localizată într-un singur run (păstrează formatarea perfect)
+        for r in ordered:
+            orig = r["original"]
+            repl = r.get("replacement", "")
+            for run in paragraph.runs:
+                if orig in (run.text or ""):
+                    run.text = run.text.replace(orig, repl)
+                    local += 1
+        # Strategy B: dacă textul nu s-a schimbat (placeholder spart pe runs),
+        # consolidăm tot paragraful în primul run și ștergem restul.
+        new_text = paragraph.text or ""
+        still_has = any(r["original"] in new_text for r in ordered)
+        if still_has:
+            combined = new_text
+            for r in ordered:
+                if r["original"] in combined:
+                    combined = combined.replace(r["original"], r.get("replacement", ""))
+                    local += 1
+            if combined != new_text:
+                if paragraph.runs:
+                    paragraph.runs[0].text = combined
+                    for run in paragraph.runs[1:]:
+                        run.text = ""
+                else:
+                    paragraph.add_run(combined)
+        matches += local
+        return local
+
+    for para in doc.paragraphs:
+        _replace_in_paragraph(para)
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for para in cell.paragraphs:
+                    _replace_in_paragraph(para)
+    # Headers / footers
+    for section in doc.sections:
+        for hf in (section.header, section.footer):
+            if hf is None:
+                continue
+            for para in hf.paragraphs:
+                _replace_in_paragraph(para)
+    return matches
+
+
+@router.post("/fill-template")
+async def fill_template(
+    file: UploadFile = File(...),
+    replacements: str = Form(...),
+    filename: Optional[str] = Form(None),
+    user=Depends(get_current_user),
+):
+    """V10.6 — Înlocuiește placeholder-urile dintr-un DOCX cu valorile
+    completate de utilizator în UI și returnează DOCX-ul completat.
+
+    Args:
+        file: template DOCX (Word 2007+). DOC legacy și PDF NU sunt suportate
+              pentru fill (doar pentru detectare).
+        replacements: JSON string cu listă `[{ original, replacement }, ...]`.
+        filename: opțional — numele DOCX-ului returnat (fără extensie).
+    """
+    fname = (file.filename or "").lower()
+    if not fname.endswith(".docx"):
+        # Acceptăm și DOCX cu extensia .doc (zip header PK)
+        head = await file.read(2)
+        await file.seek(0)
+        if not (fname.endswith(".doc") and head == b"PK"):
+            raise HTTPException(
+                status_code=400,
+                detail="Doar DOCX (Word 2007+) e suportat pentru completare. Convertește .doc/.pdf la .docx mai întâi.",
+            )
+
+    try:
+        repl_list = _json_top.loads(replacements or "[]")
+    except Exception:
+        raise HTTPException(status_code=400, detail="replacements trebuie să fie JSON valid.")
+    if not isinstance(repl_list, list):
+        raise HTTPException(status_code=400, detail="replacements trebuie să fie o listă.")
+
+    # Sanitize: doar string-uri non-empty pentru `original`
+    clean: List[Dict[str, str]] = []
+    for it in repl_list:
+        if not isinstance(it, dict):
+            continue
+        orig = str(it.get("original") or "").strip()
+        if not orig:
+            continue
+        clean.append({"original": orig, "replacement": str(it.get("replacement") or "")})
+
+    blob = await file.read()
+    if not blob:
+        raise HTTPException(status_code=400, detail="Fișier gol.")
+
+    try:
+        from docx import Document
+        doc = Document(io.BytesIO(blob))
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"DOCX invalid: {str(e)[:120]}")
+
+    matches = _docx_replace_text(doc, clean)
+
+    out_buf = io.BytesIO()
+    doc.save(out_buf)
+    out_buf.seek(0)
+
+    safe_name = (filename or (file.filename or "document_completat")).rsplit(".", 1)[0]
+    safe_name = re.sub(r"[^A-Za-z0-9_\-]+", "_", safe_name)[:80] or "document_completat"
+    out_name = f"{safe_name}_completat.docx"
+
+    return StreamingResponse(
+        out_buf,
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        headers={
+            "Content-Disposition": f'attachment; filename="{out_name}"',
+            "X-Replacements-Applied": str(matches),
+            "X-Replacements-Requested": str(len(clean)),
+        },
+    )
