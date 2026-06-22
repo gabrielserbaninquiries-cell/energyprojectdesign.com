@@ -69,6 +69,7 @@ import Sponsorizeaza from './pages/Sponsorizeaza';
 import Constructii from './pages/Constructii';
 import DocumentatieElectronica from './pages/DocumentatieElectronica';
 import Contact from './pages/Contact';
+import IndustrySeoPage from './pages/IndustrySeoPage';
 // V7.0 — High-end ecosystem pages
 import HomePageV7 from './pages/HomePageV7';
 import DocumentatieIndustriiPage from './pages/DocumentatieIndustriiPage';

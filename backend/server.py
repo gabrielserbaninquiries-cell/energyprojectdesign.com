@@ -927,8 +927,18 @@ async def email_document(req: EmailSendRequest, user: User = Depends(get_current
 
 
 # ====================== STRIPE PAYMENTS ======================
-def _stripe_client(request: Request) -> StripeCheckout:
-    api_key = os.environ.get("STRIPE_API_KEY", "")
+def _stripe_client(request: Request, *, account: str = "default") -> StripeCheckout:
+    """V10.6 — Multi-account Stripe client.
+
+    `account="donations"` routes to STRIPE_DONATIONS_API_KEY if defined, otherwise
+    falls back to the main STRIPE_API_KEY. This lets donations land in a separate
+    Stripe account (e.g. secondary Revolut-linked account) without touching the
+    main account used for subscriptions/services.
+    """
+    if account == "donations":
+        api_key = os.environ.get("STRIPE_DONATIONS_API_KEY") or os.environ.get("STRIPE_API_KEY", "")
+    else:
+        api_key = os.environ.get("STRIPE_API_KEY", "")
     host_url = str(request.base_url).rstrip("/")
     webhook_url = f"{host_url}/api/webhook/stripe"
     return StripeCheckout(api_key=api_key, webhook_url=webhook_url)
@@ -973,7 +983,7 @@ async def donation_checkout(req: _DonationRequest, request: Request):
     success_url = f"{origin}/sponsorizeaza?status=success&session_id={{CHECKOUT_SESSION_ID}}"
     cancel_url = f"{origin}/sponsorizeaza?status=cancelled"
 
-    sc = _stripe_client(request)
+    sc = _stripe_client(request, account="donations")
     co_req = CheckoutSessionRequest(
         amount=float(req.amount),
         currency=currency,
