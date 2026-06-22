@@ -1,4 +1,4 @@
-# Energy Project Design — PRD (V10.3, 2026-06-21)
+# Energy Project Design — PRD (V10.6, 2026-06-22)
 
 ## Original problem statement
 Consolidate 5 repos into a single platform that generates legal Romanian construction
@@ -10,6 +10,22 @@ Owner: Dragoș Șerban (dragosserban95@gmail.com)
 Company: Energy Project Design S.R.L. (CUI 43151074, J40/12982/2020)
 Mission: "Reducem o firmă de proiectare-execuție de 20 angajați la 1-2 oameni"
 Long-term: "#1 mondial pentru documentație tehnică digitală + 22 servicii globale"
+
+
+## Status V10.6 — HYBRID AUTH + TEMPLATE FILL UI (2026-06-22)
+- ✅ Hybrid Auth implementat — HTTPOnly cookie + Bearer token fallback pentru iOS Safari ITP
+- ✅ Backend `_extract_token` acceptă cookie + Authorization header (auth.py)
+- ✅ Frontend `api.js` interceptor injectează Bearer din sessionStorage când cookie e blocat
+- ✅ Login + register persistă token în sessionStorage (`epd_auth_token`)
+- ✅ Stripe LIVE donation 2 RON verificată — folosește STRIPE_API_KEY principal (donations key e comentat)
+- ✅ NOU /api/ocr/fill-template endpoint — înlocuiește placeholdere în DOCX, returnează DOCX completat
+- ✅ NOU TemplateFillTab.jsx — tab dedicat "Completare Document" în Studio Gaze cu:
+  - Drop zone upload DOCX/DOC/PDF
+  - Toggle AI (Claude Sonnet) vs Euristic (regex)
+  - Form complet cu cards per placeholder (context + input + suggested registry key)
+  - Auto-prefill din valorile existente ale proiectului
+  - Salvare în registru + descărcare DOCX completat
+- ✅ Testing 100% — backend 15/15, frontend 100% testids (iteration_19.json)
 
 
 ## Status V10.3 — STUDIO GAZE REDESIGN + END-TO-END FUNCTIONAL (2026-06-21)
