@@ -1,5 +1,6 @@
 import LegalLayout from './LegalLayout';
 import { Shield, FileX, FileSearch, Mail } from 'lucide-react';
+import useSEO from '../hooks/useSEO';
 
 const Section = ({ n, title, children }) => (
   <section>
@@ -9,6 +10,16 @@ const Section = ({ n, title, children }) => (
 );
 
 export default function Gdpr() {
+  useSEO({
+    title: 'GDPR · Drepturile dvs. asupra datelor · Energy Project Design',
+    description: 'Drepturile dvs. conform GDPR pe platforma Energy Project Design: acces, rectificare, ștergere ("dreptul de a fi uitat"), portabilitate, opoziție. Operator: ENERGY PROJECT DESIGN SRL, CUI 43151074. Cerere: dpo@energyprojectdesign.com.',
+    canonical: 'https://www.energyprojectdesign.com/gdpr',
+    keywords: 'GDPR EPD, drepturile mele GDPR, dreptul de a fi uitat, portabilitate date, rectificare date, opozitie GDPR, DPO energy project design',
+    breadcrumbs: [
+      { name: 'Acasă', url: '/' },
+      { name: 'GDPR', url: '/gdpr' },
+    ],
+  });
   const rights = [
     { icon: FileSearch, t: 'Dreptul de acces', d: 'Puteți cere o copie a datelor pe care le deținem despre dvs.' },
     { icon: Shield, t: 'Dreptul de rectificare', d: 'Puteți cere corectarea datelor incorecte sau actualizarea celor incomplete.' },

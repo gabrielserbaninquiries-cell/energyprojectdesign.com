@@ -1,4 +1,5 @@
 import LegalLayout from './LegalLayout';
+import useSEO from '../hooks/useSEO';
 
 const Section = ({ n, title, children }) => (
   <section>
@@ -8,6 +9,16 @@ const Section = ({ n, title, children }) => (
 );
 
 export default function Confidentialitate() {
+  useSEO({
+    title: 'Politica de Confidențialitate · GDPR · Energy Project Design',
+    description: 'Politica de confidențialitate Energy Project Design — ce date colectăm, cum le folosim, drepturile dvs. conform GDPR. Operator de date: ENERGY PROJECT DESIGN SRL, CUI 43151074. Hosting UE, criptare TLS 1.3, eIDAS QES.',
+    canonical: 'https://www.energyprojectdesign.com/confidentialitate',
+    keywords: 'confidentialitate EPD, privacy policy energy project design, GDPR Romania, protectia datelor, TLS 1.3, eIDAS QES',
+    breadcrumbs: [
+      { name: 'Acasă', url: '/' },
+      { name: 'Confidențialitate', url: '/confidentialitate' },
+    ],
+  });
   return (
     <LegalLayout title="Politică de Confidențialitate" eyebrow="// Cum protejăm datele dvs.">
       <p>

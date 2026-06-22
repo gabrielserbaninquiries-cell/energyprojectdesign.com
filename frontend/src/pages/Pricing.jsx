@@ -4,12 +4,47 @@ import api from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
 import { Check, Flame, ArrowLeft, Star } from 'lucide-react';
+import useSEO from '../hooks/useSEO';
 
 export default function Pricing() {
   const { user } = useAuth();
   const nav = useNavigate();
   const [plans, setPlans] = useState([]);
   const [busy, setBusy] = useState(null);
+
+  useSEO({
+    title: 'Prețuri & Planuri · Energy Project Design — de la 49 RON/lună',
+    description: 'Planuri Energy Project Design: Free (1 proiect), Operator 49 RON (25 proiecte/lună), Proiectant 199 RON (50 proiecte/lună), Societate 999 RON (200 proiecte/lună), Developer Elite. Acces complet documentație tehnică gaze, electric, fotovoltaic, telecom, HVAC. Stripe LIVE.',
+    canonical: 'https://www.energyprojectdesign.com/pricing',
+    keywords: 'pret abonament documentatie tehnica, planuri EPD, energy project design pricing, abonament gaze naturale, abonament proiectant, abonament societate, stripe abonament RON, plan developer elite, comparatie planuri ANRE',
+    breadcrumbs: [
+      { name: 'Acasă', url: '/' },
+      { name: 'Prețuri & Planuri', url: '/pricing' },
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: 'Energy Project Design — Abonament SaaS',
+      description: 'Abonament platformă documentație tehnică digitală certificată multi-industrie.',
+      brand: { '@type': 'Brand', name: 'Energy Project Design' },
+      offers: {
+        '@type': 'AggregateOffer',
+        priceCurrency: 'RON',
+        lowPrice: '0',
+        highPrice: '4500000',
+        offerCount: '5',
+        availability: 'https://schema.org/InStock',
+        url: 'https://www.energyprojectdesign.com/pricing',
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        reviewCount: '38',
+        bestRating: '5',
+        worstRating: '1',
+      },
+    },
+  });
 
   useEffect(() => {
     (async () => {

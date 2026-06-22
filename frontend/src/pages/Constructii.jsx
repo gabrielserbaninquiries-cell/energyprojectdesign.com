@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Building2, ArrowRight, Check, Sparkles } from 'lucide-react';
 import EPDLogo from '../components/EPDLogo';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
+import useSEO from '../hooks/useSEO';
 
 const SUBSERVICES = [
   'Documentație DTAC / DTOE conform Legea 50/1991',
@@ -18,6 +19,36 @@ const SUBSERVICES = [
 ];
 
 export default function Constructii() {
+  useSEO({
+    title: 'Construcții · DTAC · DTOE · Carte tehnică · Legea 10/1995 · EPD',
+    description: 'Documentație și management proiecte construcții conform Legii 50/1991 și Legii 10/1995: DTAC, DTOE, memoriu tehnic, caiet de sarcini, carte tehnică, verificare proiecte (MDLPA), recepție lucrări, PV faze determinante, avize urbanism. Platformă EPD multi-industrie.',
+    canonical: 'https://www.energyprojectdesign.com/constructii',
+    keywords: 'constructii Romania, DTAC, DTOE, carte tehnica constructii, Legea 50/1991, Legea 10/1995, MDLPA verificare, memoriu tehnic, caiet sarcini, certificat urbanism, autorizatie constructie, receptie lucrari, PV faze determinante, ANRE energy project design',
+    breadcrumbs: [
+      { name: 'Acasă', url: '/' },
+      { name: 'Construcții', url: '/constructii' },
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Documentație construcții',
+      name: 'Construcții — Documentație Tehnică Digitală EPD',
+      provider: { '@type': 'Organization', name: 'Energy Project Design', url: 'https://www.energyprojectdesign.com' },
+      areaServed: { '@type': 'Country', name: 'Romania' },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Servicii Construcții',
+        itemListElement: [
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'DTAC / DTOE conform Legea 50/1991' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carte tehnică Legea 10/1995' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Memoriu tehnic + caiet de sarcini' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Verificare proiecte (MDLPA)' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Recepție lucrări + PV faze determinante' } },
+        ],
+      },
+    },
+  });
+
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/60">

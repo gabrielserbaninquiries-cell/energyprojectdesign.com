@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { FileText, ArrowRight, Check, ShieldCheck, FileSignature, Stamp } from 'lucide-react';
 import EPDLogo from '../components/EPDLogo';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
+import useSEO from '../hooks/useSEO';
 
 const PILLARS = [
   { icon: FileText,      title: '33 template-uri DOCX',  desc: 'Conform NTPEE 2018, HG 273/1994, Legea 50/1991, Ord. ANRE 89/2018' },
@@ -15,6 +16,26 @@ const PILLARS = [
 ];
 
 export default function DocumentatieElectronica() {
+  useSEO({
+    title: 'Documentație Electronică Digitală · Semnătură QES eIDAS · 33 Template-uri · EPD',
+    description: 'Documentație electronică digitală certificată cu semnătură electronică calificată (QES) eIDAS și ștampilă digitală. 33 template-uri DOCX conforme NTPEE 2018, HG 273/1994, Legea 50/1991, ANRE 89/2018. 13 industrii reglementate: gaze, electric, fotovoltaic, telecom, HVAC, apă-canal, construcții.',
+    canonical: 'https://www.energyprojectdesign.com/documentatie-electronica',
+    keywords: 'documentatie electronica digitala, semnatura electronica calificata QES, eIDAS, stampila digitala, template DOCX, NTPEE 2018, HG 273/1994, ANRE 89/2018, DigiSign certSIGN, certificat digital, documentatie tehnica certificata, signed PDF',
+    breadcrumbs: [
+      { name: 'Acasă', url: '/' },
+      { name: 'Documentație Electronică', url: '/documentatie-electronica' },
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Documentație electronică certificată',
+      name: 'Documentație Electronică Digitală EPD',
+      provider: { '@type': 'Organization', name: 'Energy Project Design', url: 'https://www.energyprojectdesign.com' },
+      areaServed: [{ '@type': 'Country', name: 'Romania' }, { '@type': 'Place', name: 'European Union' }],
+      description: 'Documentație tehnică digitală cu semnătură electronică calificată eIDAS și ștampilă digitală.',
+    },
+  });
+
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/60">

@@ -13,5 +13,50 @@
       <image:title>Energy Project Design — Platforma nr.1 în lume multifuncțională</image:title>
       <image:caption>Energie sustenabilă, infrastructură inteligentă, transport avansat, construcții moderne, retail inovativ și multe altele</image:caption>
     </image:image>
+    <image:image>
+      <image:loc>https://www.energyprojectdesign.com/og-image.jpg</image:loc>
+      <image:title>EPD — Open Graph Banner</image:title>
+      <image:caption>B2B SaaS documentație tehnică digitală</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.energyprojectdesign.com/gaze-naturale</loc>
+    <image:image>
+      <image:loc>https://www.energyprojectdesign.com/branding/epd_hero_banner.png</image:loc>
+      <image:title>Studio Gaze Naturale — 33 documente DOCX generate automat</image:title>
+      <image:caption>Dosar branșament gaze complet conform NTPEE 2018 + ANRE 89/2018</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.energyprojectdesign.com/constructii</loc>
+    <image:image>
+      <image:loc>https://www.energyprojectdesign.com/branding/epd_hero_banner.png</image:loc>
+      <image:title>Construcții — DTAC, DTOE, Carte tehnică</image:title>
+      <image:caption>Documentație construcții conform Legea 50/1991 și Legea 10/1995</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.energyprojectdesign.com/documentatie-electronica</loc>
+    <image:image>
+      <image:loc>https://www.energyprojectdesign.com/branding/epd_hero_banner.png</image:loc>
+      <image:title>Documentație Electronică Digitală — Semnătură QES eIDAS</image:title>
+      <image:caption>33 template-uri DOCX legal compliant pentru 13 industrii reglementate</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.energyprojectdesign.com/sponsorizeaza</loc>
+    <image:image>
+      <image:loc>https://www.energyprojectdesign.com/logo.png</image:loc>
+      <image:title>Sponsorizează EPD — Donații RON / EUR</image:title>
+      <image:caption>Stripe Checkout LIVE pentru sustinerea Energy Project Design</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.energyprojectdesign.com/pricing</loc>
+    <image:image>
+      <image:loc>https://www.energyprojectdesign.com/logo.png</image:loc>
+      <image:title>Planuri EPD — De la 49 RON/lună</image:title>
+      <image:caption>Free, Operator, Proiectant, Societate, Developer Elite — Stripe LIVE</image:caption>
+    </image:image>
   </url>
 </urlset>

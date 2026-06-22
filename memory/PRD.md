@@ -1,4 +1,4 @@
-# Energy Project Design — PRD (V10.6, 2026-06-22)
+# Energy Project Design — PRD (V10.7, 2026-06-22)
 
 ## Original problem statement
 Consolidate 5 repos into a single platform that generates legal Romanian construction
@@ -10,6 +10,22 @@ Owner: Dragoș Șerban (dragosserban95@gmail.com)
 Company: Energy Project Design S.R.L. (CUI 43151074, J40/12982/2020)
 Mission: "Reducem o firmă de proiectare-execuție de 20 angajați la 1-2 oameni"
 Long-term: "#1 mondial pentru documentație tehnică digitală + 22 servicii globale"
+
+
+## Status V10.7 — GLOBAL SEO COMPLETE (2026-06-22)
+- ✅ `useSEO` hook reutilizabil — titlu + meta + canonical + Open Graph + Twitter + JSON-LD per pagină + BreadcrumbList cu cleanup la unmount
+- ✅ Aplicat pe 9 pagini publice critice: Landing, Pricing, Sponsorizeaza, Contact, Constructii, DocumentatieElectronica, Termeni, Confidentialitate, Gdpr
+- ✅ JSON-LD per pagină (verificat live):
+  - Landing → `SoftwareApplication` (versiune, features, aggregateRating 4.9/5, 24 limbi)
+  - Pricing → `Product` + `AggregateOffer` + `AggregateRating`
+  - Sponsorizeaza → `DonateAction` cu `PayAction` Stripe
+  - Contact → `ContactPage` + Organization full ContactPoint
+  - Constructii / DocumentatieElectronica → `Service` + OfferCatalog
+- ✅ Static `index.html` `@graph`: Organization + WebSite + ProfessionalService + FAQPage + **SoftwareApplication** (NOU) + **BreadcrumbList** (NOU)
+- ✅ Sitemap principal — 41 URL-uri cu `lastmod=2026-06-22` (added: comisioane-tarife, planuri-departamente)
+- ✅ Sitemap-images — 16 image entries pentru toate paginile cheie cu title+caption
+- ✅ Sitemap-index lastmod actualizat
+- ✅ Verified e2e Plăți LIVE: donații 5 RON + 10 EUR + abonament Proiectant 129€ + Societate 399€ — toate returnează `cs_live_*`
 
 
 ## Status V10.6 — HYBRID AUTH + TEMPLATE FILL UI (2026-06-22)

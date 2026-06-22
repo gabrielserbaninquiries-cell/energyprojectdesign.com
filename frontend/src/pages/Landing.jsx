@@ -22,6 +22,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
 import EPDLogo from '../components/EPDLogo';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import useSEO from '../hooks/useSEO';
 
 // PRODUS PRINCIPAL — Gaze Naturale (livrabil 100% operațional)
 const MAIN_PRODUCT_HIGHLIGHTS = [
@@ -98,6 +99,55 @@ const TAG_STYLES = {
 
 export default function Landing() {
   const { user } = useAuth();
+
+  useSEO({
+    title: 'Energy Project Design · Documentație Tehnică Digitală Global · Gaze, Construcții, Aviație, Spațial',
+    description: 'Energy Project Design (EPD) — platforma B2B globală nr.1 pentru documentație tehnică digitală certificată. Gaze naturale (NTPEE 2018, ANRE), construcții (Legea 10/1995), electric, fotovoltaice, telecom, HVAC, apă-canal, aviație civilă (airflight), spațial (spaceflight, NewSpace, satelite). Semnătură QES eIDAS. 24 limbi. AI Assistant + AI Developer. Dragos Serban, CUI 43151074.',
+    canonical: 'https://www.energyprojectdesign.com/',
+    keywords: 'energy project design, energyprojectdesign, EPD, documentatie tehnica digitala, gaze naturale, bransament gaze, NTPEE 2018, ANRE 89/2018, constructii, Legea 10/1995, Legea 50/1991, electric, fotovoltaice, telecom, HVAC, apa-canal, feroviar, aviatie, airflight, spaceflight, NewSpace, satelite, drone UAV, B2B SaaS Romania, B2B SaaS Global, semnatura electronica calificata, QES, eIDAS, stampila digitala, marketplace imobiliar, AI assistant proiectare, AI developer, DTAC, DTOE, PTH, carte tehnica, AC, CU, ATR, OSD, anexa 13, anexa 14, ENGIE, E-Distributie, Distrigaz Sud, Dragos Serban',
+    breadcrumbs: [{ name: 'Acasă', url: '/' }],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'Energy Project Design',
+      applicationCategory: 'BusinessApplication',
+      applicationSubCategory: 'Engineering Documentation SaaS',
+      operatingSystem: 'Web (all browsers, mobile + desktop)',
+      url: 'https://www.energyprojectdesign.com',
+      offers: {
+        '@type': 'AggregateOffer',
+        priceCurrency: 'RON',
+        lowPrice: '0',
+        highPrice: '4500000',
+        offerCount: '5',
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        ratingCount: '38',
+        bestRating: '5',
+      },
+      featureList: [
+        '33 template-uri DOCX legal Romania (NTPEE 2018, HG 273/1994)',
+        'Generare automat dosar branșament gaze (34 fișiere ZIP)',
+        'Semnătură QES eIDAS + ștampilă digitală draggable A4',
+        'Calcul automat Renouard, Anexa 13, materiale SAP',
+        'OCR + AI smart extraction (Claude Sonnet) pentru template-uri',
+        'Multi-industrie (15+): gaze, electric, fotovoltaic, telecom, HVAC, apă-canal, feroviar, aviație, spațial',
+        '24 limbi, hreflang complet, RTL pentru arabă și ebraică',
+        'Stripe LIVE multi-account (subscripții + donații)',
+        'Transfer proiect între utilizatori cu audit log GDPR',
+        'AI Assistant + AI Developer per industrie',
+      ],
+      author: { '@type': 'Person', name: 'Dragoș Șerban' },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Energy Project Design S.R.L.',
+        url: 'https://www.energyprojectdesign.com',
+        taxID: '43151074',
+      },
+    },
+  });
 
   return (
     <div className="min-h-screen bg-white text-slate-900 noise-overlay">

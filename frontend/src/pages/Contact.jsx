@@ -6,8 +6,42 @@ import { Link } from 'react-router-dom';
 import { Mail, Building2, Globe } from 'lucide-react';
 import EPDLogo from '../components/EPDLogo';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
+import useSEO from '../hooks/useSEO';
 
 export default function Contact() {
+  useSEO({
+    title: 'Contact Energy Project Design · office@energyprojectdesign.com · București, România',
+    description: 'Contactează Energy Project Design SRL — platforma B2B globală pentru documentație tehnică digitală certificată. Email: office@energyprojectdesign.com, support@energyprojectdesign.com, invest@energyprojectdesign.com. București, România. CUI 43151074.',
+    canonical: 'https://www.energyprojectdesign.com/contact',
+    keywords: 'contact energy project design, EPD email, support EPD, contact investitori EPD, contact bucuresti, energyprojectdesign.com contact, CUI 43151074, J40/12982/2020',
+    breadcrumbs: [
+      { name: 'Acasă', url: '/' },
+      { name: 'Contact', url: '/contact' },
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'ContactPage',
+      url: 'https://www.energyprojectdesign.com/contact',
+      mainEntity: {
+        '@type': 'Organization',
+        name: 'Energy Project Design S.R.L.',
+        url: 'https://www.energyprojectdesign.com',
+        logo: 'https://www.energyprojectdesign.com/logo.png',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'București',
+          addressCountry: 'RO',
+          addressRegion: 'București',
+        },
+        contactPoint: [
+          { '@type': 'ContactPoint', contactType: 'customer service', email: 'office@energyprojectdesign.com', availableLanguage: ['ro', 'en'] },
+          { '@type': 'ContactPoint', contactType: 'technical support', email: 'support@energyprojectdesign.com', availableLanguage: ['ro', 'en'] },
+          { '@type': 'ContactPoint', contactType: 'investor relations', email: 'invest@energyprojectdesign.com', availableLanguage: ['ro', 'en'] },
+        ],
+      },
+    },
+  });
+
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/60">

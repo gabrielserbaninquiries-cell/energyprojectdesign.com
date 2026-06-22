@@ -3,6 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.energyprojectdesign.com/</loc>
+    <lastmod>2026-06-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ro" href="https://www.energyprojectdesign.com/" />
@@ -31,42 +32,44 @@
     <xhtml:link rel="alternate" hreflang="bg" href="https://www.energyprojectdesign.com/?lang=bg" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.energyprojectdesign.com/" />
   </url>
-  <url><loc>https://www.energyprojectdesign.com/gaze-naturale</loc><changefreq>daily</changefreq><priority>0.95</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/constructii</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/imobiliare</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/documentatie-electronica</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/sponsorizeaza</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/pricing</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/industrii</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/fabrici-uzine</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/comert-logistica</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/marketplace</loc><changefreq>daily</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/forum</loc><changefreq>daily</changefreq><priority>0.75</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/jobs</loc><changefreq>daily</changefreq><priority>0.75</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/servicii</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/curierat</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/transport-persoane</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/mediu</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/spitale</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/caritabile</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/biserica</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/termeni</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/confidentialitate</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/gdpr</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/investitori</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/aviatie</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/airflight</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/spatial</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/spaceflight</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/satelite</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/drone-uav</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/electric</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/fotovoltaice</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/telecom</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/hvac</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/apa-canal</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/feroviar</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/sanatate</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.energyprojectdesign.com/sport-stadioane</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/gaze-naturale</loc><lastmod>2026-06-22</lastmod><changefreq>daily</changefreq><priority>0.95</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/constructii</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/imobiliare</loc><lastmod>2026-06-22</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/documentatie-electronica</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/sponsorizeaza</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/contact</loc><lastmod>2026-06-22</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/pricing</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/industrii</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/fabrici-uzine</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/comert-logistica</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/marketplace</loc><lastmod>2026-06-22</lastmod><changefreq>daily</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/forum</loc><lastmod>2026-06-22</lastmod><changefreq>daily</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/jobs</loc><lastmod>2026-06-22</lastmod><changefreq>daily</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/servicii</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/comisioane-tarife</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/planuri-departamente</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/curierat</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/transport-persoane</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/mediu</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/spitale</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/caritabile</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/biserica</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/termeni</loc><lastmod>2026-06-22</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/confidentialitate</loc><lastmod>2026-06-22</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/gdpr</loc><lastmod>2026-06-22</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/investitori</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/aviatie</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/airflight</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/spatial</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/spaceflight</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/satelite</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/drone-uav</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/electric</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/fotovoltaice</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/telecom</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/hvac</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/apa-canal</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/feroviar</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/sanatate</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.energyprojectdesign.com/sport-stadioane</loc><lastmod>2026-06-22</lastmod><changefreq>weekly</changefreq><priority>0.75</priority></url>
 </urlset>

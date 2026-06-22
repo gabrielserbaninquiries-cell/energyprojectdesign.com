@@ -1,4 +1,5 @@
 import LegalLayout from './LegalLayout';
+import useSEO from '../hooks/useSEO';
 
 const Section = ({ n, title, children }) => (
   <section>
@@ -8,6 +9,16 @@ const Section = ({ n, title, children }) => (
 );
 
 export default function Termeni() {
+  useSEO({
+    title: 'Termeni și Condiții · Energy Project Design',
+    description: 'Termeni și condiții de utilizare a platformei Energy Project Design Services (EPD). Document juridic conform legislației române, GDPR, eIDAS. Operator: ENERGY PROJECT DESIGN SRL, CUI 43151074, J40/12982/2020.',
+    canonical: 'https://www.energyprojectdesign.com/termeni',
+    keywords: 'termeni si conditii EPD, terms of service energy project design, juridic platforma, CUI 43151074, J40/12982/2020',
+    breadcrumbs: [
+      { name: 'Acasă', url: '/' },
+      { name: 'Termeni și Condiții', url: '/termeni' },
+    ],
+  });
   return (
     <LegalLayout title="Termeni și Condiții" eyebrow="// Document juridic">
       <p className="text-gray-700">

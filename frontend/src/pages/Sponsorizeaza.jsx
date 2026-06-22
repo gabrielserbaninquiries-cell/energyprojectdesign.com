@@ -18,6 +18,7 @@ import {
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
 import EPDLogo from '../components/EPDLogo';
 import api from '../lib/api';
+import useSEO from '../hooks/useSEO';
 
 const PRESET_AMOUNTS = {
   ron: [25, 50, 100, 250, 500, 1000],
@@ -54,6 +55,35 @@ export default function Sponsorizeaza() {
   const [busy, setBusy] = useState(false);
   const [stats, setStats] = useState(null);
   const [thankNote, setThankNote] = useState(null);
+
+  useSEO({
+    title: 'Sponsorizează Energy Project Design · Donații RON / EUR · Stripe LIVE',
+    description: 'Sponsorizează cauza Energy Project Design — platforma de documentație tehnică digitală pentru toate industriile. Donații RON sau EUR de la 5 RON / 1 EUR până la 100.000. Plată sigură prin Stripe Checkout LIVE. Donațiile susțin extinderea EPD în 24 limbi și 22 industrii globale.',
+    canonical: 'https://www.energyprojectdesign.com/sponsorizeaza',
+    keywords: 'sponsorizare EPD, donatii energy project design, donatie RON, donatie EUR, stripe donation, sustine EPD, sponsorizeaza proiect tehnologic, fundraising B2B SaaS Romania, IBAN Revolut RO22 REVO',
+    breadcrumbs: [
+      { name: 'Acasă', url: '/' },
+      { name: 'Sponsorizează', url: '/sponsorizeaza' },
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'DonateAction',
+      name: 'Sponsorizează Energy Project Design',
+      description: 'Donații one-time în RON sau EUR pentru extinderea platformei EPD.',
+      recipient: {
+        '@type': 'Organization',
+        name: 'Energy Project Design S.R.L.',
+        url: 'https://www.energyprojectdesign.com',
+        taxID: '43151074',
+      },
+      target: 'https://www.energyprojectdesign.com/sponsorizeaza',
+      potentialAction: {
+        '@type': 'PayAction',
+        target: 'https://www.energyprojectdesign.com/api/donations/checkout',
+        priceCurrency: ['RON', 'EUR'],
+      },
+    },
+  });
 
   useEffect(() => {
     api.get('/donations/stats').then(({ data }) => setStats(data)).catch(() => {});
