@@ -472,6 +472,85 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* V10.6.2 — FAQ Section with FAQPage schema → Google rich snippets */}
+      <section className="py-24 bg-white border-y border-slate-200" id="faq" data-testid="faq-section">
+        <div className="max-w-5xl mx-auto px-6 lg:px-12">
+          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">
+            <Sparkles className="w-3.5 h-3.5" />
+            // Întrebări frecvente
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tighter leading-[1.05] mb-12 text-slate-900 max-w-3xl">
+            Tot ce trebuie să știi despre <span className="epd-gradient-text">Energy Project Design</span>.
+          </h2>
+          <div className="space-y-3" itemScope itemType="https://schema.org/FAQPage">
+            {[
+              {
+                q: 'Ce este Energy Project Design (EPD)?',
+                a: 'Energy Project Design este o platformă B2B globală pentru documentație tehnică digitală certificată — gaze naturale, construcții, electric, fotovoltaice, telecom, HVAC, apă-canal, feroviar, aviație civilă, spațial. Documentele sunt semnate eIDAS QES și au valoare juridică completă.',
+              },
+              {
+                q: 'Documentele generate de EPD sunt acceptate legal în România?',
+                a: 'Da. Toate documentele sunt generate conform NTPEE 2018, ANRE 89/2018, Legea 10/1995, Legea 123/2012 (Energia electrică și gazele naturale), HG 907/2016 (DTAC/DTOE), HG 273/1994 (Cartea Tehnică) și sunt semnate cu semnătură electronică calificată eIDAS — valoare juridică identică cu semnătura olografă.',
+              },
+              {
+                q: 'Cât costă un proiect de branșament gaze naturale?',
+                a: 'EPD oferă planuri lunare începând cu 49 RON/lună (Operator: 25 proiecte/lună), Proiectant 199 RON/lună (50 proiecte) și Societate 999 RON/lună (200 proiecte). Există și planul Developer Elite 999.999 USD/lună cu acces nelimitat la toate industriile.',
+              },
+              {
+                q: 'În cât timp se generează un dosar complet de branșament gaze?',
+                a: 'Aproximativ 30 minute pentru un dosar complet de 33+ documente (Referat verificator, Foaie de capat, Borderou, Memoriu Tehnic, ANEXA 14 cu materiale SAP auto-selectate, fișe sudori, certificate calitate, plan situatie, etc.) — comparativ cu 8-12 ore manual.',
+              },
+              {
+                q: 'Pot adăuga colaboratori (proiectant, executant, VGD, RTE) pe același proiect?',
+                a: 'Da. EPD include sistem complet de transfer proiect între utilizatori — fiecare colaborator primește acces cu rol specific (operator, proiectant, executant, VGD, RTE, contabilitate, ofertare). Audit log complet GDPR-compliant. Notificări automate prin email.',
+              },
+              {
+                q: 'Ce industrii acoperă EPD în afară de gazele naturale?',
+                a: 'Roadmap V10.6 include 15+ industrii: aviație civilă (airflight), spațial (spaceflight, NewSpace, satelite, drone-UAV), electric (ANRE PDD/EDD), fotovoltaice (Casa Verde, parc PV), telecom (FTTH, 5G), HVAC, apă-canal, feroviar (ERTMS, CFR), sănătate (spitale BSL-3), sport (stadioane FIFA/UEFA), construcții imobiliare. Toate cu același engine de documentație + plăți + roluri.',
+              },
+              {
+                q: 'EPD funcționează în limba engleză sau alte limbi?',
+                a: 'Da. Platforma este disponibilă în 24 limbi cu detectare automată browser: română, engleză, spaniolă, franceză, germană, italiană, portugheză, olandeză, polonă, ucraineană, rusă, turcă, arabă, ebraică (RTL), hindi, chineză, japoneză, coreeană, vietnameză, thailandeză, greacă, maghiară, cehă, bulgară.',
+              },
+              {
+                q: 'Cum trimit donații către EPD?',
+                a: 'Accesează /sponsorizeaza, alege suma (min 2 RON / 1 EUR), datele tale, mesajul opțional, și plătești cu cardul prin Stripe Checkout LIVE. Banii ajung direct în contul societății EPD SRL legat la IBAN Revolut RO22 REVO 0000 1555 6872 4293. Vei primi automat email de mulțumire personalizat.',
+              },
+              {
+                q: 'EPD lucrează cu investitori sau fonduri VC?',
+                a: 'Da. Suntem în căutare activă de capital strategic pentru expansiune globală. TAM estimat $1.4T multi-industrie. Contact: invest@energyprojectdesign.com. Investitorii ancoră primesc acces la planul Developer Elite și drepturi preferențiale în creștere.',
+              },
+              {
+                q: 'Sunt datele mele în siguranță pe EPD?',
+                a: 'Da. Toate datele sunt criptate la transport (TLS 1.3), stocate în MongoDB cu acces restricționat, semnate eIDAS QES (SHA-256), backup zilnic. GDPR-compliant. Audit log imutabil per proiect. Hosting în UE.',
+              },
+            ].map((item, i) => (
+              <details
+                key={i}
+                className="group bg-white border border-slate-200 hover:border-violet-300 rounded-lg overflow-hidden transition-colors"
+                itemScope
+                itemProp="mainEntity"
+                itemType="https://schema.org/Question"
+                data-testid={`faq-item-${i}`}
+              >
+                <summary className="cursor-pointer px-5 py-4 flex items-center justify-between gap-3 hover:bg-slate-50 transition-colors">
+                  <h3 className="text-base lg:text-lg font-bold text-slate-900 leading-tight" itemProp="name">{item.q}</h3>
+                  <ArrowRight className="w-4 h-4 text-violet-600 shrink-0 transition-transform group-open:rotate-90" />
+                </summary>
+                <div
+                  className="px-5 pb-5 text-slate-700 leading-relaxed text-sm lg:text-base border-t border-slate-100 pt-4"
+                  itemScope
+                  itemProp="acceptedAnswer"
+                  itemType="https://schema.org/Answer"
+                >
+                  <span itemProp="text">{item.a}</span>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* V9.5 — SPONSORIZEAZĂ CAUZA EPD (NEW) */}
       <section className="py-20 bg-gradient-to-br from-violet-50 via-fuchsia-50/40 to-indigo-50 border-y border-violet-100" id="sponsorizeaza">
         <div className="max-w-5xl mx-auto px-6 lg:px-12 grid md:grid-cols-5 gap-10 items-center">

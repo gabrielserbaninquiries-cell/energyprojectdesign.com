@@ -1008,6 +1008,95 @@ function TransferProjectDialog({ pid, onClose, onTransferred }) {
   );
 }
 
+// ====================================================================
+// V10.6.2 — MaterialsAutoPreview — afișează ANEXA 14 generată automat
+// din baza SAP (554 materiale ANEXA 13) pe baza selecțiilor BR/CND
+// ====================================================================
+function MaterialsAutoPreview({ pid, data }) {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const refresh = async () => {
+    if (!pid) return;
+    setLoading(true);
+    try {
+      const { data: res } = await api.get(`/gas-project/${pid}/materials/auto`);
+      setRows(res.rows || []);
+      if (!open) setOpen(true);
+    } catch (e) {
+      toast.error(`Eroare materiale: ${e.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Auto-refresh when material selections change
+  useEffect(() => {
+    if (open) refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.br_material, data.br_diametru_dn, data.br_lungime_m, data.cnd_ex_diametru_dn, data.cnd_noua, data.cnd_n_diametru_dn]);
+
+  return (
+    <div className="mt-5 bg-gradient-to-br from-violet-50 via-white to-indigo-50 border border-violet-200 rounded-xl overflow-hidden epd-shadow" data-testid="materials-auto-preview">
+      <div className="bg-gradient-to-r from-violet-600 to-indigo-600 px-4 py-2.5 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Package className="w-3.5 h-3.5 text-white" />
+          <div className="text-[10px] uppercase tracking-[0.18em] text-white font-bold">// ANEXA 14 · Materiale auto din baza SAP ENGIE (554 coduri)</div>
+        </div>
+        <button
+          onClick={refresh}
+          disabled={loading}
+          className="text-[10px] inline-flex items-center gap-1 bg-white/15 hover:bg-white/25 text-white px-2.5 py-1 rounded font-bold transition-colors disabled:opacity-50"
+          data-testid="materials-auto-refresh"
+        >
+          {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+          {open ? 'Recalculează' : 'Generează materiale'}
+        </button>
+      </div>
+      {open && (
+        <div className="p-4">
+          {rows.length === 0 && !loading && (
+            <div className="text-center py-6 text-sm text-slate-500">
+              Completează <strong>Material BR</strong>, <strong>Diametru</strong>, <strong>Lungime</strong> apoi apasă <strong>Recalculează</strong>.
+            </div>
+          )}
+          {rows.length > 0 && (
+            <>
+              <div className="grid grid-cols-12 gap-2 mb-2 text-[9px] uppercase tracking-wider text-slate-500 font-semibold px-2">
+                <div className="col-span-1">Nr.</div>
+                <div className="col-span-2">Cod SAP</div>
+                <div className="col-span-5">Denumire</div>
+                <div className="col-span-1">BR/CND</div>
+                <div className="col-span-2 text-right">Cantitate</div>
+                <div className="col-span-1">UM</div>
+              </div>
+              {rows.map((r) => (
+                <div key={r.nr} className="grid grid-cols-12 gap-2 items-center text-xs py-1.5 px-2 bg-white border border-slate-100 hover:border-violet-300 rounded mb-1 transition-colors">
+                  <div className="col-span-1 font-mono tabular-nums text-slate-500">{r.nr}</div>
+                  <div className="col-span-2 font-mono tabular-nums font-bold text-violet-700">{r.sap_code}</div>
+                  <div className="col-span-5 text-slate-700 leading-tight">{r.desc}</div>
+                  <div className="col-span-1">
+                    <span className={`text-[10px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded ${r.dest === 'BR' ? 'bg-violet-100 text-violet-700' : 'bg-indigo-100 text-indigo-700'}`}>
+                      {r.dest}
+                    </span>
+                  </div>
+                  <div className="col-span-2 text-right font-mono tabular-nums font-bold text-slate-900">{r.qty}</div>
+                  <div className="col-span-1 text-slate-500 text-[11px]">{r.um}</div>
+                </div>
+              ))}
+              <div className="mt-3 text-[11px] text-slate-500 italic flex items-center justify-between">
+                <span>Total: <strong className="text-slate-800">{rows.length} poziții</strong> · selecție automată din 554 SAP</span>
+                <span className="text-violet-700 font-semibold">Lista se introduce automat în Proiect Bransament COMPLET (DOCX)</span>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function GasNaturalProjectV2() {
   const { pid } = useParams();
   const nav = useNavigate();
@@ -1528,6 +1617,9 @@ export default function GasNaturalProjectV2() {
                 <div className="md:col-span-3"><Field label="Lățime șanț CND (m)"><Input type="number" value={data.cnd_n_latime_sant} onChange={upd('cnd_n_latime_sant')} /></Field></div>
               </div>
             )}
+
+            {/* V10.6.2 — Auto-fill ANEXA 14 din baza de date SAP (554 materiale) */}
+            <MaterialsAutoPreview pid={pid} data={data} />
           </SectionCard>
 
           {/* SECTION 3 — Documente OSD */}

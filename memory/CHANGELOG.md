@@ -1,5 +1,23 @@
 # Energy Project Design — Changelog
 
+## V10.6.2 — 2026-06-22 (current session) — FAQ Schema + Materials Auto Panel
+
+### 🔎 FAQ Section + FAQPage Schema (Google rich snippets)
+- Secțiune FAQ în Landing cu 10 întrebări frecvente (data-testid="faq-section")
+- Microdata `itemScope FAQPage` + `Question` + `Answer` pe fiecare item
+- JSON-LD FAQPage schema în index.html (10 Q&A) → Google va putea afișa fragmente direct în rezultate
+- Subiecte acoperite: ce e EPD, legal RO, prețuri, timp generare, colaboratori, industrii, limbi, donații, investitori, securitate
+- Toate cu cuvinte-cheie SEO țintite: NTPEE 2018, ANRE 89/2018, eIDAS QES, audit log, GDPR, 24 limbi, IBAN RO22 REVO
+
+### ⚙️ MaterialsAutoPreview în Studio Gaze
+- Componentă nouă în GasNaturalProjectV2.jsx la finalul secțiunii Materiale
+- Apel GET /api/gas-project/{pid}/materials/auto cu auto-refresh la modificarea br_material, br_diametru_dn, br_lungime_m, cnd_*
+- UI cu header gradient violet-indigo, header cu buton „Generează materiale" / „Recalculează"
+- Afișează 8+ poziții SAP în format tabel: Nr | Cod SAP (mono violet) | Denumire | BR/CND badge | Cantitate (mono bold) | UM
+- Footer cu „Total: X poziții · selecție automată din 554 SAP · Lista se introduce automat în Proiect Bransament COMPLET (DOCX)"
+- Testat live: 8 materiale generate corect pentru PID demo (TEAVA DN32, TEU 90-32, MUFA, RAISER, ROBINET, FIRIDA, REGULATOR, FILTRU)
+
+
 ## V10.6.1 — 2026-06-22 (current session) — SEO global infrastructure + Donații pe cont secundar Stripe
 
 ### 💸 Stripe donations routing
