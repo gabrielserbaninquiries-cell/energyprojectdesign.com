@@ -1,5 +1,41 @@
 # Energy Project Design — Changelog
 
+## V10.6 — 2026-06-22 (current session) — GLOBAL EXPANSION: Vision Banner + Investitori + i18n 24 limbi + SEO global
+
+### 🎨 Vision Banner (imagine user-uploadată)
+- Salvată la `/app/frontend/public/branding/epd_hero_banner.png` (2.7MB)
+- Integrată în Landing sub Hero ca secțiune `data-testid="vision-banner"` — full-width cu titlu „Platforma nr. 1 în lume, multifuncțională"
+
+### 💎 Secțiune Investitori (Strategic Capital)
+- `data-testid="investors-section"` în Landing.jsx (între Roadmap și Sponsorizare)
+- 4 metrics: TAM Global $1.4T, Piață RO €8B, 22+ servicii, V10.6 live
+- 5 puncte "De ce acum": cerere validată, avantaj reglementar (eIDAS+NTPEE), tehnologie defensibilă (554 SAP+221 fields+33 templates), echipă validată, expansiune naturală
+- CTA: invest@energyprojectdesign.com (amber) + Plan Developer Elite $999,999/lună
+- Buton "💎 Investitori" în navbar + buton hero (amber)
+
+### 🌍 Internaționalizare i18n (24 limbi)
+- Installed: `i18next@26.3.1`, `react-i18next@17.0.8`, `i18next-browser-languagedetector@8.2.1`
+- Configurate 24 limbi: RO/EN/ES/FR/DE/IT/PT/NL/PL/UK/RU/TR/AR/HE/HI/ZH/JA/KO/VI/TH/EL/HU/CS/BG
+- RTL pentru AR/HE (auto-aplicat pe `<html dir>`)
+- Browser auto-detect + localStorage persistence (key: `epd-i18n-lang`)
+- Component nou `LanguageSwitcher.jsx` (24 opțiuni cu flag emoji + nume nativ)
+- Integrat în Landing header + AppShell header (utilizatori autentificați)
+
+### 🔎 SEO Global (cucerire pământ)
+- `<link rel="alternate" hreflang>` × 24 limbi în `<head>` + `x-default`
+- Sitemap.xml cu hreflang xhtml:link tags pe URL principal + 16 URL-uri noi (investitori, aviatie, airflight, spatial, spaceflight, satelite, drone-uav, electric, fotovoltaice, telecom, hvac, apa-canal, feroviar, sanatate, sport)
+- Meta `content-language` extins la 24 limbi
+- Meta keywords extinse cu: airflight, spaceflight, aviation, NewSpace, satelite, drone, UAV, NewSpace, NewSpace
+- JSON-LD Organization actualizat:
+  - `contactPoint` × 3 (customer service cu 24 limbi, technical support, investor relations)
+  - `areaServed` extins la Country + Continent + Global Place
+  - `knowsAbout` cu 25 entries multi-industrie (inclusiv Aviație civilă, Airflight, Spaceflight, NewSpace, Satelite, Drone UAV)
+- Hashtags noi: #Aviation, #Spaceflight, #NewSpace, #GlobalPlatform, #Investors
+
+### 🧪 Testing (iteration_18 V10.5: 13/13 PASS)
+- V10.6 smoke verificat manual: LangSwitcher 🇷🇴→🇬🇧 funcțional, Vision Banner vizibil, Investors section vizibilă, JSON-LD valid, sitemap servit cu hreflang
+
+
 ## V10.3 — 2026-06-21 (current session) — Studio Gaze REDESIGN + END-TO-END functional
 
 ### 🎨 UI redesign masiv — paletă strict violet/indigo/blue (zero verde/amber/negru)

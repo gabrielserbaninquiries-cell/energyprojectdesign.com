@@ -5,6 +5,7 @@ import api from '../lib/api';
 import ActiveProjectBar from './ActiveProjectBar';
 import LicenseTimer from './LicenseTimer';
 import CommandBar from './CommandBar';
+import LanguageSwitcher from './LanguageSwitcher';
 import {
   LayoutDashboard, ClipboardList, Settings2, Calculator, FileText, FileCheck2,
   Stamp, ShieldCheck, Mail, BadgeCheck, GaugeCircle, CreditCard, Settings, LogOut,
@@ -219,6 +220,12 @@ export default function AppShell({ children, title, subtitle }) {
             )}
             <LicenseTimer />
             <ActiveProjectBar />
+            {/* V10.6 — Language switcher inside app shell */}
+            <div className="hidden md:block">
+              <div className="bg-slate-900 rounded-md">
+                <LanguageSwitcher compact />
+              </div>
+            </div>
           </div>
         </header>
         <main className="flex-1 px-8 py-8 page-enter">{children}</main>

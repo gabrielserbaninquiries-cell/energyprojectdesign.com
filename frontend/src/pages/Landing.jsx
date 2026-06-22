@@ -21,6 +21,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
 import EPDLogo from '../components/EPDLogo';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 // PRODUS PRINCIPAL — Gaze Naturale (livrabil 100% operațional)
 const MAIN_PRODUCT_HIGHLIGHTS = [
@@ -114,6 +115,11 @@ export default function Landing() {
             <Link to="/pricing" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-pricing">Tarife</Link>
           </nav>
           <div className="flex items-center gap-2">
+            {/* V10.6 — Language switcher (24 languages, browser auto-detect) */}
+            <LanguageSwitcher compact />
+            <a href="#investitori" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 font-bold rounded-md transition-colors" data-testid="nav-investors">
+              💎 Investitori
+            </a>
             {user ? (
               <Link to="/dashboard" className="epd-btn text-sm py-2" data-testid="cta-dashboard">Panou</Link>
             ) : (
@@ -161,6 +167,10 @@ export default function Landing() {
               <Link to="/pricing" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/30 px-6 py-3.5 rounded-lg backdrop-blur-sm transition-all" data-testid="hero-cta-pricing">
                 Vezi tarifele
               </Link>
+              <a href="#investitori" className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 px-6 py-3.5 rounded-lg backdrop-blur-sm transition-all font-bold" data-testid="hero-cta-investors">
+                <Sparkles className="w-4 h-4" />
+                Investitori →
+              </a>
             </div>
             <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl">
               {[
@@ -175,6 +185,29 @@ export default function Landing() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* V10.6 — VISION BANNER (user-supplied hero image) */}
+      <section className="relative bg-slate-900 overflow-hidden" data-testid="vision-banner">
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/0 via-slate-900/0 to-slate-900/60 pointer-events-none z-10" />
+        <img
+          src="/branding/epd_hero_banner.png"
+          alt="Energy Project Design — Platforma nr. 1 în lume, multifuncțională pentru toate tipurile de energie, infrastructuri, transport, construcții, retail și multe altele"
+          loading="lazy"
+          className="w-full h-auto block"
+        />
+        <div className="absolute bottom-0 left-0 right-0 z-20 px-6 lg:px-12 py-6 lg:py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-[10px] uppercase tracking-[0.3em] text-violet-300 font-bold mb-2">// Misiunea EPD · The Architects of Future Global Technology</div>
+            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
+              <span className="text-amber-300">Platforma nr. 1 în lume</span>, multifuncțională
+            </h2>
+            <p className="text-base lg:text-lg text-slate-300 mt-3 max-w-3xl">
+              Pentru toate tipurile de energie, infrastructuri, transport, construcții, retail,
+              aviație, spațial — și multe altele. Inovație · Sustenabilitate · Tehnologie · Excelență · Încredere.
+            </p>
           </div>
         </div>
       </section>
@@ -347,6 +380,94 @@ export default function Landing() {
                 <div className="text-[9px] uppercase tracking-wider text-violet-500 font-semibold mt-3">În roadmap</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* V10.6 — INVESTITORI · Strategic Capital Section (per user request) */}
+      <section
+        id="investitori"
+        className="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-violet-950 to-indigo-950"
+        data-testid="investors-section"
+      >
+        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+          backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(168,85,247,0.4) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(59,130,246,0.4) 0%, transparent 50%)',
+        }} />
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
+          <div className="grid lg:grid-cols-12 gap-12 items-start">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-amber-300 font-semibold mb-4">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>// Strategic capital opportunity</span>
+              </div>
+              <h2 className="text-4xl lg:text-6xl font-bold tracking-tighter text-white leading-[1.05] mb-6">
+                Construim cea mai <span className="bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-200 bg-clip-text text-transparent">influentă platformă globală</span> de proiectare și execuție multi-industrie.
+              </h2>
+              <p className="text-lg text-violet-100 leading-relaxed mb-6">
+                Astăzi: <strong className="text-white">platformă nr. 1 în România pentru documentație gaze naturale</strong> certificată
+                eIDAS QES — 33+ documente legale, 554 SAP-coduri materiale ENGIE, 221 câmpuri tehnice mapate.
+              </p>
+              <p className="text-lg text-violet-100 leading-relaxed mb-8">
+                Mâine: <strong className="text-white">platformă globală nr. 1 în lume</strong> pentru toate tipurile de
+                construcții, energie, transport, aviație, spațial, comercializare, logistică, sănătate
+                și comunitate — cu standarde uniforme și preț democratizat.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                {[
+                  { t: 'TAM global', v: '$1.4 T', d: 'Construcții + energie + spațial cumulat' },
+                  { t: 'Piață țintă RO', v: '€8 B', d: 'Construcții, gaz, electric, telecom anual' },
+                  { t: 'Servicii planificate', v: '22+', d: 'Multi-industrie (vezi roadmap)' },
+                  { t: 'Status produs',  v: 'V10.6 live', d: 'eIDAS QES + AI + materials DB' },
+                ].map((m) => (
+                  <div key={m.t} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4">
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-violet-300 font-semibold">{m.t}</div>
+                    <div className="text-3xl font-bold text-amber-300 tabular-nums mt-1">{m.v}</div>
+                    <div className="text-xs text-slate-300 mt-1.5 leading-snug">{m.d}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <a href="mailto:invest@energyprojectdesign.com?subject=Investment%20interest%20-%20Energy%20Project%20Design"
+                  className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-all"
+                  data-testid="investors-cta-email"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                  invest@energyprojectdesign.com
+                </a>
+                <Link to="/pricing" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/30 px-6 py-3.5 rounded-lg backdrop-blur-sm transition-all" data-testid="investors-cta-developer-plan">
+                  Plan Developer Elite · $999,999/lună
+                </Link>
+              </div>
+              <p className="text-xs text-slate-400 mt-6 max-w-xl">
+                * Investitorii ancoră primesc acces la planul Developer Elite ($999,999/lună),
+                acoperă toate industriile, AI Developer integrat, suport co-fondator dedicat și
+                drepturi preferențiale în creșterea internațională.
+              </p>
+            </div>
+
+            <div className="lg:col-span-5">
+              <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8">
+                <div className="text-[10px] uppercase tracking-[0.25em] text-amber-300 font-bold mb-2">// De ce acum</div>
+                <h3 className="text-2xl font-bold text-white mb-4">Momentul perfect pentru capital strategic.</h3>
+                <ul className="space-y-4 text-sm text-violet-100">
+                  {[
+                    { t: 'Cerere validată', d: 'Operatorii de distribuție gaze din România cer documentație 100% digitală cu QES — EPD livrează deja.' },
+                    { t: 'Avantaj reglementar', d: 'eIDAS + NTPEE 2018 + ANRE 89/2018 sunt integrate nativ. Competitorii globali necesită 18-24 luni pentru a se conforma.' },
+                    { t: 'Tehnologie defensibilă', d: '554 SAP materials DB + 221 câmpuri + 33 templates = moat de execuție greu de replicat.' },
+                    { t: 'Echipă tehnică validată', d: 'Stack production-grade: React + FastAPI + MongoDB + Stripe LIVE + AI Assistant + Universal LLM Key.' },
+                    { t: 'Expansiune naturală', d: 'Aceleași engine de documente + plăți + roluri se aplică la electric, fotovoltaice, telecom, aviație, spațial — fără reinventare.' },
+                  ].map((it) => (
+                    <li key={it.t} className="flex gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
+                      <div>
+                        <div className="font-bold text-white">{it.t}</div>
+                        <div className="text-slate-300 leading-relaxed">{it.d}</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
