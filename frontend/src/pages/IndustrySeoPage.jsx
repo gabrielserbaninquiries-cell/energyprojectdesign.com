@@ -1,7 +1,7 @@
 // V10.6 — Industry SEO Page (parametrizable, single component)
 // Renders any industry from /data/industryPages.js with full SEO meta tags,
 // JSON-LD schema, multilingual hreflang and consistent EPD branding.
-import { useParams, Navigate, Link } from 'react-router-dom';
+import { useParams, Navigate, Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { findIndustry, INDUSTRY_PAGES } from '../data/industryPages';
 import EPDLogo from '../components/EPDLogo';
@@ -20,7 +20,11 @@ const ACCENT = {
 };
 
 export default function IndustrySeoPage() {
-  const { slug } = useParams();
+  // V10.6 — Routes are static (/aviatie, /investitori, ...) NOT :slug params,
+  // so we read the slug from location.pathname (first segment).
+  const location = useLocation();
+  const params = useParams();
+  const slug = params.slug || location.pathname.replace(/^\//, '').replace(/\/$/, '');
   const { user } = useAuth();
   const page = findIndustry(slug);
 

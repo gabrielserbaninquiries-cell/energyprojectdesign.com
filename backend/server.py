@@ -971,8 +971,8 @@ async def donation_checkout(req: _DonationRequest, request: Request):
     if currency not in ("ron", "eur"):
         raise HTTPException(status_code=400, detail="Moneda trebuie să fie 'ron' sau 'eur'.")
 
-    # Limite siguranță donații
-    min_amount = 5.0 if currency == "ron" else 1.0
+    # Limite siguranță donații (Stripe impune min 2 RON / 1 EUR pe Checkout)
+    min_amount = 2.0 if currency == "ron" else 1.0
     max_amount = 100000.0
     if req.amount < min_amount:
         raise HTTPException(status_code=400, detail=f"Suma minimă: {min_amount} {currency.upper()}.")

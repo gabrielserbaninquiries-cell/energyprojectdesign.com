@@ -1,5 +1,34 @@
 # Energy Project Design — Changelog
 
+## V10.6.1 — 2026-06-22 (current session) — SEO global infrastructure + Donații pe cont secundar Stripe
+
+### 💸 Stripe donations routing
+- `_stripe_client(request, account="donations")` — multi-account helper în /app/backend/server.py
+- `/api/donations/checkout` folosește acum `STRIPE_DONATIONS_API_KEY` (cheia restricționată #2 furnizată de user)
+- Backend testat LIVE — 3 sesiuni Stripe Checkout create cu success (cs_live_*)
+- Donatiile vor merge spre IBAN RO22 REVO 0000 1555 6872 4293 (default payout pe contul Stripe asociat cheii)
+- Min donație: 2 RON (limită hard impusă de Stripe însăși; 1 RON respins)
+
+### 🌐 15 pagini SEO industrii LIVE
+- `/app/frontend/src/data/industryPages.js` — registry 15 industrii (investitori, aviatie, airflight, spatial, spaceflight, satelite, drone-uav, electric, fotovoltaice, telecom, hvac, apa-canal, feroviar, sanatate, sport-stadioane)
+- `IndustrySeoPage.jsx` — pagină parametrizabilă cu hero gradient per accent, metrics, bullets, cross-links, footer, JSON-LD Service schema injectat dinamic
+- Bug fix: slug din `location.pathname` (rutele sunt statice, nu :slug)
+- Toate cele 15 URL-uri verificate, JSON-LD prezent
+
+### 🔎 SEO infrastructure complete
+- `robots.txt` rescris cu Allow per AI crawler (GPTBot, ChatGPT-User, PerplexityBot, ClaudeBot, Google-Extended, CCBot etc.) + sitemap declarations
+- `sitemap-index.xml` master + `sitemap-industries.xml` + `sitemap-images.xml`
+- `manifest.webmanifest` PWA-ready (icons, shortcuts, screenshots, theme_color)
+- hreflang × 24 limbi în `<head>` + sitemap principal
+- og:image actualizat la banner real 2048x2048
+- Logo fizic în /public (logo.png, og-image.jpg, logo192.png, favicon.png) — toate referințe schema/manifest funcționează
+
+### 🌍 i18next 24 limbi (V10.6) — păstrate
+- Language switcher integrat în Landing + AppShell
+- 24 limbi: RO/EN/ES/FR/DE/IT/PT/NL/PL/UK/RU/TR/AR/HE/HI/ZH/JA/KO/VI/TH/EL/HU/CS/BG
+- RTL pentru AR/HE
+
+
 ## V10.6 — 2026-06-22 (current session) — GLOBAL EXPANSION: Vision Banner + Investitori + i18n 24 limbi + SEO global
 
 ### 🎨 Vision Banner (imagine user-uploadată)
