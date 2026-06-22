@@ -282,26 +282,41 @@ def proiect_bransament_complet(proj: Dict[str, Any]) -> bytes:
 
     rows = materials_db.build_materials_table(data)
     if rows:
-        tbl = doc.add_table(rows=len(rows) + 1, cols=7)
+        # V10.6.3 — Show SAP column only if at least one row has a SAP code (Distrigaz)
+        has_sap = any(r.get("sap_code") for r in rows)
+        n_cols = 7 if has_sap else 6
+        tbl = doc.add_table(rows=len(rows) + 1, cols=n_cols)
         tbl.style = "Light Grid Accent 1"
-        # Header
         hdr = tbl.rows[0]
-        for i, label in enumerate(["Nr.", "Cod SAP", "Denumire material", "BR/CND", "Cant.", "UM", "Nr. Referat"]):
+        headers = (["Nr.", "Cod SAP", "Denumire material", "BR/CND", "Cant.", "UM", "Obs."]
+                   if has_sap else
+                   ["Nr.", "Denumire material (specificație tehnică)", "BR/CND", "Cant.", "UM", "Obs."])
+        for i, label in enumerate(headers):
             hdr.cells[i].text = label
             for run in hdr.cells[i].paragraphs[0].runs:
                 run.bold = True
         # Data rows
         for ri, row in enumerate(rows, start=1):
             cells = tbl.rows[ri].cells
-            cells[0].text = str(row["nr"])
-            cells[1].text = row["sap_code"]
-            cells[2].text = row["desc"]
-            cells[3].text = row["dest"]
-            cells[4].text = str(row["qty"])
-            cells[5].text = row["um"]
-            cells[6].text = _get(data, "sap_referat_nr", "")
+            if has_sap:
+                cells[0].text = str(row["nr"])
+                cells[1].text = row.get("sap_code", "")
+                cells[2].text = row["desc"]
+                cells[3].text = row["dest"]
+                cells[4].text = str(row["qty"])
+                cells[5].text = row["um"]
+                cells[6].text = ""
+            else:
+                cells[0].text = str(row["nr"])
+                cells[1].text = row["desc"]
+                cells[2].text = row["dest"]
+                cells[3].text = str(row["qty"])
+                cells[4].text = row["um"]
+                cells[5].text = ""
         doc.add_paragraph()
-        _add_para(doc, f"Total materiale: {len(rows)} poziții (selecție automată din baza de date ANEXA 13 — 554 SAP).", italic=True)
+        _add_para(doc, f"Total materiale: {len(rows)} poziții (calcul automat după specificațiile tehnice ale proiectului).", italic=True)
+        if not has_sap:
+            _add_para(doc, f"Operatorul Sistemului de Distribuție ({_get(data, 'osd_operator', '—')}) va completa codurile specifice de catalog la momentul predării.", italic=True)
     else:
         _add_para(doc, "Niciun material selectat. Completează în Studio: br_material, br_diametru_dn, br_lungime_m.", italic=True)
 

@@ -1,5 +1,42 @@
 # Energy Project Design — Changelog
 
+## V10.6.3 — 2026-06-22 (current session) — Materials by SPECS (operator-agnostic)
+
+### 🔧 Refactor materials_db.build_materials_table
+- **Operator-agnostic** — SAP code populated DOAR dacă `osd_operator` conține „Distrigaz"; altfel rămâne gol și materialul e identificat doar prin specificație tehnică
+- **13-14 materiale generate automat** după REAL specs:
+  1. Țeavă (PE100 SDR11 / OL) cu DN și lungime exacte
+  2. Teu BR cu colier STOPGAZ (sau Teu sudat OL)
+  3. Mufă EF × 2 (PE) sau Cot sudat OL × 2
+  4. Raiser PE/OL (doar pentru PE)
+  5. Robinet sferic cu flanșă (DN mapat după br_dn)
+  6. Firidă — S150/S300/S600/Industrial **calculată după debit_total**
+  7. Regulator Pj-Pj sau Pm-Pj **calculat după iu_presiune**
+  8. Filtru gaz (DN regulator)
+  9. Contor — **G2.5/G4/G6/G10/G16/G25/G40/G65 calculat după debit**
+  10. Pat cărămidă (doar subteran)
+  11. Bandă avertizoare (doar subteran)
+  12. Tub protecție PEHD (doar dacă br_tub_protectie_necesar = Da)
+  13. Geotextil (doar la traversări/L>10m)
+  14. Nisip pat pozare (doar subteran)
+  15. Țeavă CND (doar dacă cnd_noua = Da)
+
+### 🎨 Frontend MaterialsAutoPreview
+- Coloana SAP eliminată — denumirea (cu specificație tehnică) ocupă col-span-7
+- SAP afișat micuț, doar dacă există, sub denumire (font violet)
+- Mesaj clarificator: „Codurile SAP apar doar dacă în câmpul Operator OSD ai selectat Distrigaz Sud"
+
+### 📄 DOCX Template Proiect Complet
+- Tabel ANEXA 14 adaptiv: 7 coloane cu SAP (Distrigaz) SAU 6 coloane fără SAP (alți operatori)
+- Footer: „Operatorul Sistemului de Distribuție va completa codurile specifice de catalog la momentul predării"
+
+### 🧪 Testat
+- Login + register: ✅
+- 19 placeholders extrași din Proiect bransament.docx (vezi listă mai jos)
+- Materials build pentru 2 scenarii (Distrigaz cu SAP vs Delgaz fără SAP): toate corecte
+- DOCX generat 40KB, 14 rânduri în tabelul materiale, 118 paragrafe total
+
+
 ## V10.6.2 — 2026-06-22 (current session) — FAQ Schema + Materials Auto Panel
 
 ### 🔎 FAQ Section + FAQPage Schema (Google rich snippets)

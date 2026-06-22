@@ -1058,15 +1058,14 @@ function MaterialsAutoPreview({ pid, data }) {
         <div className="p-4">
           {rows.length === 0 && !loading && (
             <div className="text-center py-6 text-sm text-slate-500">
-              Completează <strong>Material BR</strong>, <strong>Diametru</strong>, <strong>Lungime</strong> apoi apasă <strong>Recalculează</strong>.
+              Completează <strong>Material BR</strong>, <strong>Diametru</strong>, <strong>Lungime</strong>, apoi apasă <strong>Recalculează</strong>.
             </div>
           )}
           {rows.length > 0 && (
             <>
               <div className="grid grid-cols-12 gap-2 mb-2 text-[9px] uppercase tracking-wider text-slate-500 font-semibold px-2">
                 <div className="col-span-1">Nr.</div>
-                <div className="col-span-2">Cod SAP</div>
-                <div className="col-span-5">Denumire</div>
+                <div className="col-span-7">Denumire material (specificație tehnică)</div>
                 <div className="col-span-1">BR/CND</div>
                 <div className="col-span-2 text-right">Cantitate</div>
                 <div className="col-span-1">UM</div>
@@ -1074,8 +1073,14 @@ function MaterialsAutoPreview({ pid, data }) {
               {rows.map((r) => (
                 <div key={r.nr} className="grid grid-cols-12 gap-2 items-center text-xs py-1.5 px-2 bg-white border border-slate-100 hover:border-violet-300 rounded mb-1 transition-colors">
                   <div className="col-span-1 font-mono tabular-nums text-slate-500">{r.nr}</div>
-                  <div className="col-span-2 font-mono tabular-nums font-bold text-violet-700">{r.sap_code}</div>
-                  <div className="col-span-5 text-slate-700 leading-tight">{r.desc}</div>
+                  <div className="col-span-7 text-slate-700 leading-tight">
+                    <div>{r.desc}</div>
+                    {r.sap_code && (
+                      <div className="text-[10px] text-violet-600 font-mono tabular-nums font-bold mt-0.5">
+                        SAP Distrigaz: {r.sap_code}
+                      </div>
+                    )}
+                  </div>
                   <div className="col-span-1">
                     <span className={`text-[10px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded ${r.dest === 'BR' ? 'bg-violet-100 text-violet-700' : 'bg-indigo-100 text-indigo-700'}`}>
                       {r.dest}
@@ -1085,9 +1090,12 @@ function MaterialsAutoPreview({ pid, data }) {
                   <div className="col-span-1 text-slate-500 text-[11px]">{r.um}</div>
                 </div>
               ))}
-              <div className="mt-3 text-[11px] text-slate-500 italic flex items-center justify-between">
-                <span>Total: <strong className="text-slate-800">{rows.length} poziții</strong> · selecție automată din 554 SAP</span>
+              <div className="mt-3 text-[11px] text-slate-500 italic flex items-center justify-between flex-wrap gap-2">
+                <span>Total: <strong className="text-slate-800">{rows.length} poziții</strong> · calcul automat după specificații tehnice</span>
                 <span className="text-violet-700 font-semibold">Lista se introduce automat în Proiect Bransament COMPLET (DOCX)</span>
+              </div>
+              <div className="mt-2 text-[10px] text-slate-400 italic">
+                💡 Codurile SAP apar doar dacă în câmpul „Operator OSD" ai selectat <strong>Distrigaz Sud</strong>. Pentru ceilalți operatori (Delgaz, Premier, Engie, etc.) materialele se listează doar pe specificații tehnice — operatorul va completa apoi cu codurile lor proprii.
               </div>
             </>
           )}
