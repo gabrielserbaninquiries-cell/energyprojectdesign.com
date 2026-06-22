@@ -1,14 +1,12 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import api from '../lib/api';
+import api, { setAuthToken } from '../lib/api';
 
 const AuthContext = createContext(null);
 
 /**
- * Auth strategy (V4.8+): httpOnly Secure SameSite=None cookie set by backend on
- * login/register/google session. Token is NEVER stored in localStorage anymore
- * (XSS-safe). Cookie is automatically sent on every request via withCredentials.
- *
- * One-time migration: drop any pre-existing localStorage token on first load.
+ * V10.6.4 — Hybrid auth: cookie primary + Bearer fallback for mobile (iOS Safari ITP).
+ * Token from login/register response is stored in sessionStorage and injected
+ * as Authorization header automatically by api.js interceptor.
  */
 function purgeLegacyToken() {
   try { localStorage.removeItem('auth_token'); } catch (_) { /* noop */ }
@@ -26,6 +24,8 @@ export function AuthProvider({ children }) {
       if (err?.response?.status && err.response.status !== 401) {
         console.error('Auth check failed:', err);
       }
+      // 401 — clear stale token (cookie expired or invalid)
+      setAuthToken(null);
       setUser(null);
     } finally {
       setLoading(false);
@@ -43,18 +43,22 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const { data } = await api.post('/auth/login', { email, password });
+    // V10.6.4 — Persist token as Bearer fallback (mobile Safari ITP fix)
+    if (data.token) setAuthToken(data.token);
     setUser(data.user);
     return data.user;
   };
 
   const register = async (payload) => {
     const { data } = await api.post('/auth/register', payload);
+    if (data.token) setAuthToken(data.token);
     setUser(data.user);
     return data.user;
   };
 
   const logout = async () => {
     try { await api.post('/auth/logout'); } catch (err) { console.warn('Logout API failed (proceeding anyway):', err); }
+    setAuthToken(null);
     purgeLegacyToken();
     setUser(null);
   };
