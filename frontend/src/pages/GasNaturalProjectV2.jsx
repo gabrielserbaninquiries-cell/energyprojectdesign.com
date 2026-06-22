@@ -86,6 +86,7 @@ const GENERATE_DOCS = [
 ];
 
 const FINAL_DOWNLOADS = [
+  { id: 'proiect_complet', label: '⭐ Proiect Bransament COMPLET (Referat+Foaie+Memoriu+ANEXA 14)', template: 'proiect_bransament_complet' },
   { id: 'carte_tehnica',  label: 'Carte Tehnică',       template: 'carte_tehnica' },
   { id: 'dtac',           label: 'DTAC',                template: 'memoriu_tehnic' },
   { id: 'pth',            label: 'PTH (Proiect Tehnic Execuție)', template: 'caiet_sarcini' },

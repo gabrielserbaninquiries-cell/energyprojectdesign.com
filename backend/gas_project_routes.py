@@ -210,6 +210,42 @@ def make_gas_project_router(db, get_current_user):
         """List 8 DOCX templates available for any gas project."""
         return {"templates": doc_templates.list_templates()}
 
+    # V10.5 — Materials database access + smart build for ANEXA 14
+    @r.get("/materials/db-stats")
+    async def materials_stats():
+        """Returns the V10.5 materials database stats (ANEXA 13 - 554 SAP-coded materials)."""
+        import materials_db as mdb
+        return mdb.get_database_stats()
+
+    @r.get("/materials/search")
+    async def materials_search(category: Optional[str] = None, dn: Optional[int] = None, query: Optional[str] = None):
+        """Search materials by category, DN, or text query."""
+        import materials_db as mdb
+        items = mdb.get_all().get("materials", [])
+        if category:
+            items = [m for m in items if m["category"] == category]
+        if dn is not None:
+            items = [m for m in items if m.get("diameter_dn") == dn]
+        if query:
+            q = query.upper()
+            items = [m for m in items if q in m["desc"].upper() or q in m["sap_code"]]
+        return {"count": len(items), "materials": items[:200]}
+
+    @r.get("/{pid}/materials/auto")
+    async def auto_materials(pid: str, user=Depends(get_current_user)):
+        """V10.5 — Returns the auto-built materials table (ANEXA 14) for a project.
+        The platform reads br_material, br_diametru_dn, br_lungime_m, cnd_*_dn etc.
+        and picks the proper SAP codes from the database."""
+        import materials_db as mdb
+        doc = await db.gas_projects.find_one(
+            {"pid": pid, "owner_id": user.user_id, "deleted": {"$ne": True}},
+            {"_id": 0, "data": 1},
+        )
+        if not doc:
+            raise HTTPException(404, "Proiect inexistent")
+        rows = mdb.build_materials_table(doc.get("data") or {})
+        return {"pid": pid, "rows": rows, "count": len(rows), "source": "V10.5 ANEXA 13 (554 SAP materials)"}
+
     # ===================== VALIDARE DATE ROMÂNEȘTI (no auth) =====================
     @r.post("/validate")
     async def validate_ro(payload: ValidatePayload):

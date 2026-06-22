@@ -1,0 +1,4439 @@
+{
+  "version": "10.5",
+  "source": "ANEXA 13 — LISTA MATERIALE PUSE LA DISPOZITIE (ENGIE)",
+  "total": 554,
+  "materials": [
+    {
+      "sap_code": "8010028",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN32",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010029",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN40",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010030",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN50",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010031",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN63",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010032",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN75",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010033",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN90",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010034",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN110",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010035",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN125",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010036",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN140",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 140,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010037",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN160",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010038",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN180",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010039",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN200",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010040",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN225",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010041",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN250",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010042",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN280",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 280,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010043",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN315",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010044",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN355",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 355,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8010045",
+      "desc": "TEAVA POLIETILENA PE 100 SDR11 DN400",
+      "category": "teava",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403013",
+      "desc": "VANA PE 100 SDR11 DN225 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403014",
+      "desc": "VANA PE 100 SDR11 DN250 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403015",
+      "desc": "VANA PE 100 SDR11 DN280 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 280,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403016",
+      "desc": "VANA PE 100 SDR11 DN315 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420001",
+      "desc": "ROBINET SFERIC DN 50 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420003",
+      "desc": "ROBINET SFERIC DN 80 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 80,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420004",
+      "desc": "ROBINET SFERIC DN 100 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 100,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420005",
+      "desc": "ROBINET SFERIC DN 150 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 150,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420006",
+      "desc": "ROBINET SFERIC DN 200 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215056",
+      "desc": "SA EF. CU COLIER PE 100 SDR11 DN 125-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 125,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8215040",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN110-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 110,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8215010",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN110-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 110,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215030",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN110-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 110,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8215011",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN125-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 125,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215031",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN125-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 125,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8215012",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN140-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 140,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215041",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN160-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 160,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8215049",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN160-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 160,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8215013",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN160-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 160,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215033",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN160-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 160,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8215042",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN180-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 180,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8215050",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN180-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 180,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8215014",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN180-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 180,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215034",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN180-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 180,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8215043",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN200-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 200,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8215051",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN200-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 200,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8215015",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN200-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 200,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215044",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN225-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 225,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8215052",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN225-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 225,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8215016",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN225-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 225,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215036",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN225-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 225,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8215045",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN250-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 250,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8215053",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN250-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 250,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8215017",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN250-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 250,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215037",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN250-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 250,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8215054",
+      "desc": "SA EF. FARA COLIER PE100 SDR11 DN280-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 280,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8215018",
+      "desc": "SA EF.FARA COLIER PE100 SDR11 DN280-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 280,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215047",
+      "desc": "SA EF.FARA COLIER PE100 SDR11 DN315-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 315,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8215055",
+      "desc": "SA EF. FARA COLIER PE100 SDR11 DN315-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 315,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8215069",
+      "desc": "SA EF. FARA COLIER PE100 SDR11 DN315-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 315,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215073",
+      "desc": "SA EF. FARA COLIER PE100 SDR11 DN355-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 355,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8215074",
+      "desc": "SA EF. FARA COLIER PE100 SDR11 DN355-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 355,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8215071",
+      "desc": "SA EF. FARA COLIER PE100 SDR11 DN355-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 355,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215072",
+      "desc": "SA EF. FARA COLIER PE100 SDR11 DN355-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 355,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8215075",
+      "desc": "SA EF. FARA COLIER PE100 SDR11 DN400-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 400,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215099",
+      "desc": "SA ES. CU COLIER PE100 SDR11 DN63-63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215009",
+      "desc": "SA EF. CU COLIER PE100 SDR11 DN90-63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 90,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215224",
+      "desc": "TEU BR. CU COLIER DN40-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215225",
+      "desc": "TEU BR. CU COLIER DN50-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215226",
+      "desc": "TEU BR. CU COLIER DN63-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215227",
+      "desc": "TEU BR. CU COLIER DN75-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215228",
+      "desc": "TEU BR. CU COLIER DN90-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215229",
+      "desc": "TEU BR. CU COLIER DN110-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215230",
+      "desc": "TEU BR. CU COLIER DN125-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215231",
+      "desc": "TEU BR. CU COLIER DN140-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 140,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215232",
+      "desc": "TEU BR. CU COLIER DN160-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215233",
+      "desc": "TEU BR. CU COLIER DN180-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215234",
+      "desc": "TEU BR. CU COLIER DN200-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215235",
+      "desc": "TEU BR. CU COLIER DN225-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215236",
+      "desc": "TEU BR. CU COLIER DN250-32 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8215265",
+      "desc": "TEU BR. CU COLIER DN63-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215266",
+      "desc": "TEU BR. CU COLIER DN75-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215267",
+      "desc": "TEU BR. CU COLIER DN90-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215268",
+      "desc": "TEU BR. CU COLIER DN110-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215269",
+      "desc": "TEU BR. CU COLIER DN125-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215270",
+      "desc": "TEU BR. CU COLIER DN140-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 140,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215271",
+      "desc": "TEU BR. CU COLIER DN160-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215272",
+      "desc": "TEU BR. CU COLIER DN180-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215273",
+      "desc": "TEU BR. CU COLIER DN200-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215274",
+      "desc": "TEU BR. CU COLIER DN225-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215275",
+      "desc": "TEU BR. CU COLIER DN250-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215276",
+      "desc": "TEU BR FARA COLIER DN280-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 280,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215277",
+      "desc": "TEU BR FARA COLIER DN315-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215278",
+      "desc": "TEU BR FARA COLIER DN355-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215279",
+      "desc": "TEU BR FARA COLIER DN400-63 STOPGAZ MOV",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215280",
+      "desc": "TEU BR COLIER SDR11 D40-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215281",
+      "desc": "TEU BR COLIER SDR11 D50-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215282",
+      "desc": "TEU BR COLIER SDR11 D63-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215283",
+      "desc": "TEU BR COLIER SDR11 D75-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215284",
+      "desc": "TEU BR COLIER SDR11 D90-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215285",
+      "desc": "TEU BR COLIER SDR11 D110-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215286",
+      "desc": "TEU BR COLIER SDR11 D125-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215287",
+      "desc": "TEU BR COLIER SDR11 D140-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215288",
+      "desc": "TEU BR COLIER SDR11 D160-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215289",
+      "desc": "TEU BR COLIER SDR11 D180-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215290",
+      "desc": "TEU BR COLIER SDR11 D200-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215291",
+      "desc": "TEU BR COLIER SDR11 D225-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215292",
+      "desc": "TEU BR COLIER SDR11 D250-32 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215321",
+      "desc": "TEU BR COLIER SDR11 D63-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215322",
+      "desc": "TEU BR COLIER SDR11 D75-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215323",
+      "desc": "TEU BR COLIER SDR11 D90-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215324",
+      "desc": "TEU BR COLIER SDR11 D110-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215325",
+      "desc": "TEU BR COLIER SDR11 D125-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215326",
+      "desc": "TEU BR COLIER SDR11 D140-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215327",
+      "desc": "TEU BR COLIER SDR11 D160-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215328",
+      "desc": "TEU BR COLIER SDR11 D180-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215329",
+      "desc": "TEU BR COLIER SDR11 D200-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215330",
+      "desc": "TEU BR COLIER SDR11 D225-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215331",
+      "desc": "TEU BR COLIER SDR11 D250-63 STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215332",
+      "desc": "TEU BR FCOLIER SDR11 D280-63STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215333",
+      "desc": "TEU BR FCOLIER SDR11 D315-63STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215334",
+      "desc": "TEU BR FCOLIER SDR11 D355-63STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215335",
+      "desc": "TEU BR FCOLIER SDR11 D400-63STOPGAZ ROSU",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215210",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D315/160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215211",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D315/225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215200",
+      "desc": "SA EF.FARA COL.PE100SDR11 DN315/355-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215201",
+      "desc": "SA EF.FARA COL.PE100 SDR11DN315/355-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215202",
+      "desc": "SA EF.FARA COL.PE100SDR11 DN315/355-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215212",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D355/160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215213",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D355/225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215214",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D400/160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215215",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D400/225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215203",
+      "desc": "SA EF.FARA COL.PE100SDR11 DN400/450-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215204",
+      "desc": "SA EF.FARA COL.PE100SDR11 DN400/450-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215205",
+      "desc": "SA EF.FARA COL.PE100SDR11 DN400/450-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215216",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D450/160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215217",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D450/225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215218",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D500/160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215219",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D500/225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215206",
+      "desc": "SA EF.FARA COL.PE100 SDR11DN500/630-110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 500,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215207",
+      "desc": "SA EF.FARA COL.PE100 SDR11DN500/630-125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 500,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215208",
+      "desc": "SA EF.FARA COL. PE100 SDR11DN500/630-90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 500,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215220",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D560/160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215221",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D560/225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215222",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D630/160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215223",
+      "desc": "SA PEHD100 SDR11 TOPLOADING D630/225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025079",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025080",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN125",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025082",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN160",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025083",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN180",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025084",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN200",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025085",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN225",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025086",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN250",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025073",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN32",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025074",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN40",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025075",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN50",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025076",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025077",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN75",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025078",
+      "desc": "TEU EGAL ELECTROSUD PE100 SDR11 DN90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025031",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025032",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN125",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025033",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN140",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 140,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025034",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN160",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025035",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN180",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025036",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN200",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025037",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN225",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025038",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN250",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025040",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN315",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025025",
+      "desc": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN32",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025041",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN355",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025026",
+      "desc": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN40",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025042",
+      "desc": "TEU EGAL (SUD CAP CAP) PE100 SDR11 DN400",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025028",
+      "desc": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025029",
+      "desc": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN75",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025030",
+      "desc": "TEU EGAL (SUD. CAP CAP) PE100 SDR11 DN90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022034",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN110X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022035",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN125X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022036",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN140X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 140,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022037",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN160X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022038",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN180X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022039",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN200X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022040",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN225X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022041",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN250X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022042",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN280X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 280,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022043",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN315X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022028",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN32X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022029",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN40X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022030",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN50X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022031",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN63X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022032",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN75X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022033",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN90X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022196",
+      "desc": "COT EF. PE 100 SDR11 DN110X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022197",
+      "desc": "COT EF. PE 100 SDR11 DN125X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022199",
+      "desc": "COT EF. PE 100 SDR11 DN160X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022200",
+      "desc": "COT EF. PE 100 SDR11 DN180X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022201",
+      "desc": "COT EF. PE 100 SDR11 DN200X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022202",
+      "desc": "COT EF. PE 100 SDR11 DN225X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022203",
+      "desc": "COT EF. PE 100 SDR11 DN250X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022190",
+      "desc": "COT EF. PE 100 SDR11 DN32X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022191",
+      "desc": "COT EF. PE 100 SDR11 DN40X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022192",
+      "desc": "COT EF. PE 100 SDR11 DN50X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022193",
+      "desc": "COT EF. PE 100 SDR11 DN63X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022195",
+      "desc": "COT EF. PE 100 SDR11 DN90X45°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022088",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN110X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022089",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN125X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022090",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN140X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 140,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022091",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN160X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022092",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN180X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022093",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN200X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022094",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN225X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022095",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN250X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022096",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN280X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 280,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022097",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN315X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022082",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN32X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022098",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN355X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022099",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN400X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022083",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN40X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022100",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN450X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 450,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022101",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN500X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 500,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022084",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN50X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022085",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN63X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022086",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN75X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022087",
+      "desc": "COT SUD CAP CAP PE 100 SDR11 DN90X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022142",
+      "desc": "COT EF. PE 100 SDR11 DN110X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022143",
+      "desc": "COT EF. PE 100 SDR11 DN125X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022144",
+      "desc": "COT EF. PE 100 SDR11 DN140X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 140,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022145",
+      "desc": "COT EF. PE 100 SDR11 DN160X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022146",
+      "desc": "COT EF. PE 100 SDR11 DN180X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022147",
+      "desc": "COT EF. PE 100 SDR11 DN200X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022148",
+      "desc": "COT EF. PE 100 SDR11 DN225X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022149",
+      "desc": "COT EF. PE 100 SDR11 DN250X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022136",
+      "desc": "COT EF. PE 100 SDR11 DN32X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022137",
+      "desc": "COT EF. PE 100 SDR11 DN40X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022138",
+      "desc": "COT EF. PE 100 SDR11 DN50X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022139",
+      "desc": "COT EF. PE 100 SDR11 DN63X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022140",
+      "desc": "COT EF. PE 100 SDR11 DN75X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8022141",
+      "desc": "COT EF. PE 100 SDR11 DN90X90°",
+      "category": "cot",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023034",
+      "desc": "MUFA EF. PE 100 SDR11 DN110",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023035",
+      "desc": "MUFA EF. PE 100 SDR11 DN125",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023036",
+      "desc": "MUFA EF. PE 100 SDR11 DN140",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 140,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023037",
+      "desc": "MUFA EF. PE 100 SDR11 DN160",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023038",
+      "desc": "MUFA EF. PE 100 SDR11 DN180",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023039",
+      "desc": "MUFA EF. PE 100 SDR11 DN200",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023040",
+      "desc": "MUFA EF. PE 100 SDR11 DN225",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023041",
+      "desc": "MUFA EF. PE 100 SDR11 DN250",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023042",
+      "desc": "MUFA EF. PE 100 SDR11 DN280",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 280,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023043",
+      "desc": "MUFA EF. PE 100 SDR11 DN315",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023028",
+      "desc": "MUFA EF. PE 100 SDR11 DN32",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023044",
+      "desc": "MUFA EF. PE 100 SDR11 DN355",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 355,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023029",
+      "desc": "MUFA EF. PE 100 SDR11 DN40",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023045",
+      "desc": "MUFA EF. PE 100 SDR11 DN400",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023030",
+      "desc": "MUFA EF. PE 100 SDR11 DN50",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023031",
+      "desc": "MUFA EF. PE 100 SDR11 DN63",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023032",
+      "desc": "MUFA EF. PE 100 SDR11 DN75",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023033",
+      "desc": "MUFA EF. PE 100 SDR11 DN90",
+      "category": "sudura",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036076",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN110",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036077",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN125",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036079",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036080",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN180",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036081",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN200",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036082",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036083",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN250",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036065",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN32",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036066",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN40",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036067",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN50",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036068",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036069",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN75",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036070",
+      "desc": "DOP ELECTROSUDABIL PE 100 SDR11 DN90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036160",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN110-63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8036161",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN110-75",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 75
+    },
+    {
+      "sap_code": "8036162",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN110-90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8036166",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN125-110",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8036163",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN125-63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8036165",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN125-90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8036171",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN160-110",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8036172",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN160-125",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8036170",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN160-90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8036174",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN180-125",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8036177",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN200-160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8036178",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN200-180",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 180
+    },
+    {
+      "sap_code": "8036197",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN250-160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8036183",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN250-200",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": 200
+    },
+    {
+      "sap_code": "8036148",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN40-32",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8036149",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN50-32",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8036150",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN50-40",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 40
+    },
+    {
+      "sap_code": "8036151",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN63-32",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8036152",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN63-40",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": 40
+    },
+    {
+      "sap_code": "8036153",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN63-50",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8036154",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN75-40",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": 40
+    },
+    {
+      "sap_code": "8036155",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN75-50",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8036156",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN75-63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8036157",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN90-50",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8036158",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN90-63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8036159",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN90-75",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 75
+    },
+    {
+      "sap_code": "8036176",
+      "desc": "RED. ELECTROFUZ. PE100 SDR11 DN180-160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8025143",
+      "desc": "TEU REDUS EF PE100 SDR11 DN110-90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8025144",
+      "desc": "TEU REDUS EF PE100 SDR11 DN125-90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8025145",
+      "desc": "TEU REDUS EF PE100 SDR11 DN160-110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8025146",
+      "desc": "TEU REDUS EF PE100 SDR11 DN160-63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8025147",
+      "desc": "TEU REDUS EF PE100 SDR11 DN160-90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8025148",
+      "desc": "TEU REDUS EF PE100 SDR11 DN200-110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8025149",
+      "desc": "TEU REDUS EF PE100 SDR11 DN200-160",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8025150",
+      "desc": "TEU REDUS EF PE100 SDR11 DN200-90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8025151",
+      "desc": "TEU REDUS EF PE100 SDR11 DN225-110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8025152",
+      "desc": "TEU REDUS EF PE100 SDR11 DN225-160",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8025153",
+      "desc": "TEU REDUS EF PE100 SDR11 DN225-90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8025142",
+      "desc": "TEU REDUS EF PE100 SDR11 DN90-63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8036273",
+      "desc": "RED(SUD. CAP CAP) PE100 SDR11 DN 75-50",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8036278",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN110-63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8036280",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN110-90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8036284",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN125-110",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8036281",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN125-63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8036282",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN125-75",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 75
+    },
+    {
+      "sap_code": "8036283",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN125-90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8036287",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN140-125",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 140,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8036321",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN140-75",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 140,
+      "sub_diameter_dn": 75
+    },
+    {
+      "sap_code": "8036285",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN140-90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 140,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8036289",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN160-110",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8036290",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN160-125",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8036291",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN160-140",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 140
+    },
+    {
+      "sap_code": "8036322",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-110",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8036292",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-125",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 125
+    },
+    {
+      "sap_code": "8036293",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-140",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 140
+    },
+    {
+      "sap_code": "8036294",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8036323",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN180-90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8036324",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN200-140",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 140
+    },
+    {
+      "sap_code": "8036295",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN200-160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8036296",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN200-180",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": 180
+    },
+    {
+      "sap_code": "8036325",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN225-140",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 140
+    },
+    {
+      "sap_code": "8036297",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN225-160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8036298",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN225-180",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 180
+    },
+    {
+      "sap_code": "8036299",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN225-200",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 200
+    },
+    {
+      "sap_code": "8036326",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN250-160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8036300",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN250-180",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": 180
+    },
+    {
+      "sap_code": "8036301",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN250-200",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": 200
+    },
+    {
+      "sap_code": "8036302",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN250-225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": 225
+    },
+    {
+      "sap_code": "8036303",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN280-200",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 280,
+      "sub_diameter_dn": 200
+    },
+    {
+      "sap_code": "8036304",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN280-225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 280,
+      "sub_diameter_dn": 225
+    },
+    {
+      "sap_code": "8036305",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN280-250",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 280,
+      "sub_diameter_dn": 250
+    },
+    {
+      "sap_code": "8036328",
+      "desc": "RED CAP_CAP PEHD100 SDR11 D315/200",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036306",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN315-225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": 225
+    },
+    {
+      "sap_code": "8036307",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN315-250",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": 250
+    },
+    {
+      "sap_code": "8036327",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN355-225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": 225
+    },
+    {
+      "sap_code": "8036309",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN355-250",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": 250
+    },
+    {
+      "sap_code": "8036310",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN355-280",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": 280
+    },
+    {
+      "sap_code": "8036311",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN355-315",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": 315
+    },
+    {
+      "sap_code": "8036313",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN400-315",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": 315
+    },
+    {
+      "sap_code": "8036314",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN400-355",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": 355
+    },
+    {
+      "sap_code": "8036329",
+      "desc": "RED CAP_CAP PEHD100 SDR11 D500/315",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036270",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN63-40",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": 40
+    },
+    {
+      "sap_code": "8036271",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN63-50",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8036272",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN75-40",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": 40
+    },
+    {
+      "sap_code": "8036274",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN75-63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8036276",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN90-63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8036277",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN90-75",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 75
+    },
+    {
+      "sap_code": "8023057",
+      "desc": "PIESA RANFORSARE GDF PE80 SDR11 4BAR D40",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023058",
+      "desc": "PIESA RANFORSARE GDF PE80 SDR11 4BAR D63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8023059",
+      "desc": "PIESA RANFORSARE GDF PE80 SDR11 4BAR D90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036030",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN110",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036031",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN125",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036033",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036034",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN180",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036035",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN200",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036036",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN225",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036037",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN250",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036039",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN315",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036024",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN32",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036040",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN355",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036025",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN40",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036041",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN400",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036026",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN50",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036027",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN63",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036028",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN75",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036029",
+      "desc": "DOP (SUD. CAP CAP) PE 100 SDR11 DN90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215209",
+      "desc": "Adaptor pentru Sa PEHD 100 D63x2 1/2''",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025096",
+      "desc": "TEU REDUS PE100 SDR11 DN110-63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8025105",
+      "desc": "TEU REDUS PE100 SDR11 DN110-75",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 75
+    },
+    {
+      "sap_code": "8025106",
+      "desc": "TEU REDUS PE100 SDR11 DN110-90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8025109",
+      "desc": "TEU REDUS PE100 SDR11 DN125-110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8025107",
+      "desc": "TEU REDUS PE100 SDR11 DN125X63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025108",
+      "desc": "TEU REDUS PE100 SDR11 DN125X90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025115",
+      "desc": "TEU REDUS PE100 SDR11 DN160-110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8025112",
+      "desc": "TEU REDUS PE100 SDR11 DN160-63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8025114",
+      "desc": "TEU REDUS PE100 SDR11 DN160-90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8025118",
+      "desc": "TEU REDUS PE100 SDR11 DN180-110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8025117",
+      "desc": "TEU REDUS PE100 SDR11 DN180-90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": 90
+    },
+    {
+      "sap_code": "8025119",
+      "desc": "TEU REDUS PE100 SDR11 DN180X125",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025120",
+      "desc": "TEU REDUS PE100 SDR11 DN180X160",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025137",
+      "desc": "TEU REDUS PE100 SDR11 DN200X110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025138",
+      "desc": "TEU REDUS PE100 SDR11 DN200X160",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025139",
+      "desc": "TEU REDUS PE100 SDR11 DN200X63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025140",
+      "desc": "TEU REDUS PE100 SDR11 DN200X90",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025127",
+      "desc": "TEU REDUS PE100 SDR11 DN225-160",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8025128",
+      "desc": "TEU REDUS PE100 SDR11 DN225-180",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": 180
+    },
+    {
+      "sap_code": "8025141",
+      "desc": "TEU REDUS PE100 SDR11 DN250-160",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8025129",
+      "desc": "TEU REDUS PE100 SDR11 DN315-110",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": 110
+    },
+    {
+      "sap_code": "8025131",
+      "desc": "TEU REDUS PE100 SDR11 DN315-160",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": 160
+    },
+    {
+      "sap_code": "8025132",
+      "desc": "TEU REDUS PE100 SDR11 DN315-225",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": 225
+    },
+    {
+      "sap_code": "8025133",
+      "desc": "TEU REDUS PE100 SDR11 DN315-250",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": 250
+    },
+    {
+      "sap_code": "8025130",
+      "desc": "TEU REDUS PE100 SDR11 DN315X125",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8025098",
+      "desc": "TEU REDUS PE100 SDR11 DN63-50",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8025101",
+      "desc": "TEU REDUS PE100 SDR11 DN75-63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8025102",
+      "desc": "TEU REDUS PE100 SDR11 DN90-50",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8025103",
+      "desc": "TEU REDUS PE100 SDR11 DN90-63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8025104",
+      "desc": "TEU REDUS PE100 SDR11 DN90-75",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": 75
+    },
+    {
+      "sap_code": "8237008",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN110/DIAM.4\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237009",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN125/DIAM.4\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237011",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN160/DIAM.6\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237012",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN180/DIAM.6\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237013",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN200/DIAM.8\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237014",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN225/DIAM.8\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 225,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237015",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN250/DIAM.10\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237016",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN280/DIAM.10\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 280,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237018",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN315/DIAM.12\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 315,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237001",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN32/DIAM1\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237020",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN355/DIAM.12\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237002",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN40/DIAM1 1/4",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237021",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN400/DIAM.16\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237003",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN50/DIAM1 1/2",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237078",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN500/DIAM.20\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 500,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237004",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN63/DIAM.2\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237006",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN75/DIAM2 1/2",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237007",
+      "desc": "PIESA TRANZPE100/OL SDR11 DN90/DIAM.3\"",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403007",
+      "desc": "VANA PE 100 SDR11 DN110 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403008",
+      "desc": "VANA PE 100 SDR11 DN125 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 125,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403010",
+      "desc": "VANA PE 100 SDR11 DN160 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 160,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403011",
+      "desc": "VANA PE 100 SDR11 DN180 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 180,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403012",
+      "desc": "VANA PE 100 SDR11 DN200 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403001",
+      "desc": "VANA PE 100 SDR11 DN32 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403002",
+      "desc": "VANA PE 100 SDR11 DN40 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403004",
+      "desc": "VANA PE 100 SDR11 DN63 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403005",
+      "desc": "VANA PE 100 SDR11 DN75 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 75,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403006",
+      "desc": "VANA PE 100 SDR11 DN90 GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403020",
+      "desc": "Vana PE 100SDR DN110 FULL BORE GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 110,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403021",
+      "desc": "Vana PE 100SDR DN 63 FULL BORE GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8403019",
+      "desc": "Vana PE 100SDR DN 90 FULL BORE GAZ",
+      "category": "vana",
+      "material_type": "PE100_SDR11",
+      "diameter_dn": 90,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8215189",
+      "desc": "TEU BR. FARA COLIER PE100 SDR11 DN355-63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 355,
+      "sub_diameter_dn": 63
+    },
+    {
+      "sap_code": "8215192",
+      "desc": "TEU BR.FARA COLIER PEHD100 SDR11DN400/63",
+      "category": "teu",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8036312",
+      "desc": "RED.(SUD. CAP CAP) PE100 SDR11 DN400-280",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": 280
+    },
+    {
+      "sap_code": "8420028",
+      "desc": "Robinet fluture cu reductor DN400 PN 16",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 400,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420029",
+      "desc": "Robinet fluture cu reductor DN500 PN 16",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 500,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420027",
+      "desc": "Robinet fluture cu reductor DN300 PN 16",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 300,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420030",
+      "desc": "Robinet fluture DN200PN16_echip flansa",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420026",
+      "desc": "Robinet fluture DN250 PN 16_echip flansa",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 250,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420001",
+      "desc": "ROBINET SFERIC DN 50 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420003",
+      "desc": "ROBINET SFERIC DN 80 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 80,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420004",
+      "desc": "ROBINET SFERIC DN 100 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 100,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420005",
+      "desc": "ROBINET SFERIC DN 150 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 150,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8420006",
+      "desc": "ROBINET SFERIC DN 200 GAZ CU FLANSA",
+      "category": "robinet",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237028",
+      "desc": "REISER PE100 SDR11 DN32/DIAM.1\"",
+      "category": "raiser",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237029",
+      "desc": "REISER PE100 SDR11 DN40/DIAM.1 1/4\"",
+      "category": "raiser",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237030",
+      "desc": "REISER PE100 SDR11 DN50/DIAM.1 1/2\"",
+      "category": "raiser",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8237031",
+      "desc": "REISER PE100 SDR11 DN63/DIAM.2\"",
+      "category": "raiser",
+      "material_type": null,
+      "diameter_dn": 63,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200077",
+      "desc": "SURUB CAP HEX M16X70",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200078",
+      "desc": "SURUB CAP HEX M16X80",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200078",
+      "desc": "SURUB CAP HEX M16X80",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200076",
+      "desc": "SURUB CAP HEX M16X60",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200080",
+      "desc": "SURUB CAP HEX M16X100",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200082",
+      "desc": "SURUB CAP HEX M16X120",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200085",
+      "desc": "SURUB CAP HEX M16X150",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200267",
+      "desc": "Surub cap hex M 16x200",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200094",
+      "desc": "SURUB CAP HEX M18X90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200095",
+      "desc": "SURUB CAP HEX M18X100",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200097",
+      "desc": "SURUB CAP HEX M18X120",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200109",
+      "desc": "SURUB CAP HEX M20X80",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200111",
+      "desc": "SURUB CAP HEX M20X90",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200112",
+      "desc": "SURUB CAP HEX M20X100",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200114",
+      "desc": "SURUB CAP HEX M20X120",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200117",
+      "desc": "SURUB CAP HEX M20X150",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200128",
+      "desc": "SURUB CAP HEX M22X120",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200131",
+      "desc": "SURUB CAP HEX M22X150",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200140",
+      "desc": "SURUB CAP HEX M24X 80",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200142",
+      "desc": "SURUB CAP HEX M24X100",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200143",
+      "desc": "SURUB CAP HEX M24X110",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200144",
+      "desc": "SURUB CAP HEX M24X120",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200148",
+      "desc": "SURUB CAP HEX M24X160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200161",
+      "desc": "SURUB CAP HEX M27X120",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200164",
+      "desc": "SURUB CAP HEX M27X150",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200268",
+      "desc": "Surub cap hex M 30x130",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200182",
+      "desc": "SURUB CAP HEX M30X160",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200268",
+      "desc": "Surub cap hex M 30x130",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2200269",
+      "desc": "Surub cap hex M 30x180",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2215022",
+      "desc": "PIULITE HEX M16",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2215023",
+      "desc": "PIULITE HEX M18",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2215024",
+      "desc": "PIULITE HEX M20",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2215025",
+      "desc": "PIULITE HEX M22",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2215026",
+      "desc": "PIULITE HEX M24",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2215027",
+      "desc": "PIULITE HEX M27",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2215028",
+      "desc": "PIULITE HEX M30",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "2215029",
+      "desc": "PIULITE HEX M33",
+      "category": "other",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500003",
+      "desc": "Firida PRM G100 cu pereti metalici",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500004",
+      "desc": "FIRIDA 600X600X400",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500005",
+      "desc": "FIRIDA 600X600X600",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500006",
+      "desc": "Firida PRM G40 cu pereti metalici",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500011",
+      "desc": "Firida echipata S300-VO-110-SP",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500012",
+      "desc": "Firida S300 echip.kit V/V contor G6;G10",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500016",
+      "desc": "Firida echipata S750-VV-250-SP",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500018",
+      "desc": "Firida S300 echip.kit V/O contor G6;G10",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500020",
+      "desc": "FIRIDA G40-G65 ECHIPATA",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500021",
+      "desc": "FIRIDA G100-G160 ECHIPATA",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500022",
+      "desc": "FIRIDA S300  ECHIPATA cu iesire pe jos",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500023",
+      "desc": "FIRIDA S300 ECHIPATA cu iesire laterala",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500024",
+      "desc": "FIRIDA S300  pt baterie 2 reg 25Nmc/h",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500025",
+      "desc": "FIRIDA S750 pt baterie 4 reg 25Nmc/h",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500026",
+      "desc": "FIRIDA S300 echipata bat.2 reg 25Nmc/h",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500027",
+      "desc": "FIRIDA S750 echipata bat.4 reg 25Nmc/h",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500029",
+      "desc": "FIRIDA S22S",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500052",
+      "desc": "Soclu firida S2300 protect cap brasament",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500053",
+      "desc": "FIRIDA S300 NEECHIPATA",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500054",
+      "desc": "Firida S300 soclu+reg+post cont G4 L110",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500055",
+      "desc": "Firida S300 soclu+reg+post cont G6 L250",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500056",
+      "desc": "Firida S300 soclu echipata  2 reg.Q25",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500057",
+      "desc": "Firida S1000 soclu 2reg.Q25  4 post cont",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500058",
+      "desc": "Firida S1000 soclu 2reg.Q25  5 post cont",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500059",
+      "desc": "Firida S1300 soclu  9 post contoare L110",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500060",
+      "desc": "Kit firida S2300 soclu+firida+reg Q25",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500061",
+      "desc": "Kit firidaS2300 soclu+firid+reg+post mas",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500062",
+      "desc": "FIRIDA S2300 neechipata",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500063",
+      "desc": "FIRIDA S2300 ECHIPATA CU KIT REGULATOR",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500064",
+      "desc": "FIRIDA S2300 ECHIPATA CU  REGULATOR",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500076",
+      "desc": "FIRIDA S2300 ECHIPATA CU KIT CONTOR",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500077",
+      "desc": "Firida echipata FPRM-F50-SF6-SP",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500069",
+      "desc": "USA FIRIDA 600X600",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500072",
+      "desc": "USA FIRIDA 800X600",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500073",
+      "desc": "USA FIRIDA 800X900",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500078",
+      "desc": "Firida ingropata BLD900",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500109",
+      "desc": "Firida ingropata 25Nmc/h",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8500110",
+      "desc": "Firida ingropata 50Nmc/h",
+      "category": "firida",
+      "material_type": null,
+      "diameter_dn": null,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8450085",
+      "desc": "REGULATOR DE GAZ DN25-32 PM-PJ Q10",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 25,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8450086",
+      "desc": "REGULATOR DE GAZ DN32-32 PM-PJ Q25",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": 32
+    },
+    {
+      "sap_code": "8450087",
+      "desc": "REGULATOR DE GAZ DN40-50 PM-PJ Q50",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8450088",
+      "desc": "REGULATOR DE GAZ DN40-50 PM-PR Q50",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8450089",
+      "desc": "REGULATOR DE GAZ DN40-50 PM-PJ Q100",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8450090",
+      "desc": "REGULATOR DE GAZ DN40-50 PM-PR Q100",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8452064",
+      "desc": "REGULATOR DE GAZ DN50-50 PM-PJ Q160",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8452065",
+      "desc": "REGULATOR DE GAZ DN50-50 PM-PR Q160",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8452066",
+      "desc": "REGULATOR DE GAZ DN50-50 PM-PJ Q250",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8452067",
+      "desc": "REGULATOR DE GAZ DN50-50 PM-PR Q250",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8452068",
+      "desc": "REGULATOR DE GAZ DN50-50 PM-PJ Q500",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8452069",
+      "desc": "REGULATOR DE GAZ DN50-50 PM-PR Q500",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8452070",
+      "desc": "REGULATOR DE GAZ DN50-50 PM-PR Q1000",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8452071",
+      "desc": "REGULATOR DE GAZ DN50-50 PM-PR Q1000",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": 50
+    },
+    {
+      "sap_code": "8452072",
+      "desc": "REGULATOR DE GAZ DN80-80 PM-PJ Q2500",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 80,
+      "sub_diameter_dn": 80
+    },
+    {
+      "sap_code": "8452073",
+      "desc": "REGULATOR DE GAZ DN80-80 PM-PR Q2500",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 80,
+      "sub_diameter_dn": 80
+    },
+    {
+      "sap_code": "8452074",
+      "desc": "REGULATOR DE GAZ DN100-100 PM-PJ Q5000",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 100,
+      "sub_diameter_dn": 100
+    },
+    {
+      "sap_code": "8452075",
+      "desc": "REGULATOR DE GAZ DN100-100 PM-PR Q5000",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 100,
+      "sub_diameter_dn": 100
+    },
+    {
+      "sap_code": "8452076",
+      "desc": "REGULATOR DE GAZ DN100-100 PM-PJ Q7500",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 100,
+      "sub_diameter_dn": 100
+    },
+    {
+      "sap_code": "8452077",
+      "desc": "REGULATOR DE GAZ DN100-100 PM-PR Q7500",
+      "category": "regulator",
+      "material_type": null,
+      "diameter_dn": 100,
+      "sub_diameter_dn": 100
+    },
+    {
+      "sap_code": "8457082",
+      "desc": "FILTRU GAZ DN32 F160",
+      "category": "filtru",
+      "material_type": null,
+      "diameter_dn": 32,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8457083",
+      "desc": "FILTRU GAZ DN40 F160",
+      "category": "filtru",
+      "material_type": null,
+      "diameter_dn": 40,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8457084",
+      "desc": "FILTRU GAZ DN50 F160",
+      "category": "filtru",
+      "material_type": null,
+      "diameter_dn": 50,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8457085",
+      "desc": "FILTRU GAZ DN65 F160",
+      "category": "filtru",
+      "material_type": null,
+      "diameter_dn": 65,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8457086",
+      "desc": "FILTRU GAZ DN80 F160",
+      "category": "filtru",
+      "material_type": null,
+      "diameter_dn": 80,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8457087",
+      "desc": "FILTRU GAZ DN100 F160",
+      "category": "filtru",
+      "material_type": null,
+      "diameter_dn": 100,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8457088",
+      "desc": "FILTRU GAZ DN150 F160",
+      "category": "filtru",
+      "material_type": null,
+      "diameter_dn": 150,
+      "sub_diameter_dn": null
+    },
+    {
+      "sap_code": "8457089",
+      "desc": "FILTRU GAZ DN200 F160",
+      "category": "filtru",
+      "material_type": null,
+      "diameter_dn": 200,
+      "sub_diameter_dn": null
+    }
+  ]
+}

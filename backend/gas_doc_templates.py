@@ -1217,6 +1217,22 @@ TEMPLATES: Dict[str, Dict[str, Any]] = {
     "carte_tehnica":          {"label": "Cartea Tehnică a Construcției (4 secțiuni)",     "phase": "receptie", "fn": carte_tehnica,        "norm": "HG 273/1994 + Ord. MLPAT 770/1997"},
 }
 
+# V10.5 — Register the MASTER document: Proiect Bransament Complet (replică XLS user)
+try:
+    from gas_doc_proiect_complet import proiect_bransament_complet as _proiect_complet_fn
+
+    def _proiect_complet_wrap(proj):
+        return _proiect_complet_fn(proj)
+
+    TEMPLATES["proiect_bransament_complet"] = {
+        "label": "Proiect Bransament COMPLET (Referat + Foaie capat + Borderou + Memoriu + ANEXA 14 materiale auto)",
+        "phase": "dtac",
+        "fn": _proiect_complet_wrap,
+        "norm": "NTPEE 2018 + HG 907/2016 + ANEXA 13 (554 SAP materials)",
+    }
+except Exception as _e:  # pragma: no cover
+    pass
+
 
 def list_templates() -> List[Dict[str, Any]]:
     """Return list of {id, label, phase, norm} — UI consumes this list."""
