@@ -146,17 +146,20 @@ def select_regulator(debit_mc_h: float) -> Optional[Dict[str, Any]]:
 
 
 def select_contor(debit_mc_h: float) -> Dict[str, Any]:
-    """Selecție contor G-class conform debit max.
+    """Selecție contor G-class conform debit max — pornește de la G4 (standard OSD).
 
-    G1.6 (2.5 m³/h), G2.5 (4), G4 (6), G6 (10), G10 (16), G16 (25), G25 (40),
-    G40 (65), G65 (100), G100 (160), G160 (250), G250 (400), G400 (650), G650 (1000).
+    G4 (6 m³/h) este minimul instalat la consumatori casnici, conform practicii curente
+    a operatorilor de distribuție. Variantele G1.6 și G2.5 NU se mai folosesc.
+
+    G4 (6), G6 (10), G10 (16), G16 (25), G25 (40), G40 (65), G65 (100),
+    G100 (160), G160 (250), G250 (400), G400 (650), G650 (1000).
     """
     contor_classes = [
-        ("G1.6", 2.5), ("G2.5", 4), ("G4", 6), ("G6", 10), ("G10", 16),
-        ("G16", 25), ("G25", 40), ("G40", 65), ("G65", 100), ("G100", 160),
-        ("G160", 250), ("G250", 400), ("G400", 650), ("G650", 1000),
+        ("G4", 6), ("G6", 10), ("G10", 16), ("G16", 25), ("G25", 40),
+        ("G40", 65), ("G65", 100), ("G100", 160), ("G160", 250),
+        ("G250", 400), ("G400", 650), ("G650", 1000),
     ]
-    chosen = contor_classes[0]
+    chosen = contor_classes[0]  # implicit G4 — minim absolut
     for g, qmax in contor_classes:
         if qmax >= debit_mc_h:
             chosen = (g, qmax)
