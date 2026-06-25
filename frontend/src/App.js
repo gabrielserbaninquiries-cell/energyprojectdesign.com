@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { DevModeProvider } from './contexts/DevModeContext';
 import { Toaster } from 'sonner';
 
 import Landing from './pages/Landing';
@@ -242,10 +243,12 @@ function AppRouter() {
 export default function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppRouter />
-        <Toaster position="top-right" richColors />
-      </BrowserRouter>
+      <DevModeProvider>
+        <BrowserRouter>
+          <AppRouter />
+          <Toaster position="top-right" richColors />
+        </BrowserRouter>
+      </DevModeProvider>
     </AuthProvider>
   );
 }

@@ -8,11 +8,13 @@ import {
   PE_DIAMETERS, OL_DIAMETERS,
 } from '../../lib/gasCalcs';
 import { Plus, X, Home, Wind, Calculator, AlertTriangle } from 'lucide-react';
+import DevPlaceholderTag from './DevPlaceholderTag';
 
 function Field({ label, k, value, onChange, type = 'text', options, suffix, placeholder }) {
   return (
     <div>
       <label className="block text-xs font-semibold text-slate-700 mb-1">{label}</label>
+      <DevPlaceholderTag pkey={k ? `iu_${k}` : null} />
       {options ? (
         <select value={value || ''} onChange={(e) => onChange(k, e.target.value)} className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm" data-testid={`field-iu-${k}`}>
           <option value="">— alege —</option>
@@ -47,7 +49,11 @@ export default function GasInstalatieUtilizareSection({ data, onChange }) {
     const lungimeTotala = bilantTraseu.reduce((acc, b) => acc + (Number(b.lungime_m) || 0), 0);
     // Diametru recomandat (presiune joasă — instalație utilizare)
     const dnRec = calcDiametruJoasa({ qM3h: debitTotal, lengthM: lungimeTotala || 10, deltaPMbar: 5 });
-    return { debitTotal, meter, totalFittinguri, totalRobineti, totalElectrovalve, lungimeTotala, dnRec };
+    // V11.5 — Viteza calculată gaz (limita < 20 m/s la interior conform art.49 ANRE)
+    const dnMm = dnRec > 0 ? dnRec : 32; // fallback to min DN
+    const viteza = calcVitezaGaz({ qM3h: debitTotal, dnMm });
+    const vitezaOK = viteza < 20;
+    return { debitTotal, meter, totalFittinguri, totalRobineti, totalElectrovalve, lungimeTotala, dnRec, viteza, vitezaOK };
   }, [consumatori, fittinguri, robineti, electrovalve, bilantTraseu]);
 
   // Camere — calc per cameră
@@ -289,11 +295,24 @@ export default function GasInstalatieUtilizareSection({ data, onChange }) {
       <div className="border border-violet-200 rounded-xl p-5 bg-gradient-to-br from-violet-50 to-indigo-50">
         <div className="flex items-center gap-2 mb-3">
           <Calculator className="w-4 h-4 text-violet-700" />
-          <h3 className="text-sm font-bold uppercase tracking-wider text-violet-900">Diametru minim recomandat (presiune joasă)</h3>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-violet-900">Calcule live — Conformitate ANRE</h3>
         </div>
-        <div className="p-3 bg-white rounded-lg border border-violet-200" data-testid="iu-dn-recomandat">
-          <div className="text-3xl font-bold text-violet-900 tabular-nums">{calc.dnRec.toFixed(2)} <span className="text-base font-normal">mm</span></div>
-          <div className="text-xs text-slate-500 mt-1">Conform art. 51 Ord. ANRE 89/2018 — instalație utilizare gaze naturale.</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="p-3 bg-white rounded-lg border border-violet-200" data-testid="iu-dn-recomandat">
+            <div className="text-[10px] uppercase tracking-wider text-violet-700 mb-1">Diametru minim recomandat <DevPlaceholderTag pkey="iu_dn_recomandat" compact /></div>
+            <div className="text-3xl font-bold text-violet-900 tabular-nums">{calc.dnRec.toFixed(2)} <span className="text-base font-normal">mm</span></div>
+            <div className="text-xs text-slate-500 mt-1">Conform art. 51 Ord. ANRE 89/2018 — joasă presiune.</div>
+          </div>
+          <div className={`p-3 bg-white rounded-lg border ${calc.vitezaOK ? 'border-emerald-200' : 'border-rose-300'}`} data-testid="iu-viteza-calculata">
+            <div className="text-[10px] uppercase tracking-wider text-violet-700 mb-1">Viteză calculată gaz <DevPlaceholderTag pkey="iu_viteza_calculata_ms" compact /></div>
+            <div className={`text-3xl font-bold tabular-nums ${calc.vitezaOK ? 'text-emerald-700' : 'text-rose-700'}`}>
+              {calc.viteza.toFixed(2)} <span className="text-base font-normal">m/s</span>
+              {calc.vitezaOK ? ' ✓' : ' ⚠'}
+            </div>
+            <div className="text-xs text-slate-500 mt-1">
+              Limită: <strong>&lt; 20 m/s</strong> la interior (art. 49 ANRE). {!calc.vitezaOK && <span className="text-rose-700 font-semibold">Depășit — mărește Dn.</span>}
+            </div>
+          </div>
         </div>
       </div>
     </div>

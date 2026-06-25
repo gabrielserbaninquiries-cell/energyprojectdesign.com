@@ -27,8 +27,10 @@ import {
   ArrowLeft, Save, Send, Download, FileText, Calculator, Package,
   CheckCircle2, AlertCircle, Loader2, FileSignature, Settings,
   Flame, GitBranch, Home, Sparkles, ChevronRight, FolderOpen, Plus,
-  Clock, Trash2,
+  Clock, Trash2, Code2, Bug,
 } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { useDevMode } from '../contexts/DevModeContext';
 
 import GasGeneralDataSection from '../components/gas/GasGeneralDataSection';
 import GasBransamentSection from '../components/gas/GasBransamentSection';
@@ -61,6 +63,8 @@ export default function GasNaturalStudio() {
   const { id: paramId } = useParams();
   const nav = useNavigate();
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const { devMode, setDevMode } = useDevMode();
 
   const [pid, setPid] = useState(paramId || null);
   const [savedProjects, setSavedProjects] = useState([]);
@@ -382,6 +386,44 @@ export default function GasNaturalStudio() {
                 <div className="text-[10px] text-violet-200 flex items-center gap-1" data-testid="last-saved-indicator">
                   <CheckCircle2 className="w-3 h-3 text-emerald-300" />
                   Salvat la {lastSavedAt.toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' })}
+                </div>
+              )}
+              {/* V11.5 — Developer-only: Dev mode toggle + download placeholder template */}
+              {user?.is_developer && (
+                <div className="mt-2 pt-2 border-t border-white/20 flex items-center gap-2">
+                  <button
+                    onClick={() => setDevMode(!devMode)}
+                    className={`px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 transition-all ${
+                      devMode
+                        ? 'bg-emerald-400 text-emerald-950 hover:bg-emerald-300'
+                        : 'bg-white/15 hover:bg-white/25 text-violet-100'
+                    }`}
+                    title="Afișează numele placeholderelor {{key}} deasupra fiecărui input"
+                    data-testid="dev-mode-toggle"
+                  >
+                    <Bug className="w-3 h-3" />
+                    {devMode ? 'DEV ON' : 'DEV OFF'}
+                  </button>
+                  <a
+                    href={`${process.env.REACT_APP_BACKEND_URL}/api/placeholders/template.docx`}
+                    download
+                    className="px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 bg-white/15 hover:bg-white/25 text-violet-100 transition-all"
+                    title="Descarcă DOCX master cu 221 placeholdere"
+                    data-testid="download-placeholders-docx"
+                  >
+                    <Download className="w-3 h-3" />
+                    DOCX
+                  </a>
+                  <a
+                    href={`${process.env.REACT_APP_BACKEND_URL}/api/placeholders/template.md`}
+                    download
+                    className="px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 bg-white/15 hover:bg-white/25 text-violet-100 transition-all"
+                    title="Descarcă catalogul Markdown"
+                    data-testid="download-placeholders-md"
+                  >
+                    <Code2 className="w-3 h-3" />
+                    MD
+                  </a>
                 </div>
               )}
             </div>

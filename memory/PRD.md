@@ -1,8 +1,67 @@
-# Energy Project Design (EPD) — PRD V11.0
+# Energy Project Design (EPD) — PRD V11.5
 
 > Multi-industry SaaS for engineering documentation, monetization, marketplace, and global utility services.
-> Live status: PREVIEW healthy · production needs Deploy.
-> Owner: dragosserban95@gmail.com · Cofounder plan.
+> Live status: PREVIEW healthy & verified · production needs Deploy (owner seed will auto-create owner account on first startup).
+> Owner: dragosserban95@gmail.com · society_admin plan (auto-seeded).
+
+## V11.5 — RELEASE NOTES (25 Feb 2026)
+
+### What was added (per user requests, NO existing functionality modified)
+
+1. **Idempotent Owner Account Seed** (`/app/backend/server.py::_seed_owner_account`)
+   - Runs on EVERY backend startup, both preview AND production.
+   - Reads OWNER_EMAIL + OWNER_PASSWORD from `/app/backend/.env`.
+   - Creates owner with bcrypt-hashed password if missing; refreshes hash if env password rotated.
+   - Always ensures `is_admin=true, is_developer=true, is_society_admin=true, plan=society_admin`.
+   - **Why**: User reported login failing on production — root cause was missing user in production DB.
+
+2. **Owner Plan Downgrade Protection** (`/api/payments/checkout`)
+   - Refuses HTTP 403 if owner/developer tries to activate trial plan.
+   - Protects society_admin state against accidental downgrade.
+
+3. **Gas Studio Project Picker** (`GasNaturalStudio.jsx` lines 207-260)
+   - Modal shows on entering /gaze-naturale (no pid) when user has ≥1 saved projects.
+   - 3-col grid card layout with Open + Delete (hover) actions.
+   - "Proiectele mele (N)" button in header for re-opening picker.
+   - "Salvat la HH:MM" indicator after each save.
+
+4. **Developer Placeholder Overlay** (`/app/frontend/src/components/gas/DevPlaceholderTag.jsx`)
+   - Click-to-copy `{{key}}` badges shown ABOVE each input field.
+   - Visible ONLY when `user.is_developer=true` AND DEV ON toggle active.
+   - Persisted in localStorage (`epd_dev_mode`).
+   - Wrapped Field components in: GeneralData, Bransament, Extindere, InstalatieUtilizare sections.
+
+5. **Master Placeholder Template Downloads**
+   - `GET /api/placeholders/template.md` → returns full markdown catalog (`GAZE_NATURALE_PLACEHOLDERS.md`).
+   - `GET /api/placeholders/template.docx` → generates DOCX with 221 placeholders in 32 tables grouped by section.
+   - Developer-only buttons in Gas Studio header: DOCX + MD.
+
+6. **Instalație Utilizare Completed** (added missing `iu_viteza_calculata_ms` field display)
+   - Live viteza calculation panel next to dn_recomandat.
+   - Conformance check (< 20 m/s interior per art. 49 ANRE).
+   - Red warning when limit exceeded.
+
+7. **Sidebar Menu — Billing Added** (`/app/backend/roles_pages_matrix.py`)
+   - New "Facturare & istoric plăți" entry under Cont section → `/billing`.
+   - Now sidebar contains: Profil societate, Planuri & departamente, Facturare, Setări.
+
+8. **Google Login Button Text Clarified**
+   - "Continuă cu Google — Energy Project Design" (was just "Continuă cu Google").
+   - On /register page.
+
+### Test Status (V11.5)
+- Backend: **18/18 pytest PASS** (`/app/backend/tests/test_v115_auth_payments.py`)
+- Frontend: **8/9 Playwright PASS** (1 flaky selector, behavior verified by backend equivalent)
+- Owner login + plan checkout + donations + gas project CRUD + GDPR rejection all verified
+
+### Verified payment flows (LIVE Stripe — cs_live_ URLs returned)
+- ✅ Trial 0 EUR → activates direct (no Stripe)
+- ✅ Basic 29 EUR → checkout.stripe.com/c/pay/cs_live_*
+- ✅ Proiectant 129 EUR → cs_live_*
+- ✅ Societate 399 EUR → cs_live_*
+- ✅ Avize 69 EUR → cs_live_*
+- ✅ Donations RON 10 + EUR 5 → cs_live_*
+- ✅ Donation min RON 1 → rejected 400
 
 ## 1. Original Problem Statement (founder, Romanian)
 

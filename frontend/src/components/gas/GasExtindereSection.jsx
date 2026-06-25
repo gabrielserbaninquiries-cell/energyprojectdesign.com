@@ -5,11 +5,13 @@ import { useMemo } from 'react';
 import { PE_DIAMETERS, OL_DIAMETERS, calcLatimeSant, calcVitezaGaz, calcDiametruJoasa, calcDiametruMedie } from '../../lib/gasCalcs';
 import { Plus, X, GitBranch, Calculator } from 'lucide-react';
 import GasBransamentSection from './GasBransamentSection';
+import DevPlaceholderTag from './DevPlaceholderTag';
 
 function NumField({ label, k, value, onChange, suffix, step = 'any' }) {
   return (
     <div>
       <label className="block text-xs font-semibold text-slate-700 mb-1">{label}</label>
+      <DevPlaceholderTag pkey={k ? `cnd_${k}` : null} />
       <div className="relative">
         <input
           type="number"
@@ -29,6 +31,7 @@ function SelField({ label, k, value, onChange, options }) {
   return (
     <div>
       <label className="block text-xs font-semibold text-slate-700 mb-1">{label}</label>
+      <DevPlaceholderTag pkey={k ? `cnd_${k}` : null} />
       <select
         value={value || ''}
         onChange={(e) => onChange(k, e.target.value)}

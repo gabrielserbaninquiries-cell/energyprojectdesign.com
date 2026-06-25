@@ -1089,6 +1089,14 @@ async def create_checkout(req: CheckoutRequest, request: Request, user: User = D
     if not plan:
         raise HTTPException(status_code=400, detail="Plan invalid")
 
+    # V11.5 — Refuse plan downgrade for owner/society_admin/developer accounts.
+    # Protects owner state: trial activation must not strip society_admin powers.
+    if user.plan in ("society_admin", "developer", "developer_lifetime") and req.plan_id == "trial":
+        raise HTTPException(
+            status_code=403,
+            detail="Contul tău administrativ are deja toate drepturile. Trial-ul ar reduce drepturile — schimbare blocată.",
+        )
+
     # V11.4 — FREE / TRIAL plans (amount = 0): activate directly without Stripe.
     # Fixes HTTP 500 when user clicked "Achiziționează — 0 EUR" on the trial card.
     if float(plan["amount"]) <= 0:
@@ -2570,6 +2578,132 @@ _pr_api = APIRouter(prefix="/api/placeholders")
 async def get_placeholders_registry():
     """Return unified fields registry + sections metadata."""
     return {"fields": FIELDS_REGISTRY, "sections": SECTIONS_META, "categories": CATEGORIES_META}
+
+
+@_pr_api.get("/template.md")
+async def download_placeholders_md():
+    """V11.5 — Developer download: complete placeholder catalog as Markdown.
+
+    Returns the canonical placeholder catalog file used for offline reference.
+    """
+    from fastapi.responses import Response as _Resp
+    import os as _os
+    md_path = _os.path.join(_os.path.dirname(__file__), "..", "docs", "GAZE_NATURALE_PLACEHOLDERS.md")
+    md_path = _os.path.normpath(md_path)
+    if not _os.path.exists(md_path):
+        # Fallback: build from registry
+        lines = ["# Catalog Placeholdere — Gaze Naturale EPD\n"]
+        for s in SECTIONS_META:
+            lines.append(f"\n## {s.get('label', s['id'])}\n")
+            lines.append("| Placeholder | Label | Tip | Required |")
+            lines.append("|---|---|---|---|")
+            for f in FIELDS_REGISTRY:
+                if f.get("section") == s["id"]:
+                    lines.append(f"| `{{{{{f['key']}}}}}` | {f.get('label','')} | {f.get('type','')} | {'✓' if f.get('required') else ''} |")
+        content = "\n".join(lines).encode("utf-8")
+    else:
+        with open(md_path, "rb") as fh:
+            content = fh.read()
+    return _Resp(
+        content=content,
+        media_type="text/markdown; charset=utf-8",
+        headers={"Content-Disposition": 'attachment; filename="EPD_Placeholdere_Gaze_Naturale.md"'},
+    )
+
+
+@_pr_api.get("/template.docx")
+async def download_placeholders_docx():
+    """V11.5 — Developer download: master DOCX template with ALL placeholders.
+
+    Generates a DOCX with placeholders {{key}} grouped by section. Use this
+    as a reference to copy placeholders into custom templates.
+    """
+    from fastapi.responses import Response as _Resp
+    from docx import Document
+    from docx.shared import Pt, RGBColor, Inches
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    import io as _io
+
+    doc = Document()
+    # Title
+    title = doc.add_heading("Energy Project Design — Master Placeholder Template", level=0)
+    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+    p = doc.add_paragraph()
+    r = p.add_run("Catalog complet de placeholdere DOCX pentru proiecte de gaze naturale conform Ord. ANRE 89/2018.")
+    r.italic = True
+    r.font.size = Pt(10)
+
+    doc.add_paragraph(
+        "Copiați placeholderele {{key}} din tabelele de mai jos în șabloanele dvs. DOCX. "
+        "La generare, motorul EPD va înlocui fiecare {{key}} cu valoarea introdusă în studio."
+    )
+    doc.add_paragraph(f"Total câmpuri catalogate: {len(FIELDS_REGISTRY)}").runs[0].bold = True
+
+    # Group fields by section
+    by_section: Dict[str, List[Dict[str, Any]]] = {}
+    for f in FIELDS_REGISTRY:
+        by_section.setdefault(f.get("section", "altele"), []).append(f)
+
+    section_lookup = {sid: meta for sid, meta in SECTIONS_META.items()} if isinstance(SECTIONS_META, dict) else {s["id"]: s for s in SECTIONS_META}
+
+    for section_id, fields in by_section.items():
+        section_meta = section_lookup.get(section_id, {"label": section_id})
+        doc.add_heading(f"{section_meta.get('label', section_id)}", level=1)
+        if section_meta.get("description"):
+            d = doc.add_paragraph(section_meta["description"])
+            d.runs[0].italic = True
+
+        # Build table
+        table = doc.add_table(rows=1, cols=4)
+        table.style = "Light Grid Accent 1"
+        hdr = table.rows[0].cells
+        hdr[0].text = "Placeholder"
+        hdr[1].text = "Label / Descriere"
+        hdr[2].text = "Tip"
+        hdr[3].text = "Obligatoriu"
+        for cell in hdr:
+            for paragraph in cell.paragraphs:
+                for run in paragraph.runs:
+                    run.bold = True
+
+        for fld in fields:
+            row = table.add_row().cells
+            row[0].text = "{{" + fld["key"] + "}}"
+            row[1].text = str(fld.get("label", ""))
+            row[2].text = str(fld.get("type", ""))
+            row[3].text = "DA" if fld.get("required") else ""
+
+        # Example block
+        doc.add_paragraph()
+        ex = doc.add_paragraph()
+        ex_r = ex.add_run("Exemplu utilizare în text fluent:")
+        ex_r.bold = True
+        ex_r.font.size = Pt(9)
+        example_keys = [f["key"] for f in fields[:3]]
+        if example_keys:
+            sample = doc.add_paragraph()
+            sample.add_run("    " + " — ".join("{{" + k + "}}" for k in example_keys)).font.name = "Courier New"
+
+    # Footer
+    doc.add_page_break()
+    doc.add_heading("Note pentru dezvoltatori", level=2)
+    doc.add_paragraph(
+        "• Sintaxa: {{key}} (acolade duble, fără spațiu). Cheia este sensibilă la majuscule.\n"
+        "• Pentru liste repetate (consumatori, avize, suduri): {{#consumatori}}{{nume}}{{/consumatori}}\n"
+        "• Pentru câmpuri opționale: {{#beneficiar_email}}Email: {{beneficiar_email}}{{/beneficiar_email}}\n"
+        "• Generarea documentelor: POST /api/ocr/fill-template cu DOCX + JSON valori.\n"
+        "• API placeholders: GET /api/placeholders/registry"
+    )
+
+    buf = _io.BytesIO()
+    doc.save(buf)
+    buf.seek(0)
+    return _Resp(
+        content=buf.read(),
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        headers={"Content-Disposition": 'attachment; filename="EPD_Master_Template_Placeholdere.docx"'},
+    )
 
 
 @_pr_api.get("/coverage/{pid}")

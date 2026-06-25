@@ -8,11 +8,13 @@ import {
   checkVitezaConform, pickGasMeter, pickRegulator, pickRobinet, sumDebit,
 } from '../../lib/gasCalcs';
 import { Plus, X, Calculator, Flame } from 'lucide-react';
+import DevPlaceholderTag from './DevPlaceholderTag';
 
 function NumField({ label, k, value, onChange, suffix, step = 'any' }) {
   return (
     <div>
       <label className="block text-xs font-semibold text-slate-700 mb-1">{label}</label>
+      <DevPlaceholderTag pkey={k ? `br_${k}` : null} />
       <div className="relative">
         <input
           type="number"
@@ -32,6 +34,7 @@ function SelField({ label, k, value, onChange, options }) {
   return (
     <div>
       <label className="block text-xs font-semibold text-slate-700 mb-1">{label}</label>
+      <DevPlaceholderTag pkey={k ? `br_${k}` : null} />
       <select
         value={value || ''}
         onChange={(e) => onChange(k, e.target.value)}

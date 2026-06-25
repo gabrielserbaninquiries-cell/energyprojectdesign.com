@@ -4,6 +4,7 @@
 import { useState, useMemo } from 'react';
 import { OSD_LIST, TIPURI_LUCRARE, LEGITIMATIE_PROIECTANT_TIPURI, LEGITIMATIE_EXECUTANT_TIPURI } from '../../lib/gasCalcs';
 import { Search, Plus, X, Calendar, MapPin, User, Building2 } from 'lucide-react';
+import DevPlaceholderTag from './DevPlaceholderTag';
 
 function Field({ label, k, value, onChange, type = 'text', placeholder, required, options, suffix }) {
   return (
@@ -11,6 +12,7 @@ function Field({ label, k, value, onChange, type = 'text', placeholder, required
       <label className="block text-xs font-semibold text-slate-700">
         {label} {required && <span className="text-rose-500">*</span>}
       </label>
+      <DevPlaceholderTag pkey={k} />
       {options ? (
         <select
           value={value || ''}
@@ -54,6 +56,7 @@ function SearchSelect({ label, k, value, onChange, options, required, placeholde
       <label className="block text-xs font-semibold text-slate-700">
         {label} {required && <span className="text-rose-500">*</span>}
       </label>
+      <DevPlaceholderTag pkey={k} />
       <button
         type="button"
         onClick={() => setOpen(!open)}
