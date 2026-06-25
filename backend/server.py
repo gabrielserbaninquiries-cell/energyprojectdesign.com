@@ -2687,6 +2687,30 @@ async def download_placeholders_docx():
 
     # Footer
     doc.add_page_break()
+    doc.add_heading("Aliasuri placeholder (lung ↔ scurt)", level=1)
+    doc.add_paragraph(
+        "Pentru fiecare câmp ai DOUĂ versiuni: numele LUNG (conform documentului tău "
+        '"Camuri de introdus in pagina gaze naturale.docx") și numele SCURT (intern). '
+        "Folosește pe oricare în DOCX-uri — motorul EPD le rezolvă la aceeași valoare."
+    )
+    try:
+        from placeholders_aliases import ALIAS_MAP
+        alias_table = doc.add_table(rows=1, cols=2)
+        alias_table.style = "Light Grid Accent 1"
+        h = alias_table.rows[0].cells
+        h[0].text = "Alias lung (utilizator)"
+        h[1].text = "Cheie internă"
+        for c in h:
+            for p in c.paragraphs:
+                for r in p.runs:
+                    r.bold = True
+        for alias_long, internal in sorted(ALIAS_MAP.items()):
+            row = alias_table.add_row().cells
+            row[0].text = "{{" + alias_long + "}}"
+            row[1].text = "{{" + internal + "}}"
+    except Exception:
+        pass
+
     doc.add_heading("Note pentru dezvoltatori", level=2)
     doc.add_paragraph(
         "• Sintaxa: {{key}} (acolade duble, fără spațiu). Cheia este sensibilă la majuscule.\n"
@@ -2704,6 +2728,71 @@ async def download_placeholders_docx():
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         headers={"Content-Disposition": 'attachment; filename="EPD_Master_Template_Placeholdere.docx"'},
     )
+
+
+# ============================================================================
+# V11.6 — Auto-selecție materiale gaze naturale (ANEXA 13)
+# ============================================================================
+from pydantic import BaseModel as _BM
+from gas_materials_engine import (
+    auto_bom_bransament, select_teu_bransament, select_regulator,
+    select_contor, select_riser, load_catalog,
+)
+
+_gas_mat_api = APIRouter(prefix="/api/gas/materials")
+
+
+class AutoSelectMaterialsRequest(_BM):
+    bransament_dn: int
+    conducta_dn: int
+    bransament_lungime_m: float = 4.0
+    debit_total_consumatori_mc_h: float = 0.0
+    bransament_material: str = "PE"
+    cu_tub_protectie: bool = True
+    culoare_stopgaz: str = "rosu"
+
+
+@_gas_mat_api.post("/autoselect")
+async def gas_materials_autoselect(req: AutoSelectMaterialsRequest, user: User = Depends(get_current_user)):
+    """V11.6 — Generează automat BOM-ul pentru un branșament conform NTPE 89/2018.
+
+    Primește selecțiile din interfață și returnează lista de materiale exactă
+    din ANEXA 13: teu, mufe, riser, robinet, regulator, contor, tub protecție.
+
+    EXEMPLU:
+      INPUT: {bransament_dn: 32, conducta_dn: 90, debit_total_consumatori_mc_h: 3.67}
+      OUTPUT: TEU D90-32 STOPGAZ ROSU + 2× MUFA PE DN32 + RISER DN32-1"
+              + ROBINET 1" + REGULATOR Q10 + CONTOR G2.5 + TUB PROTECȚIE
+    """
+    try:
+        bom = auto_bom_bransament(
+            bransament_dn=req.bransament_dn,
+            conducta_dn=req.conducta_dn,
+            bransament_lungime_m=req.bransament_lungime_m,
+            debit_total_consumatori_mc_h=req.debit_total_consumatori_mc_h,
+            bransament_material=req.bransament_material,
+            cu_tub_protectie=req.cu_tub_protectie,
+            culoare_stopgaz=req.culoare_stopgaz,
+        )
+        return {"bom": bom, "count": len(bom), "source": "ANEXA 13 — Lista materiale puse la dispoziție OSD"}
+    except Exception as e:
+        logger.exception("autoselect materiale failed")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@_gas_mat_api.get("/catalog")
+async def gas_materials_catalog(q: str = "", tip: str = "", limit: int = 200):
+    """Returnează catalogul ANEXA 13 (publik, pentru căutare libera in UI)."""
+    catalog = load_catalog()
+    if tip:
+        catalog = [c for c in catalog if c.get("tip") == tip]
+    if q:
+        qu = q.upper()
+        catalog = [c for c in catalog if qu in c["text"].upper()]
+    return {"items": catalog[:limit], "total": len(catalog)}
+
+
+app.include_router(_gas_mat_api)
 
 
 @_pr_api.get("/coverage/{pid}")

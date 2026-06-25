@@ -633,13 +633,50 @@ async def fill_template(
 
     # Sanitize: doar string-uri non-empty pentru `original`
     clean: List[Dict[str, str]] = []
+    seen_originals = set()
     for it in repl_list:
         if not isinstance(it, dict):
             continue
         orig = str(it.get("original") or "").strip()
         if not orig:
             continue
-        clean.append({"original": orig, "replacement": str(it.get("replacement") or "")})
+        repl = str(it.get("replacement") or "")
+        clean.append({"original": orig, "replacement": repl})
+        seen_originals.add(orig)
+
+    # V11.6 — Extindere automată cu aliasuri lungi (conform docx-ului utilizatorului)
+    # Dacă perechea folosește o cheie scurtă (ex {{osd_nume}}), adăugăm automat și
+    # cheia lungă echivalentă ({{operator_sistem_distributie}}) cu aceeași valoare.
+    try:
+        from placeholders_aliases import ALIAS_MAP
+        # Construim un index reverse: internal_key → list of long aliases
+        reverse: Dict[str, List[str]] = {}
+        for long_alias, internal in ALIAS_MAP.items():
+            reverse.setdefault(internal, []).append(long_alias)
+        # Pentru fiecare original, dacă scurtul e mapat la N aliasuri lungi,
+        # le adăugăm și pe ele cu aceeași replacement
+        extras: List[Dict[str, str]] = []
+        for item in list(clean):
+            orig = item["original"]
+            # Detectează {{key}} sau key brut
+            mkey = orig.strip("{ }")
+            # Forward: dacă este cheia internă scurtă, adăugăm aliasurile lungi
+            for long_alias in reverse.get(mkey, []):
+                braced = "{{" + long_alias + "}}"
+                if braced not in seen_originals:
+                    extras.append({"original": braced, "replacement": item["replacement"]})
+                    seen_originals.add(braced)
+            # Reverse: dacă utilizatorul a trimis alias lung, adăugăm și cheia scurtă
+            if mkey in ALIAS_MAP:
+                short = ALIAS_MAP[mkey]
+                braced = "{{" + short + "}}"
+                if braced not in seen_originals:
+                    extras.append({"original": braced, "replacement": item["replacement"]})
+                    seen_originals.add(braced)
+        clean.extend(extras)
+    except Exception:
+        # Aliasurile sunt o îmbunătățire — dacă map-ul nu se încarcă, nu blocăm fluxul
+        pass
 
     blob = await file.read()
     if not blob:

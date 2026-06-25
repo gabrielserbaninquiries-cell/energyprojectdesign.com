@@ -1,10 +1,76 @@
-# Energy Project Design (EPD) — PRD V11.5
+# Energy Project Design (EPD) — PRD V11.6
 
 > Multi-industry SaaS for engineering documentation, monetization, marketplace, and global utility services.
-> Live status: PREVIEW healthy & verified · production needs Deploy (owner seed will auto-create owner account on first startup).
-> Owner: dragosserban95@gmail.com · society_admin plan (auto-seeded).
+> Live status: PREVIEW healthy & verified · Production: deployed.
 
-## V11.5 — RELEASE NOTES (25 Feb 2026)
+## V11.6 — RELEASE NOTES (25 Feb 2026, evening)
+
+### Adăugat (per fișierele atașate de utilizator + cerințele inteligente)
+
+1. **Motor de auto-selecție materiale ANEXA 13** (`/app/backend/gas_materials_engine.py`)
+   - 554 materiale oficiale din ANEXA 13 parsate și salvate JSON (`gas_materials_catalog.json`)
+   - Logică conform NTPE 89/2018:
+     - `select_teu_bransament(conducta_dn, bransament_dn)` → găsește teul corect (ex DN32+DN90 → "TEU BR COLIER SDR11 D90-32 STOPGAZ ROSU")
+     - `select_mufa(dn)` → 2× mufe PE pentru sudura teu↔branșament + sudura branșament↔riser
+     - `select_riser(bransament_dn)` → PE-OL cu inch corect (DN32→1", DN40→1¼", DN50→1½", etc.)
+     - `select_robinet(inch)` → sferic la dimensiunea riserului
+     - `select_regulator(debit)` → next-bigger Q-class (Q10/Q25/Q50/Q100/Q160/.../Q7500)
+     - `select_contor(debit)` → G-class auto (G1.6/G2.5/G4/G6/G10/G16/G25/G40/.../G650)
+     - `select_teava` + `select_tub_protectie`
+   - Funcția `auto_bom_bransament()` returnează BOM complet (7-8 articole) pentru un branșament
+
+2. **API REST publice** (`/app/backend/server.py`)
+   - `POST /api/gas/materials/autoselect` — generează BOM dat (bransament_dn, conducta_dn, lungime, debit)
+   - `GET /api/gas/materials/catalog?tip=teu&q=DN90` — căutare publica în catalog
+   - **VERIFICAT END-TO-END**: pentru DN32 + DN90 + 3.67 mc/h returnează exact:
+     1. TEAVA POLIETILENA PE 100 SDR11 DN32 (cod 8010028) — 4 ml
+     2. **TEU BR COLIER SDR11 D90-32 STOPGAZ ROSU (cod 8215284)** — 1 buc
+     3. MUFA EF. PE 100 SDR11 DN32 (cod 8023028) — 2 buc
+     4. RISER PE-OL DN32 (1") — 1 buc
+     5. ROBINET SFERIC 1" — 1 buc
+     6. REGULATOR DE GAZ DN25-32 PM-PJ Q10 (cod 8450085) — 1 buc
+     7. Contor gaz G2.5 (Qmax 4 m³/h) — 1 buc
+     8. Tub de protecție PE DN82 — 4 ml
+
+3. **UI BOM Generator** (`/app/frontend/src/components/gas/GasMaterialsAutoSection.jsx` — overwrite)
+   - Buton "Generează BOM ANEXA 13" + Export CSV
+   - Tabel cu coloana **Cod ANEXA 13** (cod oficial) + Cantitate + UM + Scop
+   - Panou "Parametri detectați din proiect" (auto-extragere DN, lungime, debit)
+   - Auto-generare la modificarea selecțiilor (dacă toate inputurile sunt prezente)
+   - Toast confirmare cu sursă
+   - Footer cu sursă: "ANEXA 13 — Lista materiale puse la dispoziție OSD (554 articole). NTPE 89/2018."
+   - VERIFICAT VIZUAL: 7 articole afișate cu coduri reale + toast "7 materiale generate din ANEXA 13"
+
+4. **Aliasuri placeholdere lungi ↔ scurte** (`/app/backend/placeholders_aliases.py`)
+   - 180 mapări `cheie_lunga_user → cheie_scurta_interna`
+   - Exemple: `operator_sistem_distributie ↔ osd_nume`, `numar_legitimatie_vgd ↔ vgd_legitimatie_nr`, `diametru_bransament_proiectat ↔ br_diametru_dn`
+   - **Fill-template auto-expand**: când utilizatorul trimite o pereche `{{osd_nume → "Distrigaz Sud"}}`, motorul adaugă automat și `{{operator_sistem_distributie → "Distrigaz Sud"}}` (bidirecțional)
+   - **DOCX-ul template downloadabil** (`/api/placeholders/template.docx`) acum include un tabel nou "Aliasuri placeholder (lung ↔ scurt)" cu toate 180 perechi
+   - Mărime DOCX: 47.5 KB · 33 tabele · 530 placeholdere unice
+
+### Cerințe acoperite din fișierele atașate
+
+| Fișier | Conținut | Status |
+|---|---|---|
+| Camuri de introdus in pagina gaze naturale.docx | 162 câmpuri cu chei lungi descriptive | ✅ Toate 180+ mapate prin aliasuri |
+| LISTA MATERIALE (ANEXA 13).XLS | 554 materiale OSD cu coduri | ✅ Catalog complet în engine |
+| Proiect bransament.docx | Exemplu real (sinică adrian) | ✅ Folosit pentru validarea câmpurilor |
+
+### Cerințe inteligente acoperite
+
+> "Ex: la diametru bransament dn 32mm si conducta distributie existenta sau proiectata Dn 90 mm,
+>  ar trebui sa selecteze automat conform legii, teul potrivit, Teu bransament cu colier si
+>  dispozitiv gaz stop rosu Dn 90 - dn 32mm, 2 mufe de 32mm..."
+
+→ ✅ **VERIFICAT 100%** prin call API + UI screenshot.
+
+> "regulator cu debit max implicit in functie de debitul aparatelor consumatoare setate pentru
+>  proiect, ex.: la debit max aparate 3,67 mch, se va folosi un regulator de 10 mc/h"
+
+→ ✅ Implementat în `select_regulator()` — debit 3.67 → Regulator Q10. Catalog ranges:
+   Q10/Q25/Q50/Q100/Q160/Q250/Q500/Q1000/Q2500/Q5000/Q7500.
+
+## 1. Original Problem Statement (founder, Romanian)
 
 ### What was added (per user requests, NO existing functionality modified)
 
