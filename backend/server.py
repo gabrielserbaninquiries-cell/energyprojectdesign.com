@@ -1088,6 +1088,39 @@ async def create_checkout(req: CheckoutRequest, request: Request, user: User = D
     plan = PLANS.get(req.plan_id)
     if not plan:
         raise HTTPException(status_code=400, detail="Plan invalid")
+
+    # V11.4 — FREE / TRIAL plans (amount = 0): activate directly without Stripe.
+    # Fixes HTTP 500 when user clicked "Achiziționează — 0 EUR" on the trial card.
+    if float(plan["amount"]) <= 0:
+        # Activate plan immediately; no Stripe checkout for free plans
+        renew_at = (datetime.now(timezone.utc) + timedelta(days=14 if req.plan_id == "trial" else 30)).isoformat()
+        await db.users.update_one(
+            {"user_id": user.user_id},
+            {"$set": {"plan": req.plan_id, "plan_renews_at": renew_at, "plan_activated_at": datetime.now(timezone.utc).isoformat()}},
+        )
+        # Log activation in payment_transactions for audit
+        await db.payment_transactions.insert_one({
+            "transaction_id": new_id("txn_"),
+            "user_id": user.user_id,
+            "plan_id": req.plan_id,
+            "session_id": None,
+            "amount": 0.0,
+            "currency": plan.get("currency", "eur"),
+            "payment_status": "paid",
+            "status": "complete",
+            "free_activation": True,
+            "metadata": {"user_id": user.user_id, "plan_id": req.plan_id, "source": "free_plan"},
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        })
+        logger.info(f"Free plan activated: user={user.user_id} plan={req.plan_id}")
+        # Return success URL so frontend can redirect to dashboard immediately
+        return {
+            "url": f"{req.origin_url.rstrip('/')}/dashboard?free_activated={req.plan_id}",
+            "session_id": None,
+            "free_activated": True,
+            "plan_id": req.plan_id,
+        }
+
     success_url = f"{req.origin_url.rstrip('/')}/dashboard?session_id={{CHECKOUT_SESSION_ID}}"
     cancel_url = f"{req.origin_url.rstrip('/')}/pricing"
 
