@@ -53,6 +53,16 @@
 - Add `JobPosting` JSON-LD on `/jobs`
 - Add `Article` JSON-LD for blog (when launched)
 
+### V11.3 — Gas Studio COMPLET (Feb 2026) — 100% PASS testing agent
+- ✅ **3 secțiuni noi** adăugate la GasNaturalStudio: **Suduri & calitate** (sudor + examinare vizuală + protocol electrofuziune), **Procese Verbale** (10 tipuri PV), **Documente generate** (catalog 30+ DOCX cu descărcare individuală)
+- ✅ Sidebar are acum **10 secțiuni** (anterior 7)
+- ✅ Endpoint backend nou: `GET /api/gas/templates-catalog` — returnează 34 șabloane grupate pe 6 faze (CU, DTAC, PT, Execuție, PIF, Recepție)
+- ✅ Endpoint backend nou: `POST /api/gas/doc-preview/{template_id}` — generează ORICE template individual din payload, cu sanitizare filename latin-1 pentru diacritice românești
+- ✅ Master DOCX extins să includă: Sudor autorizat, Tabel examinare vizuală (Nr ordine | Sxx | Defecte | Admis/Respins), Protocol electrofuziune (Nr sudură | U min | U max | Timp | Energie | T mediu | Rezultat), Lista PV-uri (Tip | Nr | Dată | Participanți | Observații)
+- ✅ Error handling îmbunătățit în GasDocumenteSection: detectează JSON-in-blob errors pentru a evita silent failure
+- ✅ Backwards-compatible: master DOCX funcționează chiar fără date noi (suduri/PV opționale)
+- ✅ Test report iteration_22: **20/20 PASS** (10 backend + 10 frontend)
+
 ### V11.2 — Next-Gen Missions Live (Feb 2026) — COMPLETE
 - ✅ **Voturi Electronice CNP** (`/voturi-cnp`) — pagină de prezentare cu hero gradient violet-indigo, 6 piloni (anonimizare cripto, audit on-chain, GDPR+eIDAS), demo widget interactiv cu mock voting, 6 use cases (referendum, alegeri locale, sondaje publice etc.), cadru legal detaliat, footer CTA waitlist BETA. Testids: `voturi-hero`, `voturi-pillars`, `demo-vote-widget`, `use-cases-grid`.
 - ✅ **Riviera Românească** (`/riviera-romaneasca`) — pagină prezentare cu hero tropical (orange→red→rose gradient), KPIs (54 km plajă, 15 stațiuni, 500K palmieri, 10M+ turiști target), 6 piloni (palmieri, plaje nisip alb, promenadă continuă, festivaluri, prețuri populare, branding global), 15 stațiuni de la Năvodari la Vama Veche, secțiune inspirație (Mykonos, Costa del Sol, Cancun), 5 moduri de implicare, footer CTA donații (1 palmier = 100 RON). Testids: `riviera-hero`, `riviera-pillars`, `statiuni-grid`, `actiune-grid`.

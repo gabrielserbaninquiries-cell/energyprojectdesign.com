@@ -65,6 +65,16 @@ export default function GasDocumenteSection({ data }) {
         ...data,
         title: `${tplLabel} — ${data.beneficiar_nume || 'EPD'}`,
       }, { responseType: 'blob' });
+      // Detect if backend returned JSON error inside blob
+      if (res.data?.type === 'application/json') {
+        const text = await res.data.text();
+        try {
+          const parsed = JSON.parse(text);
+          throw new Error(parsed.detail || 'Eroare la generare');
+        } catch (jsonErr) {
+          throw new Error('Eroare la generare DOCX');
+        }
+      }
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement('a');
       link.href = url;
@@ -75,7 +85,8 @@ export default function GasDocumenteSection({ data }) {
       window.URL.revokeObjectURL(url);
       toast.success(`✅ ${tplLabel} — descărcat`);
     } catch (err) {
-      toast.error(`Eroare la ${tplId}: ${err.response?.data?.detail || err.message}`);
+      const msg = err.response?.data?.detail || err.message || 'Eroare necunoscută';
+      toast.error(`❌ Eroare la ${tplId}: ${msg}`);
     } finally {
       setDownloading(null);
     }
