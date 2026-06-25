@@ -2,15 +2,15 @@
 import os
 import pytest
 import requests
+from tests.fixtures import get_owner_credentials
 
 BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://github-push-test.preview.emergentagent.com").rstrip("/")
-EMAIL = "dragosserban95@gmail.com"
-PASSWORD = "Nuamparola_9"
+_CREDS = get_owner_credentials()
 
 
 @pytest.fixture(scope="module")
 def token():
-    r = requests.post(f"{BASE_URL}/api/auth/login", json={"email": EMAIL, "password": PASSWORD}, timeout=20)
+    r = requests.post(f"{BASE_URL}/api/auth/login", json={"email": _CREDS["email"], "password": _CREDS["password"]}, timeout=20)
     assert r.status_code == 200, f"Login failed: {r.status_code} {r.text}"
     data = r.json()
     assert "token" in data
@@ -31,7 +31,7 @@ class TestAuth:
         r = requests.get(f"{BASE_URL}/api/auth/me", headers=auth_headers, timeout=15)
         assert r.status_code == 200
         u = r.json()
-        assert u.get("email") == EMAIL
+        assert u.get("email") == _CREDS["email"]
 
 
 # --- Plans (public) ---

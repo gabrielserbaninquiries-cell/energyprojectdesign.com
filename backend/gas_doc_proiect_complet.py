@@ -24,7 +24,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Cm, Pt, RGBColor
 
 import materials_db
-from gas_doc_templates import (
+from gas_doc_utils import (
     COMPANY, _today_ro, _get, _add_heading, _add_para, _add_kv_table,
 )
 

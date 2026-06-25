@@ -49,10 +49,17 @@
 - Full placeholder documentation at `/app/docs/GAZE_NATURALE_PLACEHOLDERS.md`
 
 ### 🟡 IN PROGRESS / IMPROVEMENT BACKLOG
-- Extract NEXT_GEN_MISSIONS + ACTIVE_SERVICES from Landing.jsx into `/src/data/services.js` (Landing.jsx is 780+ lines)
 - Replace remaining `t()` calls on Forum/Marketplace/Imobiliare pages with i18next-aware translations
 - Add `JobPosting` JSON-LD on `/jobs`
 - Add `Article` JSON-LD for blog (when launched)
+
+### V11.1 Code-Quality Refactor (Feb 2026) — COMPLETE
+- ✅ Circular import broken: extracted shared helpers to `/app/backend/gas_doc_utils.py`. Both `gas_doc_templates.py` and `gas_doc_proiect_complet.py` now import only from `gas_doc_utils` (no cross-imports). Backward-compat preserved via re-exports.
+- ✅ Forum XSS already mitigated — Forum.jsx uses `DOMPurify.sanitize()` with explicit `ALLOWED_TAGS` + `ALLOWED_ATTR` allowlist (lines 13-20). DOMPurify added to package.json.
+- ✅ Test secrets moved: `/app/backend/tests/fixtures.py` provides `get_owner_credentials()` / `get_test_credentials()` / `get_admin_credentials()` — env-driven. `test_v110_gas_master_studio.py` migrated as reference. Other test files use generic `TestPass123!` (non-sensitive).
+- ✅ Landing.jsx data extracted to `/app/frontend/src/data/services.js`. `FUTURE_SERVICES` (22 items) and `NEXT_GEN_MISSIONS` (12 items) now have stable `id` slugs used as React keys (no more `key={index}` for these arrays).
+- ✅ Master DOCX regression verified after refactor (HTTP 200, 39KB output).
+- ✅ All linters pass on new files. Pre-existing E702 warnings in gas_doc_templates.py (lines 609/612/637/640) are style-only, unrelated to V11.1.
 
 ### 🔴 BLOCKED / FUTURE
 - QES digital signing (DigiSign/certSIGN) — pending API contracts

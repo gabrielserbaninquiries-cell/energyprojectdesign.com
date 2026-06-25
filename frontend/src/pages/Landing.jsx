@@ -23,6 +23,7 @@ import { BRAND, BRAND_ASSETS } from '../lib/brand';
 import EPDLogo from '../components/EPDLogo';
 import GlobalTranslator from '../components/GlobalTranslator';
 import PublicPlansGrid from '../components/PublicPlansGrid';
+import { FUTURE_SERVICES, NEXT_GEN_MISSIONS } from '../data/services';
 import useSEO from '../hooks/useSEO';
 
 // PRODUS PRINCIPAL — Gaze Naturale (livrabil 100% operațional)
@@ -101,46 +102,7 @@ const ACTIVE_SERVICES = [
 ];
 
 // VIITOR — 22 servicii globale planificate (per master plan EPD)
-const FUTURE_SERVICES = [
-  { label: 'Lanț hoteluri',           desc: 'Camere gratuite pentru oamenii străzii, prețuri de la 1$/noapte' },
-  { label: 'EPD Supermarket',         desc: 'Cel mai mare supermarket global — unește toate brand-urile' },
-  { label: 'Mâncare worldwide',       desc: 'Comenzi la preț, calitate, timp livrare cu door-to-door' },
-  { label: 'Locuri muncă globale',    desc: 'Joburi pe domenii, fără frontiere' },
-  { label: 'Vânzări auto',            desc: 'Mașini la prețuri reduse, specificații complete' },
-  { label: 'Vânzări imobile',         desc: 'Case + terenuri cu catalog AI personalizat' },
-  { label: 'Piese auto globale',      desc: 'Brand, an, preț, stare — toate într-un singur catalog' },
-  { label: 'Mecanici & service auto', desc: 'Calcul preț servicii + plată online + tractare' },
-  { label: 'Motor plăți online',      desc: 'Procesare plăți pentru toate serviciile EPD' },
-  { label: 'EPD Shop',                desc: 'Search produse, retaileri afiliați, order online' },
-  { label: 'TV online global',        desc: 'Streaming televiziune pe țări' },
-  { label: 'Radio online global',     desc: 'Radio pe țări și genuri muzicale' },
-  { label: 'Distribuție copaci',      desc: 'Plantări mediu + reforestation worldwide' },
-  { label: 'Distribuitor marfuri',    desc: 'Aprovizionare magazine + supermarket worldwide' },
-  { label: 'Constructori-Finanțatori',desc: 'Lucrări publice, infrastructură, drumuri, reabilitări' },
-  { label: 'Benzinării + EV',         desc: 'Stații compatibile cu rețeaua EPD' },
-  { label: 'Spălătorii auto',         desc: 'Rezervare + plată online' },
-  { label: 'Restaurante',             desc: 'Comenzi + livrare + rating EPD' },
-  { label: 'Racordări energetice',    desc: 'Clienții se racordează direct prin platformă' },
-  { label: 'Fonduri europene',        desc: 'Aplicare la finanțări nerambursabile' },
-  { label: 'Fonduri de stat',         desc: 'Infrastructură + dezvoltare urbană direct de la minister' },
-  { label: 'EPD Mail',                desc: 'Singurul serviciu de email global cu zero spam' },
-];
-
-// V11.0 — VIZIUNI EPD NEXT-GEN (cerințe literale fondator, Feb 2026)
-const NEXT_GEN_MISSIONS = [
-  { icon: '🗳️', label: 'Voturi live electronice', desc: 'Vot cetățenesc digital pe baza CNP — alegeri, referendumuri și sondaje publice în timp real, cu trasabilitate criptografică' },
-  { icon: '🎫', label: 'Bilete evenimente',        desc: 'Marketplace global pentru concerte, festivaluri, conferințe — cu QR code și revânzare etică' },
-  { icon: '✈️', label: 'Bilete avion',             desc: 'Cumpărare bilete cu cel mai mic preț din ecosistem EPD, alerte cădere preț, miles loyalty' },
-  { icon: '💛', label: 'Cauze caritabile',         desc: 'Crowdfunding transparent pentru cauze umanitare — fiecare donație urmărită on-chain' },
-  { icon: '🛠️', label: 'Gestiune lucrări interne', desc: 'Aplicație internă pentru echipe — task-uri, time-tracking, devize, calitate, foto-raportare' },
-  { icon: '🅿️', label: 'Parcări urbane (constructor + locator + plătitor)', desc: 'Construire infrastructură + găsire loc + plată cu un singur tap — în orice oraș al lumii' },
-  { icon: '⚓', label: 'Port popular global',      desc: 'Marketplace logistic maritim — cele mai bune rute, prețuri și operatori, vizibil pentru orice antreprenor' },
-  { icon: '🏠', label: 'Case modulare amplasabile', desc: 'Locuințe gata construite, livrate și amplasate la cheie — perfecte pentru sinistrați, locuințe rapide, vacanțe' },
-  { icon: '🔨', label: 'Motor licitații lucrări',  desc: '"Cel mai mic preț + cel mai rapid + cea mai bună calitate" — algoritm transparent care alege automat câștigătorul' },
-  { icon: '🚖', label: 'Taxi global EPD',          desc: 'Aplicație taxi globală — un singur cont, orice oraș, prețuri transparente, șoferi verificați' },
-  { icon: '🌴', label: 'Stațiune tropicală',       desc: 'Mini-Grecia în România — plantări palmieri, ambianță mediteraneană, prețuri populare' },
-  { icon: '🌊', label: '🏖️ Riviera Românească (MISIUNEA EPD)', desc: 'Construirea întregului litoral românesc în cea mai extinsă plajă turistică națională — destinație globală cu tradiție, prețuri accesibile și amintiri de neuitat' },
-];
+// V11.1 — FUTURE_SERVICES + NEXT_GEN_MISSIONS extracted to /src/data/services.js
 
 // Logo component pulled from shared EPDLogo (uses real image, not CSS gradient cube)
 // to align with founder's explicit V9.2 request: "foloseste logo-ul acesta".
@@ -505,8 +467,8 @@ export default function Landing() {
             </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3" data-testid="roadmap-grid">
-            {FUTURE_SERVICES.map((s, idx) => (
-              <div key={idx} className="bg-white border border-slate-200 hover:border-violet-300 hover:shadow-sm p-4 rounded-lg transition-all group" data-testid={`roadmap-${idx}`}>
+            {FUTURE_SERVICES.map((s) => (
+              <div key={s.id} className="bg-white border border-slate-200 hover:border-violet-300 hover:shadow-sm p-4 rounded-lg transition-all group" data-testid={`roadmap-${s.id}`}>
                 <div className="w-7 h-7 rounded-md epd-gradient mb-3 opacity-80 group-hover:opacity-100 transition-opacity" />
                 <div className="text-xs font-bold leading-tight mb-1 text-slate-900">{s.label}</div>
                 <div className="text-[10px] text-slate-500 leading-snug">{s.desc}</div>
@@ -534,10 +496,10 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" data-testid="next-gen-missions">
             {NEXT_GEN_MISSIONS.map((m, idx) => {
-              const isFlagship = m.label.startsWith('🏖️') || m.label.includes('Riviera');
+              const isFlagship = m.flagship === true;
               return (
                 <div
-                  key={idx}
+                  key={m.id}
                   className={`group relative overflow-hidden rounded-2xl p-6 border transition-all hover:-translate-y-1 hover:shadow-xl ${
                     isFlagship
                       ? 'bg-gradient-to-br from-amber-500 via-orange-500 to-rose-600 text-white border-amber-400 shadow-lg shadow-amber-200/50 lg:col-span-3'
