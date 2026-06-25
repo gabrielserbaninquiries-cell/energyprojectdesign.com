@@ -146,13 +146,26 @@ export default function GasNaturalStudio() {
   };
 
   // Generate master DOCX (uses preview endpoint — no need to persist)
+  const [lastError, setLastError] = useState(null);
   const generateMasterDoc = async () => {
     setGenerating(true);
+    setLastError(null);
     try {
       const res = await api.post('/gas/master-docx-preview', {
         ...data,
         title: `Proiect ${data.tip_lucrare || 'Branșament'} — ${data.beneficiar_nume || 'EPD'}`,
       }, { responseType: 'blob' });
+      // If response came back as JSON (error wrapped in blob), surface it
+      const isJsonError = res.data?.type === 'application/json';
+      if (isJsonError) {
+        const text = await res.data.text();
+        try {
+          const parsed = JSON.parse(text);
+          throw new Error(parsed.detail || 'Eroare necunoscută la generare');
+        } catch {
+          throw new Error('Eroare la generare document');
+        }
+      }
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement('a');
       link.href = url;
@@ -163,7 +176,9 @@ export default function GasNaturalStudio() {
       window.URL.revokeObjectURL(url);
       toast.success('✅ Document generat — verificați descărcările');
     } catch (err) {
-      toast.error('Eroare la generare document: ' + (err.response?.data?.detail || err.message));
+      const msg = err.response?.data?.detail || err.message || 'Eroare necunoscută';
+      setLastError(msg);
+      toast.error('❌ Eroare la generare document: ' + msg);
     } finally {
       setGenerating(false);
     }
@@ -269,12 +284,17 @@ export default function GasNaturalStudio() {
             <button
               onClick={generateMasterDoc}
               disabled={generating}
-              className="w-full px-3 py-2 bg-gradient-to-r from-violet-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 rounded-lg font-semibold text-xs flex items-center justify-center gap-2 transition-all"
+              className="w-full px-3 py-2 bg-gradient-to-r from-violet-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 disabled:opacity-50 rounded-lg font-semibold text-xs flex items-center justify-center gap-2 transition-all"
               data-testid="generate-master-doc-btn"
             >
               {generating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
               Descarcă proiect complet (.docx)
             </button>
+            {lastError && (
+              <div className="mt-3 p-2.5 bg-rose-500/20 border border-rose-400/40 rounded-lg text-[11px] text-rose-100" data-testid="generate-error">
+                <strong>Eroare:</strong> {lastError}
+              </div>
+            )}
           </div>
         </aside>
 

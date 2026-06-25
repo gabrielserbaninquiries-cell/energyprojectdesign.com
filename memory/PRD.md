@@ -1,163 +1,101 @@
-# Energy Project Design — PRD (V10.7, 2026-06-22)
+# Energy Project Design (EPD) — PRD V11.0
 
-## Original problem statement
-Consolidate 5 repos into a single platform that generates legal Romanian construction
-documentation (gas + electric + apa-canal + fotovoltaice + telecom), supports OCR ingest,
-multi-industry cloning, plan-based access (Free / Basic / Pro / Society), Stripe monetization,
-and an adaptive UI that surfaces top services on the home page.
+> Multi-industry SaaS for engineering documentation, monetization, marketplace, and global utility services.
+> Live status: PREVIEW healthy · production needs Deploy.
+> Owner: dragosserban95@gmail.com · Cofounder plan.
 
-Owner: Dragoș Șerban (dragosserban95@gmail.com)
-Company: Energy Project Design S.R.L. (CUI 43151074, J40/12982/2020)
-Mission: "Reducem o firmă de proiectare-execuție de 20 angajați la 1-2 oameni"
-Long-term: "#1 mondial pentru documentație tehnică digitală + 22 servicii globale"
+## 1. Original Problem Statement (founder, Romanian)
 
+> "Vreau să consolidez toate logicile din mai multe repository-uri într-o singură platformă numită Energy Project Design (EPD), cu interfață premium de utilitar global multi-trilion-dolar.
+> Trebuie să aibă:
+> 1. **Modulul Gaze Naturale** — 100% legal România (NTPEE 2018), 33+ template DOCX, placeholdere reale.
+> 2. **Monetizare universală** — Stripe LIVE, planuri foarte scumpe (Developer $999,999), modul donații.
+> 3. **UI premium 'mega utilitar global'** — violet/navy/indigo, evită aspectul de admin panel.
+> 4. **Workflow strict cronologic** în Gas.
+> 5. **Restricții UI bazate pe planul activ**.
+> 6. **SEO global** + multi-limbă + JSON-LD.
+> Misiuni viitoare: voturi electronice, bilete avion, taxi global, **Riviera Românească** (litoralul ca destinație turistică globală)."
 
-## Status V10.7 — GLOBAL SEO COMPLETE (2026-06-22)
-- ✅ `useSEO` hook reutilizabil — titlu + meta + canonical + Open Graph + Twitter + JSON-LD per pagină + BreadcrumbList cu cleanup la unmount
-- ✅ Aplicat pe 9 pagini publice critice: Landing, Pricing, Sponsorizeaza, Contact, Constructii, DocumentatieElectronica, Termeni, Confidentialitate, Gdpr
-- ✅ JSON-LD per pagină (verificat live):
-  - Landing → `SoftwareApplication` (versiune, features, aggregateRating 4.9/5, 24 limbi)
-  - Pricing → `Product` + `AggregateOffer` + `AggregateRating`
-  - Sponsorizeaza → `DonateAction` cu `PayAction` Stripe
-  - Contact → `ContactPage` + Organization full ContactPoint
-  - Constructii / DocumentatieElectronica → `Service` + OfferCatalog
-- ✅ Static `index.html` `@graph`: Organization + WebSite + ProfessionalService + FAQPage + **SoftwareApplication** (NOU) + **BreadcrumbList** (NOU)
-- ✅ Sitemap principal — 41 URL-uri cu `lastmod=2026-06-22` (added: comisioane-tarife, planuri-departamente)
-- ✅ Sitemap-images — 16 image entries pentru toate paginile cheie cu title+caption
-- ✅ Sitemap-index lastmod actualizat
-- ✅ Verified e2e Plăți LIVE: donații 5 RON + 10 EUR + abonament Proiectant 129€ + Societate 399€ — toate returnează `cs_live_*`
+## 2. Acceptance Criteria (V11.0 — Feb 2026)
 
+| # | Criteriu | Status |
+|---|----------|--------|
+| 1 | Studio Gaze Naturale cu 3 module: Branșament, Extindere, Instalație utilizare | ✅ DONE |
+| 2 | Calcule LIVE frontend (lățime șanț, viteză gaz, tub protecție, Renouard) | ✅ DONE |
+| 3 | Catalog OSD 35+ companii cu căutare | ✅ DONE |
+| 4 | Generare automată listă materiale | ✅ DONE |
+| 5 | Master DOCX cu 150+ placeholdere (model "Proiect bransament.docx") | ✅ DONE |
+| 6 | Translation site-level — RO, EN, FR, DE, ES (i18next) | ✅ DONE |
+| 7 | Dashboard premium V11.0 (gradient violet/indigo, glass-morphism) | ✅ DONE |
+| 8 | Landing cu 12 misiuni Next-Gen (incl. Riviera Românească flagship) | ✅ DONE |
+| 9 | Camere aparate V/Q + priză aer + detectori auto | ✅ DONE |
+| 10 | Avize cu termen expirare + alertă recurentă | ✅ DONE |
+| 11 | Stripe LIVE (donații + planuri) | ✅ FROM V10.7 |
+| 12 | Hybrid Auth (Cookie + Bearer) | ✅ FROM V10.7 |
+| 13 | Documentație placeholdere pentru utilizator | ✅ /app/docs/GAZE_NATURALE_PLACEHOLDERS.md |
 
-## Status V10.6 — HYBRID AUTH + TEMPLATE FILL UI (2026-06-22)
-- ✅ Hybrid Auth implementat — HTTPOnly cookie + Bearer token fallback pentru iOS Safari ITP
-- ✅ Backend `_extract_token` acceptă cookie + Authorization header (auth.py)
-- ✅ Frontend `api.js` interceptor injectează Bearer din sessionStorage când cookie e blocat
-- ✅ Login + register persistă token în sessionStorage (`epd_auth_token`)
-- ✅ Stripe LIVE donation 2 RON verificată — folosește STRIPE_API_KEY principal (donations key e comentat)
-- ✅ NOU /api/ocr/fill-template endpoint — înlocuiește placeholdere în DOCX, returnează DOCX completat
-- ✅ NOU TemplateFillTab.jsx — tab dedicat "Completare Document" în Studio Gaze cu:
-  - Drop zone upload DOCX/DOC/PDF
-  - Toggle AI (Claude Sonnet) vs Euristic (regex)
-  - Form complet cu cards per placeholder (context + input + suggested registry key)
-  - Auto-prefill din valorile existente ale proiectului
-  - Salvare în registru + descărcare DOCX completat
-- ✅ Testing 100% — backend 15/15, frontend 100% testids (iteration_19.json)
+## 3. Implementation Status (V11.0)
 
+### ✅ DONE
+- Comprehensive Gas Natural Studio (`GasNaturalStudio.jsx`) with 7 navigable sections
+- 6 modular sub-components (`GasGeneralDataSection`, `GasBransamentSection`, `GasExtindereSection`, `GasInstalatieUtilizareSection`, `GasAvizeSection`, `GasMaterialsAutoSection`, `GasSmartCalcPanel`)
+- Full calculation library (`/app/frontend/src/lib/gasCalcs.js`) with 35+ OSD list, 28+ aviz catalog, PE/OL diameter catalogs
+- Master DOCX builder (`/app/backend/gas_master_template.py`) — generates 40KB document with placeholders replaced
+- New endpoint `POST /api/gas/master-docx-preview` (auth required) — returns DOCX blob
+- Premium Dashboard redesign (`Dashboard.jsx`) — gradient hero, 4 stat cards, 4 quick actions, dark plan card
+- 12 new mission cards on Landing (Voturi live, Bilete avion, Taxi global, Riviera Românească flagship, etc.)
+- i18next setup with 5 languages (RO/EN/FR/DE/ES) — replaces old 24-lang system
+- Global premium CSS classes (`epd-btn-primary`, `epd-card-gradient`, `epd-pill`, `hover-lift`, etc.)
+- Full placeholder documentation at `/app/docs/GAZE_NATURALE_PLACEHOLDERS.md`
 
-## Status V10.3 — STUDIO GAZE REDESIGN + END-TO-END FUNCTIONAL (2026-06-21)
-- ✅ Studio Gaze rescris vizual în paletă strict violet/indigo/blue (zero verde/amber/negru)
-- ✅ 3 coloane Consumatori (mențin/dezafectează/noi) cu color-coding + total Qmin live
-- ✅ 5 panouri sidebar premium uniforme cu gradient ribbons + epd-shadow
-- ✅ Transfer proiect între utilizatori (POST /transfer + audit_log + shared_access + email notificare)
-- ✅ Send-to-avizare PATCH status='awaiting_avizare' (status whitelist extins)
-- ✅ Upload-avizat PATCH status='avizat' (real upload + PATCH chained)
-- ✅ Email dispatch wired la /phase/{id}/dispatch (NU mai e toast.success() fals)
-- ✅ Logo sidebar → `/` (Landing publică) + HomeRedirect simplificat
-- ✅ Audit log endpoint GET /audit-log pentru trasabilitate cross-department
-- 🟡 Plan restrictions detailate per rol (proiectant/executant/VGD/RTE/operator) — partial implementat prin opțiunile de transfer role; UI gating per capability rămas pentru P1
-- 🔵 Configurare SMTP Gmail backend (GMAIL_USER + GMAIL_APP_PASSWORD în .env) — pendant input user
+### 🟡 IN PROGRESS / IMPROVEMENT BACKLOG
+- Extract NEXT_GEN_MISSIONS + ACTIVE_SERVICES from Landing.jsx into `/src/data/services.js` (Landing.jsx is 780+ lines)
+- Replace remaining `t()` calls on Forum/Marketplace/Imobiliare pages with i18next-aware translations
+- Add `JobPosting` JSON-LD on `/jobs`
+- Add `Article` JSON-LD for blog (when launched)
 
+### 🔴 BLOCKED / FUTURE
+- QES digital signing (DigiSign/certSIGN) — pending API contracts
+- Coastline Riviera Românească app — engineering design phase
+- Electronic CNP-based voting — legal framework pending
 
-## Status V9.0 — REBRANDING TOTAL + GAZE NATURALE 100% OPERAȚIONAL + DEMO REAL CAP-COADĂ
+## 4. Architecture (Feb 2026)
 
-### Identitate vizuală oficială EPD (V9.0 — implementat)
-Sursă: pagina Facebook EPD SRL + logo oficial uploadat de proprietar.
-- **Logo**: cub isometric "EP" gradient diagonal violet→indigo→navy→negru
-- **Paletă**: `#A78BFA` → `#7C3AED` → `#4F46E5` → `#1E3A8A` → `#0F172A`
-- **Tagline**: "Redesigning projects."
-- **Sub-tagline**: "The Architects of Future Global Technology"
-- **Source of truth**: `/app/frontend/src/lib/brand.js` (BRAND_ASSETS, BRAND_COLORS, BRAND_GRADIENTS, BRAND)
+```
+Frontend (React 19 + TailwindCSS + i18next)
+├── pages/GasNaturalStudio.jsx (NEW V11.0) — main entry for /gaze-naturale
+├── pages/Dashboard.jsx (REWRITTEN V11.0)
+├── pages/Landing.jsx (EXPANDED — 12 new mission cards)
+├── components/gas/* (NEW — 6 modular sections)
+├── lib/gasCalcs.js (NEW — pure JS calc engine, NTPEE 2018)
+├── i18n/* (5 locales: ro, en, fr, de, es)
+└── components/GlobalTranslator.jsx (legacy Google Translate fallback)
 
-### Service flow on the Gas Natural page (6 stages — visible pipeline)
-1. **Date** — 221 fields tipizate în 8 categorii × 32 secțiuni (FIELDS_REGISTRY)
-2. **Documente** — 33 DOCX generate automat (auto-mapping V2 → Registry)
-3. **Ștampile** — 6 categorii (proiectant, executant, VGD, RTE, primărie, societate) + draggable A4
-4. **Semnătură** — hash SHA-256 + cert PKI stub (DigiSign/certSIGN pendant API contracts user)
-5. **Plată** — Stripe checkout per-service (5 servicii ad-hoc, NOT subscription)
-6. **Livrare** — Dispatch automat către OSD (Distrigaz/E.ON/Premier Energy) + email rute
+Backend (FastAPI + MongoDB + python-docx)
+├── gas_master_template.py (NEW V11.0) — comprehensive DOCX builder
+├── server.py (+ POST /api/gas/master-docx-preview endpoint)
+├── gas_project_routes.py — legacy gas project CRUD (preserved)
+└── 33+ legacy DOCX templates kept for backward compatibility
+```
 
-## Architecture
+## 5. Test Credentials
+See `/app/memory/test_credentials.md`. Owner account: `dragosserban95@gmail.com` / `Nuamparola_9` (use **"Autentificare EPD"** button, NOT Google).
 
-### Backend (FastAPI + MongoDB)
-- `/app/backend/server.py` — core router with auth + Stripe + admin
-- `/app/backend/gas_project_routes.py` — CRUD proiecte + dossier ZIP + per-document download
-- `/app/backend/gas_doc_templates.py` — 16 base DOCX templates
-- `/app/backend/gas_doc_templates_extra.py` — 9 extras (PV LA, PV FD, PCC, RVT, notificare ISC, ...)
-- `/app/backend/gas_doc_templates_legal.py` — 7 legal docs (DC, buletine probe, PVRF, ...)
-- `/app/backend/placeholders_registry.py` — 221 fields, 32 sections, 8 categories
-- `/app/backend/gas_engineering.py` — Renouard multi-tronson + smart sizing + Anexa 13 (V8.7)
-- `/app/backend/gas_smart_defaults.py` — Smart-fill bazat pe valori câmpuri
-- `/app/backend/gas_services_routes.py` — Stripe ad-hoc per project (5 services)
-- `/app/backend/docx_processor.py` — insert_stamp() cu x_cm/y_cm absolute (wp:anchor + EMU)
-- `/app/backend/seed_demo_gas_project.py` — **V9.0 NEW** — enrichment demo 111 → 302 fields
+## 6. Known Issues (Production vs Preview)
+**CRITICAL**: User is testing on `energyprojectdesign.com` (production = old code). All V11.0 fixes are in PREVIEW. User must click **"Deploy"** in Emergent platform to push to production domain.
 
-### Frontend (React + Tailwind + shadcn)
-- `/app/frontend/src/lib/brand.js` — **V9.0 NEW** — single source of brand identity
-- `/app/frontend/src/index.css` — V9.0 — EPD palette + .epd-gradient + .epd-btn
-- `/app/frontend/src/pages/Landing.jsx` — **V9.0 rewrite** — Gaze Naturale = produs principal
-- `/app/frontend/src/pages/Login.jsx` — **V9.0 rewrite** — brand panel oficial
-- `/app/frontend/src/pages/HomePageV7.jsx` — V9.0 — Main Product Spotlight Gaze
-- `/app/frontend/src/components/AppShell.jsx` — V9.0 — sidebar logo EP gradient
-- `/app/frontend/src/pages/GasNaturalProjectV2.jsx` — main studio cu 4 tabs (DATE/AVIZE/REGISTRU/INGINERIE)
-- `/app/frontend/src/components/RegistryFieldsTab.jsx` — 8-cat × 32-sec accordion
-- `/app/frontend/src/components/GasServicePipeline.jsx` — 6-stage pipeline + ad-hoc catalog
-- `/app/frontend/src/components/StampPlacement.jsx` — A4 draggable component
-- `/app/frontend/src/components/GasEngineeringPanel.jsx` — Renouard + sizing + Anexa 13
-- `/app/frontend/src/pages/Billing.jsx` — plan + transactions + activations log
-- `/app/frontend/src/pages/ComertLogistica.jsx` — **V9.0 NEW** — 8 sub-servicii logistică
-- `/app/frontend/src/pages/FabriciUzine.jsx` — **V9.0 NEW** — 8 specialități industriale
+## 7. Roadmap
 
-## Key counts cumulative
-- 33 DOCX templates (Gaze Naturale)
-- 221 registry fields → 8 categories → 32 sections
-- 5 ad-hoc Stripe services (express 49€, QES 5€, dispatch 15€, review 35€, carte_legata 25€)
-- 6-stage pipeline (Date / Docs / Ștampile / Semnătură / Plată / Livrare)
-- 17 departments × 10 plans matrix
-- 14 servicii active listate pe Landing + 22 servicii viitoare în roadmap
-- **302 fields** populate în demo project cap-coadă (V9.0 enrichment)
+### Next iteration (V11.1)
+- Inline error banner on DOCX generation failure ✅ ADDED
+- Error handling improvements on master template build ✅ ADDED
+- Deprecate routes `/gaze-naturale-v1` and `/gaze-naturale-v2` (redirect to new Studio)
+- Extract Landing.jsx data constants to `/src/data/services.js`
+- Apply `useSEO` to remaining protected pages
 
-## Romanian legal compliance
-- HG 273/1994, Legea 10/1995, Legea 50/1991, Legea 319/2006
-- HG 1425/2006, HG 300/2006, HG 766/1997, HG 525/1996, HG 1735/2006
-- Ord. MLPAT 770/1997, 31/N/1995, 777/2003
-- Ord. ANRE 89/2018 (NTPEE 2018), 16/2015, 79/2014, 162/2021, 75/2020
-- EN 1555 / EN 88-1 / EN 13067 / ISO 9606-1
-
-## Testing cumulative
-- V7.4 iter 5: 7/7 backend + frontend 100%
-- V8.0 iter 6: 11/11 backend
-- V8.1 iter 7: 35/35 backend (cartouche + full coverage)
-- V8.3 iter 9: 17/17 backend + frontend pipeline/catalog
-- V8.5 iter 10: 18/18 backend + frontend 95%
-- V8.7 iter 12: backend 96+ tests cumulate PASSED
-- **V9.0 iter 13: frontend 50/50 PASS (rebranding + Gaze main product + new pages + demo)**
-- **Total cumulative: 146+/146+ PASSED**
-
-## Demo project (real cap-coadă)
-- PID: `gp_e79e2810cc64b5b4` (owned by dragosserban95@gmail.com)
-- Title: "Demo End-to-End — Branșament Aurel Vlaicu 15 (V9.0)"
-- 302 fields populate (de la 111 înainte de enrichment V9.0)
-- Reprezintă produsul REAL listabil pe Google
-- Acces: `/gaze-naturale/gp_e79e2810cc64b5b4`
-
-## Pending (Backlog) — NON-BLOCKING
-- (P2) Splitting `gas_doc_templates.py` 1200+ linii în `gas_doc_builders/`
-- (P2) Splitting `placeholders_registry.py` 887 linii per categorie
-- (P2) Stepper cronologic vizual ÎN PLUS în Studio Gaze (10 etape vertical)
-- (P3) QES real (DigiSign/certSIGN API contracts) — pendant USER să obțină cheile (a confirmat că vrea să autorizeze)
-- (P3) Webhook Stripe pentru ad-hoc services (cazul tab închis după plată)
-- (P3) Extindere alte industrii (Electric, Apă-Canal, Fotovoltaice) cu pattern Gaze
-- (P3) Cleanup `db.gas_service_purchases` pending rows mai vechi de N ore
-- (P3) StampPlacement: re-load la schimbare `stampId` fără unmount
-- (P3) Cosmetic: silence 401 toast pe pagini anonime (api.js)
-- (P3) Refactor: ComertLogistica + FabriciUzine în component shared `<SectorPage>`
-
-## Roadmap viitor (22 servicii globale)
-Lanț hoteluri, EPD Supermarket, Mâncare worldwide, Locuri muncă globale, Vânzări auto,
-Vânzări imobile, Piese auto, Mecanici/service, Motor plăți online, EPD Shop, TV online,
-Radio online, Distribuție copaci, Distribuitor marfuri, Constructori-Finanțatori,
-Benzinării+EV, Spălătorii auto, Restaurante, Racordări energetice, Fonduri europene,
-Fonduri de stat, EPD Mail.
-
-## Production readiness
-✅ Site-ul este gata pentru listare Google și schimbare domeniu pe `energyprojectdesign.com`.
+### Backlog (V12+)
+- Voting CNP-based system (P0 — flagship feature)
+- Taxi global app
+- Riviera Românească presentation site
+- Modular houses marketplace
+- Auction engine for engineering bids

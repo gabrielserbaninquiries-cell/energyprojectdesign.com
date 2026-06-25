@@ -54,3 +54,17 @@ curl -H "Authorization: Bearer $TOKEN" \
   "$URL/api/gas-project/gp_e79e2810cc64b5b4/dossier.zip" -o /tmp/dosar.zip
 unzip -l /tmp/dosar.zip   # 34 fișiere
 ```
+
+## V11.0 — New endpoint test (Master DOCX)
+```bash
+URL=https://github-push-test.preview.emergentagent.com
+TOKEN=$(curl -s -X POST $URL/api/auth/login -H "Content-Type: application/json" \
+  -d '{"email":"dragosserban95@gmail.com","password":"Nuamparola_9"}' | \
+  python3 -c "import sys,json;print(json.load(sys.stdin)['token'])")
+curl -X POST "$URL/api/gas/master-docx-preview" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"tip_lucrare":"bransament","beneficiar_nume":"Vasile Pop","amplasament_imobil":"Str. Vlaicu 15"}' \
+  -o /tmp/master.docx
+# returns 40KB DOCX with placeholders replaced
+```

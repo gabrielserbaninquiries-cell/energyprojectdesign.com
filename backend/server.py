@@ -2928,8 +2928,18 @@ async def gas_master_docx(project_id: str, user: User = Depends(get_current_user
 
 @api2.post("/gas/master-docx-preview")
 async def gas_master_docx_preview(payload: dict, user: User = Depends(get_current_user)):
-    """Preview master DOCX without persisting a project (uses payload directly)."""
-    docx_bytes = gas_master_template.build_master_docx({"fields": payload, "title": payload.get("title", "Preview")})
+    """Preview master DOCX without persisting a project (uses payload directly).
+
+    Accepts any dict payload conform with `/app/docs/GAZE_NATURALE_PLACEHOLDERS.md`.
+    Returns: streaming DOCX (application/vnd.openxmlformats-...).
+    """
+    try:
+        docx_bytes = gas_master_template.build_master_docx(
+            {"fields": payload, "title": payload.get("title", "Preview")}
+        )
+    except Exception as e:
+        logging.exception("Master DOCX build failed")
+        raise HTTPException(status_code=500, detail=f"Eroare la generare DOCX: {str(e)[:200]}")
     return StreamingResponse(
         io.BytesIO(docx_bytes),
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
