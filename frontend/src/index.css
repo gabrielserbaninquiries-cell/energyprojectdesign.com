@@ -215,3 +215,105 @@ html { transition: none; }
 
 /* Notranslate hint helper */
 .notranslate { unicode-bidi: isolate; }
+
+/* ============================================================ */
+/* V11.0 — PREMIUM UI DESIGN SYSTEM (post-login + landing)      */
+/* ============================================================ */
+
+/* Premium button variants — professional, simple, accessible */
+.epd-btn-primary {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all;
+  background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+  color: white;
+  box-shadow: 0 1px 3px rgba(124, 58, 237, 0.3);
+}
+.epd-btn-primary:hover {
+  background: linear-gradient(135deg, #6D28D9 0%, #4338CA 100%);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+  transform: translateY(-1px);
+}
+.epd-btn-primary:active { transform: translateY(0); }
+.epd-btn-primary:disabled {
+  background: linear-gradient(135deg, #C4B5FD 0%, #A5B4FC 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.epd-btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all bg-white text-slate-900 border border-slate-200;
+}
+.epd-btn-secondary:hover {
+  border-color: #7C3AED;
+  color: #6D28D9;
+  background: #FAFAFC;
+}
+
+.epd-btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-colors text-slate-600;
+}
+.epd-btn-ghost:hover { background: rgba(124, 58, 237, 0.08); color: #6D28D9; }
+
+.epd-btn-danger {
+  @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all bg-rose-600 text-white;
+}
+.epd-btn-danger:hover { background: #BE123C; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.4); }
+
+/* Premium card */
+.epd-card {
+  @apply bg-white border border-slate-200 rounded-xl transition-all;
+}
+.epd-card:hover { border-color: #C4B5FD; box-shadow: 0 8px 24px -8px rgba(124, 58, 237, 0.15); }
+
+.epd-card-gradient {
+  background: linear-gradient(135deg, #FAFBFF 0%, #F5F3FF 100%);
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  border-radius: 0.75rem;
+}
+
+/* Glass-morphism for hero overlays */
+.epd-glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Premium input focus */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+}
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+  border-color: #7C3AED;
+}
+
+/* Tabular numbers for stats */
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+/* Hover lift effect for cards */
+.hover-lift { transition: all 0.2s ease; }
+.hover-lift:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.12); }
+
+/* Pill badges */
+.epd-pill {
+  @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider;
+}
+.epd-pill-violet { background: rgba(124, 58, 237, 0.1); color: #6D28D9; }
+.epd-pill-emerald { background: rgba(16, 185, 129, 0.1); color: #047857; }
+.epd-pill-amber { background: rgba(245, 158, 11, 0.1); color: #B45309; }
+.epd-pill-rose { background: rgba(244, 63, 94, 0.1); color: #BE123C; }
+
+/* Smooth scroll for SPA nav */
+html { scroll-behavior: smooth; }
+
+/* Skeleton loading shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #F1F5F9 0%, #E2E8F0 50%, #F1F5F9 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

@@ -2902,6 +2902,41 @@ api2.include_router(_gas_router)
 api2.include_router(_sub_router)
 
 
+# ----------- GAS MASTER DOCX (V11.0 — comprehensive template) -----------
+import gas_master_template
+
+
+@api2.post("/gas/master-docx/{project_id}")
+async def gas_master_docx(project_id: str, user: User = Depends(get_current_user)):
+    """Generate the comprehensive Master DOCX for a gas project.
+    Contains all 7 sections (Referat, Foaie, Borderou, Memoriu, Breviar, Listă, Program).
+    """
+    proj = await db.gas_projects.find_one({"id": project_id, "owner_id": user.user_id})
+    if not proj:
+        # Fallback: also check by user_id alias
+        proj = await db.gas_projects.find_one({"id": project_id, "user_id": user.user_id})
+    if not proj:
+        raise HTTPException(status_code=404, detail="Proiect inexistent sau nu îți aparține")
+    docx_bytes = gas_master_template.build_master_docx(proj)
+    filename = f"Proiect_Bransament_{(proj.get('title') or 'EPD').replace(' ', '_')}.docx"
+    return StreamingResponse(
+        io.BytesIO(docx_bytes),
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
+@api2.post("/gas/master-docx-preview")
+async def gas_master_docx_preview(payload: dict, user: User = Depends(get_current_user)):
+    """Preview master DOCX without persisting a project (uses payload directly)."""
+    docx_bytes = gas_master_template.build_master_docx({"fields": payload, "title": payload.get("title", "Preview")})
+    return StreamingResponse(
+        io.BytesIO(docx_bytes),
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        headers={"Content-Disposition": 'attachment; filename="Preview_Proiect_Bransament.docx"'},
+    )
+
+
 # ----------- CLIENTS CRM (legacy, per-user) -----------
 @api2.get("/clients")
 async def crm_list_clients_v2(status: Optional[str] = None, industry: Optional[str] = None, user: User = Depends(get_current_user)):

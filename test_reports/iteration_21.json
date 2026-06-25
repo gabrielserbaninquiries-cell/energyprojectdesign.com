@@ -1,0 +1,64 @@
+{
+  "summary": "V11.0 GazeNaturaleStudio + Premium Dashboard + Landing Next-Gen Missions — FULL PASS on PREVIEW. Backend: 7/7 pytest. POST /api/gas/master-docx-preview returns a valid 39.4KB DOCX (PK zip) with placeholders correctly substituted ('Test Beneficiar', 'Aurel Vlaicu', 'Distrigaz' all found in document.xml; <10 leftover Jinja tokens). Endpoint requires auth (401 without bearer). Frontend: Login via 'Autentificare EPD' (NOT Google) with dragosserban95@gmail.com/Nuamparola_9 → redirects to /dashboard. Dashboard V11.0 hero/stats/quick-actions/plan-name testids ALL present. /gaze-naturale loads new GasNaturalStudio page with violet header, 7-section sidebar (Date generale, Branșament, Extindere, Instalație utilizare, Avize, Listă materiale, Calcule), 'Generează DOCX master' and 'Salvează ca template implicit' buttons. Section-specific testids (br-calcs-live, br-debit-total, consumator-add, materials-table, etc.) render correctly when each section is activated (lazy/conditional render — by design). Landing /: next-gen-missions section visible with exactly 12 cards (nextgen-mission-0 … nextgen-mission-11). Riviera flagship card (mission-11) present.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "tests_executed": [
+    {"id": "BE_LOGIN", "status": "PASS"},
+    {"id": "BE_AUTH_ME", "status": "PASS"},
+    {"id": "BE_PLANS_PUBLIC", "status": "PASS"},
+    {"id": "BE_MASTER_DOCX_AUTH_REQUIRED", "status": "PASS", "detail": "401 without bearer"},
+    {"id": "BE_MASTER_DOCX_RETURNS_DOCX", "status": "PASS", "detail": "39401 bytes, PK zip, content-type officedocument"},
+    {"id": "BE_MASTER_DOCX_PLACEHOLDERS_REPLACED", "status": "PASS", "detail": ">=2 payload values rendered, <10 Jinja leftovers in document.xml"},
+    {"id": "BE_GAS_TEMPLATES_LISTING", "status": "PASS"},
+    {"id": "UI_LANDING_NEXTGEN_MISSIONS_SECTION", "status": "PASS"},
+    {"id": "UI_LANDING_12_MISSION_CARDS", "status": "PASS", "detail": "nextgen-mission-0..nextgen-mission-11 present"},
+    {"id": "UI_LOGIN_EPD_FORM_REDIRECT_DASHBOARD", "status": "PASS"},
+    {"id": "UI_DASHBOARD_HERO", "status": "PASS"},
+    {"id": "UI_DASHBOARD_STATS", "status": "PASS"},
+    {"id": "UI_DASHBOARD_QUICK_ACTIONS", "status": "PASS"},
+    {"id": "UI_DASHBOARD_PLAN_NAME", "status": "PASS"},
+    {"id": "UI_GAS_STUDIO_PAGE_LOADS", "status": "PASS", "detail": "Hero V11.0 + 7-section sidebar visible"},
+    {"id": "UI_GAS_GENERATE_MASTER_DOC_BTN", "status": "PASS"},
+    {"id": "UI_GAS_SAVE_TEMPLATE_BTN", "status": "PASS"},
+    {"id": "UI_GAS_FIELD_OSD_NUME", "status": "PASS"},
+    {"id": "UI_GAS_FIELD_VGD_NUME", "status": "PASS"},
+    {"id": "UI_GAS_FIELD_BENEFICIAR_NUME", "status": "PASS"},
+    {"id": "UI_GAS_FIELD_AMPLASAMENT", "status": "PASS"},
+    {"id": "UI_GAS_BR_SECTION_TESTIDS", "status": "PASS", "detail": "br-calcs-live + br-debit-total + consumator-add visible after activating Branșament"},
+    {"id": "UI_GAS_MATERIALS_TABLE", "status": "PASS", "detail": "materials-table visible after activating Listă materiale (auto) section"}
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_v110_gas_master_studio.py",
+    "/app/test_reports/pytest/v110_results.xml"
+  ],
+  "action_items": [
+    "(low-priority) Two console 401 errors on Landing — almost certainly from a pre-emptive /api/auth/me probe in AuthContext for anonymous users. Same observation as iteration_20. Consider silencing 401 on the anon probe.",
+    "(info) Section testids in GasNaturalStudio (br-calcs-live, materials-table, consumator-add, iu-consumator-add, aviz-add, field-cnd-n-bransamente, etc.) are lazy-rendered — they only exist in the DOM when their parent section is the active one. This is correct by design but ANY downstream Playwright tests must click the corresponding sidebar button before asserting those testids."
+  ],
+  "critical_code_review_comments": [
+    "POST /api/gas/master-docx-preview accepts arbitrary dict payload (no Pydantic model) — fine for prototype but consider a typed schema so frontend cannot accidentally send malformed payloads that crash gas_master_template.build_master_docx server-side.",
+    "DOCX is built synchronously on the request thread (no async/threadpool). For a single 39KB doc this is sub-second but for the full ~150-placeholder build under load consider running build_master_docx via run_in_threadpool to keep the event loop responsive.",
+    "App.js exposes BOTH /gaze-naturale (new Studio) AND /gaze-naturale-v2 (old V2) AND /gaze-naturale-v1/:pid simultaneously. Once Studio is stable, deprecate the old routes or add a server-side redirect to avoid users landing on the older UX.",
+    "Landing.jsx is now 770+ lines (close to the 700 threshold). NEXT_GEN_MISSIONS (12 entries) and ACTIVE_SERVICES (20 entries) should be extracted to /src/data/services.js as recommended in iteration_20.",
+    "GasNaturalStudio.jsx — section testids are correct, but the page does not appear to surface section-level error states (e.g., what happens if /api/gas/master-docx-preview returns 500?). Add a toast/error banner around the Generate-DOCX click so users see API failures clearly."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v110_gas_master_studio.py (NEW — 7 tests)",
+    "/app/test_reports/pytest/v110_results.xml (NEW)",
+    "/app/test_reports/iteration_21.json"
+  ],
+  "success_rate": {"backend": "100% (7/7)", "frontend": "100% (all V11.0 testids verified)"},
+  "test_credentials": "dragosserban95@gmail.com / Nuamparola_9 (from /app/memory/test_credentials.md). Use 'Autentificare EPD' button — NOT Google.",
+  "seed_data_creation": "Read-only against existing dragosserban95 account. No DB writes. Two preview DOCX downloads (no persistence).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V11.0 Gas Studio is healthy on PREVIEW. (1) /api/gas/master-docx-preview is a POST that REQUIRES bearer auth and accepts an arbitrary dict payload (no Pydantic schema). Returns a streaming DOCX (~40KB). (2) GasNaturalStudio sections are lazy-rendered — testids exist only when section is active. Click sidebar button first, then assert. (3) Section names in sidebar: 'Date generale', 'Branșament', 'Extindere conductă', 'Instalație utilizare', 'Avize & acorduri', 'Listă materiale (auto)', 'Calcule inginerești'. (4) Landing next-gen-missions section uses testids nextgen-mission-0..nextgen-mission-11; #11 (Riviera) is the flagship card. (5) Dashboard V11.0 testids: dashboard-hero, dashboard-stats, dashboard-quick-actions, dashboard-plan-name (all top-level, no section-click needed).",
+  "rca of the issue": "N/A — no issues reproduced. All V11.0 acceptance criteria from review_request items 1-13 pass on PREVIEW."
+}

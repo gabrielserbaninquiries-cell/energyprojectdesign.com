@@ -1,0 +1,308 @@
+/**
+ * Gas Natural Studio — V11.0
+ *
+ * Pagină comprehensivă conformă specificațiilor literale din
+ * "Camuri de introdus in pagina gaze naturale.docx".
+ *
+ * Conține 3 module principale (tip lucrare):
+ *   1. Branșament
+ *   2. Extindere conductă (cu N branșamente nested)
+ *   3. Instalație de utilizare (cu V/Q, priză aer, camere aparate)
+ *
+ * Plus:
+ *   - Date generale (OSD, VGD, RTE, Proiectant, Executant, Beneficiar)
+ *   - Avize multiple cu termen expirare
+ *   - Calcule LIVE: lățime șanț, tub protecție, viteză gaz, diametru recomandat
+ *   - Generare automată listă materiale
+ *   - Salvare preferințe ca template implicit
+ *   - Generare master DOCX cu toate placeholderele
+ */
+import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import AppShell from '../components/AppShell';
+import api from '../lib/api';
+import { toast } from 'sonner';
+import {
+  ArrowLeft, Save, Send, Download, FileText, Calculator, Package,
+  CheckCircle2, AlertCircle, Loader2, FileSignature, Settings,
+  Flame, GitBranch, Home, Sparkles, ChevronRight,
+} from 'lucide-react';
+
+import GasGeneralDataSection from '../components/gas/GasGeneralDataSection';
+import GasBransamentSection from '../components/gas/GasBransamentSection';
+import GasExtindereSection from '../components/gas/GasExtindereSection';
+import GasInstalatieUtilizareSection from '../components/gas/GasInstalatieUtilizareSection';
+import GasAvizeSection from '../components/gas/GasAvizeSection';
+import GasMaterialsAutoSection from '../components/gas/GasMaterialsAutoSection';
+import GasSmartCalcPanel from '../components/gas/GasSmartCalcPanel';
+import { TIPURI_LUCRARE } from '../lib/gasCalcs';
+
+const SECTIONS = [
+  { id: 'general',    icon: Settings,    label: 'Date generale', desc: 'OSD, VGD, RTE, Proiectant, Executant, Beneficiar, Amplasament' },
+  { id: 'bransament', icon: Flame,       label: 'Branșament',    desc: 'Material, diametru, robinet, regulator, contor, firidă, ștecher' },
+  { id: 'extindere',  icon: GitBranch,   label: 'Extindere conductă', desc: 'Lungime, diametru, branșamente multiple, metoda cuplare' },
+  { id: 'instalatie', icon: Home,        label: 'Instalație utilizare', desc: 'Consumatori, camere aparate, V/Q, priză aer, detectori' },
+  { id: 'avize',      icon: FileSignature, label: 'Avize & acorduri', desc: 'Aviz Apa, E-Distribuție, Telekom, ISU, Brigada Rutieră, CU' },
+  { id: 'materiale',  icon: Package,     label: 'Listă materiale (auto)', desc: 'Generare automată conform Dn + lungime' },
+  { id: 'calc',       icon: Calculator,  label: 'Calcule inginerești',     desc: 'Renouard, viteză, diametru recomandat, ΔP' },
+];
+
+const STORAGE_KEY = 'epd_gas_template_default';
+
+export default function GasNaturalStudio() {
+  const { id: paramId } = useParams();
+  const nav = useNavigate();
+  const { t } = useTranslation();
+
+  const [pid, setPid] = useState(paramId || null);
+  const [data, setData] = useState(() => {
+    // Try load saved template
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) return JSON.parse(saved);
+    } catch (e) { /* ignore */ }
+    return {
+      tip_lucrare: 'bransament',
+      osd_nume: 'Distrigaz Sud Rețele S.R.L.',
+      bransament: { material: 'PE', diametru_dn: 'PE 32', lungime_m: 4, consumatori: [] },
+      extindere: { material: 'PE', dn_proiectat: 'PE 63', lungime_totala_m: 50, n_bransamente: 0, bransamente: [] },
+      instalatie: { tip: 'IUGN nouă', imobil_tip: 'casă la curte', consumatori: [], camere: [], fittinguri: [], robineti: [], electrovalve: [] },
+      avize: [],
+      cu_lista: [],
+    };
+  });
+  const [activeSection, setActiveSection] = useState('general');
+  const [saving, setSaving] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  // Auto-save to localStorage on data change (debounced)
+  useEffect(() => {
+    if (!loaded) { setLoaded(true); return; }
+    const handle = setTimeout(() => {
+      try { localStorage.setItem('epd_gas_studio_draft', JSON.stringify(data)); } catch (e) { /* ignore */ }
+    }, 800);
+    return () => clearTimeout(handle);
+  }, [data, loaded]);
+
+  // Load existing project if pid is present
+  useEffect(() => {
+    if (!pid) return;
+    (async () => {
+      try {
+        const r = await api.get(`/gas-project/${pid}`);
+        if (r.data?.data) setData(prev => ({ ...prev, ...r.data.data }));
+      } catch (err) {
+        console.warn('Project load (non-fatal):', err);
+      }
+    })();
+  }, [pid]);
+
+  const updateData = useCallback((patch) => {
+    setData(prev => ({ ...prev, ...patch }));
+  }, []);
+
+  const updateSection = useCallback((sectionKey, patch) => {
+    setData(prev => ({ ...prev, [sectionKey]: { ...(prev[sectionKey] || {}), ...patch } }));
+  }, []);
+
+  // Save as default template
+  const saveAsTemplate = () => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      toast.success('✅ Salvat ca template implicit. Va fi încărcat automat la următorul proiect.');
+    } catch (e) {
+      toast.error('Nu am putut salva template-ul');
+    }
+  };
+
+  // Save project (creates if new, updates if existing)
+  const saveProject = async () => {
+    setSaving(true);
+    try {
+      if (pid) {
+        await api.patch(`/gas-project/${pid}`, { data });
+        toast.success('Proiect salvat');
+      } else {
+        const r = await api.post('/gas-project', {
+          title: `Proiect ${data.tip_lucrare} — ${data.beneficiar_nume || 'Beneficiar nou'}`,
+          country: 'RO',
+          subdomain: 'bransament-casnic',
+          phase: 'tema',
+          data,
+        });
+        if (r.data?.pid) {
+          setPid(r.data.pid);
+          toast.success('Proiect creat');
+          nav(`/gaze-naturale/${r.data.pid}`, { replace: true });
+        }
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Eroare la salvare');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // Generate master DOCX (uses preview endpoint — no need to persist)
+  const generateMasterDoc = async () => {
+    setGenerating(true);
+    try {
+      const res = await api.post('/gas/master-docx-preview', {
+        ...data,
+        title: `Proiect ${data.tip_lucrare || 'Branșament'} — ${data.beneficiar_nume || 'EPD'}`,
+      }, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Proiect_Bransament_${(data.beneficiar_nume || 'EPD').replace(/\s+/g, '_')}.docx`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success('✅ Document generat — verificați descărcările');
+    } catch (err) {
+      toast.error('Eroare la generare document: ' + (err.response?.data?.detail || err.message));
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const completionPercent = useMemo(() => {
+    let total = 0; let filled = 0;
+    const checkSection = (obj) => {
+      Object.values(obj || {}).forEach(v => {
+        total++;
+        if (v !== '' && v !== null && v !== undefined && (Array.isArray(v) ? v.length > 0 : true)) filled++;
+      });
+    };
+    checkSection(data);
+    return Math.round((filled / Math.max(total, 1)) * 100);
+  }, [data]);
+
+  return (
+    <AppShell title="Studio Gaze Naturale">
+      {/* Premium header with gradient */}
+      <div className="relative mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-700 via-indigo-700 to-blue-800 p-8 text-white shadow-2xl" data-testid="gas-studio-header">
+        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(168,85,247,0.3) 0%, transparent 50%)' }} />
+        <div className="relative flex items-center justify-between gap-6 flex-wrap">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-violet-200 mb-2">// V11.0 · Conform NTPEE 2018 + Ord. ANRE 89/2018</div>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
+              Studio Gaze Naturale <span className="text-violet-200">— Documentație 100% legală</span>
+            </h1>
+            <p className="text-violet-100/90 text-sm max-w-2xl">
+              Tot ce trebuie pentru un proiect tehnic complet — branșament, extindere, instalație utilizare —
+              cu calcule inginerești live, generare automată listă materiale și export DOCX master cu 150+ placeholdere.
+            </p>
+            <div className="mt-4 flex items-center gap-2 text-xs">
+              <span className="px-2 py-1 bg-white/10 backdrop-blur rounded-full">Tip: {data.tip_lucrare}</span>
+              <span className="px-2 py-1 bg-white/10 backdrop-blur rounded-full">OSD: {data.osd_nume || '—'}</span>
+              {data.beneficiar_nume && <span className="px-2 py-1 bg-white/10 backdrop-blur rounded-full">{data.beneficiar_nume}</span>}
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-center">
+              <div className="text-4xl font-bold tabular-nums" data-testid="completion-percent">{completionPercent}%</div>
+              <div className="text-[10px] uppercase tracking-wider text-violet-200">Completat</div>
+            </div>
+            <div className="w-px h-12 bg-white/20" />
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={saveProject}
+                disabled={saving}
+                className="px-4 py-2 bg-white text-violet-700 hover:bg-violet-50 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all shadow-lg"
+                data-testid="save-project-btn"
+              >
+                {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                Salvează
+              </button>
+              <button
+                onClick={saveAsTemplate}
+                className="px-4 py-1.5 bg-violet-900/40 hover:bg-violet-900/60 border border-white/20 backdrop-blur rounded-lg font-medium text-xs flex items-center gap-2 transition-all"
+                data-testid="save-template-btn"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                Salvează ca template implicit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation sidebar + content */}
+      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
+        {/* Section nav */}
+        <aside className="space-y-2 lg:sticky lg:top-6 lg:self-start" data-testid="gas-section-nav">
+          {SECTIONS.map((s) => {
+            const Icon = s.icon;
+            const isActive = activeSection === s.id;
+            return (
+              <button
+                key={s.id}
+                onClick={() => setActiveSection(s.id)}
+                className={`w-full text-left p-3 rounded-lg border transition-all group ${
+                  isActive
+                    ? 'bg-gradient-to-br from-violet-600 to-indigo-700 text-white border-violet-700 shadow-lg shadow-violet-200'
+                    : 'bg-white text-slate-700 border-slate-200 hover:border-violet-300 hover:bg-violet-50'
+                }`}
+                data-testid={`section-nav-${s.id}`}
+              >
+                <div className="flex items-start gap-3">
+                  <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${isActive ? 'text-violet-100' : 'text-violet-600'}`} />
+                  <div className="min-w-0">
+                    <div className="text-sm font-semibold leading-tight">{s.label}</div>
+                    <div className={`text-[11px] leading-tight mt-0.5 ${isActive ? 'text-violet-100' : 'text-slate-500'}`}>{s.desc}</div>
+                  </div>
+                  {isActive && <ChevronRight className="w-4 h-4 shrink-0 text-violet-100" />}
+                </div>
+              </button>
+            );
+          })}
+
+          {/* Generate doc card */}
+          <div className="mt-6 p-4 rounded-xl bg-slate-900 text-white">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-violet-300 mb-2">// Finalizare</div>
+            <div className="font-bold mb-1">Generează DOCX master</div>
+            <div className="text-[11px] text-slate-300 mb-3">Conține Referat, Foaie, Memoriu, Breviar, Listă materiale, PV-uri și mai mult — toate într-un singur fișier.</div>
+            <button
+              onClick={generateMasterDoc}
+              disabled={generating}
+              className="w-full px-3 py-2 bg-gradient-to-r from-violet-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 rounded-lg font-semibold text-xs flex items-center justify-center gap-2 transition-all"
+              data-testid="generate-master-doc-btn"
+            >
+              {generating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+              Descarcă proiect complet (.docx)
+            </button>
+          </div>
+        </aside>
+
+        {/* Main content */}
+        <main className="bg-white border border-slate-200 rounded-xl p-6 min-h-[500px]" data-testid="gas-section-content">
+          {activeSection === 'general' && (
+            <GasGeneralDataSection data={data} onChange={updateData} />
+          )}
+          {activeSection === 'bransament' && (
+            <GasBransamentSection data={data.bransament || {}} onChange={(p) => updateSection('bransament', p)} />
+          )}
+          {activeSection === 'extindere' && (
+            <GasExtindereSection data={data.extindere || {}} onChange={(p) => updateSection('extindere', p)} />
+          )}
+          {activeSection === 'instalatie' && (
+            <GasInstalatieUtilizareSection data={data.instalatie || {}} onChange={(p) => updateSection('instalatie', p)} />
+          )}
+          {activeSection === 'avize' && (
+            <GasAvizeSection avize={data.avize || []} cuLista={data.cu_lista || []} onChange={(p) => updateData(p)} />
+          )}
+          {activeSection === 'materiale' && (
+            <GasMaterialsAutoSection data={data} />
+          )}
+          {activeSection === 'calc' && (
+            <GasSmartCalcPanel data={data} />
+          )}
+        </main>
+      </div>
+    </AppShell>
+  );
+}

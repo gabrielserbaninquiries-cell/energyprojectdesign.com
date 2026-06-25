@@ -63,6 +63,7 @@ import ImplementationQueue from './pages/ImplementationQueue';
 import SelfCheck from './pages/SelfCheck';
 import ProductSkeleton from './pages/ProductSkeleton';
 import GasNaturalProjectV2 from './pages/GasNaturalProjectV2';
+import GasNaturalStudio from './pages/GasNaturalStudio';
 import ComertLogistica from './pages/ComertLogistica';
 import FabriciUzine from './pages/FabriciUzine';
 import Sponsorizeaza from './pages/Sponsorizeaza';
@@ -111,8 +112,12 @@ function AppRouter() {
       <Route path="/confidentialitate" element={<Confidentialitate />} />
       <Route path="/gdpr" element={<Gdpr />} />
       <Route path="/pentru/:role" element={<Personas />} />
-      <Route path="/gaze-naturale" element={<ProtectedRoute><GasNaturalProjectV2 /></ProtectedRoute>} />
-      <Route path="/gaze-naturale/:pid" element={<ProtectedRoute><GasNaturalProjectV2 /></ProtectedRoute>} />
+      <Route path="/gaze-naturale" element={<ProtectedRoute><GasNaturalStudio /></ProtectedRoute>} />
+      <Route path="/gaze-naturale/:id" element={<ProtectedRoute><GasNaturalStudio /></ProtectedRoute>} />
+      <Route path="/gaze-naturale-studio" element={<ProtectedRoute><GasNaturalStudio /></ProtectedRoute>} />
+      <Route path="/gaze-naturale-studio/:id" element={<ProtectedRoute><GasNaturalStudio /></ProtectedRoute>} />
+      <Route path="/gaze-naturale-v2" element={<ProtectedRoute><GasNaturalProjectV2 /></ProtectedRoute>} />
+      <Route path="/gaze-naturale-v2/:pid" element={<ProtectedRoute><GasNaturalProjectV2 /></ProtectedRoute>} />
       <Route path="/gaze-naturale-v1/:pid" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
       <Route path="/gaze-naturale/recipients" element={<ProtectedRoute><GasRecipients /></ProtectedRoute>} />
       <Route path="/subscribers" element={<ProtectedRoute><Subscribers /></ProtectedRoute>} />

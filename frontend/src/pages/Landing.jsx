@@ -126,6 +126,22 @@ const FUTURE_SERVICES = [
   { label: 'EPD Mail',                desc: 'Singurul serviciu de email global cu zero spam' },
 ];
 
+// V11.0 — VIZIUNI EPD NEXT-GEN (cerințe literale fondator, Feb 2026)
+const NEXT_GEN_MISSIONS = [
+  { icon: '🗳️', label: 'Voturi live electronice', desc: 'Vot cetățenesc digital pe baza CNP — alegeri, referendumuri și sondaje publice în timp real, cu trasabilitate criptografică' },
+  { icon: '🎫', label: 'Bilete evenimente',        desc: 'Marketplace global pentru concerte, festivaluri, conferințe — cu QR code și revânzare etică' },
+  { icon: '✈️', label: 'Bilete avion',             desc: 'Cumpărare bilete cu cel mai mic preț din ecosistem EPD, alerte cădere preț, miles loyalty' },
+  { icon: '💛', label: 'Cauze caritabile',         desc: 'Crowdfunding transparent pentru cauze umanitare — fiecare donație urmărită on-chain' },
+  { icon: '🛠️', label: 'Gestiune lucrări interne', desc: 'Aplicație internă pentru echipe — task-uri, time-tracking, devize, calitate, foto-raportare' },
+  { icon: '🅿️', label: 'Parcări urbane (constructor + locator + plătitor)', desc: 'Construire infrastructură + găsire loc + plată cu un singur tap — în orice oraș al lumii' },
+  { icon: '⚓', label: 'Port popular global',      desc: 'Marketplace logistic maritim — cele mai bune rute, prețuri și operatori, vizibil pentru orice antreprenor' },
+  { icon: '🏠', label: 'Case modulare amplasabile', desc: 'Locuințe gata construite, livrate și amplasate la cheie — perfecte pentru sinistrați, locuințe rapide, vacanțe' },
+  { icon: '🔨', label: 'Motor licitații lucrări',  desc: '"Cel mai mic preț + cel mai rapid + cea mai bună calitate" — algoritm transparent care alege automat câștigătorul' },
+  { icon: '🚖', label: 'Taxi global EPD',          desc: 'Aplicație taxi globală — un singur cont, orice oraș, prețuri transparente, șoferi verificați' },
+  { icon: '🌴', label: 'Stațiune tropicală',       desc: 'Mini-Grecia în România — plantări palmieri, ambianță mediteraneană, prețuri populare' },
+  { icon: '🌊', label: '🏖️ Riviera Românească (MISIUNEA EPD)', desc: 'Construirea întregului litoral românesc în cea mai extinsă plajă turistică națională — destinație globală cu tradiție, prețuri accesibile și amintiri de neuitat' },
+];
+
 // Logo component pulled from shared EPDLogo (uses real image, not CSS gradient cube)
 // to align with founder's explicit V9.2 request: "foloseste logo-ul acesta".
 
@@ -497,6 +513,66 @@ export default function Landing() {
                 <div className="text-[9px] uppercase tracking-wider text-violet-500 font-semibold mt-3">În roadmap</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* V11.0 — VIZIUNI EPD NEXT-GEN */}
+      <section id="next-gen" className="py-24 bg-gradient-to-br from-slate-50 via-violet-50/30 to-indigo-50/30 border-y border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="text-center mb-12">
+            <div className="text-xs uppercase tracking-[0.25em] text-violet-700 font-semibold mb-3">// Viziuni EPD Next-Gen · Feb 2026</div>
+            <h2 className="text-3xl lg:text-5xl font-bold tracking-tight text-slate-900 max-w-4xl mx-auto leading-tight">
+              Cele 12 misiuni viitoare ale ecosistemului EPD.
+            </h2>
+            <p className="text-base text-slate-600 mt-4 max-w-3xl mx-auto leading-relaxed">
+              Dincolo de documentația tehnică — fondatorul EPD vede o platformă care unește guvernarea
+              digitală, mobilitatea urbană, turismul global și economia colaborativă într-o singură
+              experiență omogenă pentru fiecare cetățean al planetei.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" data-testid="next-gen-missions">
+            {NEXT_GEN_MISSIONS.map((m, idx) => {
+              const isFlagship = m.label.startsWith('🏖️') || m.label.includes('Riviera');
+              return (
+                <div
+                  key={idx}
+                  className={`group relative overflow-hidden rounded-2xl p-6 border transition-all hover:-translate-y-1 hover:shadow-xl ${
+                    isFlagship
+                      ? 'bg-gradient-to-br from-amber-500 via-orange-500 to-rose-600 text-white border-amber-400 shadow-lg shadow-amber-200/50 lg:col-span-3'
+                      : 'bg-white border-slate-200 hover:border-violet-300'
+                  }`}
+                  data-testid={`nextgen-mission-${idx}`}
+                >
+                  <div className={`text-3xl mb-3 ${isFlagship ? 'text-white' : 'text-violet-600'}`}>{m.icon}</div>
+                  <div className={`text-sm font-bold leading-tight mb-2 ${isFlagship ? 'text-white text-xl' : 'text-slate-900'}`}>
+                    {m.label}
+                  </div>
+                  <div className={`text-xs leading-relaxed ${isFlagship ? 'text-white/90 text-sm' : 'text-slate-500'}`}>
+                    {m.desc}
+                  </div>
+                  {isFlagship && (
+                    <div className="absolute top-4 right-4 px-2.5 py-1 bg-white/20 backdrop-blur text-[10px] uppercase tracking-wider rounded-full font-bold">
+                      Misiunea EPD
+                    </div>
+                  )}
+                  {!isFlagship && (
+                    <div className="text-[10px] uppercase tracking-wider text-violet-500 font-semibold mt-4">
+                      În cercetare
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-10 text-center">
+            <p className="text-sm text-slate-500 max-w-2xl mx-auto italic">
+              &ldquo;Mi-aș dori ca una din misiunile platformei să fie construirea întregului litoral românesc
+              într-o destinație turistică globală, cu unicitatea țării și ambientul tradițional românesc.&rdquo;
+            </p>
+            <p className="text-xs text-slate-400 mt-2 font-semibold">— Founder, EPD</p>
           </div>
         </div>
       </section>
