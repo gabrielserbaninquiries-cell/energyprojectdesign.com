@@ -80,6 +80,8 @@ import ServiciiPage from './pages/ServiciiPage';
 import PlanuriDepartamente from './pages/PlanuriDepartamente';
 import ComisioaneTarife from './pages/ComisioaneTarife';
 import UpgradeGate from './components/UpgradeGate';
+// V11.0 — 6 Coming Soon services (curierat, transport, mediu, spitale, caritabile, biserica)
+import ComingSoonService from './pages/ComingSoonService';
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -213,6 +215,14 @@ function AppRouter() {
       <Route path="/stamps" element={<ProtectedRoute><UpgradeGate path="/stamps"><Stamps /></UpgradeGate></ProtectedRoute>} />
       <Route path="/certificate" element={<ProtectedRoute><UpgradeGate path="/certificate"><Certificates /></UpgradeGate></ProtectedRoute>} />
       <Route path="/email" element={<ProtectedRoute><UpgradeGate path="/email"><EmailComposer /></UpgradeGate></ProtectedRoute>} />
+
+      {/* V11.0 — 6 Coming Soon services (public, link-uite din Landing) */}
+      <Route path="/curierat" element={<ComingSoonService slug="curierat" />} />
+      <Route path="/transport-persoane" element={<ComingSoonService slug="transport-persoane" />} />
+      <Route path="/mediu" element={<ComingSoonService slug="mediu" />} />
+      <Route path="/spitale" element={<ComingSoonService slug="spitale" />} />
+      <Route path="/caritabile" element={<ComingSoonService slug="caritabile" />} />
+      <Route path="/biserica" element={<ComingSoonService slug="biserica" />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

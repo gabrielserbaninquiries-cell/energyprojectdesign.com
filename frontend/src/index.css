@@ -194,3 +194,24 @@ code, .mono {
 .forum-md table { border-collapse: collapse; margin: 0.8em 0; }
 .forum-md th, .forum-md td { border: 1px solid #D1D5DB; padding: 4px 8px; text-align: left; }
 .forum-md th { background: #F3F4F6; font-weight: 600; }
+
+
+/* ============================================================ */
+/* V11.0 — Google Translate Widget — hide native UI elements,   */
+/* preserve translation functionality                            */
+/* ============================================================ */
+body { top: 0 !important; }
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-balloon-frame { display: none !important; }
+.goog-tooltip, .goog-tooltip:hover { display: none !important; }
+.goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
+#google_translate_element { display: none !important; }
+.skiptranslate iframe { visibility: hidden !important; height: 0 !important; width: 0 !important; }
+.goog-logo-link, .goog-te-gadget span { display: none !important; }
+.goog-te-gadget { color: transparent !important; font-size: 0 !important; }
+
+/* Smooth language transition */
+html { transition: none; }
+
+/* Notranslate hint helper */
+.notranslate { unicode-bidi: isolate; }

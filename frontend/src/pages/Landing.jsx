@@ -21,7 +21,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
 import EPDLogo from '../components/EPDLogo';
-import LanguageSwitcher from '../components/LanguageSwitcher';
+import GlobalTranslator from '../components/GlobalTranslator';
 import PublicPlansGrid from '../components/PublicPlansGrid';
 import useSEO from '../hooks/useSEO';
 
@@ -35,49 +35,69 @@ const MAIN_PRODUCT_HIGHLIGHTS = [
   { icon: FileSignature, label: 'Semnătură QES',          value: 'eIDAS' },
 ];
 
-// Servicii integrate ACTIVE (în platformă) — V10.8 cu imagini reale (Unsplash free CDN)
+// Servicii integrate ACTIVE (în platformă) — V11.0 cu imagini reale Unsplash + gradient fallback per industrie
 const ACTIVE_SERVICES = [
   { id: 'gas',         icon: Flame,         title: 'Gaze Naturale',         desc: '33 docs · 221 câmpuri · Renouard · QES', tag: 'CORE', href: '/gaze-naturale',
-    image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=900&q=80&auto=format&fit=crop' },
+    image: null,
+    gradient: 'from-orange-500 via-red-500 to-rose-600' },
   { id: 'electric',    icon: Zap,           title: 'Electric',              desc: '6 template-uri instalații electrice',     tag: 'BETA', href: '/industrii/electric',
-    image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-yellow-400 via-amber-500 to-orange-600' },
   { id: 'apa-canal',   icon: Droplet,       title: 'Apă-Canal',             desc: '5 documente branșament & racord',         tag: 'BETA', href: '/industrii/apa-canal',
-    image: 'https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=900&q=80&auto=format&fit=crop' },
+    image: null,
+    gradient: 'from-cyan-500 via-blue-500 to-indigo-600' },
   { id: 'fotovoltaice',icon: Sun,           title: 'Fotovoltaice',          desc: 'Proiecte panouri & avizare ANRE',         tag: 'NEW',  href: '/industrii/fotovoltaice',
-    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-yellow-400 via-orange-500 to-amber-600' },
   { id: 'telecom',     icon: Phone,         title: 'Telecom',               desc: 'Avize Telekom, STB, NetCity',             tag: 'NEW',  href: '/industrii/telecom',
-    image: 'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?w=900&q=80&auto=format&fit=crop' },
+    image: null,
+    gradient: 'from-violet-500 via-purple-500 to-fuchsia-600' },
   { id: 'marketplace', icon: Store,         title: 'Marketplace',           desc: 'Șabloane, ștampile, kit-uri B2B',         tag: 'BIZ',  href: '/marketplace',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-indigo-500 via-violet-500 to-purple-600' },
   { id: 'realestate',  icon: Building2,     title: 'Imobiliare',            desc: 'Anunțuri proprietăți & terenuri',         tag: 'BIZ',  href: '/imobiliare',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-slate-600 via-slate-700 to-slate-800' },
   { id: 'jobs',        icon: Users,         title: 'Job Board ANRE',        desc: 'Locuri de muncă pentru proiectanți',       tag: 'BIZ',  href: '/jobs',
-    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-blue-500 via-indigo-500 to-violet-600' },
   { id: 'forum',       icon: MessageSquare, title: 'Forum Profesional',     desc: 'Discuții tehnice & RFI între specialiști',tag: 'BIZ',  href: '/forum',
-    image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-teal-500 via-cyan-500 to-blue-600' },
   { id: 'crafts',      icon: Hammer,        title: 'Meseriași',             desc: 'Conexiuni beneficiari ↔ meșteri verificați',tag: 'NEW', href: '/servicii',
-    image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-amber-600 via-orange-700 to-red-700' },
   { id: 'logistics',   icon: Truck,         title: 'Comerț & Logistică',    desc: 'Lanț aprovizionare + transport materiale', tag: 'NEW', href: '/comert-logistica',
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-slate-500 via-blue-600 to-indigo-700' },
   { id: 'industry',    icon: Factory,       title: 'Fabrici & Uzine',       desc: 'Proiectare instalații industriale',        tag: 'NEW', href: '/fabrici-uzine',
-    image: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-zinc-600 via-zinc-700 to-zinc-900' },
   { id: 'verify',      icon: BadgeCheck,    title: 'Verificare QR',         desc: 'Validare publică semnătură document',     tag: 'CORE', href: '/verifica',
-    image: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?w=900&q=80&auto=format&fit=crop' },
+    image: null,
+    gradient: 'from-emerald-500 via-teal-500 to-cyan-600' },
   { id: 'fees',        icon: Receipt,       title: 'Comisioane & Tarife',   desc: 'Transparență totală costuri platformă',   tag: 'INFO', href: '/comisioane-tarife',
-    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-slate-400 via-slate-500 to-slate-700' },
   // V10.0 — Servicii noi (cerere user: curierat, transport persoane, mediu, spitale, caritabile, biserică)
   { id: 'curierat',    icon: PackageOpen,   title: 'Curierat',              desc: 'Livrări rapide nationale, tracking real-time',tag: 'SOON', href: '/curierat',
-    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-orange-500 via-red-500 to-pink-600' },
   { id: 'transport',   icon: Bus,           title: 'Transport Persoane',    desc: 'Microbuze, taxi inter-orașe, partajat',     tag: 'SOON', href: '/transport-persoane',
-    image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-blue-500 via-cyan-500 to-teal-600' },
   { id: 'mediu',       icon: Leaf,          title: 'Mediu',                 desc: 'Plantări, recuperare, reciclare, sustenabilitate', tag: 'SOON', href: '/mediu',
-    image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-green-500 via-emerald-600 to-teal-700' },
   { id: 'spitale',     icon: HeartPulse,    title: 'Spitale & Sănătate',    desc: 'Conexiuni clinici, doctori, programări',    tag: 'SOON', href: '/spitale',
-    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-rose-500 via-red-500 to-orange-600' },
   { id: 'caritabile',  icon: Heart,         title: 'Cauze Caritabile',      desc: 'Donații verificate, transparență totală',   tag: 'SOON', href: '/caritabile',
-    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=900&q=80&auto=format&fit=crop' },
+    image: null,
+    gradient: 'from-pink-500 via-rose-500 to-red-600' },
   { id: 'biserica',    icon: Church,        title: 'Biserică & Comunitate', desc: 'Comunități spirituale, evenimente, donații', tag: 'SOON', href: '/biserica',
-    image: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=900&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=900&q=80&auto=format&fit=crop',
+    gradient: 'from-amber-500 via-yellow-600 to-orange-700' },
 ];
 
 // VIITOR — 22 servicii globale planificate (per master plan EPD)
@@ -186,8 +206,8 @@ export default function Landing() {
             <Link to="/pricing" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-pricing">Tarife</Link>
           </nav>
           <div className="flex items-center gap-2">
-            {/* V10.6 — Language switcher (24 languages, browser auto-detect) */}
-            <LanguageSwitcher compact />
+            {/* V11.0 — Google Translate REAL engine (100+ limbi, motor live) */}
+            <GlobalTranslator variant="light" />
             <a href="#investitori" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 font-bold rounded-md transition-colors" data-testid="nav-investors">
               💎 Investitori
             </a>
@@ -387,8 +407,8 @@ export default function Landing() {
                       Produs principal
                     </div>
                   )}
-                  {/* Real image hero (replaces basic icon) */}
-                  <div className="relative h-36 overflow-hidden bg-slate-100">
+                  {/* Real image hero OR premium gradient card with large centered icon (honest fallback - no manipulating photos) */}
+                  <div className={`relative h-36 overflow-hidden bg-gradient-to-br ${s.gradient || 'from-violet-500 to-indigo-700'}`}>
                     {s.image ? (
                       <img
                         src={s.image}
@@ -397,8 +417,16 @@ export default function Landing() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         onError={(e) => { e.target.style.display = 'none'; }}
                       />
-                    ) : null}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/15 to-transparent" />
+                    ) : (
+                      // Premium gradient card with large centered icon + decorative grid
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="absolute inset-0 opacity-20" style={{
+                          backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.4) 0%, transparent 40%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.3) 0%, transparent 40%)',
+                        }} />
+                        <Icon className="relative w-16 h-16 text-white opacity-90 group-hover:scale-110 transition-transform duration-500" strokeWidth={1.5} />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/65 via-slate-900/20 to-transparent" />
                     <div className="absolute bottom-3 left-3 flex items-center gap-2">
                       <div className={`w-9 h-9 rounded-lg flex items-center justify-center backdrop-blur-md ${isMain ? 'epd-gradient' : 'bg-white/90 group-hover:bg-white'} transition-all shadow-md`}>
                         <Icon className={`w-4 h-4 ${isMain ? 'text-white' : 'text-slate-800'}`} strokeWidth={2.2} />
