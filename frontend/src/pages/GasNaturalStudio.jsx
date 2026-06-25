@@ -36,6 +36,9 @@ import GasInstalatieUtilizareSection from '../components/gas/GasInstalatieUtiliz
 import GasAvizeSection from '../components/gas/GasAvizeSection';
 import GasMaterialsAutoSection from '../components/gas/GasMaterialsAutoSection';
 import GasSmartCalcPanel from '../components/gas/GasSmartCalcPanel';
+import GasSuduriSection from '../components/gas/GasSuduriSection';
+import GasPVSection from '../components/gas/GasPVSection';
+import GasDocumenteSection from '../components/gas/GasDocumenteSection';
 import { TIPURI_LUCRARE } from '../lib/gasCalcs';
 
 const SECTIONS = [
@@ -44,8 +47,11 @@ const SECTIONS = [
   { id: 'extindere',  icon: GitBranch,   label: 'Extindere conductă', desc: 'Lungime, diametru, branșamente multiple, metoda cuplare' },
   { id: 'instalatie', icon: Home,        label: 'Instalație utilizare', desc: 'Consumatori, camere aparate, V/Q, priză aer, detectori' },
   { id: 'avize',      icon: FileSignature, label: 'Avize & acorduri', desc: 'Aviz Apa, E-Distribuție, Telekom, ISU, Brigada Rutieră, CU' },
+  { id: 'suduri',     icon: FileSignature, label: 'Suduri & calitate', desc: 'Sudor + examinare vizuală + protocol electrofuziune' },
+  { id: 'pv',         icon: FileText,    label: 'Procese verbale',     desc: 'PV recepție, PIF, calitate materiale, predare amplasament' },
   { id: 'materiale',  icon: Package,     label: 'Listă materiale (auto)', desc: 'Generare automată conform Dn + lungime' },
   { id: 'calc',       icon: Calculator,  label: 'Calcule inginerești',     desc: 'Renouard, viteză, diametru recomandat, ΔP' },
+  { id: 'documente',  icon: FileText,    label: 'Documente generate',      desc: '30+ șabloane DOCX descărcabile individual' },
 ];
 
 const STORAGE_KEY = 'epd_gas_template_default';
@@ -315,11 +321,20 @@ export default function GasNaturalStudio() {
           {activeSection === 'avize' && (
             <GasAvizeSection avize={data.avize || []} cuLista={data.cu_lista || []} onChange={(p) => updateData(p)} />
           )}
+          {activeSection === 'suduri' && (
+            <GasSuduriSection data={data} onChange={(d) => setData(d)} />
+          )}
+          {activeSection === 'pv' && (
+            <GasPVSection pv={data.pv || []} onChange={(lst) => updateData({ pv: lst })} />
+          )}
           {activeSection === 'materiale' && (
             <GasMaterialsAutoSection data={data} />
           )}
           {activeSection === 'calc' && (
             <GasSmartCalcPanel data={data} />
+          )}
+          {activeSection === 'documente' && (
+            <GasDocumenteSection data={data} />
           )}
         </main>
       </div>

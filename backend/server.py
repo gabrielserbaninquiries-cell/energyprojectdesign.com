@@ -2947,6 +2947,54 @@ async def gas_master_docx_preview(payload: dict, user: User = Depends(get_curren
     )
 
 
+@api2.get("/gas/templates-catalog")
+async def gas_templates_catalog():
+    """Public catalog of all 30+ DOCX templates available for gas projects.
+
+    Returns: [{id, label, phase, norm}, ...]
+    """
+    import gas_doc_templates as gdt
+    return {"templates": gdt.list_templates()}
+
+
+@api2.post("/gas/doc-preview/{template_id}")
+async def gas_doc_preview(template_id: str, payload: dict, user: User = Depends(get_current_user)):
+    """Generate ANY individual DOCX template (referat, foaie, memoriu, etc.) from a payload — no persist.
+
+    Used by GasNaturalStudio "Documente generate" section.
+    """
+    import gas_doc_templates as gdt
+    # Wrap payload like a project so the templates can read it the same way
+    proj = {
+        "title": payload.get("title", "Proiect Branșament"),
+        "industry": "gaze_naturale",
+        "country": "RO",
+        "subdomain": "bransament-casnic",
+        "phase": payload.get("phase", "pt"),
+        "data": payload,
+    }
+    try:
+        result = gdt.generate(template_id, proj)
+    except Exception as e:
+        logging.exception(f"Template {template_id} generation failed")
+        raise HTTPException(status_code=500, detail=f"Eroare la generare {template_id}: {str(e)[:200]}")
+    if not result:
+        raise HTTPException(status_code=404, detail=f"Template necunoscut: {template_id}")
+    docx_bytes, fname = result
+    # Sanitize filename for HTTP headers (latin-1 safe — no Romanian diacritics)
+    safe_fname = (
+        fname.replace('ș', 's').replace('Ș', 'S').replace('ț', 't').replace('Ț', 'T')
+             .replace('ă', 'a').replace('Ă', 'A').replace('â', 'a').replace('Â', 'A')
+             .replace('î', 'i').replace('Î', 'I').replace('—', '-').replace('„', '"').replace('"', '"')
+    )
+    safe_fname = safe_fname.encode('ascii', 'ignore').decode('ascii') or 'document.docx'
+    return StreamingResponse(
+        io.BytesIO(docx_bytes),
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        headers={"Content-Disposition": f'attachment; filename="{safe_fname}"'},
+    )
+
+
 # ----------- CLIENTS CRM (legacy, per-user) -----------
 @api2.get("/clients")
 async def crm_list_clients_v2(status: Optional[str] = None, industry: Optional[str] = None, user: User = Depends(get_current_user)):

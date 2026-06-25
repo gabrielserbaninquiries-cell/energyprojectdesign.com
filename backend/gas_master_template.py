@@ -365,12 +365,79 @@ def build_master_docx(project: Dict[str, Any]) -> bytes:
 
     _para(doc)
     _para(doc, "Sudor autorizat:", bold=True)
-    _kv(doc, "Nume", _g(data, "sudor_nume"))
-    _kv(doc, "Nr. autorizație", _g(data, "sudor_autorizatie_nr"))
-    _kv(doc, "Data expirării", _g(data, "sudor_autorizatie_exp"))
+    sudor = data.get("sudor") or {}
+    _kv(doc, "Nume", str(sudor.get("nume") or _g(data, "sudor_nume")))
+    _kv(doc, "Nr. autorizație", str(sudor.get("autorizatie_nr") or _g(data, "sudor_autorizatie_nr")))
+    _kv(doc, "Data expirării", str(sudor.get("autorizatie_exp") or _g(data, "sudor_autorizatie_exp")))
     _para(doc)
     _para(doc, "Diriginte de șantier:", bold=True)
     _kv(doc, "Nume", _g(data, "diriginte_santier_nume"))
+
+    # Examinare vizuală suduri table
+    examinari = data.get("examinari_vizuale") or []
+    if examinari:
+        doc.add_page_break()
+        _heading(doc, "7.1. Tabel examinare vizuală suduri", level=2)
+        _para(doc)
+        tbl = doc.add_table(rows=1 + len(examinari), cols=4)
+        tbl.style = "Table Grid"
+        hdr = tbl.rows[0].cells
+        hdr[0].text = "Nr. ordine"
+        hdr[1].text = "Număr sudură"
+        hdr[2].text = "Defecte constatate"
+        hdr[3].text = "Rezultat (Admis/Respins)"
+        for cell in hdr:
+            cell.paragraphs[0].runs[0].bold = True
+        for i, e in enumerate(examinari, 1):
+            r = tbl.rows[i].cells
+            r[0].text = str(e.get("nr", i))
+            r[1].text = str(e.get("numar_sudura", f"S{i:03d}"))
+            r[2].text = str(e.get("defecte", "Nu sunt defecte"))
+            r[3].text = str(e.get("rezultat", "Admis"))
+
+    # Protocol electrofuziune
+    protocoale = data.get("protocoale_suduri") or []
+    if protocoale:
+        doc.add_page_break()
+        _heading(doc, "7.2. Protocol electrofuziune (per sudură)", level=2)
+        _para(doc)
+        tbl = doc.add_table(rows=1 + len(protocoale), cols=7)
+        tbl.style = "Table Grid"
+        hdr = tbl.rows[0].cells
+        labels = ["Nr. sudură", "U min (V)", "U max (V)", "Timp (s)", "Energie (kJ)", "T mediu (°C)", "Rezultat"]
+        for i, lbl in enumerate(labels):
+            hdr[i].text = lbl
+            hdr[i].paragraphs[0].runs[0].bold = True
+        for i, p in enumerate(protocoale, 1):
+            r = tbl.rows[i].cells
+            r[0].text = str(p.get("nr_sudura", f"S{i:03d}"))
+            r[1].text = str(p.get("tensiune_min", ""))
+            r[2].text = str(p.get("tensiune_max", ""))
+            r[3].text = str(p.get("timp_sec", ""))
+            r[4].text = str(p.get("energie_kj", ""))
+            r[5].text = str(p.get("temperatura_c", ""))
+            r[6].text = str(p.get("rezultat", "OK"))
+
+    # PV-uri list
+    pv_list = data.get("pv") or []
+    if pv_list:
+        doc.add_page_break()
+        _heading(doc, "7.3. Procese verbale înregistrate", level=2)
+        _para(doc)
+        tbl = doc.add_table(rows=1 + len(pv_list), cols=5)
+        tbl.style = "Table Grid"
+        hdr = tbl.rows[0].cells
+        labels = ["Tip PV", "Nr.", "Dată", "Participanți", "Observații"]
+        for i, lbl in enumerate(labels):
+            hdr[i].text = lbl
+            hdr[i].paragraphs[0].runs[0].bold = True
+        for i, p in enumerate(pv_list, 1):
+            r = tbl.rows[i].cells
+            r[0].text = str(p.get("tip", ""))
+            r[1].text = str(p.get("nr", ""))
+            r[2].text = str(p.get("data", ""))
+            r[3].text = str(p.get("participanti", ""))
+            r[4].text = str(p.get("observatii", ""))
 
     # Footer
     _section_break(doc)

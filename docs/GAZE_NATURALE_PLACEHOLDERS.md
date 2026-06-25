@@ -280,12 +280,12 @@ La fiecare configurare branșament, sistemul generează automat:
 
 | Key placeholder | Tip | Note |
 |----|----|----|
-| `sudor_nume` | input | |
-| `sudor_autorizatie_nr` | input | |
-| `sudor_autorizatie_exp` | date | |
-| `suduri_lista` | repeat | per sudură: nr, ordine S{n}, defecte, rezultat (admis/respins) |
-| `suduri_total` | calc | auto pe baza pieselor |
-| `examinare_vizuala_nr` | input | nr+dată tabel examinare |
+| `sudor.nume` | input | Nume sudor autorizat ANRE |
+| `sudor.autorizatie_nr` | input | Nr. autorizație ANRE |
+| `sudor.autorizatie_exp` | date | Data expirare autorizație |
+| `examinari_vizuale[i]` | repeat | Per rând: `nr`, `numar_sudura` (Sxxx), `defecte`, `rezultat` (Admis/Respins) |
+| `protocoale_suduri[i]` | repeat | Per protocol: `nr_sudura`, `tensiune_min` (V), `tensiune_max` (V), `timp_sec`, `energie_kj`, `temperatura_c`, `rezultat` (OK/Respins) |
+| `pv[i]` | repeat | Per PV: `tip` (din 10 tipuri), `nr`, `data`, `participanti`, `observatii` |
 | `tip_sudura_implicit` | const | electrofuziune |
 | `pv_calitate_materiale_nr` | input | nr+dată PV calitate materiale |
 | `pv_receptie_tehnica_nr` | input | nr+dată PV recepție tehnică branșament/conductă |
