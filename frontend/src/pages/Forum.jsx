@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
@@ -67,6 +68,7 @@ export default function Forum() {
 }
 
 function ForumList() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [industry, setIndustry] = useState('all');
   const [sort, setSort] = useState('recent');
@@ -111,13 +113,13 @@ function ForumList() {
           <div className="relative p-8 lg:p-10 flex items-start justify-between gap-6 flex-wrap">
             <div className="flex-1 min-w-[280px]">
               <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-[#FFB300] mb-3">
-                <MessageSquare className="w-3.5 h-3.5" /> // forum comunitate
+                <MessageSquare className="w-3.5 h-3.5" /> // {t('forum.title').toLowerCase()}
               </div>
               <h1 className="text-4xl lg:text-5xl font-bold leading-tight tracking-tight mb-3">
                 Inginerie, <span className="text-[#FFB300]">la persoana întâi.</span>
               </h1>
               <p className="text-sm lg:text-base text-gray-300 leading-relaxed max-w-2xl">
-                Discuții deschise între <strong className="text-white">proiectanți</strong>, <strong className="text-white">executanți</strong>, <strong className="text-white">verificatori VGD/RTE</strong> și autorizate ANRE. Filtrează pe industria ta sau navighează tematic.
+                {t('forum.subtitle')}
               </p>
             </div>
             <div className="flex flex-col gap-3 items-end">
@@ -129,7 +131,7 @@ function ForumList() {
                 className="bg-[#FFB300] text-black px-5 py-3 flex items-center gap-2 hover:bg-white border-2 border-[#FFB300] font-bold text-sm uppercase tracking-wider transition-colors"
                 data-testid="new-thread-btn"
               >
-                <Plus className="w-4 h-4" /> Discuție nouă
+                <Plus className="w-4 h-4" /> {t('forum.new_thread')}
               </button>
               <div className="flex gap-2">
                 <span className="bg-white/5 backdrop-blur-md border border-white/10 px-3 py-1.5 text-xs"><strong className="text-[#FFB300]">{totalThreads}</strong> <span className="text-gray-400 uppercase tracking-wider text-[10px]">discuții</span></span>

@@ -64,6 +64,8 @@ import SelfCheck from './pages/SelfCheck';
 import ProductSkeleton from './pages/ProductSkeleton';
 import GasNaturalProjectV2 from './pages/GasNaturalProjectV2';
 import GasNaturalStudio from './pages/GasNaturalStudio';
+import VoturiCNP from './pages/VoturiCNP';
+import RivieraRomaneasca from './pages/RivieraRomaneasca';
 import ComertLogistica from './pages/ComertLogistica';
 import FabriciUzine from './pages/FabriciUzine';
 import Sponsorizeaza from './pages/Sponsorizeaza';
@@ -108,6 +110,9 @@ function AppRouter() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/pricing" element={<Pricing />} />
+      {/* V11.2 — Misiuni EPD Next-Gen (presentation sites — public, no auth) */}
+      <Route path="/voturi-cnp" element={<VoturiCNP />} />
+      <Route path="/riviera-romaneasca" element={<RivieraRomaneasca />} />
       <Route path="/termeni" element={<Termeni />} />
       <Route path="/confidentialitate" element={<Confidentialitate />} />
       <Route path="/gdpr" element={<Gdpr />} />

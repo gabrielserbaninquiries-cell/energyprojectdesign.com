@@ -94,5 +94,31 @@
     "copyright": "© {{year}} Energy Project Design S.R.L. — USt-ID 43151074",
     "company_data": "J40/12982/2020 • Bukarest, Rumänien",
     "made_in": "Mit Leidenschaft hergestellt in Rumänien"
+  },
+  "forum": {
+    "title": "EPD Forum",
+    "subtitle": "Technische Diskussionen zwischen Ingenieuren, Planern und Auftragnehmern",
+    "new_thread": "Neue Diskussion",
+    "search_placeholder": "Diskussionen suchen…",
+    "all_industries": "Alle Branchen",
+    "trending": "Trends",
+    "recent": "Aktuelle",
+    "no_threads": "Keine Diskussionen gefunden."
+  },
+  "realestate": {
+    "title": "EPD Immobilien",
+    "subtitle": "KI-Katalog mit Häusern, Grundstücken und Gewerbeflächen — echte Preise, ohne Provision",
+    "search_placeholder": "Adresse, Stadt, Region suchen…",
+    "for_sale": "Zum Verkauf",
+    "for_rent": "Zur Miete",
+    "all_types": "Alle Typen"
+  },
+  "marketplace": {
+    "title": "EPD Marktplatz",
+    "subtitle": "Produkte, Dienstleistungen und Kooperationen zwischen EPD-Profis",
+    "search_placeholder": "Produkte, Dienstleistungen suchen…",
+    "new_listing": "Anzeige aufgeben",
+    "categories": "Kategorien",
+    "no_listings": "Keine Anzeigen gefunden."
   }
 }

@@ -94,5 +94,31 @@
     "copyright": "© {{year}} Energy Project Design S.R.L. — CUI 43151074",
     "company_data": "J40/12982/2020 • București",
     "made_in": "Construit cu pasiune în România"
+  },
+  "forum": {
+    "title": "Forum EPD",
+    "subtitle": "Discuții tehnice între ingineri, proiectanți și executanți",
+    "new_thread": "Discuție nouă",
+    "search_placeholder": "Caută discuții…",
+    "all_industries": "Toate industriile",
+    "trending": "Trending",
+    "recent": "Recente",
+    "no_threads": "Nicio discuție găsită."
+  },
+  "realestate": {
+    "title": "Imobiliare EPD",
+    "subtitle": "Catalog AI cu case, terenuri și spații comerciale — prețuri reale, fără comision",
+    "search_placeholder": "Caută adresă, oraș, județ…",
+    "for_sale": "De vânzare",
+    "for_rent": "De închiriat",
+    "all_types": "Toate tipurile"
+  },
+  "marketplace": {
+    "title": "Marketplace EPD",
+    "subtitle": "Produse, servicii și colaborări între profesioniștii ecosistemului EPD",
+    "search_placeholder": "Caută produse, servicii…",
+    "new_listing": "Postează anunț",
+    "categories": "Categorii",
+    "no_listings": "Niciun anunț găsit."
   }
 }

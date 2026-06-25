@@ -2,6 +2,7 @@
  * Real Estate V7.0 — Anunțuri imobiliare.
  */
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import AppShell from '../components/AppShell';
 import api from '../lib/api';
 import { toast } from 'sonner';
@@ -10,6 +11,7 @@ import { Home, Plus, Search, MapPin, BedDouble, Bath, Maximize2, Calculator, Loa
 const JUDETE = ['București', 'Cluj', 'Timiș', 'Brașov', 'Constanța', 'Iași', 'Ilfov', 'Sibiu', 'Argeș', 'Prahova', 'Galați', 'Bihor'];
 
 export default function RealEstatePage() {
+  const { t } = useTranslation();
   const [types, setTypes] = useState({ property_types: [], transaction_types: [] });
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -73,7 +75,7 @@ export default function RealEstatePage() {
   };
 
   return (
-    <AppShell title="Anunțuri Imobiliare" subtitle="Vânzare · Închiriere · Regim hotelier · 5 tipuri proprietate · calculator credit">
+    <AppShell title={t('realestate.title')} subtitle={t('realestate.subtitle')}>
       <div className="mb-6 flex flex-wrap gap-2 items-center" data-testid="re-toolbar">
         <div className="flex-1 min-w-[180px] relative">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />

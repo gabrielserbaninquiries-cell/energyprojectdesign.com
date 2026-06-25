@@ -497,16 +497,14 @@ export default function Landing() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" data-testid="next-gen-missions">
             {NEXT_GEN_MISSIONS.map((m, idx) => {
               const isFlagship = m.flagship === true;
-              return (
-                <div
-                  key={m.id}
-                  className={`group relative overflow-hidden rounded-2xl p-6 border transition-all hover:-translate-y-1 hover:shadow-xl ${
-                    isFlagship
-                      ? 'bg-gradient-to-br from-amber-500 via-orange-500 to-rose-600 text-white border-amber-400 shadow-lg shadow-amber-200/50 lg:col-span-3'
-                      : 'bg-white border-slate-200 hover:border-violet-300'
-                  }`}
-                  data-testid={`nextgen-mission-${idx}`}
-                >
+              const hasRoute = !!m.route;
+              const cardClass = `group relative overflow-hidden rounded-2xl p-6 border transition-all hover:-translate-y-1 hover:shadow-xl ${
+                isFlagship
+                  ? 'bg-gradient-to-br from-amber-500 via-orange-500 to-rose-600 text-white border-amber-400 shadow-lg shadow-amber-200/50 lg:col-span-3'
+                  : 'bg-white border-slate-200 hover:border-violet-300'
+              }`;
+              const inner = (
+                <>
                   <div className={`text-3xl mb-3 ${isFlagship ? 'text-white' : 'text-violet-600'}`}>{m.icon}</div>
                   <div className={`text-sm font-bold leading-tight mb-2 ${isFlagship ? 'text-white text-xl' : 'text-slate-900'}`}>
                     {m.label}
@@ -520,10 +518,24 @@ export default function Landing() {
                     </div>
                   )}
                   {!isFlagship && (
-                    <div className="text-[10px] uppercase tracking-wider text-violet-500 font-semibold mt-4">
-                      În cercetare
+                    <div className={`text-[10px] uppercase tracking-wider font-semibold mt-4 ${hasRoute ? 'text-violet-700' : 'text-violet-500'}`}>
+                      {hasRoute ? 'Vezi pagina →' : 'În cercetare'}
                     </div>
                   )}
+                  {isFlagship && hasRoute && (
+                    <div className="mt-4 text-[12px] uppercase tracking-wider text-white font-bold flex items-center gap-1">
+                      Descoperă viziunea <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
+                  )}
+                </>
+              );
+              return hasRoute ? (
+                <Link key={m.id} to={m.route} className={cardClass} data-testid={`nextgen-mission-${idx}`}>
+                  {inner}
+                </Link>
+              ) : (
+                <div key={m.id} className={cardClass} data-testid={`nextgen-mission-${idx}`}>
+                  {inner}
                 </div>
               );
             })}

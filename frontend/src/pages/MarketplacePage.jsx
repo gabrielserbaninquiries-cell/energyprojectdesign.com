@@ -2,6 +2,7 @@
  * Marketplace V7.0 — Vânzări ad-hoc produse/servicii tehnice.
  */
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import AppShell from '../components/AppShell';
 import api from '../lib/api';
@@ -9,6 +10,7 @@ import { toast } from 'sonner';
 import { ShoppingBag, Plus, Search, MapPin, Eye, Heart, Tag, Loader2 } from 'lucide-react';
 
 export default function MarketplacePage() {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState([]);
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -65,7 +67,7 @@ export default function MarketplacePage() {
   };
 
   return (
-    <AppShell title="Marketplace" subtitle="Vânzări ad-hoc · materiale · echipamente · servicii · ștampile · cursuri">
+    <AppShell title={t('marketplace.title')} subtitle={t('marketplace.subtitle')}>
       <div className="mb-6 flex flex-wrap gap-3 items-center" data-testid="marketplace-toolbar">
         <div className="flex-1 min-w-[200px] relative">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />

@@ -53,6 +53,13 @@
 - Add `JobPosting` JSON-LD on `/jobs`
 - Add `Article` JSON-LD for blog (when launched)
 
+### V11.2 — Next-Gen Missions Live (Feb 2026) — COMPLETE
+- ✅ **Voturi Electronice CNP** (`/voturi-cnp`) — pagină de prezentare cu hero gradient violet-indigo, 6 piloni (anonimizare cripto, audit on-chain, GDPR+eIDAS), demo widget interactiv cu mock voting, 6 use cases (referendum, alegeri locale, sondaje publice etc.), cadru legal detaliat, footer CTA waitlist BETA. Testids: `voturi-hero`, `voturi-pillars`, `demo-vote-widget`, `use-cases-grid`.
+- ✅ **Riviera Românească** (`/riviera-romaneasca`) — pagină prezentare cu hero tropical (orange→red→rose gradient), KPIs (54 km plajă, 15 stațiuni, 500K palmieri, 10M+ turiști target), 6 piloni (palmieri, plaje nisip alb, promenadă continuă, festivaluri, prețuri populare, branding global), 15 stațiuni de la Năvodari la Vama Veche, secțiune inspirație (Mykonos, Costa del Sol, Cancun), 5 moduri de implicare, footer CTA donații (1 palmier = 100 RON). Testids: `riviera-hero`, `riviera-pillars`, `statiuni-grid`, `actiune-grid`.
+- ✅ Cardurile NEXT_GEN_MISSIONS din Landing sunt acum **clickable** către rutele cu `route` în `/src/data/services.js` (voturi-cnp + riviera-ro).
+- ✅ **i18n pe Forum + RealEstate + Marketplace** — adăugate cheile `forum.*`, `realestate.*`, `marketplace.*` în toate 5 limbi (RO/EN/FR/DE/ES), aplicat `t()` pe titluri principale + subtitluri + CTAs primare. Restul label-urilor pot fi migrate incremental.
+- ✅ Rute publice noi (fără auth) — accesibile direct prin URL pentru distribuire & SEO.
+
 ### V11.1 Code-Quality Refactor (Feb 2026) — COMPLETE
 - ✅ Circular import broken: extracted shared helpers to `/app/backend/gas_doc_utils.py`. Both `gas_doc_templates.py` and `gas_doc_proiect_complet.py` now import only from `gas_doc_utils` (no cross-imports). Backward-compat preserved via re-exports.
 - ✅ Forum XSS already mitigated — Forum.jsx uses `DOMPurify.sanitize()` with explicit `ALLOWED_TAGS` + `ALLOWED_ATTR` allowlist (lines 13-20). DOMPurify added to package.json.
