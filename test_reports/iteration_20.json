@@ -1,0 +1,57 @@
+{
+  "summary": "V10.8 PASS — Backend 10/10 + Frontend 100% on PREVIEW. Confirmed: (1) Email register with {email,password,name,gdpr_consent:true} → 200 + token + Set-Cookie. (2) Email login (dragosserban95@gmail.com / Nuamparola_9) → 200 + token + Set-Cookie + user with plan. (3) Hybrid Auth Bearer-only on /api/auth/me → 200. (4) Donations LIVE checkout (5 RON) → cs_live_* + checkout.stripe.com URL. (5) Subscription LIVE checkout for plan_id='proiectant' → cs_live_* (origin_url is REQUIRED in payload — see note below). (6) /api/plans public no-auth returns 11 plans including all 6 highlighted; proiectant price>0. (7) SEO meta present on /pricing, /contact, /sponsorizeaza (title + canonical). (8) Frontend Landing without auth: [data-testid='public-plans-section'] visible, [data-testid='plans-grid'] with all 6 public-plan-* cards (trial/basic/operator/proiectant/executant/societate). Proiectant card has POPULAR badge + price 129 + CTA href '/register?plan=proiectant&context=gas'. Title 'Tarife Gaze Naturale' present. 20 landing-service-* cards all have img tags, all 20 images loaded naturally. Gas card has 'PRODUS PRINCIPAL' badge. /sponsorizeaza accessible without login with RON/EUR toggle + preset amounts (25/50/100/250/500/1000 RON) + custom amount + 'Donează 100 RON' CTA.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "tests_executed": [
+    {"id": "BE_REGISTER_NAME_GDPR", "status": "PASS"},
+    {"id": "BE_LOGIN_EXISTING_USER", "status": "PASS"},
+    {"id": "BE_ME_BEARER_ONLY", "status": "PASS"},
+    {"id": "BE_PLANS_PUBLIC_NO_AUTH", "status": "PASS", "detail": "All 6 highlighted plan ids present (trial/basic/operator/proiectant/executant/societate)."},
+    {"id": "BE_PLANS_HAS_PRICES", "status": "PASS", "detail": "proiectant price_eur > 0"},
+    {"id": "BE_DONATIONS_LIVE_5_RON", "status": "PASS", "detail": "cs_live_* + checkout.stripe.com URL"},
+    {"id": "BE_SUBSCRIPTION_LIVE_PROIECTANT", "status": "PASS", "detail": "cs_live_* + checkout.stripe.com URL (after adding required origin_url field)"},
+    {"id": "BE_SEO_PRICING", "status": "PASS"},
+    {"id": "BE_SEO_CONTACT", "status": "PASS"},
+    {"id": "BE_SEO_SPONSORIZEAZA", "status": "PASS"},
+    {"id": "UI_PUBLIC_PLANS_SECTION", "status": "PASS"},
+    {"id": "UI_PLANS_GRID_6_CARDS", "status": "PASS"},
+    {"id": "UI_PROIECTANT_POPULAR_129", "status": "PASS"},
+    {"id": "UI_CTA_REGISTER_PLAN", "status": "PASS", "detail": "href=/register?plan=proiectant&context=gas"},
+    {"id": "UI_LANDING_SERVICE_CARDS_20", "status": "PASS", "detail": "20/20 cards, 20/20 imgs loaded"},
+    {"id": "UI_GAS_PRODUS_PRINCIPAL", "status": "PASS"},
+    {"id": "UI_SPONSORIZEAZA_PUBLIC", "status": "PASS", "detail": "RON/EUR toggle + preset amounts visible without login"}
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_v108_features.py",
+    "/app/test_reports/pytest/v108_results.xml"
+  ],
+  "action_items": [
+    "PRODUCTION (energyprojectdesign.com) issues are NOT reproducible on PREVIEW. The bugs reported by user (login broken, donations not working, plans only after login) all WORK on PREVIEW. Root cause is likely a deployment lag or env-var/CORS mismatch on the production deployment — investigate: (a) is the production frontend pointing to the same REACT_APP_BACKEND_URL that contains these fixes? (b) are STRIPE_API_KEY and MONGO_URL set correctly on production? (c) was the PublicPlansGrid commit deployed to prod? Recommend a re-deploy of frontend+backend bundle to production and a smoke-test using the same /app/backend/tests/test_v108_features.py against energyprojectdesign.com."
+  ],
+  "critical_code_review_comments": [
+    "POST /api/payments/checkout requires field 'origin_url' in body (Pydantic v2 missing field error if absent). The review_request did not mention this — main agent should document this in any frontend caller and confirm the React code sends origin_url=window.location.origin. Worth a sanity check in /app/frontend/src components that call this endpoint.",
+    "Frontend console emits two 401 errors on Landing (no auth) — almost certainly from a pre-emptive /api/auth/me probe in AuthContext. Not a bug, but consider silencing the 401 (it's expected for anon users) by treating 401 as 'not logged in' silently rather than surfacing as a console error. Improves prod observability.",
+    "PublicPlansGrid catches all fetch errors silently (setPlans([])). If /api/plans ever returns 500, the UI shows 'Planurile nu sunt disponibile momentan' with NO error tracking. Consider logging to Sentry/equivalent for prod diagnosability.",
+    "Landing.jsx ACTIVE_SERVICES uses 20 hardcoded Unsplash URLs — these are external dependencies that can break if Unsplash changes URL/photo. Consider self-hosting (or moving to a CDN) the top-N service images to remove a third-party point of failure on the homepage.",
+    "Landing.jsx is approaching the 700-line threshold (770 lines). Consider extracting ACTIVE_SERVICES and FUTURE_SERVICES arrays into a /src/data/services.js module and the services grid into its own component."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v108_features.py (NEW — 10 tests)",
+    "/app/test_reports/pytest/v108_results.xml (NEW)",
+    "/app/test_reports/iteration_20.json"
+  ],
+  "success_rate": {"backend": "100% (10/10)", "frontend": "100% (all required testids verified)"},
+  "test_credentials": "dragosserban95@gmail.com / Nuamparola_9 — from /app/memory/test_credentials.md",
+  "seed_data_creation": "Read-only tests except: (a) one new test_<uuid>@temp.com user created per run via /api/auth/register (cleanup not implemented — recommend periodic prune of TEST_* users); (b) two real Stripe LIVE Checkout Sessions created per run (5 RON donation + proiectant 129 EUR subscription) — both abandoned, no payment captured, operationally harmless but visible in Stripe dashboard.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "PREVIEW backend is 100% healthy on V10.8. The user-reported production bugs are NOT present on PREVIEW — root cause is on the production deployment (separate URL energyprojectdesign.com). Next testing agent should: (1) reuse test_v108_features.py against production URL to confirm which endpoints fail on prod; (2) NOT modify the auth payload signature — register expects {email,password,name,gdpr_consent}, NOT 'full_name'; (3) /api/payments/checkout requires origin_url field (not optional in current Pydantic model). Stripe LIVE works — cs_live_* sessions returned for both donations and subscriptions on preview.",
+  "rca of the issue": "User-reported PRODUCTION bugs (login broken / donations broken / plans only after login) cannot be reproduced on PREVIEW. All flows work end-to-end on https://github-push-test.preview.emergentagent.com. RCA likely: the production deployment at https://energyprojectdesign.com has not been updated with the latest commits (PublicPlansGrid + auth fixes), OR there is an env-var mismatch (Stripe keys, MONGO_URL, CORS origin allowlist not including www.energyprojectdesign.com). Mitigation: (1) re-deploy frontend+backend to production with current preview build; (2) verify .env on prod matches preview for STRIPE_API_KEY, MONGO_URL, and CORS_ORIGINS; (3) run /app/backend/tests/test_v108_features.py with BASE_URL=https://energyprojectdesign.com to pinpoint the failing endpoint(s) on production."
+}
