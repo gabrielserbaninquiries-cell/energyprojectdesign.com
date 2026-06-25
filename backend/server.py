@@ -3153,8 +3153,60 @@ async def on_startup():
             {"email": {"$in": list(DEVELOPER_EMAILS)}},
             {"$set": {"is_developer": True, "plan": "developer"}},
         )
+        # V11.5 — Idempotent owner account seed (works on preview + production)
+        # Ensures dragosserban95@gmail.com login works on EVERY deployment with
+        # the password set in OWNER_PASSWORD env var. Fixes the user's complaint
+        # that login fails on production because the user does not exist there.
+        await _seed_owner_account()
     except Exception as e:
         logger.warning(f"Startup seed failed: {e}")
+
+
+async def _seed_owner_account():
+    """V11.5 — Ensure owner account exists with current OWNER_PASSWORD.
+
+    - If user does not exist: create with OWNER_PASSWORD (bcrypt hashed)
+    - If user exists and password mismatches: update hash to OWNER_PASSWORD
+    - If user exists and password matches: only ensure admin/developer/plan flags
+    Idempotent — safe to run on every startup.
+    """
+    from auth import hash_password, verify_password
+    owner_email = (os.environ.get("OWNER_EMAIL") or "").strip().lower()
+    owner_password = os.environ.get("OWNER_PASSWORD") or ""
+    if not owner_email or not owner_password:
+        logger.info("Owner seed skipped: OWNER_EMAIL/OWNER_PASSWORD not set.")
+        return
+    owner_name = os.environ.get("OWNER_NAME") or owner_email.split("@")[0].title()
+    existing = await db.users.find_one({"email": owner_email}, {"_id": 0})
+    now = datetime.now(timezone.utc).isoformat()
+    admin_flags = {
+        "is_admin": True,
+        "is_developer": True,
+        "is_society_admin": True,
+        "plan": "society_admin",
+        "gdpr_consent": True,
+    }
+    if existing is None:
+        await db.users.insert_one({
+            "user_id": new_id("usr_"),
+            "email": owner_email,
+            "name": owner_name,
+            "company": "Energy Project Design S.R.L.",
+            "picture": None,
+            "auth_provider": "email",
+            "plan_renews_at": None,
+            "gdpr_consent_at": now,
+            "password_hash": hash_password(owner_password),
+            "created_at": now,
+            **admin_flags,
+        })
+        logger.info(f"Owner account seeded: {owner_email}")
+    else:
+        update_fields = dict(admin_flags)
+        if not existing.get("password_hash") or not verify_password(owner_password, existing["password_hash"]):
+            update_fields["password_hash"] = hash_password(owner_password)
+            logger.info(f"Owner password hash refreshed: {owner_email}")
+        await db.users.update_one({"email": owner_email}, {"$set": update_fields})
 
 
 @app.on_event("shutdown")

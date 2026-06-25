@@ -112,6 +112,7 @@ PAGES: List[Dict[str, Any]] = [
     # ====================== CONT (toți) ======================
     {"key": "company",      "path": "/company",               "label": "Profil societate",   "icon": "Building2",     "department": "cont", "allowed_plans": ALL_AUTHENTICATED, "tid": "nav-company"},
     {"key": "plans",        "path": "/planuri-departamente",  "label": "Planuri & departamente","icon": "CreditCard", "department": "cont", "allowed_plans": ALL_AUTHENTICATED, "tid": "nav-plans"},
+    {"key": "billing",      "path": "/billing",               "label": "Facturare & istoric plăți","icon": "Receipt", "department": "cont", "allowed_plans": ALL_AUTHENTICATED, "tid": "nav-billing"},
     {"key": "settings",     "path": "/settings",              "label": "Setări",             "icon": "Settings",      "department": "cont", "allowed_plans": ALL_AUTHENTICATED, "tid": "nav-settings"},
 ]
 

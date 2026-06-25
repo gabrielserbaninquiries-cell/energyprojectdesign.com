@@ -1,18 +1,20 @@
-# Energy Project Design — Test Credentials (V10.2)
+# Energy Project Design — Test Credentials (V11.5)
 
-Last updated: 2026-06-21 (V10.2 — focus Gaze Naturale + credentials reset)
+Last updated: 2026-06-25 (V11.5 — IDEMPOTENT OWNER SEED activat pe startup)
 
 ## 🔑 PAROLA ACTUALĂ (folosește email/parolă, NU Google login)
 
 - **Email:** `dragosserban95@gmail.com`
-- **Parolă NOUĂ:** `Nuamparola_9`
+- **Parolă:** `Nuamparola_9`
 - **Plan:** `society_admin` (proprietar platformă)
 - **Roluri:** `is_admin=True`, `is_society_admin=True`, `is_developer=True`
 
+**V11.5 NOU**: Contul owner este acum **seed-uit automat pe startup-ul backend-ului** (pe ORICE environment — preview SAU production). Asta înseamnă că DUPĂ DEPLOY pe `https://www.energyprojectdesign.com`, login-ul cu credențialele de mai sus va funcționa automat. Sursa: env vars `OWNER_EMAIL` + `OWNER_PASSWORD` din `/app/backend/.env`, citite în `server.py::_seed_owner_account()`.
+
 **IMPORTANT**: Contul tău este creat cu EMAIL + PAROLĂ în baza de date. NU este conectat la Google OAuth. Butonul "Continue cu Google" creează un cont SEPARAT (chiar dacă email-ul coincide), de aceea ai fost redirecționat la un cont diferit. **Folosește mereu butonul "Autentificare EPD"** (formularul cu email + parolă) — NU butonul Google.
 
-## Live preview URL
-- Preview: `https://github-push-test.preview.emergentagent.com`
+## Live URLs
+- Preview (dezvoltare): `https://github-push-test.preview.emergentagent.com`
 - Production (deployed): `https://github-push-test.emergent.host`
 - **Target final** (după DNS switch): `https://www.energyprojectdesign.com`
 

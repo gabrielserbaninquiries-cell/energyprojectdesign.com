@@ -26,7 +26,8 @@ import { toast } from 'sonner';
 import {
   ArrowLeft, Save, Send, Download, FileText, Calculator, Package,
   CheckCircle2, AlertCircle, Loader2, FileSignature, Settings,
-  Flame, GitBranch, Home, Sparkles, ChevronRight,
+  Flame, GitBranch, Home, Sparkles, ChevronRight, FolderOpen, Plus,
+  Clock, Trash2,
 } from 'lucide-react';
 
 import GasGeneralDataSection from '../components/gas/GasGeneralDataSection';
@@ -62,6 +63,9 @@ export default function GasNaturalStudio() {
   const { t } = useTranslation();
 
   const [pid, setPid] = useState(paramId || null);
+  const [savedProjects, setSavedProjects] = useState([]);
+  const [showProjectPicker, setShowProjectPicker] = useState(!paramId);
+  const [lastSavedAt, setLastSavedAt] = useState(null);
   const [data, setData] = useState(() => {
     // Try load saved template
     try {
@@ -105,6 +109,53 @@ export default function GasNaturalStudio() {
     })();
   }, [pid]);
 
+  // V11.5 — Load saved Gas projects list (for picker / resume)
+  const loadSavedProjects = useCallback(async () => {
+    try {
+      const r = await api.get('/gas-project');
+      const list = Array.isArray(r.data) ? r.data : [];
+      setSavedProjects(list.filter(p => !p.deleted));
+    } catch (err) {
+      console.warn('Saved projects load failed:', err);
+    }
+  }, []);
+
+  useEffect(() => { loadSavedProjects(); }, [loadSavedProjects]);
+
+  const openSavedProject = useCallback((selectedPid) => {
+    setPid(selectedPid);
+    setShowProjectPicker(false);
+    nav(`/gaze-naturale/${selectedPid}`, { replace: false });
+  }, [nav]);
+
+  const startNewProject = useCallback(() => {
+    setPid(null);
+    setShowProjectPicker(false);
+    setData({
+      tip_lucrare: 'bransament',
+      osd_nume: 'Distrigaz Sud Rețele S.R.L.',
+      bransament: { material: 'PE', diametru_dn: 'PE 32', lungime_m: 4, consumatori: [] },
+      extindere: { material: 'PE', dn_proiectat: 'PE 63', lungime_totala_m: 50, n_bransamente: 0, bransamente: [] },
+      instalatie: { tip: 'IUGN nouă', imobil_tip: 'casă la curte', consumatori: [], camere: [], fittinguri: [], robineti: [], electrovalve: [] },
+      avize: [],
+      cu_lista: [],
+    });
+    nav('/gaze-naturale', { replace: false });
+  }, [nav]);
+
+  const deleteSavedProject = useCallback(async (deletePid, e) => {
+    e.stopPropagation();
+    if (!window.confirm('Ștergeți proiectul definitiv?')) return;
+    try {
+      await api.delete(`/gas-project/${deletePid}`);
+      toast.success('Proiect șters');
+      await loadSavedProjects();
+      if (pid === deletePid) startNewProject();
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Eroare la ștergere');
+    }
+  }, [pid, loadSavedProjects, startNewProject]);
+
   const updateData = useCallback((patch) => {
     setData(prev => ({ ...prev, ...patch }));
   }, []);
@@ -144,6 +195,8 @@ export default function GasNaturalStudio() {
           nav(`/gaze-naturale/${r.data.pid}`, { replace: true });
         }
       }
+      setLastSavedAt(new Date());
+      loadSavedProjects();
     } catch (err) {
       toast.error(err.response?.data?.detail || 'Eroare la salvare');
     } finally {
@@ -204,6 +257,72 @@ export default function GasNaturalStudio() {
 
   return (
     <AppShell title="Studio Gaze Naturale">
+      {/* V11.5 — Project Picker Modal (visible when no pid + user has saved projects) */}
+      {showProjectPicker && savedProjects.length > 0 && (
+        <div className="mb-6 bg-white border border-violet-200 rounded-2xl p-6 shadow-lg" data-testid="gas-project-picker">
+          <div className="flex items-start justify-between gap-4 mb-4">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 mb-1.5">// Continuați un proiect existent</div>
+              <h2 className="text-xl font-bold tracking-tight text-slate-900">Aveți {savedProjects.length} proiect{savedProjects.length === 1 ? '' : 'e'} salvat{savedProjects.length === 1 ? '' : 'e'}</h2>
+              <p className="text-sm text-slate-500 mt-1">Reluați un proiect început sau creați unul nou.</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={startNewProject}
+                className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg font-semibold text-sm flex items-center gap-2 shadow-md transition-all"
+                data-testid="new-gas-project-btn"
+              >
+                <Plus className="w-4 h-4" /> Proiect nou
+              </button>
+              <button
+                onClick={() => setShowProjectPicker(false)}
+                className="px-3 py-2 text-slate-500 hover:text-slate-900 text-sm"
+                data-testid="dismiss-picker-btn"
+              >
+                Închide
+              </button>
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto">
+            {savedProjects.slice(0, 12).map((proj) => {
+              const updatedDate = proj.updated_at ? new Date(proj.updated_at) : null;
+              const dateStr = updatedDate ? updatedDate.toLocaleDateString('ro-RO', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+              return (
+                <button
+                  key={proj.pid}
+                  onClick={() => openSavedProject(proj.pid)}
+                  className="group relative text-left p-4 bg-gradient-to-br from-slate-50 to-violet-50 hover:from-violet-50 hover:to-indigo-50 border border-slate-200 hover:border-violet-400 rounded-xl transition-all"
+                  data-testid={`saved-project-${proj.pid}`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white shrink-0">
+                      <FolderOpen className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-sm text-slate-900 truncate">{proj.title || 'Proiect fără titlu'}</div>
+                      <div className="text-[11px] text-slate-500 mt-0.5 flex items-center gap-1.5">
+                        <Clock className="w-3 h-3" /> {dateStr}
+                      </div>
+                      <div className="text-[10px] text-violet-700 mt-1 uppercase tracking-wider">{proj.data?.tip_lucrare || 'branșament'} · {proj.status || 'draft'}</div>
+                    </div>
+                  </div>
+                  <span
+                    onClick={(e) => deleteSavedProject(proj.pid, e)}
+                    className="absolute top-2 right-2 p-1.5 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') deleteSavedProject(proj.pid, e); }}
+                    data-testid={`delete-project-${proj.pid}`}
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Premium header with gradient */}
       <div className="relative mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-700 via-indigo-700 to-blue-800 p-8 text-white shadow-2xl" data-testid="gas-studio-header">
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(168,85,247,0.3) 0%, transparent 50%)' }} />
@@ -237,16 +356,34 @@ export default function GasNaturalStudio() {
                 data-testid="save-project-btn"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                Salvează
+                {pid ? 'Salvează' : 'Creează proiect'}
               </button>
-              <button
-                onClick={saveAsTemplate}
-                className="px-4 py-1.5 bg-violet-900/40 hover:bg-violet-900/60 border border-white/20 backdrop-blur rounded-lg font-medium text-xs flex items-center gap-2 transition-all"
-                data-testid="save-template-btn"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                Salvează ca template implicit
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowProjectPicker(true)}
+                  className="flex-1 px-3 py-1.5 bg-violet-900/40 hover:bg-violet-900/60 border border-white/20 backdrop-blur rounded-lg font-medium text-xs flex items-center gap-2 transition-all"
+                  data-testid="open-projects-picker-btn"
+                  title="Vezi proiectele salvate"
+                >
+                  <FolderOpen className="w-3.5 h-3.5" />
+                  Proiectele mele ({savedProjects.length})
+                </button>
+                <button
+                  onClick={saveAsTemplate}
+                  className="px-3 py-1.5 bg-violet-900/40 hover:bg-violet-900/60 border border-white/20 backdrop-blur rounded-lg font-medium text-xs flex items-center gap-2 transition-all"
+                  data-testid="save-template-btn"
+                  title="Salvează valorile curente ca template implicit"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Template
+                </button>
+              </div>
+              {lastSavedAt && (
+                <div className="text-[10px] text-violet-200 flex items-center gap-1" data-testid="last-saved-indicator">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-300" />
+                  Salvat la {lastSavedAt.toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' })}
+                </div>
+              )}
             </div>
           </div>
         </div>
