@@ -12,6 +12,7 @@ from fastapi import APIRouter, Depends
 from datetime import datetime, timezone, timedelta
 from typing import Optional
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -29,15 +30,29 @@ def register_transparenta_routes(app, db, get_current_user_optional=None):
         Refresh manual prin re-fetch.
         """
         try:
-            # Counts agregate — fără PII
-            total_users = await db.users.count_documents({})
-            total_projects = await db.gas_projects.count_documents({"deleted": {"$ne": True}})
-            total_documents = await db.documents.count_documents({})
+            # Counts agregate — fără PII și fără date de test (developer/admin)
+            # Owner & developer-marked projects sunt excluse din statistici publice
+            owner_emails_excluded = {(os.environ.get("OWNER_EMAIL") or "").lower(), "dragosserban95@gmail.com"}
+            owner_emails_excluded.discard("")
+            owner_users = []
+            async for ou in db.users.find({"email": {"$in": list(owner_emails_excluded)}}, {"user_id": 1, "email": 1}):
+                owner_users.append(ou.get("user_id"))
+
+            total_users = await db.users.count_documents({"email": {"$nin": list(owner_emails_excluded)}})
+            total_projects = await db.gas_projects.count_documents({
+                "deleted": {"$ne": True},
+                "is_test_developer": {"$ne": True},
+                "owner_id": {"$nin": owner_users},
+            })
+            total_documents = await db.documents.count_documents({
+                "user_id": {"$nin": owner_users},
+                "is_test": {"$ne": True},
+            })
             total_templates = await db.templates.count_documents({}) + await db.system_templates.count_documents({})
             total_donations = await db.donations.count_documents({"status": {"$in": ["paid", "complete", "succeeded"]}})
             total_donations_initiated = await db.donations.count_documents({})
             total_transactions = await db.payment_transactions.count_documents({"status": {"$in": ["complete", "paid", "succeeded"]}})
-            total_stamps = await db.stamps.count_documents({})
+            total_stamps = await db.stamps.count_documents({"user_id": {"$nin": owner_users}})
 
             # Donations: sumă totală RON + EUR (doar completate)
             donations_ron = 0.0
@@ -51,11 +66,13 @@ def register_transparenta_routes(app, db, get_current_user_optional=None):
                 elif cur == "eur":
                     donations_eur += amt
 
-            # Project activity in last 30 days
+            # Project activity in last 30 days (exclude test/developer projects)
             since_30d = datetime.now(timezone.utc) - timedelta(days=30)
             active_projects_30d = await db.gas_projects.count_documents({
                 "updated_at": {"$gte": since_30d.isoformat()},
                 "deleted": {"$ne": True},
+                "is_test_developer": {"$ne": True},
+                "owner_id": {"$nin": owner_users},
             })
 
             # Plans distribution (anonymous)

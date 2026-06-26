@@ -257,38 +257,29 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* V10.6 — VISION BANNER (user-supplied hero image) */}
-      <section className="relative bg-slate-900 overflow-hidden" data-testid="vision-banner">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/0 via-slate-900/0 to-slate-900/60 pointer-events-none z-10" />
-        <img
-          src="/branding/epd_hero_banner.png"
-          alt="Energy Project Design — Platforma nr. 1 în lume, multifuncțională pentru toate tipurile de energie, infrastructuri, transport, construcții, retail și multe altele"
-          loading="lazy"
-          className="w-full h-auto block"
-        />
-        <div className="absolute bottom-0 left-0 right-0 z-20 px-6 lg:px-12 py-6 lg:py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-violet-300 font-bold mb-2">// Misiunea EPD · The Architects of Future Global Technology</div>
-            <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
-              <span className="text-amber-300">Platforma nr. 1 în lume</span>, multifuncțională
-            </h2>
-            <p className="text-base lg:text-lg text-slate-300 mt-3 max-w-3xl">
-              Pentru toate tipurile de energie, infrastructuri, transport, construcții, retail,
-              aviație, spațial — și multe altele. Inovație · Sustenabilitate · Tehnologie · Excelență · Încredere.
-            </p>
-          </div>
+      {/* V11.9 — VISION BANNER (text only; image removed per user request) */}
+      <section className="relative bg-gradient-to-br from-slate-900 via-violet-950 to-indigo-950 overflow-hidden py-16 lg:py-20" data-testid="vision-banner">
+        <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(168,85,247,0.4) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(251,191,36,0.2) 0%, transparent 50%)' }} />
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="text-[10px] uppercase tracking-[0.3em] text-violet-300 font-bold mb-3">// Misiunea EPD · The Architects of Future Global Technology</div>
+          <h2 className="text-3xl lg:text-5xl font-bold text-white tracking-tight">
+            <span className="text-amber-300">Platforma nr. 1 în lume</span>, multifuncțională
+          </h2>
+          <p className="text-base lg:text-lg text-slate-300 mt-3 max-w-3xl">
+            Pentru toate tipurile de energie, infrastructuri, transport, construcții, retail,
+            aviație, spațial — și multe altele. Inovație · Sustenabilitate · Tehnologie · Excelență · Încredere.
+          </p>
         </div>
       </section>
 
       {/* PRODUS PRINCIPAL — Gaze Naturale (deasupra tuturor) */}
       <section id="main-product" className="py-24 bg-gradient-to-b from-white via-violet-50/30 to-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-4">
-                <span className="w-8 h-px bg-violet-600" />
-                Produs principal · operațional 100%
-              </div>
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-4">
+              <span className="w-8 h-px bg-violet-600" />
+              Produs principal · operațional 100%
+            </div>
               <h2 className="text-4xl lg:text-5xl font-bold tracking-tighter leading-[1.05] mb-5 text-slate-900">
                 Documentație tehnică electronică <span className="epd-gradient-text">Gaze Naturale</span>
               </h2>
@@ -318,25 +309,8 @@ export default function Landing() {
                   <Flame className="w-4 h-4" /> Începe primul proiect (5 gratuit)
                 </Link>
                 <Link to="/pricing" className="outline-btn" data-testid="main-product-pricing">Planuri și tarife</Link>
+                <Link to="/transparenta" className="text-sm text-slate-500 hover:text-violet-700 inline-flex items-center gap-1 font-semibold">📊 Vezi cifre live</Link>
               </div>
-            </div>
-
-            <div className="lg:col-span-5">
-              <div className="relative">
-                <div className="aspect-[4/5] overflow-hidden rounded-xl border border-slate-200 epd-shadow-lg">
-                  <img src={BRAND_ASSETS.cover3Office} alt="EPD office — proiectare gaze naturale" className="w-full h-full object-cover" />
-                </div>
-                <div className="absolute -bottom-5 -left-5 bg-white border border-slate-200 p-5 rounded-lg epd-shadow max-w-[280px]">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                    <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Document semnat</div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm font-semibold text-slate-900"><Check className="w-4 h-4 text-emerald-500" /> Semnătură PKI QES</div>
-                  <div className="text-xs text-slate-500 mt-1 font-mono">SHA-256: a3f1…b9e4</div>
-                  <div className="mt-3 pt-3 border-t border-slate-100 text-[10px] uppercase tracking-wider text-violet-600 font-semibold">eIDAS conform</div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -465,13 +439,19 @@ export default function Landing() {
               <div className="text-[10px] uppercase tracking-wider text-slate-500">servicii viitoare</div>
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3" data-testid="roadmap-grid">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" data-testid="roadmap-grid">
             {FUTURE_SERVICES.map((s) => (
-              <div key={s.id} className="bg-white border border-slate-200 hover:border-violet-300 hover:shadow-sm p-4 rounded-lg transition-all group" data-testid={`roadmap-${s.id}`}>
-                <div className="w-7 h-7 rounded-md epd-gradient mb-3 opacity-80 group-hover:opacity-100 transition-opacity" />
-                <div className="text-xs font-bold leading-tight mb-1 text-slate-900">{s.label}</div>
-                <div className="text-[10px] text-slate-500 leading-snug">{s.desc}</div>
-                <div className="text-[9px] uppercase tracking-wider text-violet-500 font-semibold mt-3">În roadmap</div>
+              <div key={s.id} className="bg-white border border-slate-200 hover:border-violet-300 hover:shadow-md rounded-xl overflow-hidden transition-all group" data-testid={`roadmap-${s.id}`}>
+                {s.image && (
+                  <div className="aspect-[16/10] overflow-hidden bg-slate-100">
+                    <img src={s.image} alt={s.label} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                )}
+                <div className="p-4">
+                  <div className="text-sm font-bold leading-tight mb-1 text-slate-900">{s.label}</div>
+                  <div className="text-[11px] text-slate-500 leading-snug line-clamp-2">{s.desc}</div>
+                  <div className="text-[9px] uppercase tracking-wider text-violet-500 font-semibold mt-3">În roadmap</div>
+                </div>
               </div>
             ))}
           </div>
