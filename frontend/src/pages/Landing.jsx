@@ -180,6 +180,7 @@ export default function Landing() {
             <Link to="/sponsorizeaza" className="text-fuchsia-600 hover:text-fuchsia-800 transition-colors font-semibold" data-testid="nav-sponsor">♥ Donații</Link>
             <Link to="/contact" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-contact">Contact</Link>
             <Link to="/pricing" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-pricing">Tarife</Link>
+            <Link to="/transparenta" className="text-emerald-600 hover:text-emerald-800 transition-colors font-semibold" data-testid="nav-transparenta">📊 Transparență</Link>
           </nav>
           <div className="flex items-center gap-2">
             {/* V11.0 — Google Translate REAL engine (100+ limbi, motor live) */}

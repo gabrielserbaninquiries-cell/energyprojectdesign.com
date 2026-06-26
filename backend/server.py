@@ -2794,6 +2794,10 @@ async def gas_materials_catalog(q: str = "", tip: str = "", limit: int = 200):
 
 app.include_router(_gas_mat_api)
 
+# V11.8 — Transparență publică (cifre reale din DB)
+from transparenta_routes import register_transparenta_routes
+register_transparenta_routes(app, db)
+
 
 @_pr_api.get("/coverage/{pid}")
 async def get_coverage(pid: str, user=_Dep(_gcu)):
