@@ -1,15 +1,15 @@
 /**
- * Riviera Românească — pagină de prezentare misiune EPD V11.2
+ * Riviera Românească — pagină de prezentare misiune EPD V11.9
  *
- * Concept: transformarea litoralului românesc într-o destinație turistică
- * globală — cea mai extinsă plajă națională, cu tradiție românească,
- * prețuri accesibile și ambianță tropicală.
+ * Concept: modernizarea reală a litoralului Mării Negre — infrastructură
+ * contemporană, vegetație autohtonă rezistentă, identitate carpato-pontică.
+ * NU concurență cu Grecia/Bulgaria — re-aducerea turismului românesc acasă.
  *
  * Statut: VISIUNE — site de prezentare/advocacy pentru a strânge susținere.
  */
 import { Link } from 'react-router-dom';
 import {
-  Waves, Palmtree, MapPin, Sun, Sparkles, ArrowRight, CheckCircle2,
+  Waves, TreePine, MapPin, Sun, Sparkles, ArrowRight, CheckCircle2,
   Users, TrendingUp, Heart, Globe2, Camera, Building2, Music,
 } from 'lucide-react';
 import EPDLogo from '../components/EPDLogo';
@@ -22,41 +22,41 @@ const STATIUNI = [
   { id: 'eforie-nord', nume: 'Eforie Nord', km: 5, desc: 'Tratamente cu nămol terapeutic — wellness și SPA tradițional.' },
   { id: 'eforie-sud', nume: 'Eforie Sud', km: 4, desc: 'Plajă liniștită, ideală pentru relaxare departe de aglomerație.' },
   { id: 'costinesti', nume: 'Costinești', km: 3, desc: 'Stațiunea tineretului — festivaluri, evenimente și prețuri populare.' },
-  { id: 'olimp', nume: 'Olimp', km: 2, desc: 'Resort-uri de lux pe falezele albe, vedere panoramică.' },
+  { id: 'olimp', nume: 'Olimp', km: 2, desc: 'Resort-uri pe falezele înalte, vedere panoramică spre mare.' },
   { id: 'neptun', nume: 'Neptun', km: 2, desc: 'Eleganță retro + parcuri umbroase și lacuri pitorești.' },
-  { id: 'jupiter', nume: 'Jupiter', km: 2, desc: 'Promenadă cu palmieri + restaurante tradiționale.' },
-  { id: 'aurora', nume: 'Aurora', km: 1, desc: 'Stațiune compactă, perfectă pentru sejururi all-inclusive.' },
-  { id: 'venus', nume: 'Venus', km: 2, desc: 'Hoteluri retro renovate, atmosferă de epocă.' },
-  { id: 'saturn', nume: 'Saturn', km: 2, desc: 'Aproape de Mangalia, plajă spațioasă și ieftină.' },
-  { id: 'mangalia', nume: 'Mangalia', km: 4, desc: 'Cel mai sudic punct — arheologie, monumente și plaje sălbatice.' },
-  { id: '2-mai', nume: '2 Mai', km: 4, desc: 'Faimoasă pentru atmosfera boho-tradițională și gastronomia locală.' },
+  { id: 'jupiter', nume: 'Jupiter', km: 2, desc: 'Promenadă cu vegetație autohtonă + restaurante tradiționale dobrogene.' },
+  { id: 'aurora', nume: 'Aurora', km: 1, desc: 'Stațiune compactă, perfectă pentru sejururi familiale.' },
+  { id: 'venus', nume: 'Venus', km: 2, desc: 'Hoteluri retro renovate, atmosferă autentic românească.' },
+  { id: 'saturn', nume: 'Saturn', km: 2, desc: 'Aproape de Mangalia, plajă spațioasă și prețuri accesibile.' },
+  { id: 'mangalia', nume: 'Mangalia', km: 4, desc: 'Cel mai sudic punct — arheologie, monumente Callatis și plaje sălbatice.' },
+  { id: '2-mai', nume: '2 Mai', km: 4, desc: 'Faimoasă pentru atmosfera autentic boemă și gastronomia pescărească dobrogeană.' },
   { id: 'vama-veche', nume: 'Vama Veche', km: 3, desc: 'Iconic — muzică live, libertate și plajă naturistă.' },
 ];
 
 const TOTAL_KM = STATIUNI.reduce((a, s) => a + s.km, 0);
 
 const PILLARS = [
-  { icon: Palmtree, label: '500.000 palmieri plantați', desc: 'Pe toată lungimea litoralului — palmieri robustí adaptați climei pontice (Trachycarpus, Chamaerops). Ambianță mediteraneană în România.' },
-  { icon: Waves, label: 'Plaje cu nisip alb', desc: 'Hrănire artificială cu nisip importat (model: Marbella, Cancun). 60+ km de plajă continuă, lățime medie 80m.' },
-  { icon: Building2, label: 'Promenada continuă', desc: 'Drum pietonal continuu, cu piste de bicicletă și scaune înclinate. De la Vadu la Vama Veche — fără întreruperi.' },
-  { icon: Music, label: 'Festivaluri săptămânale', desc: 'Evenimente culturale în fiecare stațiune: folclor românesc, concerte rock, DJ-uri internaționali, târguri tradiționale.' },
-  { icon: Heart, label: 'Prețuri populare', desc: 'Cazare începând de la 50 RON/noapte, restaurante &lt; 30 RON/meniu. Misiunea: vacanță accesibilă pentru toți românii și turiștii străini.' },
-  { icon: Globe2, label: 'Branding global', desc: 'Campanie internațională „Riviera Românească" — partener cu hoteluri 4-5 stele, blogger-i de călătorie, agenții TUI/Booking.' },
+  { icon: TreePine, label: 'Vegetație autohtonă rezistentă', desc: 'Salcâmi galbeni, sălcii argintii, oțetar, plopi piramidali, tamarix (saramurar) și măsline ornamentale rezistente la -20°C — toate adaptate climei pontice. Fără palmieri tropicali artificiali care nu supraviețuiesc iernii.' },
+  { icon: Waves, label: 'Reabilitare plaje cu nisip dobrogean', desc: 'Hrănire artificială cu nisip din depozitele Dobrogei (nu importat). Lățime medie 80m. 60+ km plajă continuă reabilitată profesional, cu protecție anti-eroziune.' },
+  { icon: Building2, label: 'Promenadă continuă modernă', desc: 'Drum pietonal continuu Năvodari ↔ Vama Veche, cu piste bicicletă, lampadare LED și mobilier urban contemporan. Inspirat din promenadele atlantice (San Sebastián, Cádiz) — adaptat realității românești.' },
+  { icon: Music, label: 'Cultură autentic românească', desc: 'Festivaluri folclorice dobrogene, concerte ale artiștilor români, târguri de meșteșuguri locale, gastronomie pescărească. NU copiem alte destinații — exportăm identitatea noastră.' },
+  { icon: Heart, label: 'Prețuri accesibile românilor', desc: 'Cazare standard de la 120 RON/noapte (camping → 50 RON/noapte). Restaurante 40-60 RON/meniu cu specific dobrogean. Țintă: vacanță reală pentru familiile române cu venit mediu.' },
+  { icon: Globe2, label: 'Re-aducere turism românesc acasă', desc: 'Misiunea NU este să furăm clienți din Grecia, Bulgaria sau Turcia. Misiunea ESTE să convingem românii să-și petreacă vacanța în țara lor. Doar după aceea — invitație pentru străini care vor autenticitate carpato-pontică.' },
 ];
 
 const KPIS = [
-  { label: 'km de plajă', value: TOTAL_KM, unit: 'km' },
-  { label: 'stațiuni unite', value: STATIUNI.length, unit: '' },
-  { label: 'palmieri planificați', value: '500K', unit: '' },
-  { label: 'turiști target / an', value: '10M+', unit: '' },
+  { label: 'km plajă reabilitată', value: TOTAL_KM, unit: 'km' },
+  { label: 'stațiuni modernizate', value: STATIUNI.length, unit: '' },
+  { label: 'investiție estimată', value: '€2,8B', unit: '' },
+  { label: 'orizont realizare', value: '15 ani', unit: '' },
 ];
 
 export default function RivieraRomaneasca() {
   useSEO({
-    title: 'Riviera Românească · Litoralul Mării Negre — Energy Project Design',
-    description: 'Misiunea EPD: transformarea litoralului românesc într-o destinație turistică globală — 64 km plajă continuă, 500.000 palmieri, prețuri populare, tradiție românească. Vacanță de neuitat la Marea Neagră.',
+    title: 'Riviera Românească · Renașterea litoralului Mării Negre — Energy Project Design',
+    description: 'Misiunea EPD: modernizarea reală a litoralului românesc — 64 km plajă reabilitată, vegetație autohtonă rezistentă, infrastructură contemporană. Re-aducerea turismului românesc acasă, nu concurență cu alte țări.',
     canonical: 'https://www.energyprojectdesign.com/riviera-romaneasca',
-    keywords: 'riviera romaneasca, litoral romanesc, marea neagra, plaja romania, vacanta romania, vama veche, mamaia, constanta, eforie, neptun, mangalia, EPD',
+    keywords: 'riviera romaneasca, litoral romanesc, modernizare litoral, marea neagra, turism romania, vama veche, mamaia, constanta, eforie, neptun, mangalia, EPD',
     breadcrumbs: [
       { name: 'Acasă', url: '/' },
       { name: 'Misiuni EPD', url: '/#next-gen' },
@@ -102,13 +102,13 @@ export default function RivieraRomaneasca() {
           </div>
           <h1 className="text-4xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-5">
             Riviera Românească. <br />
-            <span className="text-amber-100">64 km de plajă. Tradiție. Magie.</span>
+            <span className="text-amber-100">Modernizare reală. Autenticitate.</span>
           </h1>
           <p className="text-amber-50/90 text-base md:text-xl max-w-3xl mb-8 leading-relaxed">
-            Transformăm litoralul Mării Negre — de la Vadu la Vama Veche — în cea mai extinsă plajă turistică
-            națională din Europa de Est. <strong>500.000 de palmieri plantați</strong>, promenadă continuă,
-            ambianță tradițional românească și prețuri accesibile pentru toată lumea. O destinație globală
-            de vacanță. <strong>O misiune EPD.</strong>
+            Reabilitarea litoralului Mării Negre — de la Năvodari la Vama Veche — într-un standard contemporan, cu
+            <strong> vegetație autohtonă rezistentă</strong>, infrastructură nouă și identitate carpato-pontică.
+            <strong> NU vrem să furăm clienți</strong> din Grecia, Bulgaria sau Turcia. <strong>Vrem românii înapoi
+            acasă</strong>, într-o destinație în care merită să-și petreacă vacanța. <strong>O misiune EPD.</strong>
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <a href="#statiuni" className="px-6 py-3 bg-white text-orange-600 hover:bg-amber-50 rounded-lg font-bold text-sm flex items-center gap-2 shadow-2xl transition-all" data-testid="cta-statiuni">
@@ -161,7 +161,7 @@ export default function RivieraRomaneasca() {
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Riviera completă, de la Năvodari la Vama Veche.</h2>
             <p className="text-slate-600 mt-3 max-w-2xl mx-auto">
               Fiecare stațiune își păstrează identitatea unică, dar toate sunt unite prin promenada de
-              {' '}<strong>{TOTAL_KM} km</strong>, palmieri și un standard comun de calitate &bdquo;Riviera&rdquo;.
+              {' '}<strong>{TOTAL_KM} km</strong>, vegetație autohtonă și un standard comun de calitate „Riviera&rdquo;.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" data-testid="statiuni-grid">
@@ -181,28 +181,39 @@ export default function RivieraRomaneasca() {
         </div>
       </section>
 
-      {/* Inspirația */}
+      {/* Inspirația — lecții urbanistice, NU copii */}
       <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, rgba(251,191,36,0.4) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(244,63,94,0.3) 0%, transparent 50%)' }} />
         <div className="relative max-w-5xl mx-auto px-6">
-          <div className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-bold mb-3">// Inspirația</div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 max-w-3xl">Inspirat din cele mai iubite destinații ale lumii.</h2>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-bold mb-3">// Lecții urbanistice — nu copii de stil</div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 max-w-3xl">Studii de caz internaționale, identitate românească.</h2>
+          <p className="text-slate-300 mb-8 max-w-3xl">
+            Studiem ce a funcționat altundeva — în infrastructură, accesibilitate, durabilitate.
+            Stilul, gastronomia, vegetația și cultura rămân <strong className="text-amber-200">100% românești</strong>.
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="p-5 bg-white/5 backdrop-blur border border-white/10 rounded-xl">
-              <div className="text-2xl mb-2">🇬🇷 Mykonos &amp; Santorini</div>
-              <div className="text-sm text-slate-300 leading-relaxed">Arhitectura albă, palmieri și taverne tradiționale — adaptate stilului românesc.</div>            </div>
-            <div className="p-5 bg-white/5 backdrop-blur border border-white/10 rounded-xl">
-              <div className="text-2xl mb-2">🇪🇸 Costa del Sol</div>
-              <div className="text-sm text-slate-300 leading-relaxed">Promenada continuă cu plaje, restaurante și acces public — modelul Marbella aplicat la litoral.</div>
+              <div className="text-2xl mb-2">🇪🇸 Costa del Sol — lecție:</div>
+              <div className="text-sm text-slate-300 leading-relaxed">Promenadă pietonală continuă + acces public neîntrerupt la plajă. Aplicăm modelul Marbella; estetica rămâne dobrogeană.</div>
             </div>
             <div className="p-5 bg-white/5 backdrop-blur border border-white/10 rounded-xl">
-              <div className="text-2xl mb-2">🇲🇽 Cancun &amp; Riviera Maya</div>
-              <div className="text-sm text-slate-300 leading-relaxed">Resort-uri all-inclusive accesibile + nisip alb importat + branding internațional.</div>
+              <div className="text-2xl mb-2">🇵🇹 Algarve — lecție:</div>
+              <div className="text-sm text-slate-300 leading-relaxed">Reabilitare ecologică a plajelor cu nisip local. Aplicăm metoda; nisipul vine din depozitele Dobrogei.</div>
+            </div>
+            <div className="p-5 bg-white/5 backdrop-blur border border-white/10 rounded-xl">
+              <div className="text-2xl mb-2">🇮🇹 Cinque Terre — lecție:</div>
+              <div className="text-sm text-slate-300 leading-relaxed">Identitate locală conservată riguros, fără concesii pentru turismul de masă. Aplicăm filozofia; identitatea e românească autentică.</div>
+            </div>
+          </div>
+          <div className="mt-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+            <div className="text-sm text-amber-100">
+              <strong className="text-amber-300">Important:</strong> NU construim &bdquo;Mini-Grecia&rdquo; sau &bdquo;Mini-Cancun&rdquo;. Construim Riviera Românească —
+              cu arhitectură contemporană inspirată din tradiția dobrogeană, gastronomie pescărească locală, festivaluri ale identității carpato-pontice.
             </div>
           </div>
           <p className="mt-8 text-base md:text-lg italic text-slate-300 max-w-3xl">
-            &bdquo;Tot ce am avut nevoie ca să devenim a 3-a destinație turistică a Europei a fost curajul de a vedea
-            litoralul nostru ca pe un proiect, nu ca pe o moștenire stagnantă.&rdquo;
+            &bdquo;Litoralul românesc nu are nevoie de imitații. Are nevoie de modernizare reală — infrastructură,
+            curățenie, identitate, prețuri sănătoase. Restul vine de la sine.&rdquo;
           </p>
           <p className="text-xs text-slate-400 mt-2 font-semibold">— Founder, EPD</p>
         </div>
@@ -219,8 +230,8 @@ export default function RivieraRomaneasca() {
             {[
               { num: 1, label: 'Distribuie pagina', desc: 'Share pe LinkedIn, Facebook, Instagram. Avem nevoie de viralitate.' },
               { num: 2, label: 'Semnează petiția', desc: 'Cerem CJ-uri Constanța să adopte oficial planul Riviera.' },
-              { num: 3, label: 'Donează', desc: 'Fiecare 100 RON = 1 palmier plantat. Vezi modulul donații EPD.' },
-              { num: 4, label: 'Investește', desc: 'Capital privat pentru reabilitări hoteliere și marketing internațional.' },
+              { num: 3, label: 'Donează', desc: 'Fiecare 100 RON = 1 m² promenadă reabilitată. Vezi modulul donații EPD.' },
+              { num: 4, label: 'Investește', desc: 'Capital privat pentru reabilitări hoteliere și branding intern.' },
               { num: 5, label: 'Lobby legal', desc: 'Susține adoptarea unei Legi a Litoralului Românesc.' },
             ].map((a) => (
               <div key={a.num} className="p-5 bg-white border border-orange-200 rounded-xl hover:border-orange-400 hover:shadow-lg transition-all text-center" data-testid={`actiune-${a.num}`}>
@@ -239,18 +250,18 @@ export default function RivieraRomaneasca() {
       }}>
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, transparent 60%)' }} />
         <div className="relative max-w-4xl mx-auto px-6 text-center">
-          <Palmtree className="w-16 h-16 mx-auto mb-4 text-amber-100" />
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Riviera Românească începe cu un click.</h2>
+          <Waves className="w-16 h-16 mx-auto mb-4 text-amber-100" />
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">Renașterea litoralului începe cu un click.</h2>
           <p className="text-amber-50/90 mb-8 max-w-2xl mx-auto text-base md:text-lg">
-            Înscrie-te pentru actualizări săptămânale, semnează petiția și hai să schimbăm împreună perspectiva
-            asupra litoralului nostru. România merită o destinație turistică globală.
+            Înscrie-te pentru actualizări săptămânale, semnează petiția și hai să schimbăm împreună litoralul nostru.
+            România merită un litoral modernizat real — nu un decor copiat din alte țări.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link to="/register" className="px-6 py-3 bg-white text-orange-600 hover:bg-amber-50 rounded-lg font-bold text-sm flex items-center gap-2 shadow-2xl transition-all" data-testid="cta-register">
               <Sun className="w-4 h-4" /> Înscrie-te pentru BETA
             </Link>
             <Link to="/donations" className="px-6 py-3 bg-white/15 hover:bg-white/25 backdrop-blur border border-white/30 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all" data-testid="cta-donate">
-              <Heart className="w-4 h-4" /> Donează 1 palmier (100 RON)
+              <Heart className="w-4 h-4" /> Donează 100 RON (1 m² promenadă)
             </Link>
             <Link to="/" className="px-6 py-3 text-amber-50 hover:text-white transition-colors font-medium text-sm">
               ← Înapoi la EPD

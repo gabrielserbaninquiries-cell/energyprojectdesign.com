@@ -78,6 +78,7 @@ export const NEXT_GEN_MISSIONS = [
   { id: 'modular-houses',   icon: '🏠', label: 'Case modulare amplasabile', desc: 'Locuințe gata construite, livrate și amplasate la cheie — perfecte pentru sinistrați, locuințe rapide, vacanțe' },
   { id: 'auctions',         icon: '🔨', label: 'Motor licitații lucrări',  desc: '"Cel mai mic preț + cel mai rapid + cea mai bună calitate" — algoritm transparent care alege automat câștigătorul' },
   { id: 'taxi-global',      icon: '🚖', label: 'Taxi global EPD',          desc: 'Aplicație taxi globală — un singur cont, orice oraș, prețuri transparente, șoferi verificați' },
-  { id: 'tropical-resort',  icon: '🌴', label: 'Stațiune tropicală',       desc: 'Mini-Grecia în România — plantări palmieri, ambianță mediteraneană, prețuri populare' },
-  { id: 'riviera-ro',       icon: '🌊', label: '🏖️ Riviera Românească (MISIUNEA EPD)', desc: 'Construirea întregului litoral românesc în cea mai extinsă plajă turistică națională — destinație globală cu tradiție, prețuri accesibile și amintiri de neuitat', route: '/riviera-romaneasca', flagship: true },
+  { id: 'tropical-resort',  icon: '🌊', label: 'Renașterea litoralului',       desc: 'Modernizare reală a litoralului românesc — infrastructură contemporană, vegetație autohtonă rezistentă, autenticitate carpato-pontică',
+    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&auto=format&fit=crop' },
+  { id: 'riviera-ro',       icon: '🌊', label: '🏖️ Riviera Românească (MISIUNEA EPD)', desc: 'Modernizarea reală a litoralului românesc — infrastructură contemporană, vegetație autohtonă rezistentă, identitate carpato-pontică. NU copiem alte destinații — readucem turismul românesc acasă.', route: '/riviera-romaneasca', flagship: true },
 ];
