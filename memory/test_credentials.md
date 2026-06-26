@@ -1,13 +1,21 @@
-# Energy Project Design — Test Credentials (V11.5)
+# Energy Project Design — Test Credentials (V12.0)
 
-Last updated: 2026-06-25 (V11.5 — IDEMPOTENT OWNER SEED activat pe startup)
+Last updated: 2026-06-26 (V12.0 — Verificator workflow + plans restructured)
 
-## 🔑 PAROLA ACTUALĂ (folosește email/parolă, NU Google login)
-
+## 🔑 OWNER (folosește email/parolă, NU Google login)
 - **Email:** `dragosserban95@gmail.com`
 - **Parolă:** `Nuamparola_9`
 - **Plan:** `society_admin` (proprietar platformă)
 - **Roluri:** `is_admin=True`, `is_society_admin=True`, `is_developer=True`
+
+## 🛡️ VERIFICATOR VGD pre-creat (pentru testare workflow)
+- **Email:** `vgd_test_1782441873@example.com`
+- **Parolă:** `VGDPass_123!`
+- **Plan:** `vgd` (1000 EUR/lună)
+- Folosit pentru: testarea POST /api/verificator/projects/{pid}/submit + decide + ledger.
+
+## ⚠️ EMAIL VALIDATION
+NU folosi `.test` TLD — pydantic-email rejects. Folosește `@example.com` pentru users de test.
 
 **V11.5 NOU**: Contul owner este acum **seed-uit automat pe startup-ul backend-ului** (pe ORICE environment — preview SAU production). Asta înseamnă că DUPĂ DEPLOY pe `https://www.energyprojectdesign.com`, login-ul cu credențialele de mai sus va funcționa automat. Sursa: env vars `OWNER_EMAIL` + `OWNER_PASSWORD` din `/app/backend/.env`, citite în `server.py::_seed_owner_account()`.
 
