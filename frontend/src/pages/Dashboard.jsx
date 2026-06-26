@@ -1,10 +1,13 @@
 /**
- * Dashboard — V11.0 Premium Redesign
+ * Dashboard — V11.6 Premium Synthesized (plan-aware)
  *
  * Inspirat din interfețele top-tier (Stripe, Linear, Vercel) cu touch EPD —
  * gradient violet/indigo, glass-morphism subtil, asymmetric grid, micro-animații.
+ *
+ * V11.6: Stats + Quick Actions sunt filtrate per planul utilizatorului.
+ * Un user FREE/TRIAL vede doar ce poate accesa + un panou clar de upgrade.
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import AppShell from '../components/AppShell';
 import api from '../lib/api';
@@ -12,15 +15,25 @@ import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
 import {
   FileText, Stamp, ShieldCheck, FileCheck2, ArrowRight, Plus, Activity,
-  Flame, Sparkles, Zap, TrendingUp, Clock, ChevronRight,
+  Flame, Sparkles, Zap, TrendingUp, Clock, ChevronRight, Lock, Crown,
 } from 'lucide-react';
 import LifecycleWidget from '../components/LifecycleWidget';
 
-const QUICK_ACTIONS = [
-  { to: '/gaze-naturale', label: 'Studio Gaze Naturale', desc: 'Branșament + Extindere + Instalație utilizare', icon: Flame, accent: 'violet' },
-  { to: '/templates', label: 'Șabloane DOCX', desc: 'Upload + completare automată', icon: FileText, accent: 'blue' },
-  { to: '/stamps', label: 'Ștampile & semnături', desc: 'Aplică pe documente', icon: Stamp, accent: 'amber' },
-  { to: '/certificate', label: 'Certificate digitale', desc: 'QES eIDAS conform', icon: ShieldCheck, accent: 'emerald' },
+// Maps plan_id → set of features the plan unlocks
+const FEATURE_PLAN_GATES = {
+  documents: ['avize', 'proiectant', 'operator', 'societate', 'developer', 'inside_full', 'society_admin'],
+  templates: ['proiectant', 'societate', 'developer', 'inside_full', 'society_admin'],
+  stamps: ['proiectant', 'vgd', 'rte', 'societate', 'developer', 'inside_full', 'society_admin'],
+  certificate: ['vgd', 'rte', 'societate', 'developer', 'inside_full', 'society_admin'],
+  ai_consultant: ['proiectant', 'vgd', 'rte', 'societate', 'developer', 'inside_full', 'society_admin'],
+};
+
+const ALL_QUICK_ACTIONS = [
+  { to: '/gaze-naturale', label: 'Studio Gaze Naturale', desc: 'Branșament + Extindere + Instalație utilizare', icon: Flame, accent: 'violet', gate: null },
+  { to: '/templates', label: 'Șabloane DOCX', desc: 'Upload + completare automată', icon: FileText, accent: 'blue', gate: 'templates' },
+  { to: '/stamps', label: 'Ștampile & semnături', desc: 'Aplică pe documente', icon: Stamp, accent: 'amber', gate: 'stamps' },
+  { to: '/certificate', label: 'Certificate digitale', desc: 'QES eIDAS conform', icon: ShieldCheck, accent: 'emerald', gate: 'certificate' },
+  { to: '/consultant-ai', label: 'Consultant AI', desc: 'Asistent specialist NTPE 89', icon: Sparkles, accent: 'rose', gate: 'ai_consultant' },
 ];
 
 const ACCENT_CLASSES = {
@@ -81,12 +94,32 @@ export default function Dashboard() {
     poll();
   }, [params, refresh, nav]);
 
-  const stats = [
-    { label: 'Documente', value: counts.docs, icon: FileText, accent: 'violet', to: '/documents' },
-    { label: 'Șabloane', value: counts.templates, icon: FileCheck2, accent: 'blue', to: '/templates' },
-    { label: 'Ștampile', value: counts.stamps, icon: Stamp, accent: 'amber', to: '/stamps' },
-    { label: 'Certificate', value: counts.certs, icon: ShieldCheck, accent: 'emerald', to: '/certificate' },
-  ];
+  const stats = useMemo(() => {
+    const isOwner = user?.is_developer || user?.is_admin;
+    const userPlan = user?.plan || 'free';
+    const hasAccess = (gate) => isOwner || (FEATURE_PLAN_GATES[gate] || []).includes(userPlan);
+    const allStats = [
+      { label: 'Documente', value: counts.docs, icon: FileText, accent: 'violet', to: '/documents', gate: 'documents' },
+      { label: 'Șabloane', value: counts.templates, icon: FileCheck2, accent: 'blue', to: '/templates', gate: 'templates' },
+      { label: 'Ștampile', value: counts.stamps, icon: Stamp, accent: 'amber', to: '/stamps', gate: 'stamps' },
+      { label: 'Certificate', value: counts.certs, icon: ShieldCheck, accent: 'emerald', to: '/certificate', gate: 'certificate' },
+    ];
+    return allStats.filter((s) => hasAccess(s.gate));
+  }, [user, counts]);
+
+  const quickActions = useMemo(() => {
+    const isOwner = user?.is_developer || user?.is_admin;
+    const userPlan = user?.plan || 'free';
+    const hasAccess = (gate) => !gate || isOwner || (FEATURE_PLAN_GATES[gate] || []).includes(userPlan);
+    return ALL_QUICK_ACTIONS.filter((q) => hasAccess(q.gate));
+  }, [user]);
+
+  const lockedFeatureCount = useMemo(() => {
+    const isOwner = user?.is_developer || user?.is_admin;
+    const userPlan = user?.plan || 'free';
+    if (isOwner) return 0;
+    return ALL_QUICK_ACTIONS.filter((q) => q.gate && !(FEATURE_PLAN_GATES[q.gate] || []).includes(userPlan)).length;
+  }, [user]);
 
   return (
     <AppShell title={`Bun venit, ${user?.name?.split(' ')[0] || ''}`}>
@@ -157,7 +190,7 @@ export default function Dashboard() {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" data-testid="dashboard-quick-actions">
-          {QUICK_ACTIONS.map((q) => {
+          {quickActions.map((q) => {
             const Icon = q.icon;
             return (
               <Link to={q.to} key={q.label} className="group p-5 bg-white border border-slate-200 rounded-xl hover:border-violet-300 hover:shadow-lg transition-all" data-testid={`quick-${q.label.replace(/\s+/g, '-').toLowerCase()}`}>
@@ -173,6 +206,30 @@ export default function Dashboard() {
             );
           })}
         </div>
+        {lockedFeatureCount > 0 && (
+          <Link
+            to="/pricing"
+            className="mt-4 flex items-center justify-between gap-4 p-4 bg-gradient-to-r from-violet-50 via-indigo-50 to-violet-50 border border-violet-200 rounded-xl hover:border-violet-400 hover:shadow-md transition-all group"
+            data-testid="upgrade-cta-locked"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-md">
+                <Crown className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <div className="text-sm font-bold text-slate-900">
+                  {lockedFeatureCount} funcție{lockedFeatureCount === 1 ? '' : 'i'} blocată{lockedFeatureCount === 1 ? '' : 'e'} pentru planul tău
+                </div>
+                <div className="text-xs text-slate-500">
+                  Șabloane DOCX · Ștampile · Certificate eIDAS · Consultant AI — deblocate cu un upgrade
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-violet-700 font-semibold text-sm">
+              Vezi planuri <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </Link>
+        )}
       </div>
 
       {/* Recent docs + Plan card */}

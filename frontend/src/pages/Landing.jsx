@@ -28,30 +28,28 @@ import useSEO from '../hooks/useSEO';
 
 // PRODUS PRINCIPAL — Gaze Naturale (livrabil 100% operațional)
 const MAIN_PRODUCT_HIGHLIGHTS = [
-  { icon: FileText,      label: '33 documente DOCX',     value: 'NTPEE 2018' },
-  { icon: Layers,        label: '221 câmpuri tehnice',   value: '8 categorii' },
-  { icon: Calculator,    label: 'Renouard multi-tronson', value: 'auto-calc' },
-  { icon: Package,       label: 'Anexa 13 — 554 items',  value: 'auto-select' },
-  { icon: Stamp,         label: 'Ștampile draggable',    value: 'A4 PDF' },
-  { icon: FileSignature, label: 'Semnătură QES',          value: 'eIDAS' },
+  { icon: Calculator,    label: 'Calcule Renouard',       value: 'multi-tronson' },
+  { icon: Package,       label: 'Listă materiale Anexa 13', value: 'auto-select' },
+  { icon: Stamp,         label: 'Ștampile + semnătură',    value: 'drag & drop' },
+  { icon: FileSignature, label: 'Semnătură electronică',   value: 'QES eIDAS' },
 ];
 
 // Servicii integrate ACTIVE (în platformă) — V11.0 cu imagini reale Unsplash + gradient fallback per industrie
 const ACTIVE_SERVICES = [
-  { id: 'gas',         icon: Flame,         title: 'Gaze Naturale',         desc: '33 docs · 221 câmpuri · Renouard · QES', tag: 'CORE', href: '/gaze-naturale',
-    image: null,
+  { id: 'gas',         icon: Flame,         title: 'Gaze Naturale',         desc: 'Proiect tehnic complet conform NTPEE 2018 + ANRE', tag: 'CORE', href: '/gaze-naturale',
+    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-orange-500 via-red-500 to-rose-600' },
-  { id: 'electric',    icon: Zap,           title: 'Electric',              desc: '6 template-uri instalații electrice',     tag: 'BETA', href: '/industrii/electric',
+  { id: 'electric',    icon: Zap,           title: 'Electric',              desc: 'Proiectare instalații electrice conform ANRE',    tag: 'BETA', href: '/industrii/electric',
     image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-yellow-400 via-amber-500 to-orange-600' },
-  { id: 'apa-canal',   icon: Droplet,       title: 'Apă-Canal',             desc: '5 documente branșament & racord',         tag: 'BETA', href: '/industrii/apa-canal',
-    image: null,
+  { id: 'apa-canal',   icon: Droplet,       title: 'Apă-Canal',             desc: 'Branșament și racord apă potabilă & canalizare',  tag: 'BETA', href: '/industrii/apa-canal',
+    image: 'https://images.unsplash.com/photo-1574602048662-7e2b71b8a55e?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-cyan-500 via-blue-500 to-indigo-600' },
-  { id: 'fotovoltaice',icon: Sun,           title: 'Fotovoltaice',          desc: 'Proiecte panouri & avizare ANRE',         tag: 'NEW',  href: '/industrii/fotovoltaice',
+  { id: 'fotovoltaice',icon: Sun,           title: 'Fotovoltaice',          desc: 'Proiecte panouri și avizare ANRE',         tag: 'NEW',  href: '/industrii/fotovoltaice',
     image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-yellow-400 via-orange-500 to-amber-600' },
   { id: 'telecom',     icon: Phone,         title: 'Telecom',               desc: 'Avize Telekom, STB, NetCity',             tag: 'NEW',  href: '/industrii/telecom',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-violet-500 via-purple-500 to-fuchsia-600' },
   { id: 'marketplace', icon: Store,         title: 'Marketplace',           desc: 'Șabloane, ștampile, kit-uri B2B',         tag: 'BIZ',  href: '/marketplace',
     image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop',
@@ -75,7 +73,7 @@ const ACTIVE_SERVICES = [
     image: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-zinc-600 via-zinc-700 to-zinc-900' },
   { id: 'verify',      icon: BadgeCheck,    title: 'Verificare QR',         desc: 'Validare publică semnătură document',     tag: 'CORE', href: '/verifica',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1606326608690-4e0281b1e588?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-emerald-500 via-teal-500 to-cyan-600' },
   { id: 'fees',        icon: Receipt,       title: 'Comisioane & Tarife',   desc: 'Transparență totală costuri platformă',   tag: 'INFO', href: '/comisioane-tarife',
     image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80&auto=format&fit=crop',
@@ -94,7 +92,7 @@ const ACTIVE_SERVICES = [
     image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-rose-500 via-red-500 to-orange-600' },
   { id: 'caritabile',  icon: Heart,         title: 'Cauze Caritabile',      desc: 'Donații verificate, transparență totală',   tag: 'SOON', href: '/caritabile',
-    image: null,
+    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-pink-500 via-rose-500 to-red-600' },
   { id: 'biserica',    icon: Church,        title: 'Biserică & Comunitate', desc: 'Comunități spirituale, evenimente, donații', tag: 'SOON', href: '/biserica',
     image: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=900&q=80&auto=format&fit=crop',
@@ -243,10 +241,10 @@ export default function Landing() {
             </div>
             <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl">
               {[
-                { v: '33',   l: 'Documente legale' },
-                { v: '221',  l: 'Câmpuri tehnice' },
-                { v: '13',   l: 'Industrii' },
-                { v: 'eIDAS',l: 'QES certificat' },
+                { v: '13',     l: 'Industrii' },
+                { v: 'NTPEE',  l: 'Conform 2018' },
+                { v: 'QES',    l: 'eIDAS certificat' },
+                { v: '24',     l: 'Limbi suportate' },
               ].map(s => (
                 <div key={s.l}>
                   <div className="text-4xl font-bold tracking-tight text-white tabular-nums">{s.v}</div>
@@ -294,9 +292,9 @@ export default function Landing() {
                 Documentație tehnică electronică <span className="epd-gradient-text">Gaze Naturale</span>
               </h2>
               <p className="text-lg text-slate-600 leading-relaxed mb-8 max-w-xl">
-                Generează automat dosar complet pentru branșament, instalație utilizare sau extindere conductă —
-                cu memoriu tehnic, caiet de sarcini, borderou, DTAC, cerere AC, PTH, carte tehnică și 26 de documente
-                legale conform NTPEE 2018, HG 273/1994, Legea 50/1991 și Ord. ANRE 89/2018.
+                Generăm întregul dosar tehnic — branșament, instalație utilizare sau extindere conductă —
+                conform <strong className="text-slate-900">NTPEE 2018, Ord. ANRE 89/2018, Legea 50/1991 și HG 273/1994</strong>.
+                Tu introduci datele, platforma compune proiectul.
               </p>
               <div className="grid sm:grid-cols-2 gap-3 mb-8">
                 {MAIN_PRODUCT_HIGHLIGHTS.map((h) => {
