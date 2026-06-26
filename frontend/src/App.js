@@ -65,6 +65,7 @@ import SelfCheck from './pages/SelfCheck';
 import ProductSkeleton from './pages/ProductSkeleton';
 import GasNaturalProjectV2 from './pages/GasNaturalProjectV2';
 import GasNaturalStudio from './pages/GasNaturalStudio';
+import VerificatorWorkspace from './pages/VerificatorWorkspace';
 import VoturiCNP from './pages/VoturiCNP';
 import RivieraRomaneasca from './pages/RivieraRomaneasca';
 import Transparenta from './pages/Transparenta';
@@ -130,6 +131,10 @@ function AppRouter() {
       <Route path="/gaze-naturale/recipients" element={<ProtectedRoute><GasRecipients /></ProtectedRoute>} />
       <Route path="/subscribers" element={<ProtectedRoute><Subscribers /></ProtectedRoute>} />
       <Route path="/verify/gas-project/:pid" element={<VerifyGasProject />} />
+
+      {/* V12.0 — Workspace Verificator VGD / RTE (plans 1000 EUR/lună) */}
+      <Route path="/verificator/inbox" element={<ProtectedRoute><VerificatorWorkspace /></ProtectedRoute>} />
+      <Route path="/verificator/ledger" element={<ProtectedRoute><VerificatorWorkspace /></ProtectedRoute>} />
 
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/billing" element={<ProtectedRoute><Billing /></ProtectedRoute>} />

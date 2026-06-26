@@ -1,0 +1,65 @@
+{
+  "summary": "V12.0 — Full validation of new Verificator workflow + plans restructuring per CSV (OSD 999999 EUR, VGD/RTE 1000 EUR, mass_production 2500 EUR, societate 798 EUR, basic 150 proj/lună, unlimited for operator/contabilitate/ofertare/vgd/rte/osd). Backend: 17/17 pytest PASS (plans catalog, /me/plan quotas, auth register+login+me, GDPR enforcement, Stripe LIVE checkout cs_live_* URLs for basic/vgd/trial, donations 10 RON + 5 EUR + 0.5 RON rejection, verificator inbox/ledger access control, submit→inbox→decide→ledger full E2E with SHA-256 hash 64 hex chars + qes_note pending). Frontend: pricing page shows in-development-section ABOVE pricing-grid (7 in-dev cards), 13 plan cards including plan-osd (999999 EUR) + plan-vgd/plan-rte (1000 EUR) + plan-mass_production (2500 EUR). Verificator workspace UI for owner shows Inbox/Ledger tabs + status filter + empty state. Basic user gets verif-no-access card with link to /pricing.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "VerificatorWorkspace.jsx", "issue": "Missing data-testid attributes for tabs/filter/list. Functional UI works (Inbox + Ledger tabs visible, status filter buttons, empty state with 'Nimic de verificat momentan'), but data-testids 'verif-tab-inbox', 'verif-tab-ledger', 'verif-filter-status', 'verif-empty-state', 'verif-inbox-list', 'verif-ledger-list' are not set on owner workspace. The 'verif-no-access' testid IS present for basic users (verified).", "selector": "[data-testid=verif-tab-inbox]", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "tests_executed": [
+    {"id": "BE_PLANS_LIST_13_INCLUDES_NEW", "status": "PASS", "detail": "13 plans including osd(999999), vgd(1000), rte(1000), mass_production(2500), societate(798)"},
+    {"id": "BE_ME_PLAN_OWNER_society_admin", "status": "PASS"},
+    {"id": "BE_ME_PLAN_BASIC_150_proj", "status": "PASS"},
+    {"id": "BE_AUTH_REGISTER_LOGIN_ME", "status": "PASS"},
+    {"id": "BE_AUTH_GDPR_REQUIRED_400_422", "status": "PASS"},
+    {"id": "BE_CHECKOUT_BASIC_cs_live", "status": "PASS"},
+    {"id": "BE_CHECKOUT_VGD_1000_cs_live", "status": "PASS"},
+    {"id": "BE_CHECKOUT_TRIAL_FREE_ACTIVATED", "status": "PASS"},
+    {"id": "BE_DONATE_10_RON_cs_live", "status": "PASS"},
+    {"id": "BE_DONATE_5_EUR_cs_live", "status": "PASS"},
+    {"id": "BE_DONATE_0.5_RON_400", "status": "PASS"},
+    {"id": "BE_VERIF_INBOX_OWNER_OK", "status": "PASS"},
+    {"id": "BE_VERIF_INBOX_BASIC_USER_403", "status": "PASS"},
+    {"id": "BE_VERIF_LEDGER_OWNER_OK", "status": "PASS"},
+    {"id": "BE_VERIF_SUBMIT_INEXISTENT_VERIFIER_404", "status": "PASS"},
+    {"id": "BE_VERIF_SUBMIT_NON_VGD_USER_400", "status": "PASS"},
+    {"id": "BE_VERIF_E2E_SUBMIT_INBOX_DECIDE_LEDGER", "status": "PASS", "detail": "decision_hash 64 hex chars + qes_note present + ledger counts.approved>=1"},
+    {"id": "UI_PRICING_IN_DEV_SECTION_ABOVE_GRID", "status": "PASS"},
+    {"id": "UI_PRICING_13_PLAN_CARDS", "status": "PASS"},
+    {"id": "UI_PRICING_OSD_999999_EUR", "status": "PASS"},
+    {"id": "UI_PRICING_VGD_1000_EUR", "status": "PASS"},
+    {"id": "UI_VERIF_WORKSPACE_OWNER_TABS_VISIBLE", "status": "PASS", "detail": "Title + Inbox + Ledger pe societăți + FILTRU STATUS + empty state — all visible"},
+    {"id": "UI_VERIF_BASIC_USER_NO_ACCESS", "status": "PASS", "detail": "verif-no-access testid + pricing link visible"}
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_v120_verificator_workflow.py",
+    "/app/test_reports/pytest/v120_results.xml"
+  ],
+  "action_items": [
+    "OPTIONAL (low priority): Add data-testid attributes to VerificatorWorkspace.jsx for owner view: 'verif-tab-inbox', 'verif-tab-ledger', 'verif-filter-status', 'verif-empty-state', 'verif-inbox-list', 'verif-ledger-list' (currently only 'verif-no-access' on basic users is set). Functionality works correctly but automated testing relies on these IDs."
+  ],
+  "critical_code_review_comments": [
+    "verificator_routes.py: clean implementation, proper plan access control via SUBMITTER_PLANS + VERIFICATOR_PLANS, SHA-256 hash for immutability, audit_log push on every action. _id correctly excluded. Email best-effort send wrapped in try/except.",
+    "plans.py: OSD 999999 EUR + VGD/RTE 1000 EUR + unlimited quotas for operator/contabilitate/ofertare/vgd/rte/osd correctly defined. _PROJECT_QUOTA matches spec.",
+    "QES integration: correctly returns qes_signature=null + qes_pending_integration=true + qes_note explaining DigiSign/certSIGN pending — NOT mocked, transparent to user as requested.",
+    "server.py still 3216+ lines; refactor recommended but not blocking.",
+    "Stripe key on preview is sk_live_... — checkout returns real cs_live_* URLs. DO NOT complete payment flows during testing."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v120_verificator_workflow.py (NEW, 17 tests)",
+    "/app/test_reports/pytest/v120_results.xml (NEW)",
+    "/app/test_reports/iteration_25.json"
+  ],
+  "success_rate": {"backend": "100% (17/17 pytest)", "frontend": "100% (6/6 UI assertions)"},
+  "test_credentials": "Owner dragosserban95@gmail.com / Nuamparola_9 (society_admin). VGD pre-created vgd_test_1782441873@example.com / VGDPass_123! verified working. New users via /api/auth/register with gdpr_consent:true default to plan='basic'.",
+  "seed_data_creation": "Created 3 throwaway @example.com users + 1 gas_project (TEST V120 verif) + verification submit→decide flow. Cleanup recommended via db.users delete_many({email:/^test_v120_/}) and db.gas_projects delete_many({title:'TEST V120 verif'}).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V12.0 fully validated. All 13 public plans correctly priced. Verificator E2E (submit→inbox→decide→ledger) functional with immutable SHA-256 hash. QES eIDAS intentionally NOT implemented (qes_signature=null + qes_pending_integration=true is by design — DO NOT report as bug). UI on /verificator/inbox works correctly for both owner (society_admin) and basic users (no-access card). The only minor item: add data-testids to owner workspace controls for stricter automated tests; functionality is unaffected.",
+  "rca of the issue": "No functional bugs found. The only minor finding is missing data-testid attributes on owner-side VerificatorWorkspace tabs/filters/lists; user-visible behavior is fully correct."
+}

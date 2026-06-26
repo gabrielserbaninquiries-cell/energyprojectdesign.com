@@ -3,8 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
-import { Check, Flame, ArrowLeft, Star } from 'lucide-react';
+import { Check, Flame, ArrowLeft, Star, Hammer, ShieldCheck, FileSignature, BookOpenCheck, Vote, Palmtree, Plane, Car } from 'lucide-react';
 import useSEO from '../hooks/useSEO';
+
+const IN_DEVELOPMENT_ITEMS = [
+  { icon: FileSignature, title: 'Semnătură QES eIDAS (DigiSign / certSIGN)', desc: 'Semnare criptografică legală a documentelor pentru VGD/RTE — integrare reală în lucru.' },
+  { icon: ShieldCheck,   title: 'Inter-department workflow (proiectant → VGD → executant)', desc: 'Notificări automate la fiecare tranziție de status, cu termen și escalation.' },
+  { icon: BookOpenCheck, title: 'Dev Template Manager UI', desc: 'Upload `.docx` custom + mapare placeholdere automată din UI (backend gata, UI în lucru).' },
+  { icon: Vote,          title: 'Voturi electronice CNP (referendumuri locale)', desc: 'Anonimizare cripto + audit on-chain, GDPR + eIDAS conform.' },
+  { icon: Palmtree,      title: 'Riviera Românească — propunere oficială PDF', desc: 'Document tehnico-economic de 20 pagini, descărcabil public, pentru depunere la MIPE.' },
+  { icon: Plane,         title: 'Bilete avion + Taxi global', desc: 'Marketplace global pentru transport, integrat cu calculator costuri smart-pricing.' },
+  { icon: Car,           title: 'Submit la verificator direct din Gas Studio', desc: 'Buton dedicat în Gas Studio pentru transmiterea proiectului către VGD/RTE atestat.' },
+];
 
 export default function Pricing() {
   const { user } = useAuth();
@@ -80,6 +90,37 @@ export default function Pricing() {
           <div className="label mb-3 text-center">// Planuri departamente</div>
           <h1 className="text-4xl lg:text-5xl font-bold tracking-tighter text-center mb-3">Planuri pentru fiecare departament tehnic.</h1>
           <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">Prețuri în EUR per utilizator/lună. Plată prin Stripe, anulați oricând. Plan Societate pentru acces total — sau alegeți doar departamentele de care aveți nevoie.</p>
+
+          {/* V12.0 — Servicii și funcții în dezvoltare (transparență publică) */}
+          <section className="mb-12 border-2 border-amber-300 bg-amber-50/60 p-6 lg:p-8" data-testid="in-development-section">
+            <div className="flex items-center gap-3 mb-4">
+              <Hammer className="w-5 h-5 text-amber-700" />
+              <div className="label text-amber-900">// în dezvoltare</div>
+            </div>
+            <h2 className="text-xl lg:text-2xl font-bold tracking-tight mb-2">Servicii și funcții aflate în dezvoltare</h2>
+            <p className="text-sm text-amber-900/80 mb-6 max-w-3xl">
+              Transparență totală: lista de funcționalități pe care le construim activ. Nu sunt incluse în planurile listate jos. Vor fi anunțate public la lansare și disponibile fără cost adițional în cadrul planurilor existente.
+            </p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-amber-200/60 border border-amber-200" data-testid="in-development-grid">
+              {IN_DEVELOPMENT_ITEMS.map((it, i) => {
+                const Icon = it.icon;
+                return (
+                  <div key={i} className="bg-white p-4" data-testid={`dev-item-${i}`}>
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-amber-100 border border-amber-300 flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-amber-800" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-sm tracking-tight mb-1">{it.title}</h3>
+                        <p className="text-xs text-gray-600 leading-relaxed">{it.desc}</p>
+                      </div>
+                    </div>
+                    <div className="mt-2 inline-block text-[9px] uppercase tracking-wider bg-amber-300 text-amber-900 px-2 py-0.5 font-bold">În dezvoltare</div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-px bg-gray-200 border border-gray-200" data-testid="pricing-grid">
             {plans.map((p) => {

@@ -22,7 +22,8 @@ from typing import Any, Dict, List
 
 # All paid plans (everything except free/trial)
 ALL_PAID = ["basic", "operator", "proiectant", "executant", "avize", "ofertare",
-            "contabilitate", "vgd", "rte", "societate", "developer", "inside_full"]
+            "contabilitate", "vgd", "rte", "societate", "mass_production", "osd",
+            "developer", "inside_full"]
 ALL_AUTHENTICATED = ["*"]  # any logged-in user including free/trial
 
 DEPARTMENTS = {
@@ -71,8 +72,10 @@ PAGES: List[Dict[str, Any]] = [
     # ====================== RECEPȚIE + PIF (RTE 149€) ======================
     # Reuses gaz_studio + recepție secțiune
 
-    # ====================== VERIFICARE (VGD 159€) ======================
-    {"key": "certificate",  "path": "/certificate",           "label": "Certificate PKI",    "icon": "ShieldCheck",   "department": "verificare", "allowed_plans": ["vgd", "rte", "societate", "developer", "inside_full"], "tid": "nav-certificate"},
+    # ====================== VERIFICARE (VGD/RTE 1000€) ======================
+    {"key": "verif_workspace","path": "/verificator/inbox",     "label": "Inbox Verificare",   "icon": "InboxIcon",     "department": "verificare", "allowed_plans": ["vgd", "rte", "societate", "mass_production", "osd", "developer", "inside_full"], "tid": "nav-verif-inbox"},
+    {"key": "verif_ledger",   "path": "/verificator/ledger",    "label": "Ledger proiecte",    "icon": "BookOpen",      "department": "verificare", "allowed_plans": ["vgd", "rte", "societate", "mass_production", "osd", "developer", "inside_full"], "tid": "nav-verif-ledger"},
+    {"key": "certificate",  "path": "/certificate",           "label": "Certificate PKI",    "icon": "ShieldCheck",   "department": "verificare", "allowed_plans": ["vgd", "rte", "societate", "mass_production", "osd", "developer", "inside_full"], "tid": "nav-certificate"},
 
     # ====================== OFERTARE (89€) ======================
     {"key": "seap",         "path": "/seap-alerts",           "label": "SEAP Alerts",         "icon": "FileSearch",    "department": "ofertare", "allowed_plans": ["ofertare", "societate", "developer", "inside_full"], "tid": "nav-seap"},

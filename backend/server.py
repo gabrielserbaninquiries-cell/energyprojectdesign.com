@@ -3343,6 +3343,13 @@ async def companies_delete_v2(company_id: str, user: User = Depends(get_current_
 
 app.include_router(api2)
 
+# V12.0 — Verificator workflow (VGD / RTE) — submit, inbox, decide, ledger
+from verificator_routes import make_verificator_router  # noqa: E402
+_verif_router = make_verificator_router(db, get_current_user)
+_verif_api = APIRouter(prefix="/api")
+_verif_api.include_router(_verif_router)
+app.include_router(_verif_api)
+
 
 # CORS: when credentials are required, browsers reject "*" origin. Use a regex
 # that matches the Emergent preview URL pattern + Render production URL. Override
