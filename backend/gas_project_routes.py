@@ -339,23 +339,34 @@ def make_gas_project_router(db, get_current_user):
         sub = catalog.get_subdomain(payload.country, "gaze-naturale", payload.subdomain)
         if not sub:
             raise HTTPException(400, "Subdomeniu invalid pentru această țară.")
-        # V10.4 — Enforce projects-per-month quota
+        # V10.4 — Enforce projects quota (monthly for subscriptions, LIFETIME for SRL one-time)
         try:
             import plans as plans_module
             user_doc = await db.users.find_one({"user_id": user.user_id}, {"_id": 0, "plan": 1})
             plan_id = (user_doc or {}).get("plan", "free")
+            plan_meta = plans_module.PLANS.get(plan_id, {})
             limits = plans_module.get_plan_limits(plan_id)
             quota = limits.get("projects_per_month", 0)
+            is_lifetime = bool(plan_meta.get("one_time")) or bool(plan_meta.get("lifetime_projects"))
             if quota < 99999:
-                now = datetime.now(timezone.utc)
-                month_start_iso = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).isoformat()
-                used = await db.gas_projects.count_documents({
-                    "owner_id": user.user_id,
-                    "deleted": {"$ne": True},
-                    "created_at": {"$gte": month_start_iso},
-                })
-                if used >= quota:
-                    raise HTTPException(403, f"Cotă lunară atinsă: {used}/{quota} proiecte pe planul «{limits['plan_name']}». Upgradează planul pentru mai multe.")
+                if is_lifetime:
+                    # V12.2 — Count ALL projects ever (no month filter)
+                    used = await db.gas_projects.count_documents({
+                        "owner_id": user.user_id,
+                        "deleted": {"$ne": True},
+                    })
+                    if used >= quota:
+                        raise HTTPException(403, f"Cotă lifetime atinsă: {used}/{quota} proiecte pe planul «{limits['plan_name']}» (achiziție unică). Pentru proiecte suplimentare achiziționați un plan abonament lunar.")
+                else:
+                    now = datetime.now(timezone.utc)
+                    month_start_iso = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0).isoformat()
+                    used = await db.gas_projects.count_documents({
+                        "owner_id": user.user_id,
+                        "deleted": {"$ne": True},
+                        "created_at": {"$gte": month_start_iso},
+                    })
+                    if used >= quota:
+                        raise HTTPException(403, f"Cotă lunară atinsă: {used}/{quota} proiecte pe planul «{limits['plan_name']}». Upgradează planul pentru mai multe.")
         except HTTPException:
             raise
         except Exception:

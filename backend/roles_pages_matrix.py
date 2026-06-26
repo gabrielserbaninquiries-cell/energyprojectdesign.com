@@ -23,7 +23,7 @@ from typing import Any, Dict, List
 # All paid plans (everything except free/trial)
 ALL_PAID = ["basic", "operator", "proiectant", "executant", "avize", "ofertare",
             "contabilitate", "vgd", "rte", "societate", "mass_production", "osd",
-            "developer", "inside_full"]
+            "srl", "developer", "inside_full"]
 ALL_AUTHENTICATED = ["*"]  # any logged-in user including free/trial
 
 DEPARTMENTS = {
@@ -54,8 +54,9 @@ PAGES: List[Dict[str, Any]] = [
     {"key": "projects",     "path": "/proiecte",              "label": "Proiectele mele",     "icon": "FolderKanban",  "department": "acasa", "allowed_plans": ALL_AUTHENTICATED, "tid": "nav-proiecte"},
 
     # ====================== OPERATOR ======================
-    {"key": "doc_industrii","path": "/documentatie-industrii","label": "Industrii (13)",     "icon": "Compass",       "department": "operator", "allowed_plans": ALL_AUTHENTICATED, "tid": "nav-documentatie-industrii"},
-    {"key": "gaz_studio",   "path": "/gaze-naturale",          "label": "Gaze Naturale",       "icon": "Flame",         "department": "operator", "allowed_plans": ["operator", "proiectant", "executant", "avize", "vgd", "rte", "societate", "developer", "inside_full", "basic", "trial"], "tid": "nav-gaze-naturale"},
+    {"key": "doc_industrii","path": "/documentatie-industrii","label": "Industrii (13)",     "icon": "Compass",       "department": "operator", "allowed_plans": ["developer", "inside_full", "society_admin", "cofounder"], "min_role": "admin", "tid": "nav-documentatie-industrii"},
+    {"key": "gaz_studio",   "path": "/gaze-naturale",          "label": "Gaze Naturale",       "icon": "Flame",         "department": "operator", "allowed_plans": ALL_AUTHENTICATED, "tid": "nav-gaze-naturale"},
+    {"key": "parteneri",    "path": "/parteneri",             "label": "Parteneri & colaborări","icon": "Users",        "department": "operator", "allowed_plans": ALL_AUTHENTICATED, "tid": "nav-parteneri"},
 
     # ====================== PROIECTARE (Proiectant 129€) ======================
     {"key": "templates",    "path": "/templates",             "label": "Șabloane DOCX",      "icon": "FileText",      "department": "proiectare", "allowed_plans": ["proiectant", "societate", "developer", "inside_full"], "tid": "nav-templates"},

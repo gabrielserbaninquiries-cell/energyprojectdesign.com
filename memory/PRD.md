@@ -1,125 +1,90 @@
-# Energy Project Design (EPD) — PRD V12.0
+# Energy Project Design (EPD) — PRD V12.2
 
 > Multi-industry SaaS for engineering documentation, monetization, marketplace, and global utility services.
 > Live status: PREVIEW healthy & verified · Production: deployed (energyprojectdesign.com).
 
-## V12.0 — RELEASE NOTES (26 Feb 2026)
+## V12.2 — RELEASE NOTES (26 Feb 2026)
 
-### 🔴 Adăugat (cerințe directe utilizator)
+### Plan catalog FINAL (14 planuri publice)
 
-1. **Restructurare planuri Stripe** (`/app/backend/plans.py`)
-   - 🆕 Plan OSD nou — `999.999 EUR/lună`, proiecte/funcții/IP-uri NELIMITATE (target: Operatori Sistem Distribuție gaze: Distrigaz Sud, Engie, Delgaz Grid, Premier Energy).
-   - Mass production: 300 branșamente/lună, funcții NELIMITATE, utilizatori nelimitați (eliminat „1 PC binding").
-   - Societate: 300 proiecte/lună (era 150), funcții NELIMITATE.
-   - Operator / Contabilitate / Ofertare: proiecte NELIMITATE (erau 150).
-   - **Verificator VGD & RTE: preț 1000 EUR/lună fiecare**, proiecte NELIMITATE.
-   - Default plans (basic, proiectant, executant, avize): 150 proiecte/lună.
+| Plan ID | Nume | Preț EUR | Tip | Proiecte | Export |
+|---|---|---:|---|---:|:---:|
+| trial | Gratuit | 0 | — | nelimitate (timp) | ❌ |
+| basic | Basic | 58 | lunar | 150 / lună | ❌ |
+| operator | Operator | 118 | lunar | NELIMITATE | ✅ |
+| proiectant | Proiectant | 258 | lunar | 150 / lună | ✅ |
+| executant | Executant | 198 | lunar | 150 / lună | ✅ |
+| avize | Avize / OSD | 138 | lunar | 150 / lună | ✅ |
+| ofertare | Ofertare + SEAP | 158 | lunar | NELIMITATE | ✅ |
+| contabilitate | Contabilitate + e-Factura | 98 | lunar | NELIMITATE | ✅ |
+| **srl** | **S.R.L.** | **1.000** | **🆕 ACHIZIȚIE UNICĂ** | **100 lifetime** | ✅ |
+| vgd | Verificator VGD | 1.000 | lunar | NELIMITATE | ✅ |
+| rte | Verificator RTE | 1.000 | lunar | NELIMITATE | ✅ |
+| societate | Societate | 798 | lunar | 300 / lună | ✅ |
+| mass_production | Mass Production | 2.500 | lunar | 300 / lună | ✅ |
+| osd | OSD enterprise | 999.999 | lunar | NELIMITATE | ✅ |
 
-2. **Workflow Verificator VGD/RTE complet** (`/app/backend/verificator_routes.py`)
-   - `POST /api/verificator/projects/{pid}/submit` — societate transmite proiect către VGD/RTE atestat.
-   - `GET /api/verificator/inbox?status=pending|approved|rejected|returned` — proiecte primite.
-   - `POST /api/verificator/projects/{pid}/decide` — decizie (approved/rejected/returned) cu observații + hash SHA-256 + timestamp imuabil.
-   - `GET /api/verificator/ledger` — evidență grupată pe societate emitentă cu counts per status.
-   - `GET /api/verificator/projects/{pid}` — detalii complete proiect pentru verificator.
-   - **QES eIDAS: marcat explicit `qes_signature: null` + `qes_pending_integration: true`** — integrare reală DigiSign/certSIGN urmează (NU mock).
-   - Frontend: `/app/frontend/src/pages/VerificatorWorkspace.jsx` cu tabs Inbox + Ledger, modal decizie cu 3 acțiuni + observații + termen remediere.
+### Features adăugate / fixate în V12.2
 
-3. **Secțiune „Servicii și funcții în dezvoltare"** (Pricing.jsx)
-   - Adăugată DEASUPRA grid-ului de planuri pe `/pricing`.
-   - 7 carduri transparente: QES eIDAS, inter-department workflow, Dev Template Manager, Voturi CNP, Riviera Românească PDF, Bilete avion+Taxi, Submit din Gas Studio.
-   - Toate marcate cu badge „În dezvoltare" amber.
+1. **🔥 P0 Fix Auth Loop (Google + Email)** — `AuthCallback.jsx` salva token în `localStorage.auth_token`, dar `api.js` îl citea din `sessionStorage.epd_auth_token`. Înlocuit cu `setAuthToken()` din api.js — Google OAuth nu mai face loop. Adăugat și `nav('/dashboard', { replace: true })` ca să nu rămână istoric.
+2. **🆕 Plan SRL ONE-TIME (1000 EUR)** — `plans.py::srl` cu `one_time: True` + `lifetime_projects: 100`. Quota check în `gas_project_routes.py` numără TOATE proiectele (nu doar luna curentă) pentru SRL. Card cu badge „Plată unică" verde pe `/pricing`.
+3. **Trial 14 zile → Gratuit nelimitat (fără export)** — utilizatorii pot folosi platforma fără limită de timp, doar exportul DOCX/PDF este blocat.
+4. **`/gaze-naturale` PUBLIC** — accesibil fără login pentru vizualizare + testare. Banner „Pagină în dezvoltare" cu detalii despre secțiunile funcționale (proiectare branșamente, extinderi, instalații utilizare).
+5. **🆕 Parteneri & Colaborări (`/parteneri`)** — directoriu profesional cu 5 tipuri (S.R.L., PFA, Angajat, Verificator, OSD) + 8 roluri (proiectant, executant, VGD, RTE, contabilitate, ofertare, operator date, consultant). Endpoints: `/api/partners`, `/api/partners/me`, `/api/partners/collaborations`. Un verificator poate accepta invitații de la N societăți simultan datorită planului nelimitat.
+6. **Industries (13) hidden from non-developers** — `roles_pages_matrix.py` limitează `/documentatie-industrii` la dev/admin/society_admin/cofounder.
+7. **„Servicii și funcții în dezvoltare"** (Pricing.jsx) — secțiune amber DEASUPRA grid-ului cu 7 carduri transparente (QES eIDAS, workflow inter-dep, Riviera PDF, voturi CNP, etc.).
+8. **Workflow Verificator real (V12.0 preserved)** — `/api/verificator/{inbox,decide,ledger,submit}` cu hash SHA-256 imuabil + audit log. UI `/verificator/inbox` cu Inbox + Ledger pe societăți.
 
-### Verificare end-to-end (V12.0)
-| Endpoint / Flow | Status |
+### Verificare end-to-end (V12.2 manual curl)
+| Test | Status |
 |---|---|
-| GET /api/plans (13 planuri inclusiv osd/vgd/rte/mass_production) | ✅ |
-| GET /api/me/plan (quotas corecte per plan) | ✅ |
-| POST /api/auth/register + login (user nou) | ✅ |
-| POST /api/auth/register fără gdpr_consent | ✅ REFUZ 400 |
-| POST /api/payments/checkout (basic 58, vgd 1000, mass_prod 2500) | ✅ cs_live_* |
-| POST /api/payments/checkout trial 0 EUR | ✅ free_activated:true |
-| POST /api/donations/checkout (RON 10, EUR 5) | ✅ cs_live_* |
-| POST /api/donations/checkout amount<1 | ✅ REFUZ 400 |
-| Verificator submit → inbox → decide → ledger E2E | ✅ |
-| Verificator access control (basic user 403) | ✅ |
-| Pricing UI: "în dezvoltare" + 13 planuri | ✅ |
-| /verificator/inbox owner UI: tabs + filtre + empty state | ✅ |
+| 14 planuri în `/api/plans` (inclusiv SRL one-time) | ✅ |
+| Stripe checkout pentru 13 planuri plătite returnează `cs_live_*` | ✅ |
+| Trial 0 EUR activare directă fără Stripe | ✅ |
+| Donații RON 15, EUR 5, refuz RON 0.5 | ✅ |
+| Register fără gdpr_consent → 400 | ✅ |
+| Register + login + `/auth/me` E2E | ✅ |
+| `/gaze-naturale` HTTP 200 fără login | ✅ |
+| Banner „Pagină în dezvoltare" vizibil | ✅ |
+| Parteneri CRUD (create + list cu filtre) | ✅ |
+| Verificator submit→inbox→decide→ledger | ✅ (V12.0) |
 
-**Test report**: `/app/test_reports/iteration_25.json` — Backend 17/17 PASS · Frontend 6/6 PASS.
-
-## 1. Original Problem Statement (founder, Romanian)
-> „Vreau să consolidez toate logicile din mai multe repository-uri într-o singură platformă numită Energy Project Design (EPD), cu interfață premium de utilitar global multi-trilion-dolar.
-> 1. Modulul Gaze Naturale — 100% legal România (NTPE 89/2018), 33+ template DOCX, placeholdere reale.
-> 2. Monetizare universală — Stripe LIVE, planuri foarte scumpe (OSD 999999€/lună, Developer Elite $999,999, Mass Production, modul donații).
-> 3. UI premium 'mega utilitar global'.
-> 4. Workflow strict cronologic în Gas + workflow Verificator real (import, ștampilare, retransmitere, ledger).
-> 5. Restricții UI bazate pe planul activ.
-> 6. SEO global + multi-limbă + JSON-LD.
-> Misiuni viitoare: voturi electronice, bilete avion, taxi global, Riviera Românească (litoralul ca destinație globală)."
-
-## 2. Plan catalog (V12.0)
-
-| Plan ID | Nume | Preț EUR/lună | Proiecte/lună | Funcții |
-|---|---|---:|---:|---|
-| free | Free (cont expirat) | 0 | 0 | minim |
-| trial | Trial 14 zile | 0 | 5 | toate principale |
-| basic | Basic — Introducere date | 58 | 150 | date proiect + calc |
-| operator | Operator introducere date | 118 | **NELIMITATE** | + DOCX |
-| proiectant | Proiectant individual | 258 | 150 | + Avize Hub + Renouard |
-| executant | Executant | 198 | 150 | + PV-uri + anunț |
-| avize | Departament Avize / OSD | 138 | 150 | Avize Hub complet |
-| ofertare | Ofertare + SEAP | 158 | **NELIMITATE** | auto-apply SEAP |
-| contabilitate | Contabilitate + e-Factura | 98 | **NELIMITATE** | ANAF SPV |
-| **vgd** | **Verificator VGD** | **1.000** | **NELIMITATE** | inbox + decizii + ledger |
-| **rte** | **Verificator RTE** | **1.000** | **NELIMITATE** | idem VGD |
-| societate | Societate | 798 | **300** | toate departamentele |
-| mass_production | Mass Production | 2.500 | 300 | API + utilizatori nelimitați |
-| **osd** | **OSD (Operator Sistem Distribuție)** | **999.999** | **NELIMITATE** | enterprise + IP whitelisting |
-
-## 3. Architecture (V12.0)
+## Architecture (V12.2)
 
 ```
-Frontend (React 19 + TailwindCSS + i18next)
-├── pages/Pricing.jsx — secțiune "în dezvoltare" + grid 13 planuri
-├── pages/VerificatorWorkspace.jsx (NEW V12.0) — Inbox + Ledger + Decizii
-├── pages/GasNaturalStudio.jsx — main entry pentru /gaze-naturale
-├── pages/Dashboard.jsx (V11.0)
-└── ...
+Backend (FastAPI + MongoDB)
+├── plans.py — 14 planuri (V12.2: srl ONE-TIME, trial unlimited, vgd/rte 1000, osd 999999)
+├── verificator_routes.py — submit/inbox/decide/ledger
+├── partners_routes.py (NEW) — parteneri + colaborări inter-companii
+├── gas_project_routes.py — quota lifetime pentru SRL, monthly pentru subscription
+├── roles_pages_matrix.py — Industrii (13) hidden non-dev, + Parteneri page
+├── auth.py — JWT + Emergent Google session fallback
+└── server.py — payment checkout one_time vs subscription detection
 
-Backend (FastAPI + MongoDB + python-docx)
-├── plans.py — catalog 14 planuri (V12.0: osd nou, vgd/rte 1000, quotas restructurate)
-├── verificator_routes.py (NEW V12.0) — submit/inbox/decide/ledger
-├── roles_pages_matrix.py — + verif_workspace + verif_ledger pages
-├── gas_materials_engine.py (V11.6) — 554 materiale ANEXA 13 auto-select
-├── gas_master_template.py — DOCX 40KB cu 221 placeholdere
-└── server.py — auth (idempotent owner seed) + Stripe + 50+ routere
+Frontend (React 19)
+├── pages/Pricing.jsx — 14 plan cards + "în dezvoltare" amber section + SRL badge
+├── pages/Parteneri.jsx (NEW) — directoriu + create + collaboration modal
+├── pages/VerificatorWorkspace.jsx (V12.0) — inbox + ledger + decide modal
+├── pages/AuthCallback.jsx — V12.1 fix sessionStorage
+├── pages/GasNaturalStudio.jsx — public, banner "in development"
+├── contexts/AuthContext.jsx — hybrid cookie+Bearer
+└── App.js — /gaze-naturale PUBLIC, /parteneri PUBLIC, /verificator/* protected
 ```
 
-## 4. Test Credentials
-Vezi `/app/memory/test_credentials.md`. Owner: `dragosserban95@gmail.com` / `Nuamparola_9`.
+## Credentials (test)
+- Owner: `dragosserban95@gmail.com` / `Nuamparola_9` (society_admin)
+- VGD test: `vgd_test_1782441873@example.com` / `VGDPass_123!` (plan=vgd)
 
-## 5. Production vs Preview (CRITICAL)
-- Preview (dev, agent control): `https://github-push-test.preview.emergentagent.com`
-- Production: `https://energyprojectdesign.com`
-- ⚠️ Toate modificările V12.0 sunt pe Preview. Trebuie făcut Deploy din Emergent pentru ca prod să primească update-urile.
+## Production vs Preview
+- Preview: `https://github-push-test.preview.emergentagent.com`
+- Production: `https://energyprojectdesign.com` (necesită Deploy din panoul Emergent)
+- Owner seed este idempotent — userul tău există automat și pe production după deploy.
 
-## 6. Roadmap (next P0/P1/P2)
-
-### P0 (next)
-- Buton „Submit la verificator VGD/RTE" în GasNaturalStudio (deschide modal cu lookup email)
-- Notificare in-app + email când VGD/RTE ia decizie (status badge în /proiecte)
-
-### P1
-- Integrare reală QES eIDAS (DigiSign / certSIGN) — semnătură criptografică pe decizia verificator
-- Dev Template Manager UI (`/templates`) — upload .docx custom + mapare placeholdere
-- Buton „Descarcă propunere oficială (PDF 20 pagini)" pe /riviera-romaneasca
-
-### P2
-- Inter-department workflow notifications (chat/notes per proiect)
-- JSON-LD JobPosting pe /jobs
-- Refactor server.py (3360+ linii) → split auth/stripe/donations în routere separate
-
-### Backlog
-- Coastline Riviera Românească app — engineering design phase
-- Electronic CNP-based voting — legal framework pending
-- Taxi global + bilete avion marketplace
+## Roadmap (post V12.2)
+- P0: Buton „Submit la VGD/RTE" direct în GasNaturalStudio (autocomplete cu parteneri verificatori)
+- P0: Badge status verificare în `/proiecte` (pending/approved/rejected)
+- P1: Integrare reală QES eIDAS (DigiSign / certSIGN)
+- P1: Restore funcții complete din imaginea legendară (Trimite la Primarie / Diriginte / Contabilitate / OSD / ISC / Politie din UI)
+- P1: Vision frame clonabil — template-uri pentru alte industrii (electric, fotovoltaic, telecom)
+- P2: JSON-LD JobPosting `/jobs`, refactor server.py (3450+ linii)
+- P2: Riviera Românească — propunere oficială PDF 20 pagini

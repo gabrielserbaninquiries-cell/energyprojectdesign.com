@@ -66,6 +66,7 @@ import ProductSkeleton from './pages/ProductSkeleton';
 import GasNaturalProjectV2 from './pages/GasNaturalProjectV2';
 import GasNaturalStudio from './pages/GasNaturalStudio';
 import VerificatorWorkspace from './pages/VerificatorWorkspace';
+import Parteneri from './pages/Parteneri';
 import VoturiCNP from './pages/VoturiCNP';
 import RivieraRomaneasca from './pages/RivieraRomaneasca';
 import Transparenta from './pages/Transparenta';
@@ -137,6 +138,9 @@ function AppRouter() {
       {/* V12.0 — Workspace Verificator VGD / RTE (plans 1000 EUR/lună) */}
       <Route path="/verificator/inbox" element={<ProtectedRoute><VerificatorWorkspace /></ProtectedRoute>} />
       <Route path="/verificator/ledger" element={<ProtectedRoute><VerificatorWorkspace /></ProtectedRoute>} />
+
+      {/* V12.2 — Parteneri & Colaborări (public listing, create requires login) */}
+      <Route path="/parteneri" element={<Parteneri />} />
 
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/billing" element={<ProtectedRoute><Billing /></ProtectedRoute>} />

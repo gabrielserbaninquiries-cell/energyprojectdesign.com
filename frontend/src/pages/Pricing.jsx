@@ -124,21 +124,24 @@ export default function Pricing() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-px bg-gray-200 border border-gray-200" data-testid="pricing-grid">
             {plans.map((p) => {
-              const highlight = p.id === 'societate';
+              const highlight = p.id === 'societate' || p.id === 'srl';
               const isActive = user?.plan === p.id;
+              const isOneTime = p.one_time || p.id === 'srl';
               return (
                 <div key={p.id} className={`bg-white p-7 flex flex-col relative ${highlight ? 'ring-2 ring-[#FFB300] ring-inset' : ''}`} data-testid={`plan-${p.id}`}>
                   {highlight && <div className="absolute top-0 right-0 bg-[#FFB300] text-black text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 flex items-center gap-1"><Star className="w-3 h-3" /> Recomandat</div>}
-                  <div className="label mb-2">{p.label}</div>
+                  {isOneTime && <div className="absolute top-0 left-0 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1">Plată unică</div>}
+                  <div className="label mb-2 mt-3">{p.label}</div>
                   <h3 className="text-2xl font-bold tracking-tight mb-3">{p.name}</h3>
                   <div className="mb-3">
                     <span className="text-4xl font-bold tracking-tighter">{p.price_eur}</span>
                     <span className="text-base text-gray-500 ml-1">EUR</span>
-                    <span className="text-sm text-gray-500 ml-1">/ lună</span>
+                    <span className="text-sm text-gray-500 ml-1">{isOneTime ? '· plată unică' : '/ lună'}</span>
                   </div>
                   <p className="text-xs text-gray-600 mb-4">{p.tagline}</p>
                   <ul className="space-y-2 mb-6 text-xs flex-1">
-                    <li className="flex items-start gap-2"><Check className="w-3.5 h-3.5 text-[#16A34A] mt-0.5 shrink-0" />{p.documents_per_month} documente / lună</li>
+                    <li className="flex items-start gap-2"><Check className="w-3.5 h-3.5 text-[#16A34A] mt-0.5 shrink-0" />{p.documents_per_month >= 99999 ? 'Documente nelimitate' : `${p.documents_per_month} documente / lună`}</li>
+                    {isOneTime && p.lifetime_projects && <li className="flex items-start gap-2"><Check className="w-3.5 h-3.5 text-emerald-600 mt-0.5 shrink-0" /><strong>{p.lifetime_projects} proiecte lifetime (achiziție unică)</strong></li>}
                     {p.features.slice(0, 5).map(f => (
                       <li key={f} className="flex items-start gap-2"><Check className="w-3.5 h-3.5 text-[#16A34A] mt-0.5 shrink-0" /><span className="capitalize">{f.replace(/_/g, ' ')}</span></li>
                     ))}
@@ -151,7 +154,7 @@ export default function Pricing() {
                     data-testid={`select-${p.id}`}
                     className={highlight ? 'amber-btn w-full disabled:opacity-50 text-sm' : 'outline-btn w-full justify-center disabled:opacity-50 text-sm'}
                   >
-                    {isActive ? '✓ Plan activ' : (busy === p.id ? 'Se procesează...' : `Achiziționează — ${p.price_eur} EUR`)}
+                    {isActive ? '✓ Plan activ' : (busy === p.id ? 'Se procesează...' : `Achiziționează — ${p.price_eur} EUR${isOneTime ? ' (unic)' : '/lună'}`)}
                   </button>
                 </div>
               );

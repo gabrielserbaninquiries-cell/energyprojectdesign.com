@@ -1090,23 +1090,23 @@ async def create_checkout(req: CheckoutRequest, request: Request, user: User = D
         raise HTTPException(status_code=400, detail="Plan invalid")
 
     # V11.5 — Refuse plan downgrade for owner/society_admin/developer accounts.
-    # Protects owner state: trial activation must not strip society_admin powers.
     if user.plan in ("society_admin", "developer", "developer_lifetime") and req.plan_id == "trial":
         raise HTTPException(
             status_code=403,
             detail="Contul tău administrativ are deja toate drepturile. Trial-ul ar reduce drepturile — schimbare blocată.",
         )
 
+    # V12.2 — Detect one-time plans (e.g. SRL 1000 EUR lifetime) for metadata routing
+    plan_full = plans_module.PLANS.get(req.plan_id, {})
+    is_one_time = bool(plan_full.get("one_time"))
+
     # V11.4 — FREE / TRIAL plans (amount = 0): activate directly without Stripe.
-    # Fixes HTTP 500 when user clicked "Achiziționează — 0 EUR" on the trial card.
     if float(plan["amount"]) <= 0:
-        # Activate plan immediately; no Stripe checkout for free plans
         renew_at = (datetime.now(timezone.utc) + timedelta(days=14 if req.plan_id == "trial" else 30)).isoformat()
         await db.users.update_one(
             {"user_id": user.user_id},
             {"$set": {"plan": req.plan_id, "plan_renews_at": renew_at, "plan_activated_at": datetime.now(timezone.utc).isoformat()}},
         )
-        # Log activation in payment_transactions for audit
         await db.payment_transactions.insert_one({
             "transaction_id": new_id("txn_"),
             "user_id": user.user_id,
@@ -1121,7 +1121,6 @@ async def create_checkout(req: CheckoutRequest, request: Request, user: User = D
             "created_at": datetime.now(timezone.utc).isoformat(),
         })
         logger.info(f"Free plan activated: user={user.user_id} plan={req.plan_id}")
-        # Return success URL so frontend can redirect to dashboard immediately
         return {
             "url": f"{req.origin_url.rstrip('/')}/dashboard?free_activated={req.plan_id}",
             "session_id": None,
@@ -1133,12 +1132,13 @@ async def create_checkout(req: CheckoutRequest, request: Request, user: User = D
     cancel_url = f"{req.origin_url.rstrip('/')}/pricing"
 
     sc = _stripe_client(request)
+    source_tag = "one_time" if is_one_time else "subscription"
     co_req = CheckoutSessionRequest(
         amount=float(plan["amount"]),
         currency=plan["currency"],
         success_url=success_url,
         cancel_url=cancel_url,
-        metadata={"user_id": user.user_id, "plan_id": req.plan_id, "source": "subscription"},
+        metadata={"user_id": user.user_id, "plan_id": req.plan_id, "source": source_tag},
     )
     session = await sc.create_checkout_session(co_req)
 
@@ -1151,11 +1151,12 @@ async def create_checkout(req: CheckoutRequest, request: Request, user: User = D
         "currency": plan["currency"],
         "payment_status": "initiated",
         "status": "open",
-        "metadata": {"user_id": user.user_id, "plan_id": req.plan_id},
+        "one_time": is_one_time,
+        "metadata": {"user_id": user.user_id, "plan_id": req.plan_id, "source": source_tag},
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
     await db.payment_transactions.insert_one(txn)
-    return {"url": session.url, "session_id": session.session_id}
+    return {"url": session.url, "session_id": session.session_id, "one_time": is_one_time}
 
 
 @api.get("/payments/status/{session_id}")
@@ -3349,6 +3350,13 @@ _verif_router = make_verificator_router(db, get_current_user)
 _verif_api = APIRouter(prefix="/api")
 _verif_api.include_router(_verif_router)
 app.include_router(_verif_api)
+
+# V12.2 — Partners directory + collaborations
+from partners_routes import make_partners_router  # noqa: E402
+_part_router = make_partners_router(db, get_current_user)
+_part_api = APIRouter(prefix="/api")
+_part_api.include_router(_part_router)
+app.include_router(_part_api)
 
 
 # CORS: when credentials are required, browsers reject "*" origin. Use a regex
