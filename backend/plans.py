@@ -51,10 +51,10 @@ PLANS: Dict[str, Dict] = {
         ],
     },
     "trial": {
-        "id": "trial", "name": "Trial", "label": "Trial 14 zile",
-        "price_eur": 0, "currency": "eur", "currency_label": "14 zile gratuit",
-        "tagline": "Test complet 14 zile cu acces la generator documente, calcule, semnătură (export limitat la 3 docs).",
-        "documents_per_month": 10,
+        "id": "trial", "name": "Gratuit", "label": "Acces liber (fără export)",
+        "price_eur": 0, "currency": "eur", "currency_label": "Gratuit · timp nelimitat",
+        "tagline": "Acces liber, fără limită de timp. Toate funcțiile de proiectare disponibile pentru testare și vizualizare. Singura restricție: documentele NU pot fi exportate / descărcate.",
+        "documents_per_month": 99999,
         "users_allowed": 1,
         "features": [F_PROJECT, F_TECHNICAL, F_CALC, F_DOCS, F_STAMPS, F_EMAIL, F_CERT, F_VERIFY, F_AI],
         "stamps_allowed": ["proiectant"],
@@ -62,10 +62,12 @@ PLANS: Dict[str, Dict] = {
         "documents_allowed": ["cerere_racordare", "memoriu_tehnic", "fisa_date_tehnice"],
         "export_allowed": False,
         "value_props": [
-            "Acces total 14 zile (toate funcțiile principale)",
-            "10 documente DOCX generabile",
-            "Calcul inteligent · semnătură digitală · QR code",
+            "Acces NELIMITAT în timp — fără cont expirat",
+            "Toate funcțiile principale (proiectare, calcule, materiale)",
+            "Vizualizare documente DOCX generate",
+            "Calcul inteligent · semnătură digitală preview · QR code",
             "Asistent AI inclus",
+            "⚠️ Export DOCX / PDF blocat — upgrade pentru descărcare",
         ],
     },
     "basic": {
@@ -501,7 +503,7 @@ DEFAULT_PLAN = "basic"
 # Higher tiers get more. Internal/owner plans are unlimited.
 _PROJECT_QUOTA = {
     "free": 0,
-    "trial": 5,
+    "trial": 99999,
     "basic": 150,
     "operator": 99999,
     "proiectant": 150,

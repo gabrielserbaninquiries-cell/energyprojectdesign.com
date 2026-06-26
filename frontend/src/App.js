@@ -121,10 +121,12 @@ function AppRouter() {
       <Route path="/confidentialitate" element={<Confidentialitate />} />
       <Route path="/gdpr" element={<Gdpr />} />
       <Route path="/pentru/:role" element={<Personas />} />
-      <Route path="/gaze-naturale" element={<ProtectedRoute><GasNaturalStudio /></ProtectedRoute>} />
-      <Route path="/gaze-naturale/:id" element={<ProtectedRoute><GasNaturalStudio /></ProtectedRoute>} />
-      <Route path="/gaze-naturale-studio" element={<ProtectedRoute><GasNaturalStudio /></ProtectedRoute>} />
-      <Route path="/gaze-naturale-studio/:id" element={<ProtectedRoute><GasNaturalStudio /></ProtectedRoute>} />
+      {/* V12.1 — Gas Natural Studio is PUBLIC (free viewing & data entry, export gated by plan).
+          Per user request: "platforma gaze naturale nu ar trebui sa fie protejata de logare, ci libera pentru testare si vizualizare." */}
+      <Route path="/gaze-naturale" element={<GasNaturalStudio />} />
+      <Route path="/gaze-naturale/:id" element={<GasNaturalStudio />} />
+      <Route path="/gaze-naturale-studio" element={<GasNaturalStudio />} />
+      <Route path="/gaze-naturale-studio/:id" element={<GasNaturalStudio />} />
       <Route path="/gaze-naturale-v2" element={<ProtectedRoute><GasNaturalProjectV2 /></ProtectedRoute>} />
       <Route path="/gaze-naturale-v2/:pid" element={<ProtectedRoute><GasNaturalProjectV2 /></ProtectedRoute>} />
       <Route path="/gaze-naturale-v1/:pid" element={<ProtectedRoute><GasNaturalProject /></ProtectedRoute>} />
