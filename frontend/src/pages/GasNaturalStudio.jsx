@@ -42,6 +42,8 @@ import GasSmartCalcPanel from '../components/gas/GasSmartCalcPanel';
 import GasSuduriSection from '../components/gas/GasSuduriSection';
 import GasPVSection from '../components/gas/GasPVSection';
 import GasDocumenteSection from '../components/gas/GasDocumenteSection';
+import GasPhaseEntropy from '../components/gas/GasPhaseEntropy';
+import GasMailDispatchPanel from '../components/gas/GasMailDispatchPanel';
 import { TIPURI_LUCRARE } from '../lib/gasCalcs';
 
 const SECTIONS = [
@@ -442,6 +444,19 @@ export default function GasNaturalStudio() {
         </div>
       </div>
 
+      {/* V12.3 — Entropia proiectului pe faze (serviciul de completare, conform cerinței user) */}
+      <GasPhaseEntropy data={data} onJumpToPhase={(phaseId) => {
+        const map = {
+          date_initiale: 'general',
+          date_tehnice: 'bransament',
+          avize: 'avize',
+          materiale: 'materiale',
+          documente: 'documente',
+          verificare: 'general',
+        };
+        setActiveSection(map[phaseId] || 'general');
+      }} />
+
       {/* Navigation sidebar + content */}
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
         {/* Section nav */}
@@ -528,6 +543,9 @@ export default function GasNaturalStudio() {
           )}
         </main>
       </div>
+
+      {/* V12.3 — Mail dispatch (Trimite la Primărie/Diriginte/Contabilitate/OSD/ISC/Poliție) */}
+      <GasMailDispatchPanel documents={data._generated_documents || []} />
     </AppShell>
   );
 }
