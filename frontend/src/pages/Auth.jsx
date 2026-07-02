@@ -95,11 +95,11 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen grid md:grid-cols-2">
-      {/* Stânga — Brand panel */}
+      {/* Stânga — Brand panel cu fotografie reală de teren (V13.0: no more AI-slop) */}
       <div
         className="hidden md:flex flex-col justify-between text-white p-12 relative overflow-hidden"
         style={{
-          backgroundImage: `linear-gradient(135deg, rgba(15,23,42,0.92) 0%, rgba(76,29,149,0.85) 50%, rgba(30,58,138,0.9) 100%), url(${BRAND_ASSETS.cover1Futurist})`,
+          backgroundImage: `linear-gradient(180deg, rgba(9,9,11,0.55) 0%, rgba(9,9,11,0.85) 100%), url(https://images.unsplash.com/photo-1565954786194-d22abeaac3ae?w=1600&q=85&auto=format&fit=crop)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -114,16 +114,16 @@ export default function Auth() {
         </Link>
 
         <div className="relative">
-          <div className="text-xs uppercase tracking-[0.25em] text-violet-300 mb-4 font-semibold">
+          <div className="text-xs uppercase tracking-[0.28em] text-zinc-300 mb-4 font-semibold">
             // {BRAND.subTagline}
           </div>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter leading-[1.05]">
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tighter leading-[1.02] text-white">
             {isSignup ? 'Începeți în 60 de secunde.' : BRAND.tagline}
           </h2>
-          <ul className="text-sm text-slate-300 mt-6 space-y-2.5">
+          <ul className="text-sm text-zinc-300 mt-6 space-y-2.5">
             {bullets.map(b => (
               <li key={b} className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-400 shrink-0" /> {b}
+                <Check className="w-4 h-4 text-white shrink-0" /> {b}
               </li>
             ))}
           </ul>

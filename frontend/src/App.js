@@ -6,6 +6,7 @@ import { DevModeProvider } from './contexts/DevModeContext';
 import { Toaster } from 'sonner';
 
 import Landing from './pages/Landing';
+import Auth from './pages/Auth';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -113,8 +114,14 @@ function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<HomeRedirect />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      {/* V13.0 — Unified auth page (Login + Register combined per user command CMD-03).
+          Old /login and /register still work but redirect into /auth for continuity. */}
+      <Route path="/auth" element={<Auth />} />
+      <Route path="/login" element={<Navigate to="/auth?mode=signin" replace />} />
+      <Route path="/register" element={<Navigate to="/auth?mode=signup" replace />} />
+      {/* Kept exports for direct linking / testing safety */}
+      <Route path="/legacy-login" element={<Login />} />
+      <Route path="/legacy-register" element={<Register />} />
       <Route path="/pricing" element={<Pricing />} />
       {/* V11.2 — Misiuni EPD Next-Gen (presentation sites — public, no auth) */}
       <Route path="/voturi-cnp" element={<VoturiCNP />} />

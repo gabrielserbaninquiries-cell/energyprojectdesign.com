@@ -1,0 +1,82 @@
+{
+  "summary": "V13.0 full validation — SEO (robots, 3 sitemaps), unified /auth page (signup+signin), redirects /login→/auth?mode=signin and /register→/auth?mode=signup, owner+new-user auth, /gaze-naturale public, /admin/users owner access, 14 pricing plans, Stripe LIVE checkout returns cs_live_* URLs, donations 5 EUR + rejection <min, /api/plans catalog, /api/me/plan quotas. 19/19 pytest PASS. Frontend UI validated on desktop 1920x1080: Auth title toggles correctly, GDPR checkbox on signup, GoogleLogin button rendered (with expected 403 on preview origin), fonts Cabinet Grotesk H1 / Satoshi body, .epd-btn bgcolor rgb(9,9,11) = zinc-950 (no gradient violet), global-translator-toggle opens dropdown with 25+ languages. After scroll to trigger lazy-load: 90/93 images load (3 minor secondary-service tiles broken).",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Landing header (nav)", "issue": "Header nav wraps oddly at 1920px: 'Gaze Naturale' link visually splits the 'Energy Project Design' logo text across two lines, and 'Investitori' overlaps 'Transparența'. Design/spacing issue — not blocking functionality.", "selector": "header nav", "priority": "LOW"},
+      {"component": "GlobalTranslator dropdown", "issue": "Language options have no data-testid (e.g. lang-option-en). Dropdown IS functional and lists 25+ languages, but automated cookie-switch tests (RO→EN→FR→RO) can't target items by testid.", "selector": "[data-testid^=lang-option-]", "priority": "LOW"}
+    ],
+    "integration_issues": [
+      {"flow": "Google Sign-In (GIS)", "issue": "Console shows '[GSI_LOGGER]: The given origin is not allowed for the given client ID' + 403 on the preview URL. Expected behavior for preview — production origin (www.energyprojectdesign.com) must be whitelisted in Google Cloud OAuth Client. Email/password auth works perfectly.", "affected_selectors": ["[data-testid=google-auth-wrapper]"]},
+      {"flow": "GoogleLogin width prop", "issue": "GSI warns 'Provided button width is invalid: 100%'. Should pass a numeric px value (e.g. width=\"320\") instead of \"100%\". Cosmetic only — button still renders full width via container CSS.", "affected_selectors": ["/pages/Auth.jsx L168"]}
+    ],
+    "design_issues": [
+      {"screen": "Landing FUTURE_SERVICES tiles (car-wash, transport-naval, anunt-servicii)", "issues": ["3 Unsplash image URLs return 0 naturalWidth: photo-1605618826115-fb9e0c93a6cb (Spălătorii auto), photo-1567542495143-72eabec5ce6d (Transport naval), photo-1571266028243-e4bb35f9f38f (DJ/foto/IT). Replace with working Unsplash IDs in /app/frontend/src/data/services.js."]}
+    ]
+  },
+  "tests_executed": [
+    {"id": "SEO_robots_txt_200_valid", "status": "PASS", "detail": "3535 bytes, GPTBot+ClaudeBot+Google-Extended whitelisted, Sitemap: header present"},
+    {"id": "SEO_sitemap_xml_200_41_urls", "status": "PASS", "detail": "41 <url> entries, 25 hreflang references"},
+    {"id": "SEO_sitemap-industries_xml_200", "status": "PASS"},
+    {"id": "SEO_sitemap-images_xml_200", "status": "PASS"},
+    {"id": "AUTH_owner_login_200_dev_role", "status": "PASS"},
+    {"id": "AUTH_login_invalid_credentials_401", "status": "PASS"},
+    {"id": "AUTH_register_new_user_gdpr_true", "status": "PASS"},
+    {"id": "AUTH_register_missing_gdpr_400_422", "status": "PASS"},
+    {"id": "ROUTE_/auth_200", "status": "PASS"},
+    {"id": "ROUTE_/login_200_SPA", "status": "PASS", "detail": "SPA loads then JS redirects to /auth?mode=signin (verified via Playwright)"},
+    {"id": "ROUTE_/register_200_SPA", "status": "PASS"},
+    {"id": "ROUTE_/gaze-naturale_public_200", "status": "PASS", "detail": "No login required, banner+cronologie+PTh+CU+Avize sections visible"},
+    {"id": "PLANS_list_14_plans", "status": "PASS", "detail": "14 plan-* cards on /pricing (basic, operator, vgd, rte, ...)"},
+    {"id": "STRIPE_checkout_basic_returns_url", "status": "PASS"},
+    {"id": "STRIPE_donation_5_eur_cs_live", "status": "PASS"},
+    {"id": "STRIPE_donation_min_amount_400", "status": "PASS"},
+    {"id": "ADMIN_users_owner_200_list", "status": "PASS", "detail": "10 accounts, owner+DEV+ADMIN badges, Plan/Șterge actions"},
+    {"id": "ADMIN_users_basic_user_403", "status": "PASS"},
+    {"id": "ME_PLAN_owner_200", "status": "PASS"},
+    {"id": "UI_auth_default_signup_tab", "status": "PASS", "detail": "auth-title = 'Începe gratuit'"},
+    {"id": "UI_auth_switch_to_signin", "status": "PASS", "detail": "URL mutates to ?mode=signin, title becomes 'Bine ai revenit'"},
+    {"id": "UI_login_playwright_redirects_dashboard", "status": "PASS"},
+    {"id": "UI_global_translator_toggle_visible", "status": "PASS", "detail": "data-testid found, dropdown lists 25+ languages (RO/EN/ES/FR/DE/IT/PT/NL/PL/UK/RU/TR/AR/HE/HI...)"},
+    {"id": "UI_fonts_H1_Cabinet_Grotesk", "status": "PASS", "detail": "computed fontFamily = 'Cabinet Grotesk', 'Space Grotesk', Satoshi, system-ui"},
+    {"id": "UI_fonts_body_Satoshi", "status": "PASS"},
+    {"id": "UI_epd-btn_bg_zinc_950", "status": "PASS", "detail": "backgroundColor = rgb(9, 9, 11) = #09090B (no gradient)"},
+    {"id": "UI_incepe_gratuit_link_/auth?mode=signup", "status": "PASS"},
+    {"id": "UI_ecosystem_tiles_images", "status": "PARTIAL", "detail": "90/93 images load after lazy-load scroll; 3 minor secondary-service images broken (car-wash, transport-naval, anunt-servicii)"}
+  ],
+  "test_report_links": [
+    "/app/backend/tests/test_v130_full_validation.py",
+    "/app/test_reports/pytest/v130_results.xml"
+  ],
+  "action_items": [
+    "LOW: Replace 3 broken Unsplash IDs in /app/frontend/src/data/services.js: photo-1605618826115-fb9e0c93a6cb (car-wash), photo-1567542495143-72eabec5ce6d (transport-naval), photo-1571266028243-e4bb35f9f38f (anunt-servicii).",
+    "LOW: Fix landing header nav wrap — 'Gaze Naturale' visually breaks 'Energy Project Design' logo line and 'Investitori' overlaps 'Transparența' at 1920px viewport. Reduce nav item padding OR shorten labels OR use CSS `white-space:nowrap` on logo brand.",
+    "LOW: Add data-testid attributes to language dropdown options (e.g. `data-testid=\"lang-option-en\"`) in GlobalTranslator.jsx to enable automated cookie-switch tests.",
+    "LOW: Change GoogleLogin `width=\"100%\"` prop to a numeric px value (e.g. 320) to silence GSI warning.",
+    "INFO: Preview URL not in Google OAuth allowed origins (403). Production `www.energyprojectdesign.com` must be whitelisted in the Google Cloud project 656281504261 OAuth client. This is expected for preview and does NOT impact email/password login."
+  ],
+  "critical_code_review_comments": [
+    "Auth.jsx clean: correct data-testid coverage (auth-title, email-input, password-input, name-input, gdpr-consent, gdpr-error, register-submit, login-submit, switch-to-signin, switch-to-signup, google-auth-wrapper). Signup requires gdpr checked + password >=6 chars. Mode toggling via useSearchParams is idempotent.",
+    "App.js: React Router <Navigate> for /login and /register is CLIENT-SIDE only — first request returns SPA HTML with status 200, then JS mutates URL. This is standard SPA behavior and matches the review-request expectation of 'status 200 final'.",
+    "server.py native /api/auth/google endpoint verifies Google ID token against GOOGLE_CLIENT_ID env — correct. Returns EPD JWT + user. Idempotent user creation. Uses _is_developer_email() consistently.",
+    "server.py Stripe donations: min 2 RON / 1 EUR limits enforced. Donor message forwarded to support@ + thank-you email queued (best-effort, wrapped in try/except so email failure does not block Stripe session).",
+    "admin_routes.py /api/admin/users properly guarded by get_admin_user dep (403 for non-admin). Exports CSV, plan-change, delete all present.",
+    "server.py > 3400 lines — refactor recommended but not blocking. Consider splitting auth/payments/documents into separate routers.",
+    "Preview STRIPE_API_KEY is sk_live_* — every /api/payments/checkout and /api/donations/checkout call creates a real Stripe session (cs_live_*). Testing agents MUST NOT complete payment (URL is only inspected, not visited)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_v130_full_validation.py (NEW, 19 tests all pass)",
+    "/app/test_reports/pytest/v130_results.xml (NEW)",
+    "/app/test_reports/iteration_26.json"
+  ],
+  "success_rate": {"backend": "100% (19/19 pytest)", "frontend": "96% (26/27 UI assertions — 1 partial on 3 minor image URLs)"},
+  "test_credentials": "Owner dragosserban95@gmail.com / Nuamparola_9 verified working (society_admin, DEV+ADMIN). New users can register with any @example.com email + gdpr_consent:true.",
+  "seed_data_creation": "Created ~2 throwaway @example.com test users during pytest run (test_v130_<ts>@example.com and test_v130_nogdpr_<ts>@example.com). Cleanup: db.users.delete_many({email:/^test_v130_/}).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "V13.0 fully functional: unified /auth with mode toggle + backward-compat redirects, all SEO endpoints healthy, all 14 plans present on /pricing, Stripe LIVE checkout works, /admin/users guarded correctly, /gaze-naturale public, fonts + zinc-950 button confirmed. Only 3 minor issues remain (all documented above): 3 broken Unsplash IDs in FUTURE_SERVICES, header nav layout wrap at 1920px, missing data-testid on lang-option-* buttons. Google OAuth 403 on preview is expected — do not treat as bug. Do NOT complete Stripe checkout during testing (LIVE keys).",
+  "rca of the issue": "No functional bugs. 3 cosmetic/asset issues remain: (1) 3 secondary-service Unsplash IDs 404 (car-wash, transport-naval, anunt-servicii) — replace URLs, (2) header nav wraps oddly at desktop viewport — reduce spacing/labels, (3) lang-option-* data-testids missing — add for automated testing of language switcher."
+}

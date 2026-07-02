@@ -2,29 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+/* V13.0 — "Trillion-dollar" premium typography stack.
+   Cabinet Grotesk (headings) + Inter Tight (body) from Google Fonts.
+   Cabinet Grotesk is served via Fontshare. Falling back to Space Grotesk from Google as ultimate safe headings font. */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter+Tight:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,800&f[]=satoshi@400,500,700&display=swap');
 
 :root {
-  /* EPD Brand palette — extracted from official logo gradient */
+  /* V13.0 — Swiss high-contrast monochrome (zinc) + industrial accents */
   --bg-primary: #FFFFFF;
-  --bg-secondary: #F8FAFC;
-  --bg-tertiary: #F1F5F9;
-  --text-primary: #0F172A;
-  --text-secondary: #334155;
-  --text-tertiary: #64748B;
+  --bg-secondary: #FAFAFA;
+  --bg-tertiary: #F4F4F5;
+  --bg-inverse: #09090B;
+  --text-primary: #09090B;
+  --text-secondary: #52525B;
+  --text-tertiary: #A1A1AA;
+  --text-inverse: #FFFFFF;
+  --border-default: #E4E4E7;
+  --border-hover: #D4D4D8;
+  --border-inverse: #27272A;
+  /* Industrial accents (kept violet as legacy alias to prevent regressions) */
+  --accent-investors: #D97706;
+  --accent-donations: #C026D3;
+  --accent-gas: #0284C7;
+  /* Legacy compat (older components still reference these) */
   --epd-violet: #7C3AED;
   --epd-violet-light: #A78BFA;
   --epd-indigo: #4F46E5;
   --epd-blue: #2563EB;
   --epd-navy: #1E3A8A;
   --epd-slate-900: #0F172A;
-  /* Primary accent now = EPD violet (was amber #FFB300 — kept for backwards compat) */
-  --accent: #7C3AED;
-  --accent-hover: #6D28D9;
+  --accent: #09090B;
+  --accent-hover: #27272A;
   --accent-secondary: #4F46E5;
   --danger: #EF4444;
   --success: #10B981;
-  --border: #E2E8F0;
+  --border: #E4E4E7;
 }
 
 html, body, #root {
@@ -33,11 +46,17 @@ html, body, #root {
 
 body {
   margin: 0;
-  font-family: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Satoshi', 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-primary);
   background: var(--bg-primary);
+  font-feature-settings: "ss01" 1, "cv11" 1;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: 'Cabinet Grotesk', 'Space Grotesk', 'Satoshi', system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 code, .mono {
@@ -145,28 +164,30 @@ code, .mono {
 .stagger > *:nth-child(5) { animation-delay: 0.36s; }
 .stagger > *:nth-child(6) { animation-delay: 0.44s; }
 
-/* Primary CTA — EPD violet→indigo gradient. `amber-btn` kept as alias for backwards compat. */
-.epd-btn, .amber-btn {
-  @apply inline-flex items-center justify-center gap-2 text-white font-semibold px-6 py-3 transition-all rounded-lg hover:-translate-y-0.5;
-  background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
-  box-shadow: 0 4px 14px -2px rgba(124, 58, 237, 0.4);
+/* V13.0 — Primary CTA = high-contrast zinc-950 (Swiss/premium look).
+   `amber-btn` and `.epd-btn-primary` kept as aliases so legacy usage doesn't break. */
+.epd-btn, .amber-btn, .epd-btn-primary {
+  @apply inline-flex items-center justify-center gap-2 text-white font-semibold px-6 py-3 transition-all rounded-md hover:-translate-y-0.5;
+  background: #09090B;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px -4px rgba(0,0,0,0.15);
 }
-.epd-btn:hover, .amber-btn:hover {
-  background: linear-gradient(135deg, #6D28D9 0%, #4338CA 100%);
-  box-shadow: 0 8px 20px -4px rgba(124, 58, 237, 0.5);
+.epd-btn:hover, .amber-btn:hover, .epd-btn-primary:hover {
+  background: #27272A;
+  box-shadow: 0 4px 20px -6px rgba(0,0,0,0.35);
 }
-.epd-btn:disabled, .amber-btn:disabled {
-  background: linear-gradient(135deg, #C4B5FD 0%, #A5B4FC 100%);
+.epd-btn:disabled, .amber-btn:disabled, .epd-btn-primary:disabled {
+  background: #A1A1AA;
   transform: none;
+  cursor: not-allowed;
 }
 .ghost-btn {
-  @apply inline-flex items-center justify-center gap-2 bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors px-4 py-2 rounded-lg;
+  @apply inline-flex items-center justify-center gap-2 bg-transparent text-zinc-700 hover:bg-zinc-100 hover:text-zinc-950 transition-colors px-4 py-2 rounded-md font-medium;
 }
 .outline-btn {
-  @apply inline-flex items-center justify-center gap-2 bg-white text-slate-900 border border-slate-200 hover:border-violet-400 hover:text-violet-700 px-5 py-2.5 transition-colors rounded-lg;
+  @apply inline-flex items-center justify-center gap-2 bg-white text-zinc-950 border border-zinc-200 hover:border-zinc-950 hover:bg-zinc-50 px-5 py-2.5 transition-all rounded-md font-medium;
 }
 .label {
-  @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-600;
+  @apply text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-500;
 }
 
 /* Forum markdown styles */

@@ -37,19 +37,19 @@ const MAIN_PRODUCT_HIGHLIGHTS = [
 // Servicii integrate ACTIVE (în platformă) — V11.0 cu imagini reale Unsplash + gradient fallback per industrie
 const ACTIVE_SERVICES = [
   { id: 'gas',         icon: Flame,         title: 'Gaze Naturale',         desc: 'Proiect tehnic complet conform NTPEE 2018 + ANRE', tag: 'CORE', href: '/gaze-naturale',
-    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=900&q=80&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1773186704394-919b2aa3179a?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-orange-500 via-red-500 to-rose-600' },
   { id: 'electric',    icon: Zap,           title: 'Electric',              desc: 'Proiectare instalații electrice conform ANRE',    tag: 'BETA', href: '/industrii/electric',
     image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-yellow-400 via-amber-500 to-orange-600' },
   { id: 'apa-canal',   icon: Droplet,       title: 'Apă-Canal',             desc: 'Branșament și racord apă potabilă & canalizare',  tag: 'BETA', href: '/industrii/apa-canal',
-    image: 'https://images.unsplash.com/photo-1574602048662-7e2b71b8a55e?w=900&q=80&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1693907986952-3cd372e4c9d8?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-cyan-500 via-blue-500 to-indigo-600' },
   { id: 'fotovoltaice',icon: Sun,           title: 'Fotovoltaice',          desc: 'Proiecte panouri și avizare ANRE',         tag: 'NEW',  href: '/industrii/fotovoltaice',
     image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-yellow-400 via-orange-500 to-amber-600' },
   { id: 'telecom',     icon: Phone,         title: 'Telecom',               desc: 'Avize Telekom, STB, NetCity',             tag: 'NEW',  href: '/industrii/telecom',
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=80&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1606814540563-5c02d62fd409?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-violet-500 via-purple-500 to-fuchsia-600' },
   { id: 'marketplace', icon: Store,         title: 'Marketplace',           desc: 'Șabloane, ștampile, kit-uri B2B',         tag: 'BIZ',  href: '/marketplace',
     image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900&q=80&auto=format&fit=crop',
@@ -67,7 +67,7 @@ const ACTIVE_SERVICES = [
     image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-amber-600 via-orange-700 to-red-700' },
   { id: 'logistics',   icon: Truck,         title: 'Comerț & Logistică',    desc: 'Lanț aprovizionare + transport materiale', tag: 'NEW', href: '/comert-logistica',
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&q=80&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1591768793355-74d04bb6608f?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-slate-500 via-blue-600 to-indigo-700' },
   { id: 'industry',    icon: Factory,       title: 'Fabrici & Uzine',       desc: 'Proiectare instalații industriale',        tag: 'NEW', href: '/fabrici-uzine',
     image: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=900&q=80&auto=format&fit=crop',
@@ -80,7 +80,7 @@ const ACTIVE_SERVICES = [
     gradient: 'from-slate-400 via-slate-500 to-slate-700' },
   // V10.0 — Servicii noi (cerere user: curierat, transport persoane, mediu, spitale, caritabile, biserică)
   { id: 'curierat',    icon: PackageOpen,   title: 'Curierat',              desc: 'Livrări rapide nationale, tracking real-time',tag: 'SOON', href: '/curierat',
-    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=900&q=80&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1614976523626-d598aafd4fda?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-orange-500 via-red-500 to-pink-600' },
   { id: 'transport',   icon: Bus,           title: 'Transport Persoane',    desc: 'Microbuze, taxi inter-orașe, partajat',     tag: 'SOON', href: '/transport-persoane',
     image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=900&q=80&auto=format&fit=crop',
@@ -192,8 +192,8 @@ export default function Landing() {
               <Link to="/dashboard" className="epd-btn text-sm py-2" data-testid="cta-dashboard">Panou</Link>
             ) : (
               <>
-                <Link to="/login" className="ghost-btn text-sm" data-testid="nav-login">Autentificare</Link>
-                <Link to="/register" className="epd-btn text-sm py-2" data-testid="nav-register">Începe gratuit</Link>
+                <Link to="/auth?mode=signin" className="ghost-btn text-sm" data-testid="nav-login">Autentificare</Link>
+                <Link to="/auth?mode=signup" className="epd-btn text-sm py-2" data-testid="nav-register">Începe gratuit</Link>
               </>
             )}
           </div>
@@ -220,7 +220,7 @@ export default function Landing() {
               {' '}<span className="font-semibold text-white">documentație electronică pentru instalații gaze naturale</span>, conform NTPEE 2018, eIDAS QES, cu valoare juridică.
             </p>
             <div className="flex items-center gap-3 flex-wrap">
-              <Link to={user ? '/gaze-naturale' : '/register?next=gas'} className="epd-btn text-base px-7 py-3.5" data-testid="hero-cta-gas">
+              <Link to={user ? '/gaze-naturale' : '/auth?mode=signup&next=gas'} className="epd-btn text-base px-7 py-3.5" data-testid="hero-cta-gas">
                 <Flame className="w-5 h-5" />
                 Începe proiect gaze naturale
                 <ArrowRight className="w-4 h-4" />
@@ -325,7 +325,7 @@ export default function Landing() {
                 })}
               </div>
               <div className="flex items-center gap-3 flex-wrap">
-                <Link to={user ? '/gaze-naturale' : '/register?next=gas'} className="epd-btn" data-testid="main-product-cta">
+                <Link to={user ? '/gaze-naturale' : '/auth?mode=signup&next=gas'} className="epd-btn" data-testid="main-product-cta">
                   <Flame className="w-4 h-4" /> Începe primul proiect (5 gratuit)
                 </Link>
                 <Link to="/pricing" className="outline-btn" data-testid="main-product-pricing">Planuri și tarife</Link>
@@ -365,7 +365,7 @@ export default function Landing() {
               return (
                 <Link
                   key={s.id}
-                  to={user ? s.href : `/register?next=${s.id}`}
+                  to={user ? s.href : `/auth?mode=signup&next=${s.id}`}
                   data-testid={`landing-service-${s.id}`}
                   className={`group relative bg-white border rounded-xl overflow-hidden transition-all hover:-translate-y-1 ${
                     isMain
@@ -833,7 +833,7 @@ export default function Landing() {
             <p className="text-slate-300 max-w-md">Înregistrare în 30 de secunde. Începeți primul proiect Gaze Naturale chiar acum.</p>
           </div>
           <div className="flex md:justify-end gap-3 flex-wrap">
-            <Link to="/register" className="epd-btn" data-testid="cta-bottom-register">Creează cont gratuit</Link>
+            <Link to="/auth?mode=signup" className="epd-btn" data-testid="cta-bottom-register">Creează cont gratuit</Link>
             <Link to="/pricing" className="inline-flex items-center gap-2 bg-white text-slate-900 hover:bg-slate-100 font-semibold px-6 py-3 rounded-lg transition-all">Vezi planurile</Link>
           </div>
         </div>
