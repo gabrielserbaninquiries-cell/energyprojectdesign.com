@@ -63,26 +63,39 @@ function readGoogtransCookie() {
   return match ? match[1] : 'ro';
 }
 
-// Cookie-based language change (works on initial load + persists across navigation)
-function setGoogtransCookie(targetLang) {
-  // Domain-wide cookie for SPA navigation
+// V12.8 — Robust cookie handling (fixes stuck-language bug).
+// Google Translate writes cookies pe host, parent domain AND leading-dot domain.
+// If we don't clear ALL variants, subsequent language switches don't take effect.
+function domainVariants() {
   const host = window.location.hostname;
-  // Set for current host and parent domain (handles www.* + bare domain)
-  const cookieValue = `googtrans=/ro/${targetLang};path=/;max-age=31536000`;
-  document.cookie = cookieValue;
-  if (host.includes('.')) {
-    const parentDomain = host.replace(/^www\./, '').replace(/^[^.]+\./, '.');
-    document.cookie = `googtrans=/ro/${targetLang};path=/;domain=${parentDomain};max-age=31536000`;
+  const parts = host.split('.');
+  const variants = new Set([host, `.${host}`]);
+  // add parent domains progressively: a.b.c.com → b.c.com, c.com
+  for (let i = 1; i < parts.length - 1; i++) {
+    const parent = parts.slice(i).join('.');
+    variants.add(parent);
+    variants.add(`.${parent}`);
   }
+  return [...variants];
 }
 
 function clearGoogtransCookie() {
-  const host = window.location.hostname;
-  document.cookie = 'googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT';
-  if (host.includes('.')) {
-    const parentDomain = host.replace(/^www\./, '').replace(/^[^.]+\./, '.');
-    document.cookie = `googtrans=;path=/;domain=${parentDomain};expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-  }
+  // Clear on ALL possible domain scopes — critical for stuck-language bug.
+  const past = 'Thu, 01 Jan 1970 00:00:00 GMT';
+  document.cookie = `googtrans=;path=/;expires=${past}`;
+  domainVariants().forEach((d) => {
+    document.cookie = `googtrans=;path=/;domain=${d};expires=${past}`;
+  });
+}
+
+function setGoogtransCookie(targetLang) {
+  // Always clear first — prevents stale cookies from other domain scopes surviving.
+  clearGoogtransCookie();
+  const value = `/ro/${targetLang}`;
+  document.cookie = `googtrans=${value};path=/;max-age=31536000`;
+  domainVariants().forEach((d) => {
+    document.cookie = `googtrans=${value};path=/;domain=${d};max-age=31536000`;
+  });
 }
 
 let _scriptInjected = false;

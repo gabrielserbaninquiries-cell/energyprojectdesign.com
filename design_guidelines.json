@@ -1,91 +1,125 @@
 {
-  "theme_archetype": "Archetype 4: Swiss & High-Contrast (Authority, Clarity, Truth)",
-  "global_rules": {
-    "philosophy": "High-end Swiss Brutalism with Premium Touches. Unified single ecosystem. Replace fragmented multi-colors (purple, green, blue) with a unified monochromatic structure punctuated by a single powerful brand accent (Orange).",
-    "primary_accent": "Orange/Amber (Brand Accent)",
-    "backgrounds": "Crisp White / 2% Zinc for Light mode, Obsidian for Dark Hero sections.",
-    "data_testid_rule": "MANDATORY on all interactive and key informational elements (e.g., buttons, inputs, links)."
-  },
-  "typography": {
-    "heading_font": "Cabinet Grotesk",
-    "body_font": "Outfit",
-    "technical_font": "JetBrains Mono",
-    "rules": "BANNED: Inter for headings. Use `tracking-tight` for H1/H2. Monospace strictly reserved for technical documentation labels, reference IDs, and code.",
-    "scale": {
-      "h1": "text-5xl sm:text-6xl tracking-tighter font-bold",
-      "h2": "text-3xl sm:text-4xl tracking-tight font-semibold",
-      "h3": "text-xl sm:text-2xl tracking-tight font-medium",
-      "body": "text-base leading-relaxed",
-      "technical_label": "text-xs font-mono uppercase tracking-widest text-zinc-500"
-    }
+  "theme": {
+    "archetype": "Archetype 4 (Swiss & High-Contrast)",
+    "mode": "Light",
+    "rationale": "The founder demands a 'trillion dollar platform UI' with absolute realism. No AI-slop, no abstract futuristic backgrounds, no purple gradients. We are using a highly structured, high-contrast monochrome base (Zinc/Slate) reminiscent of Stripe, Linear, and Vercel, paired with industrial accents. This creates maximum authority, trust, and premium B2B utility suitable for an engineering documentation platform."
   },
   "colors": {
-    "background_primary": "bg-white",
-    "background_secondary": "bg-zinc-50",
-    "background_tertiary": "bg-zinc-100",
-    "text_primary": "text-zinc-950",
-    "text_secondary": "text-zinc-500",
-    "border": "border-zinc-200",
-    "accent_primary": "bg-orange-600 text-white hover:bg-orange-700",
-    "accent_subtle": "text-orange-600 bg-orange-50",
-    "hub_ecosystem_hover_logic": "Instead of different colors per module, use unified structural cards with `hover:border-orange-500 hover:shadow-lg transition-all`."
-  },
-  "layout_spacing": {
-    "general": "Generous spacing. Use p-8 to p-12 for major containers. Prevent text collision by using proper inner padding on bordered containers.",
-    "grid_hub": "Bento Grid (Control Room Mode). grid-cols-1 md:grid-cols-8 lg:grid-cols-12 with wide gaps (gap-6 or gap-8).",
-    "border_radius": "Subtle roundness (`rounded-lg` or `rounded-xl`). Avoid extreme pill shapes except for badges.",
-    "shadows": "Ambient diffuse shadows `shadow-[0_8px_32px_rgba(0,0,0,0.04)]`. No harsh drop shadows."
-  },
-  "components_instructions": {
-    "HomePageV7": {
-      "path": "/acasa",
-      "layout": "Hub Ecosystem Bento Grid",
-      "instructions": "Create 5 major clickable zones (Documentatie, Marketplace, Imobiliare, Forum, Servicii). Use a clean, monochromatic card base (`bg-white border-zinc-200`) with lucide-react icons. On hover, the border turns Orange and a subtle lift (`-translate-y-1`) occurs. Keep typography sharp and authoritative."
+    "background": {
+      "default": "#FFFFFF",
+      "subtle": "#FAFAFA",
+      "muted": "#F4F4F5",
+      "inverse": "#09090B"
     },
-    "LandingPage": {
-      "path": "/",
-      "layout": "Asymmetrical Marketing Layout",
-      "instructions": "Hero Section: High impact. Overlay dark tint (`bg-zinc-950/70`) over the modern architecture image. Use `text-white` for hero text. Add trust signals (NTPEE 2018, ANRE badges) below the CTA using glassmorphism. Add a client logo banner (marquee or static grid) using grayscale logos."
+    "text": {
+      "primary": "#09090B",
+      "secondary": "#52525B",
+      "muted": "#A1A1AA",
+      "inverse": "#FFFFFF"
     },
-    "DocumentatieIndustriiPage": {
-      "path": "/documentatie-industrii",
-      "layout": "High-Density Technical Grid",
-      "instructions": "This module has 179 fields. DO NOT use standard floating cards. Use a 'Technical Grid' (`border-collapse`). Sharp edges, 1px solid borders (`border-zinc-300`). Form labels must use `JetBrains Mono` uppercase. Form inputs must use Shadcn, flattened to integrate with the grid (no heavy focus rings, just a bottom orange border on focus)."
+    "border": {
+      "default": "#E4E4E7",
+      "hover": "#D4D4D8",
+      "inverse": "#27272A"
     },
-    "AppShell_Sidebar": {
-      "instructions": "Remove all emojis. Replace with 20x20 `lucide-react` icons (stroke-width: 1.5). Group the 8 sections neatly. The active state should NOT have a full-width background color; instead, use `font-semibold text-zinc-950` with a sharp `border-l-4 border-orange-600` and a slight `bg-gradient-to-r from-orange-50 to-transparent`."
+    "action": {
+      "primary_bg": "#09090B",
+      "primary_hover": "#27272A",
+      "primary_text": "#FFFFFF",
+      "secondary_bg": "#FFFFFF",
+      "secondary_border": "#E4E4E7",
+      "secondary_hover": "#F4F4F5",
+      "secondary_text": "#09090B"
     },
-    "Marketplace_RealEstate_Forum_Servicii": {
-      "instructions": "Unify the design language across these 4 pages. Remove custom colors (emerald, violet, rose, etc.). Use identical list/grid structures, typography hierarchies, and filter sidebars. Differentiation comes from the content (images, data points), NOT the UI shell color."
-    },
-    "SmartPricingCalculator": {
-      "instructions": "For the Servicii page. Create an elegant, technical calculator widget. Use slider inputs or segmented controls for the 5 factors. Highlight the final calculated price in large `Cabinet Grotesk` with an Orange accent."
+    "accents": {
+      "investors": "#D97706",
+      "donations": "#C026D3",
+      "gas_studio": "#0284C7"
     }
+  },
+  "typography": {
+    "headings": {
+      "family": "Cabinet Grotesk, system-ui, sans-serif",
+      "weight": "800",
+      "tracking": "tracking-tight to tracking-tighter",
+      "usage": "Use for all H1, H2, H3. Never use Inter or Roboto for headings."
+    },
+    "body": {
+      "family": "Satoshi, Helvetica Neue, sans-serif",
+      "weight": "400",
+      "tracking": "normal",
+      "usage": "Clear, readable paragraphs and UI labels."
+    },
+    "scale": {
+      "h1": "text-5xl md:text-6xl tracking-tighter font-extrabold text-zinc-950",
+      "h2": "text-3xl md:text-4xl tracking-tight font-bold text-zinc-950",
+      "subtitle": "text-lg md:text-xl text-zinc-600 font-medium"
+    }
+  },
+  "spacing_and_layout": {
+    "container": "max-w-7xl mx-auto px-6",
+    "section_padding": "py-20 md:py-32",
+    "border_radius": {
+      "button": "rounded-md",
+      "card": "rounded-lg",
+      "surface": "rounded-xl"
+    },
+    "grid": {
+      "ecosystem": "grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-2 md:gap-4",
+      "services": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-zinc-950 text-white font-medium rounded-md px-6 py-3 hover:bg-zinc-800 transition-colors shadow-sm",
+      "secondary": "bg-white text-zinc-950 border border-zinc-200 font-medium rounded-md px-6 py-3 hover:bg-zinc-50 transition-colors",
+      "investors": "bg-amber-600 text-white font-medium rounded-md px-6 py-3 hover:bg-amber-700 transition-colors shadow-sm"
+    },
+    "cards": {
+      "surface": "bg-white border border-zinc-200 rounded-lg shadow-sm hover:shadow-md transition-shadow",
+      "ecosystem_item": "group flex flex-col items-center justify-center p-2 md:p-4 border border-zinc-200 rounded-md bg-white hover:border-zinc-300 transition-all text-center gap-2",
+      "pricing": "bg-white border border-zinc-200 rounded-xl p-8 flex flex-col shadow-sm"
+    },
+    "header": {
+      "wrapper": "sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200"
+    }
+  },
+  "motion": {
+    "transitions": "transition-all duration-200 ease-in-out",
+    "hover_effects": "Subtle translation (-translate-y-[2px]) and shadow elevation (shadow-md) on cards. NO wild scaling or floating.",
+    "rule": "Keep motion crisp, purposeful, and functional. Avoid 'bazaconii'."
   },
   "media": {
-    "icons_library": "lucide-react",
-    "images": {
-      "hero_background": {
-        "url": "https://images.unsplash.com/photo-1694702740570-0a31ee1525c7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODF8MHwxfHNlYXJjaHw0fHxtb2Rlcm4lMjBhcmNoaXRlY3R1cmUlMjBvZmZpY2UlMjBidWlsZGluZ3xlbnwwfHx8fDE3ODEyOTQ3Nzd8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Modern architecture high-rise, suitable for dark overlay on public landing hero."
+    "rules": "ABSOLUTE REALISM. Unsplash raw photos of engineering work, pipelines, human workers. NO AI generated abstract art, NO futuristic light beams, NO glowing purple circuits.",
+    "images": [
+      {
+        "category": "hero_background",
+        "url": "https://images.unsplash.com/photo-1503387837-b154d5074bd2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwzfHxlbmdpbmVlciUyMHdvcmtpbmclMjBibHVlcHJpbnR8ZW58MHx8fHwxNzgzMDM0MzA4fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Person drafting on blueprint. Use with a white/transparent or subtle black overlay."
       },
-      "marketplace_placeholder": {
-        "url": "https://images.pexels.com/photos/36122954/pexels-photo-36122954.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        "description": "Premium warehouse logistics interior for marketplace/services background."
+      {
+        "category": "vision_banner",
+        "url": "https://images.unsplash.com/photo-1581094488379-6a10d04c0f04?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTJ8MHwxfHNlYXJjaHwyfHxlbmdpbmVlciUyMHdvcmtpbmclMjBibHVlcHJpbnR8ZW58MHx8fHwxNzgzMDM0MzA4fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Engineers collaborating over a blueprint. Professional, realistic."
       },
-      "real_estate_placeholder": {
-        "url": "https://images.unsplash.com/photo-1635111057505-3b7dcc2b72fb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAxODF8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlJTIwbWFuc2lvbnxlbnwwfHx8fDE3ODEyOTQ3Nzd8MA&ixlib=rb-4.1.0&q=85",
-        "description": "Aerial view of luxury mansion for Imobiliare ecosystem."
+      {
+        "category": "auth_side_panel",
+        "url": "https://images.unsplash.com/photo-1565954786194-d22abeaac3ae?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwzfHxpbmR1c3RyaWFsJTIwZmFjaWxpdHklMjB3b3JrZXJ8ZW58MHx8fHwxNzgzMDM0MzA4fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Industrial facility worker. High-quality raw industrial photo to ground the platform's reality."
       },
-      "technical_blueprint": {
-        "url": "https://images.unsplash.com/photo-1542621334-a254cf47733d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHxibHVlcHJpbnQlMjB0ZWNoJTIwZW5naW5lZXJ8ZW58MHx8fHwxNzgxMjk0Nzc3fDA&ixlib=rb-4.1.0&q=85",
-        "description": "Pencil on blueprint, suitable for Documentatie or general tech services header."
-      },
-      "trust_logos": [
-        "https://images.unsplash.com/photo-1773291933751-1fcff40c6133?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHw0fHxjb21wYW55JTIwbG9nbyUyMG1pbmltYWxpc3R8ZW58MHx8fHwxNzgxMTc0Mzg5fDA&ixlib=rb-4.1.0&q=85",
-        "https://images.unsplash.com/photo-1769984867572-10dea95bd4f1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwxfHxjb21wYW55JTIwbG9nbyUyMG1pbmltYWxpc3R8ZW58MHx8fHwxNzgxMTc0Mzg5fDA&ixlib=rb-4.1.0&q=85",
-        "https://images.pexels.com/photos/28431524/pexels-photo-28431524.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-      ]
-    }
+      {
+        "category": "gas_studio_reference",
+        "url": "https://images.unsplash.com/photo-1711571603478-ff100499a459?crop=entropy&cs=srgb&fm=jpg&ixid=M3w8NjA1MDV8MHwxfHNlYXJjaHwzfHxnYXMlMjBwaXBlbGluZSUyMGluZnJhc3RydWN0dXJlfGVufDB8fHx8MTc4MzAzNDMwOHww&ixlib=rb-4.1.0&q=85",
+        "description": "Gas pipeline infrastructure. Real pipes, raw engineering context."
+      }
+    ]
+  },
+  "instructions_to_main_agent": {
+    "1_global_css": "Remove all purple/indigo gradients from index.css. Insert Google Fonts imports for Cabinet Grotesk (or similar bold sans) and Satoshi. Add the color variables defined in this JSON to the :root scope. Set the body background to bg-zinc-50 or bg-white.",
+    "2_landing_page": "Redesign Landing using strict Swiss high-contrast layout. Hero should be commanding, typography-led. Remove abstract SVG backgrounds. Use the provided Unsplash images for any photo sections. The 40+ ecosystem grid MUST be dense (grid-cols-10 on desktop) using small cards with crisp borders and grayscale images that colorize on hover.",
+    "3_auth_page": "Redesign `/auth` to a split-screen layout. Left side: The industrial worker image covering the full height, with a subtle dark overlay. Right side: Clean, white, centered form. GoogleLogin button at the very top of the form, prominent. Then a standard 'sau cu email' divider, followed by standard Shadcn inputs. Keep all tabs functionality.",
+    "4_testing": "Do NOT remove or alter any existing data-testid attributes. They are critical for the E2E tests.",
+    "5_language": "Keep all text in Romanian. Do not translate to English.",
+    "6_platform_cohesion": "Ensure that Dashboard and Gas Studio inherit the new font (Satoshi) and the new high-contrast button styles. Replace any rounded-full buttons with rounded-md."
   }
 }
