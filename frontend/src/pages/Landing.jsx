@@ -272,6 +272,33 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* V12.5 — MOTTO / MANIFESTO EPD (sugestiv, poetic) */}
+      <section className="relative py-20 lg:py-28 bg-white border-y border-slate-200 overflow-hidden" data-testid="epd-motto-section">
+        <div className="absolute inset-0 pointer-events-none opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(124,58,237,1) 0%, transparent 60%), radial-gradient(circle at 70% 70%, rgba(251,146,60,1) 0%, transparent 60%)' }} />
+        <div className="relative max-w-4xl mx-auto px-6 lg:px-12">
+          <div className="text-[10px] uppercase tracking-[0.35em] text-violet-600 font-bold mb-8 text-center">// mott-ul platformei</div>
+          <blockquote className="space-y-6 text-slate-900">
+            <p className="text-2xl lg:text-4xl font-bold tracking-tighter leading-tight" data-testid="motto-q1">
+              Te-ai gândit cum ar arăta singura platformă din lume pentru toate serviciile?
+            </p>
+            <p className="text-xl lg:text-2xl text-slate-700 leading-relaxed" data-testid="motto-q2">
+              O platformă pe care o folosești pentru tot ce îți trebuie.
+            </p>
+            <p className="text-lg lg:text-xl text-slate-600 italic tracking-tight" data-testid="motto-q3">
+              Construcții, marketplace, cumpărături, servicii.<br/>
+              Totul integrat într-o singură platformă.
+            </p>
+            <div className="w-16 h-0.5 bg-gradient-to-r from-violet-600 to-amber-500 my-8" />
+            <p className="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900" data-testid="motto-conclusion">
+              Pentru toate acestea, există <span className="bg-gradient-to-r from-violet-700 to-amber-600 bg-clip-text text-transparent">Energy Project Design</span>.
+            </p>
+            <p className="text-xl lg:text-2xl text-slate-500 mt-4 tracking-tight" data-testid="motto-signoff">
+              Rămânem.
+            </p>
+          </blockquote>
+        </div>
+      </section>
+
       {/* PRODUS PRINCIPAL — Gaze Naturale (deasupra tuturor) */}
       <section id="main-product" className="py-24 bg-gradient-to-b from-white via-violet-50/30 to-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
