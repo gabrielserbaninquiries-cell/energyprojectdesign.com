@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../contexts/AuthContext';
+import api, { setAuthToken } from '../lib/api';
 import { toast } from 'sonner';
 import { Check, AlertCircle } from 'lucide-react';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
 
 export default function Register() {
-  const { register } = useAuth();
+  const { register, setUser } = useAuth();
   const nav = useNavigate();
   const [form, setForm] = useState({ name: '', company: '', email: '', password: '' });
   const [gdpr, setGdpr] = useState(false);
@@ -35,10 +37,18 @@ export default function Register() {
     } finally { setBusy(false); }
   };
 
-  const onGoogle = () => {
-    // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
-    const redirectUrl = window.location.origin + '/dashboard';
-    window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
+  // V12.4 — Native Google Sign-Up (own Google Cloud OAuth, "Energy Project Design" branded)
+  // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
+  const onGoogleCredential = async (response) => {
+    try {
+      const { data } = await api.post('/auth/google', { credential: response.credential });
+      if (data.token) setAuthToken(data.token);
+      setUser(data.user);
+      toast.success(`Cont creat via Google. Bun venit, ${data.user?.name || data.user?.email}!`);
+      nav('/dashboard', { replace: true });
+    } catch (err) {
+      toast.error(err?.response?.data?.detail || 'Înregistrare Google eșuată');
+    }
   };
 
   const setF = (k) => (e) => setForm({ ...form, [k]: e.target.value });
@@ -95,6 +105,22 @@ export default function Register() {
           <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-2">// Energy Project Design</div>
           <h1 className="text-3xl font-bold tracking-tighter mb-2 text-slate-900">Create your account</h1>
           <p className="text-sm text-slate-500 mb-7">Acces gratuit nelimitat (vizualizare + introducere date). Export documente — disponibil la upgrade.</p>
+
+          {/* V12.4 — Native Google Sign-Up */}
+          <div className="mb-4" data-testid="google-signup-wrapper">
+            <GoogleLogin
+              onSuccess={onGoogleCredential}
+              onError={() => toast.error('Înregistrare Google eșuată')}
+              theme="outline"
+              size="large"
+              text="signup_with"
+              shape="rectangular"
+              width="100%"
+            />
+          </div>
+          <div className="flex items-center gap-3 my-4 text-xs uppercase tracking-[0.2em] text-slate-400">
+            <span className="flex-1 h-px bg-slate-200"/> sau cu email <span className="flex-1 h-px bg-slate-200"/>
+          </div>
 
           <form onSubmit={onSubmit} className="space-y-3.5">
             <div>

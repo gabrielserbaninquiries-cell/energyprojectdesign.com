@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DevModeProvider } from './contexts/DevModeContext';
 import { Toaster } from 'sonner';
@@ -254,14 +255,19 @@ function AppRouter() {
 }
 
 export default function App() {
+  // V12.4 — Native Google OAuth Client ID (own Google Cloud project, "Energy Project Design" branding).
+  // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH.
+  const GOOGLE_CLIENT_ID = '656281504261-32farph07s7if0cgqgec7a0vvnsjrmic.apps.googleusercontent.com';
   return (
-    <AuthProvider>
-      <DevModeProvider>
-        <BrowserRouter>
-          <AppRouter />
-          <Toaster position="top-right" richColors />
-        </BrowserRouter>
-      </DevModeProvider>
-    </AuthProvider>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <AuthProvider>
+        <DevModeProvider>
+          <BrowserRouter>
+            <AppRouter />
+            <Toaster position="top-right" richColors />
+          </BrowserRouter>
+        </DevModeProvider>
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 }

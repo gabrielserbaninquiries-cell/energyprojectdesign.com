@@ -223,6 +223,90 @@ async def me(user: User = Depends(get_current_user)):
     return user
 
 
+# ====================== NATIVE GOOGLE OAUTH (V12.4) ======================
+# REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
+class GoogleIdTokenPayload(BaseModel):
+    credential: str  # Google ID token (JWT) from GIS
+
+
+@api.post("/auth/google")
+async def native_google_auth(payload: GoogleIdTokenPayload, response: Response):
+    """Native Google Sign-In endpoint — validates a Google ID token (JWT) and
+    creates/links a user in MongoDB, then issues an EPD JWT.
+
+    Uses the app's OWN Google Cloud OAuth Client (env: GOOGLE_CLIENT_ID),
+    NOT the Emergent-managed session wrapper. Branded 100% as Energy Project Design.
+    """
+    import os as _os
+    from google.oauth2 import id_token as google_id_token
+    from google.auth.transport import requests as google_requests
+
+    client_id = _os.environ.get("GOOGLE_CLIENT_ID")
+    if not client_id:
+        raise HTTPException(500, "Google OAuth nu este configurat (GOOGLE_CLIENT_ID lipsă în env)")
+
+    try:
+        info = google_id_token.verify_oauth2_token(
+            payload.credential, google_requests.Request(), client_id,
+        )
+    except ValueError as e:
+        raise HTTPException(401, f"Token Google invalid: {e}") from e
+
+    email = (info.get("email") or "").lower().strip()
+    if not email:
+        raise HTTPException(400, "Token Google nu conține email.")
+    if not info.get("email_verified"):
+        raise HTTPException(403, "Email-ul Google nu este verificat.")
+    name = info.get("name") or email.split("@")[0]
+    picture = info.get("picture")
+    google_sub = info.get("sub")
+
+    # Find or create user
+    user_doc = await db.users.find_one({"email": email})
+    now = datetime.now(timezone.utc).isoformat()
+    if not user_doc:
+        # New user: create with default free plan (respect idempotent owner seed rules)
+        is_dev = _is_developer_email(email)
+        user_doc = {
+            "user_id": new_id("usr_"),
+            "email": email,
+            "name": name,
+            "picture": picture,
+            "google_sub": google_sub,
+            "plan": "developer" if is_dev else "trial",
+            "role": "admin" if is_dev else "user",
+            "is_admin": is_dev,
+            "is_developer": is_dev,
+            "gdpr_consent": True,  # implicit via Google login (they clicked Google's consent)
+            "gdpr_consent_at": now,
+            "auth_method": "google_native",
+            "created_at": now,
+            "updated_at": now,
+        }
+        await db.users.insert_one(dict(user_doc))
+        logger.info(f"[GoogleAuth-Native] New user created: {email}")
+    else:
+        # Existing user — link Google account + update lightweight fields
+        upd = {"google_sub": google_sub, "updated_at": now, "last_google_login_at": now}
+        if picture and not user_doc.get("picture"):
+            upd["picture"] = picture
+        if not user_doc.get("auth_method"):
+            upd["auth_method"] = "email+google"
+        await db.users.update_one({"email": email}, {"$set": upd})
+        user_doc.update(upd)
+        logger.info(f"[GoogleAuth-Native] Existing user linked: {email}")
+
+    # Issue app JWT (same as email/password login)
+    from auth import create_jwt as _create_app_jwt
+    jwt_token = _create_app_jwt(user_doc["user_id"])
+    response.set_cookie(
+        key="session_token", value=jwt_token,
+        httponly=True, secure=True, samesite="none", path="/",
+        max_age=7 * 24 * 3600,
+    )
+    return {"token": jwt_token, "user": _user_from_doc(user_doc)}
+
+
 @api.post("/auth/logout")
 async def logout(request: Request, response: Response):
     token = request.cookies.get("session_token")

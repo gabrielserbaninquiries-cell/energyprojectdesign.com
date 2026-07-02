@@ -1,21 +1,34 @@
-# Energy Project Design — Test Credentials (V12.0)
+# Energy Project Design — Test Credentials (V12.4)
 
-Last updated: 2026-06-26 (V12.0 — Verificator workflow + plans restructured)
+Last updated: 2026-07-02 (V12.4 — Native Google OAuth + Stripe LIVE keys refresh)
 
-## 🔑 OWNER (folosește email/parolă, NU Google login)
+## 🔑 OWNER (folosește email/parolă)
 - **Email:** `dragosserban95@gmail.com`
 - **Parolă:** `Nuamparola_9`
 - **Plan:** `society_admin` (proprietar platformă)
 - **Roluri:** `is_admin=True`, `is_society_admin=True`, `is_developer=True`
 
-## 🛡️ VERIFICATOR VGD pre-creat (pentru testare workflow)
+## 🌐 GOOGLE OAUTH (V12.4)
+- Configurație activă: Google Cloud Project (user's own project)
+- Client ID activ: `656281504261-32farph07s7if0cgqgec7a0vvnsjrmic.apps.googleusercontent.com`
+- Endpoint backend: `POST /api/auth/google` cu payload `{credential: <google_id_token>}`
+- Frontend: `<GoogleLogin>` component pe /login și /register
+- Auto-provisioning: cont MongoDB creat automat la prima autentificare
+- Test account manual pentru Google sign-in: orice cont Gmail valid
+
+## 🛡️ VERIFICATOR VGD pre-creat
 - **Email:** `vgd_test_1782441873@example.com`
 - **Parolă:** `VGDPass_123!`
 - **Plan:** `vgd` (1000 EUR/lună)
-- Folosit pentru: testarea POST /api/verificator/projects/{pid}/submit + decide + ledger.
+
+## 💳 STRIPE LIVE (V12.4 refresh)
+- `STRIPE_API_KEY` = `sk_live_51Thc7CF...HHkxz...`
+- `STRIPE_DONATIONS_API_KEY` = `rk_live_51Thc7CF...9Z27S...`
+- `STRIPE_PUBLISHABLE_KEY` = `pk_live_51Thc7CF...v1rWF...`
+- Toate testate ✅ (planuri + donații variabile 2-100000 RON/EUR)
 
 ## ⚠️ EMAIL VALIDATION
-NU folosi `.test` TLD — pydantic-email rejects. Folosește `@example.com` pentru users de test.
+NU folosi `.test` TLD — pydantic-email rejects. Folosește `@example.com` pentru users noi.
 
 **V11.5 NOU**: Contul owner este acum **seed-uit automat pe startup-ul backend-ului** (pe ORICE environment — preview SAU production). Asta înseamnă că DUPĂ DEPLOY pe `https://www.energyprojectdesign.com`, login-ul cu credențialele de mai sus va funcționa automat. Sursa: env vars `OWNER_EMAIL` + `OWNER_PASSWORD` din `/app/backend/.env`, citite în `server.py::_seed_owner_account()`.
 

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../contexts/AuthContext';
+import api, { setAuthToken } from '../lib/api';
 import { toast } from 'sonner';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, setUser } = useAuth();
   const nav = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,10 +25,18 @@ export default function Login() {
     } finally { setBusy(false); }
   };
 
-  const onGoogle = () => {
-    // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
-    const redirectUrl = window.location.origin + '/dashboard';
-    window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
+  // V12.4 — Native Google Sign-In (own Google Cloud OAuth, "Energy Project Design" branded)
+  // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
+  const onGoogleCredential = async (response) => {
+    try {
+      const { data } = await api.post('/auth/google', { credential: response.credential });
+      if (data.token) setAuthToken(data.token);
+      setUser(data.user);
+      toast.success(`Bine ai revenit, ${data.user?.name || data.user?.email}`);
+      nav('/dashboard', { replace: true });
+    } catch (err) {
+      toast.error(err?.response?.data?.detail || 'Autentificare Google eșuată');
+    }
   };
 
   return (
@@ -95,6 +105,22 @@ export default function Login() {
           <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-2">// Energy Project Design</div>
           <h1 className="text-3xl font-bold tracking-tighter mb-2 text-slate-900">Log in to Energy Project Design</h1>
           <p className="text-sm text-slate-500 mb-8">Folosiți email-ul și parola contului. Fără intermediari, fără redirect-uri externe.</p>
+
+          {/* V12.4 — Native Google Sign-In (own Google Cloud OAuth, EPD branded) */}
+          <div className="mb-5" data-testid="google-signin-wrapper">
+            <GoogleLogin
+              onSuccess={onGoogleCredential}
+              onError={() => toast.error('Autentificare Google eșuată')}
+              theme="outline"
+              size="large"
+              text="signin_with"
+              shape="rectangular"
+              width="100%"
+            />
+          </div>
+          <div className="flex items-center gap-3 my-5 text-xs uppercase tracking-[0.2em] text-slate-400">
+            <span className="flex-1 h-px bg-slate-200"/> sau cu email <span className="flex-1 h-px bg-slate-200"/>
+          </div>
 
           <form onSubmit={onSubmit} className="space-y-4">
             <div>
