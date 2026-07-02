@@ -82,3 +82,117 @@ export const NEXT_GEN_MISSIONS = [
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&auto=format&fit=crop' },
   { id: 'riviera-ro',       icon: '🌊', label: '🏖️ Riviera Românească (MISIUNEA EPD)', desc: 'Modernizarea reală a litoralului românesc — infrastructură contemporană, vegetație autohtonă rezistentă, identitate carpato-pontică. NU copiem alte destinații — readucem turismul românesc acasă.', route: '/riviera-romaneasca', flagship: true },
 ];
+
+// V12.5 — ECOSISTEM COMPLET (cerință literală user: „singura platformă din lume pentru toate serviciile")
+// V12.6 — Fiecare serviciu are IMAGINE RELEVANTĂ (Unsplash CC0) — nu doar emoji.
+export const EPD_ECOSYSTEM = [
+  // === LOGISTICĂ & TRANSPORT ===
+  { category: 'Logistică & Transport', id: 'curierat',           icon: '📦', label: 'Curierat rapid',            desc: 'Livrări door-to-door, tracking live',
+    image: 'https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Logistică & Transport', id: 'logistica-depozite', icon: '🏭', label: 'Logistică & depozite',      desc: 'Fulfillment, stocare, cross-docking, WMS integrat',
+    image: 'https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Logistică & Transport', id: 'book-flight',        icon: '✈️', label: 'Book a Flight (real)',      desc: 'Bilete avion cu cel mai bun preț global — API Amadeus/Duffel',
+    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Logistică & Transport', id: 'transport-persoane', icon: '🚌', label: 'Transport persoane',        desc: 'Rutier + feroviar + naval + aerian — un singur ecosistem',
+    image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Logistică & Transport', id: 'transport-ferovial', icon: '🚄', label: 'Transport feroviar',        desc: 'Bilete trenuri, rezervări worldwide',
+    image: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Logistică & Transport', id: 'transport-naval',    icon: '🚢', label: 'Transport naval',           desc: 'Feriboturi + croaziere + cargo pasager',
+    image: 'https://images.unsplash.com/photo-1567542495143-72eabec5ce6d?w=600&q=80&auto=format&fit=crop' },
+
+  // === SERVICII CETĂȚENI ===
+  { category: 'Servicii cetățeni', id: 'curatenie',       icon: '🧹', label: 'Servicii curățenie',           desc: 'Curățenie rezidențială, birouri, industrială',
+    image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Servicii cetățeni', id: 'salubritate',     icon: '🚛', label: 'Salubritate urbană',           desc: 'Colectare deșeuri, reciclare, spații publice',
+    image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Servicii cetățeni', id: 'inchiriere-personal', icon: '🤵', label: 'Închiriere personal',       desc: 'Ospătari, barmani, hostess, personal HORECA la eveniment',
+    image: 'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Servicii cetățeni', id: 'florarii',        icon: '🌹', label: 'Florării',                     desc: 'Livrare flori worldwide + aranjamente + cadouri',
+    image: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Servicii cetățeni', id: 'servicii-funerare', icon: '⚰️', label: 'Servicii funerare',          desc: 'Domiciliu sau locație, cu demnitate',
+    image: 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80&auto=format&fit=crop' },
+
+  // === CONSTRUCȚII & AMENAJĂRI ===
+  { category: 'Construcții & Amenajări', id: 'constructii-blocuri', icon: '🏢', label: 'Construcții blocuri',       desc: 'Rezidențial + comercial + industrial la cheie',
+    image: 'https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Construcții & Amenajări', id: 'anunt-lucrari',       icon: '🔨', label: 'Anunțuri lucrări',           desc: 'Vopsit bloc, reabilitare, placare polistiren, tencuială',
+    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Construcții & Amenajări', id: 'amenajari-interioare', icon: '🛋️', label: 'Amenajări interioare',      desc: 'Design + execuție + materiale de la producători',
+    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Construcții & Amenajări', id: 'montaje-mobila',      icon: '🪑', label: 'Montaje / cărat / încărcat mobilă', desc: 'Mutări, montaj IKEA/personalizat, transport mobilă',
+    image: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Construcții & Amenajări', id: 'constructii-drumuri', icon: '🛣️', label: 'Drumuri publice / autostrăzi', desc: 'Infrastructură rutieră publică cu licitații publice',
+    image: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Construcții & Amenajări', id: 'intretinere-public',  icon: '🚧', label: 'Întreținere spațiu public',   desc: 'Iluminat, marcaje, verdeață, mobilier urban',
+    image: 'https://images.unsplash.com/photo-1519802772250-a52a9af0eacb?w=600&q=80&auto=format&fit=crop' },
+
+  // === COMERȚ & E-COMMERCE ===
+  { category: 'Comerț & E-commerce', id: 'mall-online',       icon: '🏬', label: 'Mall online (virtual)',      desc: 'Mall global — magazine sub un singur brand',
+    image: 'https://images.unsplash.com/photo-1481437156560-3205f6a55735?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Comerț & E-commerce', id: 'aprovizionare',     icon: '📥', label: 'Aprovizionare mărfuri / magazine', desc: 'B2B supply chain pentru retaileri',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Comerț & E-commerce', id: 'app-store-global',  icon: '📱', label: 'App Store Global',          desc: 'Distribuție aplicații mobile fără taxe abuzive',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Comerț & E-commerce', id: 'librarie-online',   icon: '📚', label: 'Librărie online audio+digital', desc: 'Cărți, audiobook-uri, ebook-uri worldwide',
+    image: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&q=80&auto=format&fit=crop' },
+
+  // === EDUCAȚIE & SĂNĂTATE ===
+  { category: 'Educație & Sănătate', id: 'cursuri-online', icon: '🎓', label: 'Cursuri online școli + universități', desc: 'Platforme educaționale acreditate',
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Educație & Sănătate', id: 'educatie-sanatate', icon: '❤️‍🩹', label: 'Educație pentru sănătate', desc: 'Cursuri, articole, video pentru prevenție & wellbeing',
+    image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Educație & Sănătate', id: 'spitale',         icon: '🏥', label: 'Spitale & servicii medicale', desc: 'Programări, telemedicine, dosar electronic pacient',
+    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80&auto=format&fit=crop' },
+
+  // === MEDIA & MARKETING ===
+  { category: 'Media & Marketing', id: 'stiri-online',    icon: '📰', label: 'Știri online',              desc: 'Redacție globală multi-limbă cu verificare surse',
+    image: 'https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Media & Marketing', id: 'reclame-online',  icon: '📢', label: 'Reclame online',            desc: 'Ad network EPD — targetare precisă, prețuri corecte',
+    image: 'https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Media & Marketing', id: 'pr-marketing',    icon: '📈', label: 'PR & marketing online',     desc: 'Servicii agency global — social media, SEO, content',
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Media & Marketing', id: 'marketing-global',icon: '🌐', label: 'Marketing global multi-produs', desc: 'Campanii pentru toate tipurile de produse din EPD',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80&auto=format&fit=crop' },
+
+  // === EVENIMENTE & DIVERTISMENT ===
+  { category: 'Evenimente & Divertisment', id: 'intermediere-evenimente', icon: '🎉', label: 'Intermediere evenimente', desc: 'Nunți, botezuri, cununii, majorate, corporate, conferințe',
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Evenimente & Divertisment', id: 'booking-evenimente',      icon: '🎪', label: 'Booking evenimente worldwide', desc: 'Rezervări artiști, locații, echipamente',
+    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Evenimente & Divertisment', id: 'gamespace',                icon: '🎮', label: 'Gamespace Platform',      desc: 'Ecosistem gaming — turnee, streaming, achiziții in-game',
+    image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Evenimente & Divertisment', id: 'sports-events',            icon: '🏆', label: 'Sports Events Platform',  desc: 'Turnee sportive amateur/pro + bilete + statistici',
+    image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Evenimente & Divertisment', id: 'competition-platform',     icon: '⚔️', label: 'Competition Platform',    desc: 'Concursuri, hackathon-uri, tenders — cu leaderboard-uri',
+    image: 'https://images.unsplash.com/photo-1552664688-cf412ec27db2?w=600&q=80&auto=format&fit=crop' },
+
+  // === MUNCĂ & AFACERI ===
+  { category: 'Muncă & Afaceri', id: 'anunt-servicii', icon: '🎵', label: 'Cereri servicii (music/DJ/foto/IT)', desc: 'Marketplace pentru DJ, fotografi, catering HORECA, developeri IT',
+    image: 'https://images.unsplash.com/photo-1571266028243-e4bb35f9f38f?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Muncă & Afaceri', id: 'interviu-global',icon: '🎙️', label: 'Interviu online global',           desc: 'Aplicație dedicată — recruteri + candidați worldwide',
+    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Muncă & Afaceri', id: 'business-locator',icon: '📍', label: 'Business Locator',                 desc: 'Găsește firma potrivită pentru orice serviciu, oriunde',
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Muncă & Afaceri', id: 'b2b-affiliations',icon: '🤝', label: 'Afilieri Business-to-Business',    desc: 'Rețea de parteneriate + comisioane transparente',
+    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Muncă & Afaceri', id: 'broker-db',       icon: '🗂️', label: 'Baze date pentru brokeraj',        desc: 'Companiile aleg liber să fie listate pentru produse/servicii',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Muncă & Afaceri', id: 'local-business',  icon: '🏪', label: 'Susținere afaceri locale',         desc: 'Program dedicat de vizibilitate pentru IMM-uri românești',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80&auto=format&fit=crop' },
+
+  // === INDUSTRIE ===
+  { category: 'Industrie', id: 'servicii-industriale', icon: '⚙️', label: 'Servicii industriale (hale, uzine)', desc: 'Proiectare + execuție + mentenanță fabrici',
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Industrie', id: 'servicii-miniere',     icon: '⛏️', label: 'Servicii miniere',              desc: 'Consultanță, echipamente, siguranță, mining tech',
+    image: 'https://images.unsplash.com/photo-1518291344630-4857135fb581?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Industrie', id: 'reinnoire-parc-auto',  icon: '🚗', label: 'Reînnoire parc auto',           desc: 'Flotă corporate — cumpărare + rulaj + Rabla EPD',
+    image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Industrie', id: 'dezvoltare-produse',   icon: '🧪', label: 'Dezvoltare produse globale',    desc: 'R&D partnering — laboratoare, testări, brevete',
+    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&q=80&auto=format&fit=crop' },
+
+  // === TEHNOLOGIE VIITOR ===
+  { category: 'Tehnologie viitor', id: 'vr-platform',      icon: '🥽', label: 'Virtual Reality Universe', desc: 'Metavers propriu EPD — meeting-uri, evenimente, tururi imobiliare',
+    image: 'https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?w=600&q=80&auto=format&fit=crop' },
+  { category: 'Tehnologie viitor', id: 'meeting-platform', icon: '💻', label: 'Meeting Platform',         desc: 'Alternativă Zoom/Meet — criptare end-to-end, fără reclame',
+    image: 'https://images.unsplash.com/photo-1587560699334-cc4ff634909a?w=600&q=80&auto=format&fit=crop' },
+];

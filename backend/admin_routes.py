@@ -179,6 +179,71 @@ async def admin_update_user(user_id: str, payload: AdminUserRoleUpdate, admin: U
     return {"ok": True, "user_id": user_id, "updates": updates, "user": updated}
 
 
+# V12.6 — DELETE user (developer/admin only)
+@router.delete("/admin/users/{user_id}")
+async def admin_delete_user(user_id: str, admin: User = Depends(get_admin_user)):
+    target = await db.users.find_one({"user_id": user_id}, {"_id": 0})
+    if not target:
+        raise HTTPException(status_code=404, detail="Utilizator inexistent")
+    # Safeguard: block deleting owner (society_admin) unless super_admin/developer
+    if target.get("plan") == "society_admin" and not (getattr(admin, "is_developer", False) or admin.email == target.get("email")):
+        raise HTTPException(status_code=403, detail="Nu puteți șterge un cont owner (society_admin) — necesită drept developer.")
+    if target["user_id"] == admin.user_id:
+        raise HTTPException(status_code=403, detail="Nu vă puteți șterge propriul cont.")
+
+    # Soft delete first (audit trail), then also purge sessions
+    now = datetime.now(timezone.utc).isoformat()
+    await db.users.update_one({"user_id": user_id}, {"$set": {
+        "deleted": True, "deleted_at": now, "deleted_by": admin.email,
+        "email": f"deleted_{user_id}_{target.get('email','')}",
+    }})
+    await db.user_sessions.delete_many({"user_id": user_id})
+    await db.action_logs.insert_one({
+        "log_id": new_id("log_"), "user_id": admin.user_id,
+        "action": "admin_user_delete",
+        "details": {"target_user_id": user_id, "target_email": target.get("email")},
+        "created_at": now,
+    })
+    return {"ok": True, "user_id": user_id, "deleted_at": now}
+
+
+# V12.6 — Real accounts registry (for developer dashboard "evidență reală")
+@router.get("/admin/accounts/registry")
+async def admin_accounts_registry(admin: User = Depends(get_admin_user)):
+    """Evidență completă conturi platformă — pentru pagina de management developer."""
+    from collections import Counter
+    total = await db.users.count_documents({"deleted": {"$ne": True}})
+    deleted = await db.users.count_documents({"deleted": True})
+    # Group by plan
+    by_plan = Counter()
+    by_auth = Counter()
+    recent = []
+    async for u in db.users.find({}, {"_id": 0, "password_hash": 0, "gmail_app_password": 0, "qes_credentials": 0}).sort("created_at", -1):
+        p = u.get("plan", "unknown")
+        by_plan[p] += 1
+        by_auth[u.get("auth_method", "email") ] += 1
+        if len(recent) < 30:
+            recent.append({
+                "user_id": u.get("user_id"),
+                "email": u.get("email"),
+                "name": u.get("name"),
+                "plan": p,
+                "auth_method": u.get("auth_method", "email"),
+                "is_admin": u.get("is_admin", False),
+                "is_developer": u.get("is_developer", False),
+                "deleted": u.get("deleted", False),
+                "created_at": u.get("created_at"),
+                "last_google_login_at": u.get("last_google_login_at"),
+            })
+    return {
+        "total_active": total,
+        "total_deleted": deleted,
+        "by_plan": dict(by_plan),
+        "by_auth_method": dict(by_auth),
+        "recent_accounts": recent,
+    }
+
+
 # ====================== STATS ======================
 @router.get("/admin/stats")
 async def admin_stats(admin: User = Depends(get_admin_user)):

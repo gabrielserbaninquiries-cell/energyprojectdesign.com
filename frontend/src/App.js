@@ -68,6 +68,7 @@ import GasNaturalProjectV2 from './pages/GasNaturalProjectV2';
 import GasNaturalStudio from './pages/GasNaturalStudio';
 import VerificatorWorkspace from './pages/VerificatorWorkspace';
 import Parteneri from './pages/Parteneri';
+import AdminUsers from './pages/AdminUsers';
 import VoturiCNP from './pages/VoturiCNP';
 import RivieraRomaneasca from './pages/RivieraRomaneasca';
 import Transparenta from './pages/Transparenta';
@@ -142,6 +143,10 @@ function AppRouter() {
 
       {/* V12.2 — Parteneri & Colaborări (public listing, create requires login) */}
       <Route path="/parteneri" element={<Parteneri />} />
+
+      {/* V12.6 — Admin: evidență reală conturi (developer only) */}
+      <Route path="/admin/conturi" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
+      <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
 
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/billing" element={<ProtectedRoute><Billing /></ProtectedRoute>} />

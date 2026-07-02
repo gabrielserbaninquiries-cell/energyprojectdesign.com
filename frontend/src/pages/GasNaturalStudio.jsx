@@ -44,6 +44,9 @@ import GasPVSection from '../components/gas/GasPVSection';
 import GasDocumenteSection from '../components/gas/GasDocumenteSection';
 import GasPhaseEntropy from '../components/gas/GasPhaseEntropy';
 import GasMailDispatchPanel from '../components/gas/GasMailDispatchPanel';
+import GasIndustryBanner from '../components/gas/GasIndustryBanner';
+import GasSubsectionSelector, { GAS_SUBSECTIONS } from '../components/gas/GasSubsectionSelector';
+import GasEntropiaWorkflow from '../components/gas/GasEntropiaWorkflow';
 import { TIPURI_LUCRARE } from '../lib/gasCalcs';
 
 const SECTIONS = [
@@ -444,7 +447,30 @@ export default function GasNaturalStudio() {
         </div>
       </div>
 
-      {/* V12.3 — Entropia proiectului pe faze (serviciul de completare, conform cerinței user) */}
+      {/* V12.5 — Banner reprezentativ industrie gaze naturale */}
+      <GasIndustryBanner
+        subsectionLabel={(GAS_SUBSECTIONS.find(s => s.id === data.tip_lucrare)?.label) || 'Studio Gaze Naturale'}
+        subtitle={(GAS_SUBSECTIONS.find(s => s.id === data.tip_lucrare)?.description) || 'Documentație tehnică digitală conformă NTPE 89/2018 & Legea 123/2012'}
+      />
+
+      {/* V12.5 — Selector subsecțiune (dropdown) */}
+      <GasSubsectionSelector
+        value={data.tip_lucrare || 'bransament'}
+        onChange={(newSub) => setData({ ...data, tip_lucrare: newSub })}
+      />
+
+      {/* V12.5 — Entropia workflow (cronologie legală) — auto-adaptă la subsecțiune */}
+      <GasEntropiaWorkflow
+        subsection={data.tip_lucrare || 'bransament'}
+        data={data}
+        onStepClick={(step) => {
+          // Jumps into the section most relevant to this workflow step
+          const map = { avize: 'avize', dtac: 'documente', pth: 'documente', carte_tehnica: 'documente', pt: 'documente' };
+          if (map[step.id]) setActiveSection(map[step.id]);
+        }}
+      />
+
+      {/* V12.3 — Entropia proiectului pe faze (serviciul de completare) */}
       <GasPhaseEntropy data={data} onJumpToPhase={(phaseId) => {
         const map = {
           date_initiale: 'general',

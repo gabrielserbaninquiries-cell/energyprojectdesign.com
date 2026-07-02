@@ -23,7 +23,7 @@ import { BRAND, BRAND_ASSETS } from '../lib/brand';
 import EPDLogo from '../components/EPDLogo';
 import GlobalTranslator from '../components/GlobalTranslator';
 import PublicPlansGrid from '../components/PublicPlansGrid';
-import { FUTURE_SERVICES, NEXT_GEN_MISSIONS } from '../data/services';
+import { FUTURE_SERVICES, NEXT_GEN_MISSIONS, EPD_ECOSYSTEM } from '../data/services';
 import useSEO from '../hooks/useSEO';
 
 // PRODUS PRINCIPAL — Gaze Naturale (livrabil 100% operațional)
@@ -200,16 +200,9 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* HERO — Identitate oficială EPD */}
-      <section
-        className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden"
-        style={{
-          backgroundImage: `linear-gradient(135deg, rgba(15,23,42,0.92) 0%, rgba(30,58,138,0.88) 45%, rgba(79,70,229,0.85) 100%), url(${BRAND_ASSETS.cover1Futurist})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/60 pointer-events-none" />
+      {/* HERO — Identitate oficială EPD (V12.7: no photo, clean pro gradient) */}
+      <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950">
+        <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 15% 20%, rgba(124,58,237,0.35) 0%, transparent 50%), radial-gradient(circle at 85% 80%, rgba(59,130,246,0.25) 0%, transparent 50%)' }} />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
           <div className="max-w-4xl">
             <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-200 mb-6">
@@ -426,14 +419,9 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Banner — The Architects of Future Global Technology */}
-      <section className="relative py-24 overflow-hidden text-white"
-        style={{
-          backgroundImage: `linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(76,29,149,0.8) 100%), url(${BRAND_ASSETS.cover4Architects})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+      {/* Banner — The Architects of Future Global Technology (V12.7: pure gradient) */}
+      <section className="relative py-24 overflow-hidden text-white bg-gradient-to-br from-slate-900 via-violet-900 to-indigo-950">
+        <div className="absolute inset-0 opacity-30 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(168,85,247,0.4) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(59,130,246,0.3) 0%, transparent 50%)' }} />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
           <div className="text-xs uppercase tracking-[0.25em] text-violet-300 font-semibold mb-4">// Viziunea EPD</div>
           <h2 className="text-4xl lg:text-6xl font-bold tracking-tighter leading-[1.05] max-w-4xl mx-auto mb-6">
@@ -553,6 +541,55 @@ export default function Landing() {
               într-o destinație turistică globală, cu unicitatea țării și ambientul tradițional românesc.&rdquo;
             </p>
             <p className="text-xs text-slate-400 mt-2 font-semibold">— Founder, EPD</p>
+          </div>
+        </div>
+      </section>
+
+      {/* V12.5 — ECOSISTEM COMPLET (cerință literală user: „singura platformă pentru toate serviciile") */}
+      <section id="ecosistem" className="py-24 bg-white border-y border-slate-200" data-testid="epd-ecosystem-section">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="text-[10px] uppercase tracking-[0.35em] text-violet-600 font-bold mb-3 text-center">// ecosistem EPD</div>
+          <h2 className="text-3xl lg:text-5xl font-bold tracking-tighter text-slate-900 text-center mb-3">Un singur ecosistem. Totul integrat.</h2>
+          <p className="text-base lg:text-lg text-slate-600 text-center max-w-3xl mx-auto mb-12">
+            10 categorii × zeci de servicii — de la construcții și logistică, până la marketing, evenimente, tehnologie și afaceri. Toate operează sub același brand, aceeași autentificare, aceeași experiență.
+          </p>
+
+          {(() => {
+            const categories = [...new Set(EPD_ECOSYSTEM.map(s => s.category))];
+            return categories.map(cat => (
+              <div key={cat} className="mb-10 last:mb-0" data-testid={`ecosystem-category-${cat.replace(/[^a-z]/gi, '').toLowerCase()}`}>
+                <h3 className="text-lg lg:text-xl font-bold tracking-tight text-slate-900 mb-4 flex items-center gap-3">
+                  <span className="w-8 h-0.5 bg-gradient-to-r from-violet-600 to-amber-500"></span>
+                  {cat}
+                  <span className="text-xs font-normal text-slate-400">
+                    ({EPD_ECOSYSTEM.filter(s => s.category === cat).length} servicii)
+                  </span>
+                </h3>
+                {/* V12.7 — 10 per row compact tiles (top-platform look) */}
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2">
+                  {EPD_ECOSYSTEM.filter(s => s.category === cat).map(s => (
+                    <div key={s.id} className="group bg-white hover:bg-violet-50 border border-slate-200 hover:border-violet-400 rounded-lg overflow-hidden transition-all cursor-default" data-testid={`ecosystem-item-${s.id}`}>
+                      {s.image ? (
+                        <div className="aspect-square overflow-hidden bg-slate-100">
+                          <img src={s.image} alt={s.label} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                        </div>
+                      ) : (
+                        <div className="aspect-square bg-gradient-to-br from-violet-100 to-indigo-100 flex items-center justify-center text-4xl">{s.icon}</div>
+                      )}
+                      <div className="p-2">
+                        <div className="font-semibold text-[11px] text-slate-900 leading-tight line-clamp-2" title={s.label}>{s.label}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ));
+          })()}
+
+          <div className="mt-12 text-center">
+            <p className="text-sm text-slate-500 italic max-w-2xl mx-auto">
+              „Nu e o listă de idei. E o hartă a viitorului fiecărei industrii — livrată printr-un singur cont, o singură experiență, o singură echipă."
+            </p>
           </div>
         </div>
       </section>
@@ -784,14 +821,9 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* CTA final */}
-      <section className="py-24 bg-slate-900 text-white relative overflow-hidden"
-        style={{
-          backgroundImage: `linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,58,138,0.9) 100%), url(${BRAND_ASSETS.cover2Smartcity})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+      {/* CTA final (V12.7: pure gradient, no photo) */}
+      <section className="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-blue-950 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(124,58,237,0.35) 0%, transparent 55%), radial-gradient(circle at 80% 80%, rgba(59,130,246,0.35) 0%, transparent 55%)' }} />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-12 items-end relative">
           <div>
             <div className="text-xs uppercase tracking-[0.25em] text-violet-300 font-semibold mb-3">// Începe astăzi</div>
