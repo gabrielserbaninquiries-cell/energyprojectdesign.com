@@ -53,7 +53,7 @@ export const FUTURE_SERVICES = [
   { id: 'fuel-ev',          label: 'Benzinării + EV',          desc: 'Stații compatibile cu rețeaua EPD',
     image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=600&q=80&auto=format&fit=crop' },
   { id: 'car-wash',         label: 'Spălătorii auto',          desc: 'Rezervare + plată online',
-    image: 'https://images.unsplash.com/photo-1605618826115-fb9e0c93a6cb?w=600&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=600&q=80&auto=format&fit=crop' },
   { id: 'restaurants',      label: 'Restaurante',              desc: 'Comenzi + livrare + rating EPD',
     image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80&auto=format&fit=crop' },
   { id: 'energy-conn',      label: 'Racordări energetice',     desc: 'Clienții se racordează direct prin platformă',
@@ -98,7 +98,7 @@ export const EPD_ECOSYSTEM = [
   { category: 'Logistică & Transport', id: 'transport-ferovial', icon: '🚄', label: 'Transport feroviar',        desc: 'Bilete trenuri, rezervări worldwide',
     image: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=600&q=80&auto=format&fit=crop' },
   { category: 'Logistică & Transport', id: 'transport-naval',    icon: '🚢', label: 'Transport naval',           desc: 'Feriboturi + croaziere + cargo pasager',
-    image: 'https://images.unsplash.com/photo-1567542495143-72eabec5ce6d?w=600&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1493397212122-2b85dda8106b?w=600&q=80&auto=format&fit=crop' },
 
   // === SERVICII CETĂȚENI ===
   { category: 'Servicii cetățeni', id: 'curatenie',       icon: '🧹', label: 'Servicii curățenie',           desc: 'Curățenie rezidențială, birouri, industrială',
@@ -168,7 +168,7 @@ export const EPD_ECOSYSTEM = [
 
   // === MUNCĂ & AFACERI ===
   { category: 'Muncă & Afaceri', id: 'anunt-servicii', icon: '🎵', label: 'Cereri servicii (music/DJ/foto/IT)', desc: 'Marketplace pentru DJ, fotografi, catering HORECA, developeri IT',
-    image: 'https://images.unsplash.com/photo-1571266028243-e4bb35f9f38f?w=600&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1493780474015-ba834fd0ce2f?w=600&q=80&auto=format&fit=crop' },
   { category: 'Muncă & Afaceri', id: 'interviu-global',icon: '🎙️', label: 'Interviu online global',           desc: 'Aplicație dedicată — recruteri + candidați worldwide',
     image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80&auto=format&fit=crop' },
   { category: 'Muncă & Afaceri', id: 'business-locator',icon: '📍', label: 'Business Locator',                 desc: 'Găsește firma potrivită pentru orice serviciu, oriunde',

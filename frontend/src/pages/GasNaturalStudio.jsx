@@ -268,24 +268,24 @@ export default function GasNaturalStudio() {
     <AppShell title="Studio Gaze Naturale">
       {/* V11.5 — Project Picker Modal (visible when no pid + user has saved projects) */}
       {showProjectPicker && savedProjects.length > 0 && (
-        <div className="mb-6 bg-white border border-violet-200 rounded-2xl p-6 shadow-lg" data-testid="gas-project-picker">
+        <div className="mb-6 bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm" data-testid="gas-project-picker">
           <div className="flex items-start justify-between gap-4 mb-4">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 mb-1.5">// Continuați un proiect existent</div>
-              <h2 className="text-xl font-bold tracking-tight text-slate-900">Aveți {savedProjects.length} proiect{savedProjects.length === 1 ? '' : 'e'} salvat{savedProjects.length === 1 ? '' : 'e'}</h2>
-              <p className="text-sm text-slate-500 mt-1">Reluați un proiect început sau creați unul nou.</p>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 mb-1.5">// Continuați un proiect existent</div>
+              <h2 className="text-xl font-bold tracking-tight text-zinc-950">Aveți {savedProjects.length} proiect{savedProjects.length === 1 ? '' : 'e'} salvat{savedProjects.length === 1 ? '' : 'e'}</h2>
+              <p className="text-sm text-zinc-500 mt-1">Reluați un proiect început sau creați unul nou.</p>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={startNewProject}
-                className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg font-semibold text-sm flex items-center gap-2 shadow-md transition-all"
+                className="epd-btn text-sm py-2"
                 data-testid="new-gas-project-btn"
               >
                 <Plus className="w-4 h-4" /> Proiect nou
               </button>
               <button
                 onClick={() => setShowProjectPicker(false)}
-                className="px-3 py-2 text-slate-500 hover:text-slate-900 text-sm"
+                className="ghost-btn text-sm"
                 data-testid="dismiss-picker-btn"
               >
                 Închide
@@ -300,24 +300,24 @@ export default function GasNaturalStudio() {
                 <button
                   key={proj.pid}
                   onClick={() => openSavedProject(proj.pid)}
-                  className="group relative text-left p-4 bg-gradient-to-br from-slate-50 to-violet-50 hover:from-violet-50 hover:to-indigo-50 border border-slate-200 hover:border-violet-400 rounded-xl transition-all"
+                  className="group relative text-left p-4 bg-white hover:bg-zinc-50 border border-zinc-200 hover:border-zinc-950 rounded-xl transition-all"
                   data-testid={`saved-project-${proj.pid}`}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white shrink-0">
+                    <div className="w-9 h-9 rounded-lg bg-zinc-950 flex items-center justify-center text-white shrink-0">
                       <FolderOpen className="w-4 h-4" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="font-semibold text-sm text-slate-900 truncate">{proj.title || 'Proiect fără titlu'}</div>
-                      <div className="text-[11px] text-slate-500 mt-0.5 flex items-center gap-1.5">
+                      <div className="font-semibold text-sm text-zinc-950 truncate">{proj.title || 'Proiect fără titlu'}</div>
+                      <div className="text-[11px] text-zinc-500 mt-0.5 flex items-center gap-1.5">
                         <Clock className="w-3 h-3" /> {dateStr}
                       </div>
-                      <div className="text-[10px] text-violet-700 mt-1 uppercase tracking-wider">{proj.data?.tip_lucrare || 'branșament'} · {proj.status || 'draft'}</div>
+                      <div className="text-[10px] text-zinc-700 mt-1 uppercase tracking-wider font-semibold">{proj.data?.tip_lucrare || 'branșament'} · {proj.status || 'draft'}</div>
                     </div>
                   </div>
                   <span
                     onClick={(e) => deleteSavedProject(proj.pid, e)}
-                    className="absolute top-2 right-2 p-1.5 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                    className="absolute top-2 right-2 p-1.5 rounded-md text-zinc-400 hover:text-rose-600 hover:bg-rose-50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') deleteSavedProject(proj.pid, e); }}
@@ -332,36 +332,45 @@ export default function GasNaturalStudio() {
         </div>
       )}
 
-      {/* Premium header with gradient */}
-      <div className="relative mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-violet-700 via-indigo-700 to-blue-800 p-8 text-white shadow-2xl" data-testid="gas-studio-header">
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(168,85,247,0.3) 0%, transparent 50%)' }} />
+      {/* V13.0 — Premium zinc-950 header (Swiss/high-contrast) */}
+      <div className="relative mb-8 overflow-hidden rounded-2xl bg-zinc-950 p-8 text-white shadow-2xl border border-zinc-800" data-testid="gas-studio-header">
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: 'url(https://images.unsplash.com/photo-1773186704394-919b2aa3179a?w=1600&q=80&auto=format&fit=crop)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            mixBlendMode: 'luminosity',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/85 to-zinc-950/40" />
         <div className="relative flex items-center justify-between gap-6 flex-wrap">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.3em] text-violet-200 mb-2">// V11.0 · Conform NTPEE 2018 + Ord. ANRE 89/2018</div>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
-              Studio Gaze Naturale <span className="text-violet-200">— Documentație 100% legală</span>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-2">// V13.0 · NTPEE 2018 + Ord. ANRE 89/2018</div>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tighter mb-2 font-display">
+              Studio Gaze Naturale <span className="text-zinc-400">— documentație 100% legală</span>
             </h1>
-            <p className="text-violet-100/90 text-sm max-w-2xl">
+            <p className="text-zinc-300 text-sm max-w-2xl">
               Tot ce trebuie pentru un proiect tehnic complet — branșament, extindere, instalație utilizare —
               cu calcule inginerești live, generare automată listă materiale și export DOCX master cu 150+ placeholdere.
             </p>
             <div className="mt-4 flex items-center gap-2 text-xs">
-              <span className="px-2 py-1 bg-white/10 backdrop-blur rounded-full">Tip: {data.tip_lucrare}</span>
-              <span className="px-2 py-1 bg-white/10 backdrop-blur rounded-full">OSD: {data.osd_nume || '—'}</span>
-              {data.beneficiar_nume && <span className="px-2 py-1 bg-white/10 backdrop-blur rounded-full">{data.beneficiar_nume}</span>}
+              <span className="px-2 py-1 bg-white/10 backdrop-blur rounded-md border border-white/10">Tip: {data.tip_lucrare}</span>
+              <span className="px-2 py-1 bg-white/10 backdrop-blur rounded-md border border-white/10">OSD: {data.osd_nume || '—'}</span>
+              {data.beneficiar_nume && <span className="px-2 py-1 bg-white/10 backdrop-blur rounded-md border border-white/10">{data.beneficiar_nume}</span>}
             </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="text-center">
-              <div className="text-4xl font-bold tabular-nums" data-testid="completion-percent">{completionPercent}%</div>
-              <div className="text-[10px] uppercase tracking-wider text-violet-200">Completat</div>
+              <div className="text-4xl font-bold tabular-nums font-display" data-testid="completion-percent">{completionPercent}%</div>
+              <div className="text-[10px] uppercase tracking-wider text-zinc-400">Completat</div>
             </div>
             <div className="w-px h-12 bg-white/20" />
             <div className="flex flex-col gap-2">
               <button
                 onClick={saveProject}
                 disabled={saving}
-                className="px-4 py-2 bg-white text-violet-700 hover:bg-violet-50 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all shadow-lg"
+                className="px-4 py-2 bg-white text-zinc-950 hover:bg-zinc-100 rounded-md font-semibold text-sm flex items-center gap-2 transition-all shadow-lg disabled:opacity-50"
                 data-testid="save-project-btn"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
@@ -370,7 +379,7 @@ export default function GasNaturalStudio() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setShowProjectPicker(true)}
-                  className="flex-1 px-3 py-1.5 bg-violet-900/40 hover:bg-violet-900/60 border border-white/20 backdrop-blur rounded-lg font-medium text-xs flex items-center gap-2 transition-all"
+                  className="flex-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur rounded-md font-medium text-xs flex items-center gap-2 transition-all"
                   data-testid="open-projects-picker-btn"
                   title="Vezi proiectele salvate"
                 >
@@ -379,7 +388,7 @@ export default function GasNaturalStudio() {
                 </button>
                 <button
                   onClick={saveAsTemplate}
-                  className="px-3 py-1.5 bg-violet-900/40 hover:bg-violet-900/60 border border-white/20 backdrop-blur rounded-lg font-medium text-xs flex items-center gap-2 transition-all"
+                  className="px-3 py-1.5 bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur rounded-md font-medium text-xs flex items-center gap-2 transition-all"
                   data-testid="save-template-btn"
                   title="Salvează valorile curente ca template implicit"
                 >
@@ -388,8 +397,8 @@ export default function GasNaturalStudio() {
                 </button>
               </div>
               {lastSavedAt && (
-                <div className="text-[10px] text-violet-200 flex items-center gap-1" data-testid="last-saved-indicator">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-300" />
+                <div className="text-[10px] text-zinc-400 flex items-center gap-1" data-testid="last-saved-indicator">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />
                   Salvat la {lastSavedAt.toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' })}
                 </div>
               )}
@@ -401,7 +410,7 @@ export default function GasNaturalStudio() {
                     className={`px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 transition-all ${
                       devMode
                         ? 'bg-emerald-400 text-emerald-950 hover:bg-emerald-300'
-                        : 'bg-white/15 hover:bg-white/25 text-violet-100'
+                        : 'bg-white/10 hover:bg-white/25 text-zinc-200'
                     }`}
                     title="Afișează numele placeholderelor {{key}} deasupra fiecărui input"
                     data-testid="dev-mode-toggle"
@@ -412,7 +421,7 @@ export default function GasNaturalStudio() {
                   <a
                     href={`${process.env.REACT_APP_BACKEND_URL}/api/placeholders/template.docx`}
                     download
-                    className="px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 bg-white/15 hover:bg-white/25 text-violet-100 transition-all"
+                    className="px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 bg-white/10 hover:bg-white/25 text-zinc-200 transition-all"
                     title="Descarcă DOCX master cu 221 placeholdere"
                     data-testid="download-placeholders-docx"
                   >
@@ -422,7 +431,7 @@ export default function GasNaturalStudio() {
                   <a
                     href={`${process.env.REACT_APP_BACKEND_URL}/api/placeholders/template.md`}
                     download
-                    className="px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 bg-white/15 hover:bg-white/25 text-violet-100 transition-all"
+                    className="px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 bg-white/10 hover:bg-white/25 text-zinc-200 transition-all"
                     title="Descarcă catalogul Markdown"
                     data-testid="download-placeholders-md"
                   >
@@ -496,32 +505,32 @@ export default function GasNaturalStudio() {
                 onClick={() => setActiveSection(s.id)}
                 className={`w-full text-left p-3 rounded-lg border transition-all group ${
                   isActive
-                    ? 'bg-gradient-to-br from-violet-600 to-indigo-700 text-white border-violet-700 shadow-lg shadow-violet-200'
-                    : 'bg-white text-slate-700 border-slate-200 hover:border-violet-300 hover:bg-violet-50'
+                    ? 'bg-zinc-950 text-white border-zinc-950 shadow-lg'
+                    : 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-950 hover:bg-zinc-50'
                 }`}
                 data-testid={`section-nav-${s.id}`}
               >
                 <div className="flex items-start gap-3">
-                  <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${isActive ? 'text-violet-100' : 'text-violet-600'}`} />
+                  <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${isActive ? 'text-white' : 'text-zinc-950'}`} />
                   <div className="min-w-0">
                     <div className="text-sm font-semibold leading-tight">{s.label}</div>
-                    <div className={`text-[11px] leading-tight mt-0.5 ${isActive ? 'text-violet-100' : 'text-slate-500'}`}>{s.desc}</div>
+                    <div className={`text-[11px] leading-tight mt-0.5 ${isActive ? 'text-zinc-300' : 'text-zinc-500'}`}>{s.desc}</div>
                   </div>
-                  {isActive && <ChevronRight className="w-4 h-4 shrink-0 text-violet-100" />}
+                  {isActive && <ChevronRight className="w-4 h-4 shrink-0 text-white" />}
                 </div>
               </button>
             );
           })}
 
           {/* Generate doc card */}
-          <div className="mt-6 p-4 rounded-xl bg-slate-900 text-white">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-violet-300 mb-2">// Finalizare</div>
-            <div className="font-bold mb-1">Generează DOCX master</div>
-            <div className="text-[11px] text-slate-300 mb-3">Conține Referat, Foaie, Memoriu, Breviar, Listă materiale, PV-uri și mai mult — toate într-un singur fișier.</div>
+          <div className="mt-6 p-4 rounded-xl bg-zinc-950 text-white border border-zinc-800">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-2">// Finalizare</div>
+            <div className="font-bold mb-1 font-display tracking-tight">Generează DOCX master</div>
+            <div className="text-[11px] text-zinc-300 mb-3">Conține Referat, Foaie, Memoriu, Breviar, Listă materiale, PV-uri și mai mult — toate într-un singur fișier.</div>
             <button
               onClick={generateMasterDoc}
               disabled={generating}
-              className="w-full px-3 py-2 bg-gradient-to-r from-violet-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 disabled:opacity-50 rounded-lg font-semibold text-xs flex items-center justify-center gap-2 transition-all"
+              className="w-full px-3 py-2 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-50 rounded-md font-semibold text-xs flex items-center justify-center gap-2 transition-all"
               data-testid="generate-master-doc-btn"
             >
               {generating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}

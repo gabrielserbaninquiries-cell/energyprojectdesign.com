@@ -168,32 +168,31 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 noise-overlay">
-      {/* Header */}
-      <header className="fixed top-0 w-full z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/60">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          <EPDLogo />
-          <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#main-product" className="text-slate-600 hover:text-violet-700 transition-colors">Gaze Naturale</a>
-            <Link to="/constructii" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-constructii">Construcții</Link>
-            <Link to="/imobiliare" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-imobiliare">Imobiliare</Link>
-            <Link to="/documentatie-electronica" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-docs">Documentație</Link>
-            <Link to="/sponsorizeaza" className="text-fuchsia-600 hover:text-fuchsia-800 transition-colors font-semibold" data-testid="nav-sponsor">♥ Donații</Link>
-            <Link to="/contact" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-contact">Contact</Link>
-            <Link to="/pricing" className="text-slate-600 hover:text-violet-700 transition-colors" data-testid="nav-pricing">Tarife</Link>
-            <Link to="/transparenta" className="text-emerald-600 hover:text-emerald-800 transition-colors font-semibold" data-testid="nav-transparenta">📊 Transparență</Link>
+      {/* Header — V13.0 premium, compact nav, no wrap */}
+      <header className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-zinc-200/70">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between gap-4">
+          <div className="shrink-0"><EPDLogo /></div>
+          <nav className="hidden xl:flex items-center gap-5 text-[13px] font-medium whitespace-nowrap">
+            <a href="#main-product" className="text-zinc-600 hover:text-zinc-950 transition-colors">Gaze Naturale</a>
+            <Link to="/constructii" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-constructii">Construcții</Link>
+            <Link to="/imobiliare" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-imobiliare">Imobiliare</Link>
+            <Link to="/documentatie-electronica" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-docs">Documentație</Link>
+            <Link to="/pricing" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-pricing">Tarife</Link>
+            <Link to="/transparenta" className="text-emerald-700 hover:text-emerald-900 transition-colors font-semibold" data-testid="nav-transparenta">Transparență</Link>
+            <Link to="/sponsorizeaza" className="text-fuchsia-700 hover:text-fuchsia-900 transition-colors font-semibold" data-testid="nav-sponsor">♥ Donații</Link>
+            <Link to="/contact" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-contact">Contact</Link>
           </nav>
-          <div className="flex items-center gap-2">
-            {/* V11.0 — Google Translate REAL engine (100+ limbi, motor live) */}
+          <div className="flex items-center gap-2 shrink-0">
             <GlobalTranslator variant="light" />
-            <a href="#investitori" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 font-bold rounded-md transition-colors" data-testid="nav-investors">
-              💎 Investitori
+            <a href="#investitori" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-bold rounded-md transition-colors whitespace-nowrap" data-testid="nav-investors">
+              Investitori
             </a>
             {user ? (
               <Link to="/dashboard" className="epd-btn text-sm py-2" data-testid="cta-dashboard">Panou</Link>
             ) : (
               <>
-                <Link to="/auth?mode=signin" className="ghost-btn text-sm" data-testid="nav-login">Autentificare</Link>
-                <Link to="/auth?mode=signup" className="epd-btn text-sm py-2" data-testid="nav-register">Începe gratuit</Link>
+                <Link to="/auth?mode=signin" className="ghost-btn text-sm whitespace-nowrap" data-testid="nav-login">Autentificare</Link>
+                <Link to="/auth?mode=signup" className="epd-btn text-sm py-2 whitespace-nowrap" data-testid="nav-register">Începe gratuit</Link>
               </>
             )}
           </div>

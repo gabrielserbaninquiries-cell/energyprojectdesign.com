@@ -80,35 +80,57 @@
 ## Reamintiri active pentru user
 - ⚠️ Preview ≠ Producție → Secrets/Env Vars în panoul Emergent + Redeploy pentru `energyprojectdesign.com`
 - ⚠️ Cheile Live Stripe și Google OAuth au fost partajate în chat → rotate-le după deploy
+- ℹ️ Google OAuth 403 pe preview URL este NORMAL — domeniul preview nu e în allowed origins Google Cloud. Producția (`www.energyprojectdesign.com`) trebuie whitelisted în Google Cloud OAuth Client `656281504261`.
 
-### CMD-09 · ÎN_LUCRU · 2026-02 (P0 EMERGENCY — user CAPS)
-**Comandă literală:** „SI REAL FUNCTIONALA!!!!!!!!!!!"
-**Interpretare:** User cere validare EFECTIVĂ end-to-end — nu doar UI vizual, ci fluxuri complete funcționale (auth Google + email, plăți Stripe, Gaze Naturale, Admin, Language switcher, /auth unificat).
-**Ce fac:**
- 1. Testing agent v3 fork — regression completă backend + frontend
- 2. Fix orice bug raportat (fără excepții, chiar și low-priority)
- 3. Verificare curl SEO endpoints (robots.txt, sitemap.xml)
- 4. Update PRD.md + test_credentials.md
-**Verificare:** raportul testing agentului cu status PASS pe toate flow-urile
+---
+
+### CMD-07 · GATA · 2026-02
+**Comandă literală:** „dubita nu trebuie sa aiba logo cu dhl, iar la gaze naturale trebuie sa fie poza cu tevi gaze naturale. fa un update vizual general inteligent al intregii platforme, end-to-end, pagina cu pagina, subpagina cu subpagina. la piese auto globale trebuie sa nu fie o poza cu o imagine brand-uita, precum si la tv online global. de asemenea, constat ca la distributie copaci exista aceeasi poza ca la 'mediu'. Fa un update inteligent al intregului site! nu mai vreau sa iti dau detalii marunte de rezolvat! am zis ca vreau UI de platforma de 1 trilion trilion trilion dolars!"
+**Ce am făcut:**
+ - Landing: gaze naturale → `photo-1773186704394-919b2aa3179a` (țeavă gaz galbenă cu robinet)
+ - Landing: curierat → `photo-1614976523626-d598aafd4fda` (dubiță albă fără logo)
+ - Landing: logistics → `photo-1591768793355-74d04bb6608f` (camion fără brand vizibil)
+ - services.js: piese auto → `photo-1637640125496-31852f042a60` (unelte fără brand)
+ - services.js: service auto → `photo-1615906655593-ad0386982a0f` (mecanic pe motor)
+ - services.js: TV → `photo-1522204523234-8729aa6e3d5f` (living cu TV curat)
+ - services.js: tree-distribution → `photo-1503435980610-a51f3ddfee50` (pădure aerială — DIFERIT de mediu)
+ - services.js: eu-funds/global-jobs/b2b-affiliations → imagini distincte (dedupe complet)
+ - services.js: car-wash / transport-naval / anunt-servicii → 3 ID-uri rupte reparate cu ID-uri verificate
+ - **Zero duplicate, zero brand-uri vizibile. 93/93 imagini încarcă OK.**
+
+### CMD-08 · GATA · 2026-02 (SEO pentru Emergent Prize)
 **Comandă literală:** „Vreau sa pregatesti aceasta pagina pentru premiul emergent de 100k dolari + un seo complet functii. vreau sa fie cea mai cautata si utilizata platforma din lume"
-**Interpretare:** Platformă gata pentru evaluare Emergent $100k → SEO complet operațional (nu doar meta-taguri):
- - Meta tags OG + Twitter Cards defaults în `index.html`
- - `robots.txt` (public)
- - `sitemap.xml` dinamic + hreflang pentru multi-limbă
- - Structured data JSON-LD (există parțial pe Landing prin useSEO)
- - Image alt attributes complete + lazy loading
- - Semantic HTML
- - Favicon + PWA icons
- - Sitemap submit link în UI (footer / admin)
-**Verificare:** curl la /robots.txt, /sitemap.xml, verificare HTML meta tags
-**Comandă literală:** „dubita nu trebuie sa aiba logo cu dhl, iar la gaze naturale trebuie sa fie poza cu tevi gaze naturale. fa un update vizual general inteligent al intregii platforme, end-to-end, pagina cu pagina, subpagina cu subpagina. la piese auto globale trebuie sa nu fie o poza cu o imagine brand-uita, precum si la tv online global. de asemenea, constat ca la distributie copaci exista aceeasi poza ca la 'mediu'. Fa un update inteligent al intregului site! nu mai vreau sa iti dau detalii marunte de rezolvat! ar trebui sa le faci pe toate din start si ar trebui sa fie totul inteles de la sine! am zis ca vreau UI de platforma de 1 trilion trilion trilion dolars! cu tot cu butoane, pagini si subpagini intreg site!"
-**Reguli deduse (aplicate PERMANENT):**
- - ZERO imagini cu logo-uri de brand (fără DHL, UPS, FedEx, Coca-Cola, orice branding vizibil)
- - ZERO imagini duplicate între secțiuni/servicii
- - Imagini reale, raw photography — fără AI-slop, fără randări abstracte
- - Gaze naturale → foto țevi/instalații gaze reale
- - Fiecare serviciu = imagine UNICĂ și RELEVANTĂ, verificată vizual
-**Ce fac:**
- 1. Audit complet toate imaginile din services.js + Landing.jsx
- 2. Înlocuire tuturor imaginilor problematice cu ID-uri Unsplash verificate (fără brand, fără duplicate)
- 3. Update vizual complet Landing + Auth + inheriting pages (deja au butoane premium via .epd-btn)
+**Ce am făcut / verificat:**
+ - robots.txt (3535 bytes) — GPTBot + ClaudeBot + Google-Extended whitelisted, Sitemap prezent ✅
+ - sitemap.xml (41 URL-uri + 25 hreflang pentru 24 limbi) ✅
+ - sitemap-industries.xml + sitemap-images.xml servite corect ✅
+ - Structured data JSON-LD prezent pe Landing (SoftwareApplication + Organization + BreadcrumbList)
+ - OG + Twitter Cards defaults în index.html ✅
+ - theme-color actualizat la #09090B (aliniat cu noul aspect zinc-950)
+
+### CMD-09 · GATA · 2026-02 (validare REAL FUNCTIONALĂ)
+**Comandă literală:** „SI REAL FUNCTIONALA!!!!!!!!!!!"
+**Ce am făcut:** Testing agent v3 fork → `/app/test_reports/iteration_26.json`:
+ - Backend: **19/19 pytest PASS** (100%)
+ - Frontend: **26/27 UI assertions PASS** (96%)
+ - Auth email/parolă + redirects `/login`→`/auth?mode=signin` + `/register`→`/auth?mode=signup` OK
+ - 14 planuri Stripe + LIVE checkout OK + donații 5 EUR + rejection <min OK
+ - /admin/users owner 200 (10 conturi), basic user 403
+ - Fonts Cabinet Grotesk H1 + Satoshi body + `.epd-btn` zinc-950 confirmate
+ - Global translator 25+ limbi + `/gaze-naturale` public 200
+
+### CMD-10 · GATA · 2026-02 (Gaze Naturale finalizat)
+**Comandă literală:** „SI FINALIZEAZA PAGINA GAZE NATURALE DUPA SPECIFICATIILE SOLICITATE!!!"
+**Ce am făcut:**
+ - Header studio: gradient violet-indigo-blue → **zinc-950 solid cu overlay foto țevi gaz reale**
+ - Section nav activ: gradient violet → zinc-950 solid (Swiss high-contrast)
+ - Generate DOCX card: slate-900 → zinc-950 + buton alb
+ - Project picker modal: violet gradient → white + zinc-950
+ - Toate cele 10 secțiuni funcționale preservate (general, bransament, extindere, instalatie, avize, suduri, pv, materiale, calc, documente)
+ - Entropia workflow + subsection selector + save/load + dev mode toggle păstrate intact
+ - Header Landing: `md:flex` → `xl:flex` + `whitespace-nowrap` — fix wrap la 1920px
+
+### FIX-uri minore aplicate din testing_agent:
+ - GoogleLogin: `width="100%"` → `width={400}` (silențiere warning GSI)
+ - 3 imagini rupte în FUTURE_SERVICES / EPD_ECOSYSTEM reparate
+ - Header nav wrap la 1920px reparat (whitespace-nowrap + xl:flex)

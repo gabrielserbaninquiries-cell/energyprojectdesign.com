@@ -165,7 +165,7 @@ export default function Auth() {
               size="large"
               text={isSignup ? 'signup_with' : 'continue_with'}
               shape="rectangular"
-              width="100%"
+              width={400}
             />
           </div>
 
