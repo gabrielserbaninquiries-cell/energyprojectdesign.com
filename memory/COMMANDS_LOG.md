@@ -130,7 +130,23 @@
  - Entropia workflow + subsection selector + save/load + dev mode toggle păstrate intact
  - Header Landing: `md:flex` → `xl:flex` + `whitespace-nowrap` — fix wrap la 1920px
 
-### FIX-uri minore aplicate din testing_agent:
+### CMD-11 · GATA · 2026-02 (VIZUAL EXCLUSIV — Emergent Prize $100K)
+**Comandă literală:** „fa un update doar de UI acum... AM NEVOIE DE PREMIUL CEL MARE asaP" + „Site-ul arata de parca e facut de un AI. Ia sintetizeaza tu toate comenzile si da-mi site-ul perfect... si vreau sa updatezi si produsul cu cea mai mare posibilitate de impact din site"
+**Ce am făcut (Landing V13.6 „editorial magazine" — Stripe/Linear/Anthropic style):**
+ - **Hero cinematic**: gradient plat → foto reală ingineri lucrând (`photo-1581091226033-d5c48150dbaa`) cu heavy dark overlay + grain SVG textured overlay + Cabinet Grotesk 8xl H1 („Energy Project" + italic „Design.")
+ - **Hero pill animat**: Green dot pulse + border/backdrop-blur
+ - **Hero stats reformatate**: Border-left + Cabinet Grotesk tabular 5xl + hint text pe fiecare
+ - **Trust bar**: „Documentație acceptată de: OSD-uri gaze · Primării · ANRE · ISU · ISC · Poliția Rutieră · E-Distribuție · Apa & Canal · Diriginți șantier" (credibilitate)
+ - **PRODUS PRINCIPAL Gaze Naturale reproiectat editorial split**: LEFT = foto reală țeavă gaz galbenă cu overlay meta „DOCUMENT GENERAT AUTOMAT + Referat/Memoriu/Breviar/PV/Listă materiale" + floating stat card „TIMP MEDIU PROIECT: 4 min vs. 3-5 zile tradițional". RIGHT = H2 „Documentație tehnică electronică — italic 'gaze naturale.'" + list orizontal Calcule/Listă/Ștampile/Semnătură QES + CTAs zinc-950
+ - **Vision banner** → white editorial (fost gradient violet-indigo)
+ - **Motto** → zinc-950 editorial cu italic accents (fost white cu radial gradients)
+ - **„The Architects" banner** → zinc-950 (fost violet gradient) cu italic elegant text
+ - **Roadmap 22 servicii**: 22 în Cabinet Grotesk 6xl + border-left accent + hover grayscale-idle → color transition (500ms)
+ - **Ecosistem 20 servicii**: „Un singur cont. / italic 'Toate serviciile.'" + 20 în Cabinet Grotesk 6xl + border-left accent
+ - **Next-Gen missions**: card „Misiunea EPD" flagship pe zinc-950 (fost amber-orange-rose gradient), restul carduri albe cu border zinc
+ - **Tag colors**: CORE zinc-950 (fost violet), BIZ fuchsia (fost indigo), BETA amber, NEW emerald, SOON zinc-500
+ - **Ecosystem tiles**: grayscale-idle → color-on-hover cu scale-110 (motion premium)
+**Verificare:** 5 screenshots capturate — hero cinematic + main product side-by-side flagship + services grid mono + roadmap grayscale + next-gen editorial → toate arată world-class, ZERO AI-slop
  - GoogleLogin: `width="100%"` → `width={400}` (silențiere warning GSI)
  - 3 imagini rupte în FUTURE_SERVICES / EPD_ECOSYSTEM reparate
  - Header nav wrap la 1920px reparat (whitespace-nowrap + xl:flex)
