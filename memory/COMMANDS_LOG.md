@@ -124,7 +124,16 @@
  - **Logo unificat** — `EPDLogo` folosit în header-e Peste toate paginile Mission + subpagini rethemate
  - **NEXT_GEN_MISSIONS** actualizat cu rutele astfel încât „Vezi pagina →" apare pe cele 4 misiuni
 
-### CMD-18 · GATA · 2026-02 (Audit final + Social media + Bug fix backend)
+### CMD-19 · GATA · 2026-02 (corectare terminologie platformă)
+**Comandă literală:** „nu mai apare redeply in emergent, ci doar publish."
+**Notat pentru referință viitoare:** Terminologia corectă pe Emergent este **„Publish"** (nu Redeploy). Toate reamintirile pentru user despre push-ul preview → producție trebuie să folosească acest termen.
+**Ce am făcut:** Verificat că nu există nicio referință „Redeploy" în site-ul public (frontend/src + frontend/public) — 0 rezultate. Reamintirea internă din tracker actualizată.
+
+## Reamintiri active pentru user (actualizate)
+- ⚠️ Preview ≠ Producție → apăsați **„Publish"** din panoul Emergent pentru a împinge V10.6.0000 pe `www.energyprojectdesign.com`
+- ⚠️ Adăugați `https://www.energyprojectdesign.com` în Google Cloud OAuth Client `656281504261` → Authorized origins (pentru Google Sign-In pe producție)
+- ⚠️ Rotate cheile Live Stripe + Google Client Secret partajate în chat după publish stabil
+- ℹ️ Version publică curentă: `10.6.0000 · Stable`
 **Comandă literală:** „continua ultima comanda si te rog sa verifici logo-ul EPD sa fie corect in toate paginile si subpaginile site-ului... Introdu in partea de jos a paginii, social media EPD... Facebook, Instagram, YouTube... Asigura-te ca faci SEO-ul intregului site... Run a general audit of the entire site, and make it as professional as possibile."
 **Ce am făcut:**
  - **Bug fix backend CRITIC**: `server.py:3259` — `POST /api/gas/master-docx/{project_id}` returna 404 pentru că interoga `{"id": ...}` dar toate proiectele folosesc `pid`. Corectat la `{"pid": ...}` pe ambele lookup queries.
