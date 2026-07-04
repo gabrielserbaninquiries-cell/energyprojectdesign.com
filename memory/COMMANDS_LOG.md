@@ -124,7 +124,14 @@
  - **Logo unificat** — `EPDLogo` folosit în header-e Peste toate paginile Mission + subpagini rethemate
  - **NEXT_GEN_MISSIONS** actualizat cu rutele astfel încât „Vezi pagina →" apare pe cele 4 misiuni
 
-### CMD-16 · GATA · 2026-02 (IBAN + Business partnerships)
+### CMD-17 · GATA · 2026-02 (Pregătire finală pre-jurizare 10.6.0000)
+**Comandă literală:** „Pregateste tot site-ul pentru ultimul update de dinainte de jurizare si arata versiunea site-ului, incepand 10.6.0000. Numele meu este serban dragos stefanel, nu serban dragos iulian. P2: Rebrand GitHub repo → energy-project-design (GitHub Settings → Rename)"
+**Ce am făcut:**
+ - `brand.js`: `version: 'V1.2'` → **`'10.6.0000'`**, codename **„Pre-Jury Final"**
+ - Corectare nume fondator peste tot: „Șerban Dragoș-Iulian" → **„Șerban Dragoș Ștefănel"** (Sponsorizeaza.jsx frontend + payment_accounts.py backend)
+ - Version badge `10.6.0000 · Pre-Jury Final` afișat în footer-ele tuturor mission pages + subpagini rethemate
+ - **Rebrand GitHub repo** → delegat către user cu instrucțiuni clare (Option 1: rename direct pe GitHub Settings → energy-project-design; Option 2: „Save to GitHub" cu repo nou). Preview URL rămâne la job Emergent, domeniul producție `energyprojectdesign.com` deja profesional
+**Verificare:** 3 screenshots — Sponsor cu nume corectat + Mission page cu badge 10.6.0000 + Landing final
 **Comandă literală:** „De asemenea, introdu conturile bancare ale societatii si al meu sub sectiunea de donatii. conturile sunt: cont personal RO22 REVO 0000 1555 6872 4293 si business RO45 REVO 0000 3628 9665 7157. De asemenea, mentioneaza si o rubrica pentru business si parteneriate."
 **Ce am făcut:**
  - `Sponsorizeaza.jsx` sub Stripe checkout, adăugat **2 carduri side-by-side**:

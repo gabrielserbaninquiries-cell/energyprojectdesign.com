@@ -409,7 +409,7 @@ export default function Sponsorizeaza() {
               {/* Cont personal — Dragoș Șerban */}
               <div className="mb-4 p-4 bg-zinc-50 border border-zinc-200 rounded-md">
                 <div className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-semibold mb-2">Cont personal (fondator)</div>
-                <div className="text-sm text-zinc-950 font-semibold mb-1">Șerban Dragoș-Iulian</div>
+                <div className="text-sm text-zinc-950 font-semibold mb-1">Șerban Dragoș Ștefănel</div>
                 <div className="flex items-center justify-between gap-2 mt-2">
                   <code className="font-mono text-[13px] text-zinc-950 tracking-wide select-all" data-testid="iban-personal">RO22 REVO 0000 1555 6872 4293</code>
                   <button

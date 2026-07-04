@@ -122,7 +122,7 @@ async def delete_account(account_id: str) -> bool:
 # Seed the default Revolut account on startup so the admin section is non-empty.
 DEFAULT_ACCOUNT = {
     "account_id": "acc_revolut_default",
-    "account_holder": "Dragos Serban",
+    "account_holder": "Serban Dragos Stefanel",
     "iban": "RO22REVO0000155568724293",
     "swift_bic": "REVOROBB",
     "bank_name": "Revolut Bank",
