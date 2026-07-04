@@ -554,7 +554,7 @@ export default function Landing() {
           <div className="mb-14">
             <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500 font-bold mb-4">// Viziuni EPD Next-Gen · Feb 2026</div>
             <h2 className="text-4xl lg:text-6xl font-bold tracking-[-0.03em] text-zinc-950 max-w-4xl leading-[1.02] font-display">
-              Cele 12 misiuni viitoare<br/><span className="italic text-zinc-400 font-normal">ale ecosistemului EPD.</span>
+              Cele 16 misiuni viitoare<br/><span className="italic text-zinc-400 font-normal">ale ecosistemului EPD.</span>
             </h2>
             <p className="text-base text-zinc-600 mt-6 max-w-3xl leading-relaxed">
               Dincolo de documentația tehnică — fondatorul EPD vede o platformă care unește guvernarea

@@ -71,6 +71,9 @@ export const BRAND = {
   caen: '7112',
   tagline: 'Redesigning projects.',
   subTagline: 'The Architects of Future Global Technology',
+  // Public version — resetat la V1.0 (Feb 2026); update curent = V1.1 (editorial magazine retheme)
+  version: 'V1.1',
+  versionCodename: 'Editorial Magazine',
   description:
     'Platformă globală de proiectare, documentație tehnică digitală certificată și management de proiect — gaze naturale, energie regenerabilă, instalații, construcții și infrastructură.',
   mission:

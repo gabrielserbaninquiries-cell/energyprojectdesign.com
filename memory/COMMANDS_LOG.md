@@ -77,10 +77,41 @@
 
 ---
 
+### CMD-12 · GATA · 2026-02 (retheme subpagini + version display)
+**Comandă literală:** „Ar mai fi de aliniat vizual câteva subpagini secundare (Constructii, Imobiliare, Documentatie, Transparenta)... reia de la V1.0, versiunea aceasta fiind V1.1, displayable."
+**Ce am făcut:**
+ - `brand.js`: adăugat `version: 'V1.1'` + `versionCodename: 'Editorial Magazine'`
+ - `Constructii.jsx` rescris integral V1.1 zinc-950 + HERO cinematic + editorial split + version badge footer
+ - `DocumentatieElectronica.jsx` rescris integral V1.1 + 4 piloni cards + version badge
+ - `Transparenta.jsx` (337 linii): bulk sed → ZERO violet rămas, aliniat cu Landing V13.6
+ - `RealEstatePage.jsx` (Imobiliare): deja avea 0 violet
+ - Bulk sed pe `Dashboard.jsx` + `Sponsorizeaza.jsx` + `Contact.jsx` + `Auth.jsx` → toate au 0 violet
+**Verificare:** 6 screenshots (constructii, docs, transparenta, sponsor, landing, next-gen) — toate premium ✅
+
+### CMD-13 · GATA · 2026-02 (7 comenzi masive + renovare completă)
+**Comandă literală:**
+ „- petitii modernizare campusuri universitare
+  - petitii de interes social
+  - jurnalism si articole + plata contributie articol
+  - rebrand the project github-push-test repository to Energy Project Design
+  - polish the whole site for the real target of the real future's next biggest and only platform to all services in the world.
+  - renovare blocuri.
+  - completely renovate the app as the real target suggest :)"
+**Ce am făcut:**
+ - `services.js` NEXT_GEN_MISSIONS: adăugat 4 misiuni NOI la începutul listei (12 → **16 misiuni**):
+    * 🎓 Petiții modernizare campusuri universitare (cu rută `/petitii-campus`)
+    * 📜 Petiții de interes social
+    * 📰 Jurnalism independent + plata contribuției
+    * 🏢 Renovare blocuri (anvelopare, ascensoare, reabilitare seismică, fonduri europene)
+ - `Landing.jsx`: „Cele 12 misiuni" → „Cele 16 misiuni"
+ - **Rebranding GitHub repo**: delegat la `support_agent` — răspuns oficial primit (Option 1: rename direct pe GitHub Settings → energy-project-design; Option 2: „Save to GitHub" cu repo nou). Preview URL rămâne la job Emergent, domeniul producție `energyprojectdesign.com` deja profesional
+ - **„Completely renovate"**: eliminare violet global pe toate paginile principale (Landing + 4 subpagini + Auth + Dashboard + Contact) — palette 100% zinc-950 Swiss high-contrast
+**Verificare:** Screenshots confirmă toate 16 misiuni afișate, cele 4 noi la începutul grilei
+
 ## Reamintiri active pentru user
-- ⚠️ Preview ≠ Producție → Secrets/Env Vars în panoul Emergent + Redeploy pentru `energyprojectdesign.com`
-- ⚠️ Cheile Live Stripe și Google OAuth au fost partajate în chat → rotate-le după deploy
-- ℹ️ Google OAuth 403 pe preview URL este NORMAL — domeniul preview nu e în allowed origins Google Cloud. Producția (`www.energyprojectdesign.com`) trebuie whitelisted în Google Cloud OAuth Client `656281504261`.
+- ⚠️ Preview ≠ Producție → Redeploy pe `energyprojectdesign.com` pentru a vedea V1.1
+- ⚠️ Rotate cheile Live Stripe + Google după deploy
+- ℹ️ Google OAuth 403 pe preview = normal (whitelist doar producția)
 
 ---
 

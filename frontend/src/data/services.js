@@ -68,6 +68,11 @@ export const FUTURE_SERVICES = [
 
 // V11.0 — VIZIUNI EPD NEXT-GEN (cerințe literale fondator, Feb 2026)
 export const NEXT_GEN_MISSIONS = [
+  // V1.1 — 4 misiuni noi cerute explicit de fondator (Feb 2026, CMD-13)
+  { id: 'petitii-campus',   icon: '🎓', label: 'Petiții modernizare campusuri universitare', desc: 'Studenții și absolvenții cer și susțin modernizări reale — infrastructură, laboratoare, cazare, alimentație — cu petiții semnate digital și follow-up public', route: '/petitii-campus' },
+  { id: 'petitii-sociale',  icon: '📜', label: 'Petiții de interes social',                   desc: 'Platformă publică pentru cauze cetățenești — semnătură digitală, urmărire răspuns instituțional, transparență totală' },
+  { id: 'jurnalism-articole', icon: '📰', label: 'Jurnalism independent + plata contributiei', desc: 'Publicare articole editorial cu remunerare direct la autor — bază pentru presă independentă, verificată, plătită corect' },
+  { id: 'renovare-blocuri', icon: '🏢', label: 'Renovare blocuri (energetic + estetic)',      desc: 'Anvelopare, ascensoare, reabilitare seismică, spații verzi — administratori de bloc conectați direct cu constructori și fonduri europene' },
   { id: 'voturi-cnp',       icon: '🗳️', label: 'Voturi live electronice', desc: 'Vot cetățenesc digital pe baza CNP — alegeri, referendumuri și sondaje publice în timp real, cu trasabilitate criptografică', route: '/voturi-cnp' },
   { id: 'event-tickets',    icon: '🎫', label: 'Bilete evenimente',        desc: 'Marketplace global pentru concerte, festivaluri, conferințe — cu QR code și revânzare etică' },
   { id: 'flight-tickets',   icon: '✈️', label: 'Bilete avion',             desc: 'Cumpărare bilete cu cel mai mic preț din ecosistem EPD, alerte cădere preț, miles loyalty' },
@@ -76,7 +81,7 @@ export const NEXT_GEN_MISSIONS = [
   { id: 'parking',          icon: '🅿️', label: 'Parcări urbane (constructor + locator + plătitor)', desc: 'Construire infrastructură + găsire loc + plată cu un singur tap — în orice oraș al lumii' },
   { id: 'sea-port',         icon: '⚓', label: 'Port popular global',      desc: 'Marketplace logistic maritim — cele mai bune rute, prețuri și operatori, vizibil pentru orice antreprenor' },
   { id: 'modular-houses',   icon: '🏠', label: 'Case modulare amplasabile', desc: 'Locuințe gata construite, livrate și amplasate la cheie — perfecte pentru sinistrați, locuințe rapide, vacanțe' },
-  { id: 'auctions',         icon: '🔨', label: 'Motor licitații lucrări',  desc: '"Cel mai mic preț + cel mai rapid + cea mai bună calitate" — algoritm transparent care alege automat câștigătorul' },
+  { id: 'auctions',         icon: '🔨', label: 'Motor licitații lucrări',  desc: '„Cel mai mic preț + cel mai rapid + cea mai bună calitate" — algoritm transparent care alege automat câștigătorul' },
   { id: 'taxi-global',      icon: '🚖', label: 'Taxi global EPD',          desc: 'Aplicație taxi globală — un singur cont, orice oraș, prețuri transparente, șoferi verificați' },
   { id: 'tropical-resort',  icon: '🌊', label: 'Renașterea litoralului',       desc: 'Modernizare reală a litoralului românesc — infrastructură contemporană, vegetație autohtonă rezistentă, autenticitate carpato-pontică',
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&auto=format&fit=crop' },

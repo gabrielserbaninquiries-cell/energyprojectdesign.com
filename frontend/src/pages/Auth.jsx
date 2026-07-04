@@ -144,7 +144,7 @@ export default function Auth() {
             </Link>
           </div>
 
-          <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-2">
+          <div className="text-xs uppercase tracking-[0.25em] text-zinc-600 font-semibold mb-2">
             // Energy Project Design
           </div>
           <h1 className="text-3xl font-bold tracking-tighter mb-1 text-slate-900" data-testid="auth-title">
@@ -179,13 +179,13 @@ export default function Auth() {
                 <div>
                   <label className="label block mb-1.5">Nume complet</label>
                   <input required data-testid="name-input" value={form.name} onChange={setF('name')}
-                    className="w-full border border-slate-300 bg-white px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-colors"
+                    className="w-full border border-slate-300 bg-white px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-100 transition-colors"
                     placeholder="Ion Popescu" />
                 </div>
                 <div>
                   <label className="label block mb-1.5">Firmă (opțional)</label>
                   <input data-testid="company-input" value={form.company} onChange={setF('company')}
-                    className="w-full border border-slate-300 bg-white px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-colors"
+                    className="w-full border border-slate-300 bg-white px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-100 transition-colors"
                     placeholder="SC Instalații Gaze SRL" />
                 </div>
               </>
@@ -193,7 +193,7 @@ export default function Auth() {
             <div>
               <label className="label block mb-1.5">Email</label>
               <input required type="email" data-testid="email-input" value={form.email} onChange={setF('email')}
-                className="w-full border border-slate-300 bg-white px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-colors"
+                className="w-full border border-slate-300 bg-white px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-100 transition-colors"
                 placeholder="nume@firma.ro" />
             </div>
             <div>
@@ -201,7 +201,7 @@ export default function Auth() {
                 Parolă{isSignup ? ' (min 6 caractere)' : ''}
               </label>
               <input required type="password" data-testid="password-input" value={form.password} onChange={setF('password')}
-                className="w-full border border-slate-300 bg-white px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100 transition-colors"
+                className="w-full border border-slate-300 bg-white px-4 py-2.5 text-sm rounded-lg focus:outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-100 transition-colors"
                 placeholder="••••••••" minLength={isSignup ? 6 : undefined} />
             </div>
 
@@ -212,14 +212,14 @@ export default function Auth() {
                     type="checkbox"
                     checked={gdpr}
                     onChange={(e) => { setGdpr(e.target.checked); if (e.target.checked) setShowGdprError(false); }}
-                    className="mt-0.5 w-4 h-4 accent-violet-600 cursor-pointer shrink-0"
+                    className="mt-0.5 w-4 h-4 accent-zinc-950 cursor-pointer shrink-0"
                     data-testid="gdpr-consent"
                   />
                   <span className="leading-relaxed">
                     Am citit și sunt de acord cu{' '}
-                    <Link to="/termeni" target="_blank" className="text-violet-700 underline font-semibold">Termenii</Link>,{' '}
-                    <Link to="/confidentialitate" target="_blank" className="text-violet-700 underline font-semibold">Politica de Confidențialitate</Link>{' '}
-                    și <Link to="/gdpr" target="_blank" className="text-violet-700 underline font-semibold">prelucrarea datelor GDPR</Link>.
+                    <Link to="/termeni" target="_blank" className="text-zinc-950 underline font-semibold">Termenii</Link>,{' '}
+                    <Link to="/confidentialitate" target="_blank" className="text-zinc-950 underline font-semibold">Politica de Confidențialitate</Link>{' '}
+                    și <Link to="/gdpr" target="_blank" className="text-zinc-950 underline font-semibold">prelucrarea datelor GDPR</Link>.
                   </span>
                 </label>
                 {showGdprError && !gdpr && (
@@ -250,7 +250,7 @@ export default function Auth() {
                 <button
                   type="button"
                   onClick={() => switchMode('signin')}
-                  className="text-violet-700 font-semibold hover:text-violet-900 underline"
+                  className="text-zinc-950 font-semibold hover:text-zinc-950 underline"
                   data-testid="switch-to-signin"
                 >
                   Autentifică-te
@@ -262,7 +262,7 @@ export default function Auth() {
                 <button
                   type="button"
                   onClick={() => switchMode('signup')}
-                  className="text-violet-700 font-semibold hover:text-violet-900 underline"
+                  className="text-zinc-950 font-semibold hover:text-zinc-950 underline"
                   data-testid="switch-to-signup"
                 >
                   Începe gratuit

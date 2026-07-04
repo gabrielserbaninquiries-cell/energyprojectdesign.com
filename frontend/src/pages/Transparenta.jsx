@@ -56,7 +56,7 @@ export default function Transparenta() {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-10 h-10 text-violet-600 animate-spin mx-auto mb-3" />
+          <Loader2 className="w-10 h-10 text-zinc-500 animate-spin mx-auto mb-3" />
           <div className="text-sm text-slate-500">Se încarcă cifrele live...</div>
         </div>
       </div>
@@ -81,11 +81,11 @@ export default function Transparenta() {
             <EPDLogo />
             <div>
               <div className="text-sm font-bold tracking-tight text-slate-900">Energy Project Design</div>
-              <div className="text-[10px] uppercase tracking-wider text-violet-600 font-semibold">Transparență publică</div>
+              <div className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold">Transparență publică</div>
             </div>
           </Link>
           <div className="flex items-center gap-3">
-            <button onClick={load} disabled={loading} className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-violet-700 flex items-center gap-1.5" data-testid="refresh-stats">
+            <button onClick={load} disabled={loading} className="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-zinc-950 flex items-center gap-1.5" data-testid="refresh-stats">
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} /> Reîncarcă
             </button>
             <Link to="/" className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1"><ArrowLeft className="w-3.5 h-3.5" /> Acasă</Link>
@@ -94,22 +94,22 @@ export default function Transparenta() {
       </header>
 
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-violet-700 via-indigo-700 to-blue-900 text-white py-16">
+      <section className="relative bg-gradient-to-br bg-zinc-950 text-white py-16">
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(168,85,247,0.4) 0%, transparent 50%)' }} />
         <div className="relative max-w-5xl mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-violet-200 font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-zinc-300 font-semibold mb-4">
             <Sparkles className="w-3 h-3" /> Misiunea noastră
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tighter leading-[1.05] mb-4">
             Cifre reale.<br />
-            <span className="text-violet-200">Transparență totală.</span>
+            <span className="text-zinc-300">Transparență totală.</span>
           </h1>
-          <p className="text-lg text-violet-100 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-zinc-300 max-w-2xl mx-auto leading-relaxed">
             Energy Project Design publică LIVE cifrele platformei — utilizatori, proiecte, documente, donații —
             citite direct din baza de date, fără înfrumusețare. Așa se construiește încrederea.
           </p>
           {stats?.last_refreshed_at && (
-            <div className="mt-6 text-[11px] uppercase tracking-wider text-violet-200/80 font-mono" data-testid="last-refreshed">
+            <div className="mt-6 text-[11px] uppercase tracking-wider text-zinc-300/80 font-mono" data-testid="last-refreshed">
               Ultima actualizare: {new Date(stats.last_refreshed_at).toLocaleString('ro-RO')}
             </div>
           )}
@@ -120,7 +120,7 @@ export default function Transparenta() {
         {/* Stats grid */}
         <section data-testid="public-stats-grid">
           <div className="mb-6">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 font-bold mb-1">// 01 — Cifre live din platformă</div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-1">// 01 — Cifre live din platformă</div>
             <h2 className="text-3xl font-bold tracking-tighter text-slate-900">Activitatea reală a EPD</h2>
             <p className="text-sm text-slate-500 mt-1">Citit direct din MongoDB. Click "Reîncarcă" pentru valori actualizate la secundă.</p>
           </div>
@@ -135,7 +135,7 @@ export default function Transparenta() {
           {/* Activity in 30 days */}
           <div className="mt-4 p-5 bg-white border border-slate-200 rounded-xl">
             <div className="flex items-center gap-2 mb-2">
-              <Activity className="w-4 h-4 text-violet-600" />
+              <Activity className="w-4 h-4 text-zinc-500" />
               <div className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Activitate ultimele 30 zile</div>
             </div>
             <div className="text-2xl font-bold text-slate-900 tabular-nums">
@@ -148,7 +148,7 @@ export default function Transparenta() {
         {/* Donations & Transactions */}
         <section>
           <div className="mb-6">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 font-bold mb-1">// 02 — Bani reali, trasabilitate Stripe</div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-1">// 02 — Bani reali, trasabilitate Stripe</div>
             <h2 className="text-3xl font-bold tracking-tighter text-slate-900">Donații & Tranzacții</h2>
             <p className="text-sm text-slate-500 mt-1">Toate plățile prin Stripe LIVE — chitanță automată, eIDAS audit log.</p>
           </div>
@@ -175,7 +175,7 @@ export default function Transparenta() {
             </div>
             <div className="p-6 bg-white border border-slate-200 rounded-xl" data-testid="transactions-summary">
               <div className="flex items-center gap-2 mb-3">
-                <Activity className="w-5 h-5 text-violet-600" />
+                <Activity className="w-5 h-5 text-zinc-500" />
                 <div className="text-xs uppercase tracking-wider text-slate-500 font-bold">Tranzacții Stripe</div>
               </div>
               <div className="text-4xl font-bold text-slate-900 tabular-nums mb-1">
@@ -200,14 +200,14 @@ export default function Transparenta() {
         {stats?.users?.plan_distribution && (
           <section>
             <div className="mb-6">
-              <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 font-bold mb-1">// 03 — Distribuție planuri</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-1">// 03 — Distribuție planuri</div>
               <h2 className="text-3xl font-bold tracking-tighter text-slate-900">Cine folosește EPD</h2>
             </div>
             <div className="p-6 bg-white border border-slate-200 rounded-xl">
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
                 {Object.entries(stats.users.plan_distribution).map(([plan, count]) => (
-                  <div key={plan} className="p-3 bg-violet-50 border border-violet-200 rounded-lg" data-testid={`plan-dist-${plan}`}>
-                    <div className="text-[10px] uppercase tracking-wider text-violet-700 font-bold">{plan}</div>
+                  <div key={plan} className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg" data-testid={`plan-dist-${plan}`}>
+                    <div className="text-[10px] uppercase tracking-wider text-zinc-950 font-bold">{plan}</div>
                     <div className="text-2xl font-bold text-slate-900 tabular-nums">{count}</div>
                   </div>
                 ))}
@@ -220,7 +220,7 @@ export default function Transparenta() {
         <section>
           <div className="mb-6 flex items-end justify-between">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 font-bold mb-1">// 04 — Audit cinstit end-to-end</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-1">// 04 — Audit cinstit end-to-end</div>
               <h2 className="text-3xl font-bold tracking-tighter text-slate-900">Ce funcționează 100% și ce încă lucrăm</h2>
               <p className="text-sm text-slate-500 mt-1">Fluxul complet al unui proiect gaze naturale — pas cu pas, cu status real.</p>
             </div>
@@ -237,7 +237,7 @@ export default function Transparenta() {
               return (
                 <div key={s.step} className="p-5 bg-white border border-slate-200 rounded-xl flex gap-4 items-start" data-testid={`audit-step-${s.step}`}>
                   <div className="flex flex-col items-center gap-2 shrink-0">
-                    <div className="w-9 h-9 rounded-full bg-violet-100 text-violet-700 font-bold tabular-nums flex items-center justify-center">{s.step}</div>
+                    <div className="w-9 h-9 rounded-full bg-zinc-100 text-zinc-950 font-bold tabular-nums flex items-center justify-center">{s.step}</div>
                     <div className={`px-2 py-0.5 rounded-md text-[9px] uppercase tracking-wider font-bold flex items-center gap-1 ${meta.color}`}>
                       <Icon className="w-2.5 h-2.5" /> {meta.label}
                     </div>
@@ -245,7 +245,7 @@ export default function Transparenta() {
                   <div className="flex-1 min-w-0">
                     <div className="font-bold text-slate-900">{s.name}</div>
                     <div className="text-xs text-slate-500 mt-1">{s.notes}</div>
-                    <div className="text-[10px] font-mono text-violet-600 mt-1.5">{s.endpoint}</div>
+                    <div className="text-[10px] font-mono text-zinc-500 mt-1.5">{s.endpoint}</div>
                   </div>
                 </div>
               );
@@ -256,7 +256,7 @@ export default function Transparenta() {
         {/* Compliance */}
         <section>
           <div className="mb-6">
-            <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 font-bold mb-1">// 05 — Conformitate legală</div>
+            <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-1">// 05 — Conformitate legală</div>
             <h2 className="text-3xl font-bold tracking-tighter text-slate-900">Standardele pe care le respectăm</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -273,7 +273,7 @@ export default function Transparenta() {
         <section className="border-t border-slate-200 pt-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 font-bold mb-2">Date societate</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-2">Date societate</div>
               <div className="text-sm text-slate-700 leading-relaxed">
                 <div className="font-semibold">{stats?.platform?.name}</div>
                 <div>CUI: {stats?.platform?.cui}</div>
@@ -282,7 +282,7 @@ export default function Transparenta() {
               </div>
             </div>
             <div>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 font-bold mb-2">Stack tehnic</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-2">Stack tehnic</div>
               <div className="text-sm text-slate-700 leading-relaxed">
                 <div>React 19 + FastAPI + MongoDB</div>
                 <div>Plăți: Stripe LIVE mode</div>
@@ -291,25 +291,25 @@ export default function Transparenta() {
               </div>
             </div>
             <div>
-              <div className="text-[10px] uppercase tracking-[0.3em] text-violet-600 font-bold mb-2">Date contact</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold mb-2">Date contact</div>
               <div className="text-sm text-slate-700 leading-relaxed space-y-1">
-                <Link to="/contact" className="block hover:text-violet-700 flex items-center gap-1">Contact <ExternalLink className="w-3 h-3" /></Link>
-                <Link to="/pricing" className="block hover:text-violet-700">Planuri și tarife</Link>
-                <Link to="/sponsorizeaza" className="block hover:text-violet-700">Donează</Link>
+                <Link to="/contact" className="block hover:text-zinc-950 flex items-center gap-1">Contact <ExternalLink className="w-3 h-3" /></Link>
+                <Link to="/pricing" className="block hover:text-zinc-950">Planuri și tarife</Link>
+                <Link to="/sponsorizeaza" className="block hover:text-zinc-950">Donează</Link>
               </div>
             </div>
           </div>
         </section>
 
         {/* CTA */}
-        <section className="text-center bg-gradient-to-br from-violet-50 via-indigo-50 to-violet-50 border border-violet-200 rounded-2xl p-10">
+        <section className="text-center bg-gradient-to-br bg-zinc-50 /* was gradient */ border border-zinc-200 rounded-2xl p-10">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter text-slate-900 mb-2">
             Vrei să fii unul dintre cei {(stats?.users?.total_registered || 0) + 1}?
           </h2>
           <p className="text-sm text-slate-600 max-w-xl mx-auto mb-5">
             Înregistrare în 30 secunde. Trial 14 zile gratuit. Fără card de credit.
           </p>
-          <Link to="/register" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white rounded-lg font-bold shadow-lg transition-all" data-testid="cta-register">
+          <Link to="/register" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-zinc-950 to-zinc-900 hover:from-zinc-900 hover:to-zinc-800 text-white rounded-lg font-bold shadow-lg transition-all" data-testid="cta-register">
             Începe acum <ExternalLink className="w-4 h-4" />
           </Link>
         </section>
@@ -320,13 +320,13 @@ export default function Transparenta() {
 
 function StatCard({ icon: Icon, label, value, accent, testid }) {
   const accentClass = {
-    violet: 'from-violet-500 to-indigo-600',
+    violet: 'from-zinc-800 to-zinc-950',
     blue: 'from-blue-500 to-cyan-600',
     emerald: 'from-emerald-500 to-teal-600',
     amber: 'from-amber-500 to-orange-600',
-  }[accent] || 'from-violet-500 to-indigo-600';
+  }[accent] || 'from-zinc-800 to-zinc-950';
   return (
-    <div className="group p-5 bg-white border border-slate-200 rounded-xl hover:border-violet-300 hover:shadow-lg transition-all" data-testid={testid}>
+    <div className="group p-5 bg-white border border-slate-200 rounded-xl hover:border-zinc-950 hover:shadow-lg transition-all" data-testid={testid}>
       <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br ${accentClass} shadow-md text-white mb-3`}>
         <Icon className="w-5 h-5" />
       </div>

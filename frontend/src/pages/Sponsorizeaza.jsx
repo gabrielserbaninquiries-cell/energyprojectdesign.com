@@ -136,7 +136,7 @@ export default function Sponsorizeaza() {
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/60">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
           <EPDLogo />
-          <Link to="/" className="text-sm text-slate-600 hover:text-violet-700 transition-colors" data-testid="sponsor-back-home">
+          <Link to="/" className="text-sm text-slate-600 hover:text-zinc-950 transition-colors" data-testid="sponsor-back-home">
             ← Înapoi la prezentare
           </Link>
         </div>
@@ -144,7 +144,7 @@ export default function Sponsorizeaza() {
 
       {/* V9.5 — Banner success cu mesajul personal (afișat doar după donație reușită) */}
       {status === 'success' && thankNote && (
-        <section className="bg-gradient-to-br from-fuchsia-50 via-violet-50 to-indigo-50 border-b-2 border-fuchsia-200 py-12" data-testid="thank-you-banner">
+        <section className="bg-zinc-950 text-white border-b-2 border-fuchsia-500 py-12" data-testid="thank-you-banner">
           <div className="max-w-3xl mx-auto px-6 lg:px-12">
             <div className="flex items-center gap-2 mb-4">
               <Heart className="w-5 h-5 text-fuchsia-500 fill-fuchsia-500" />
@@ -181,13 +181,13 @@ export default function Sponsorizeaza() {
         }}
       >
         <div className="max-w-5xl mx-auto px-6 lg:px-12 relative">
-          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-200 font-semibold mb-5">
+          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-zinc-300 font-semibold mb-5">
             <Heart className="w-3.5 h-3.5 text-fuchsia-300 fill-fuchsia-300" />
             Sponsorizează cauza EPD
           </div>
           <h1 className="text-4xl lg:text-6xl font-bold tracking-tighter leading-[1.05] mb-5">
             Construim împreună<br/>
-            <span className="bg-gradient-to-r from-violet-300 via-fuchsia-300 to-blue-300 bg-clip-text text-transparent">viitorul documentației tehnice.</span>
+            <span className="italic text-zinc-400 font-normal">viitorul documentației tehnice.</span>
           </h1>
           <p className="text-lg text-slate-200 max-w-2xl leading-relaxed">
             Energy Project Design este o platformă globală în construcție continuă. Fiecare donație
@@ -202,7 +202,7 @@ export default function Sponsorizeaza() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-5 gap-10">
           {/* Stânga — Misiunea EPD (sumar) */}
           <div className="lg:col-span-3">
-            <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">// Misiunea Energy Project Design</div>
+            <div className="text-xs uppercase tracking-[0.25em] text-zinc-600 font-semibold mb-3">// Misiunea Energy Project Design</div>
             <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter leading-[1.05] mb-5 text-slate-900">
               De ce avem nevoie de sponsorizare.
             </h2>
@@ -217,7 +217,7 @@ export default function Sponsorizeaza() {
               {MISSION_PILLARS.map((m) => {
                 const Icon = m.icon;
                 return (
-                  <div key={m.title} className="bg-white border border-slate-200 hover:border-violet-300 rounded-lg p-4 transition-all" data-testid={`mission-pillar-${m.title.toLowerCase().replace(/\s/g, '-')}`}>
+                  <div key={m.title} className="bg-white border border-slate-200 hover:border-zinc-950 rounded-lg p-4 transition-all" data-testid={`mission-pillar-${m.title.toLowerCase().replace(/\s/g, '-')}`}>
                     <div className="w-9 h-9 rounded-md epd-gradient flex items-center justify-center mb-3">
                       <Icon className="w-4 h-4 text-white" strokeWidth={2.2} />
                     </div>
@@ -252,10 +252,10 @@ export default function Sponsorizeaza() {
           {/* Dreapta — Donation form */}
           <div className="lg:col-span-2">
             <div className="sticky top-24">
-              <div className="bg-gradient-to-br from-violet-50 via-white to-indigo-50 border border-violet-300 rounded-xl p-6 epd-shadow-lg" data-testid="donation-form">
+              <div className="bg-white border border-zinc-200 rounded-xl p-6 epd-shadow-lg" data-testid="donation-form">
                 <div className="flex items-center gap-2 mb-1">
                   <Heart className="w-4 h-4 text-fuchsia-500 fill-fuchsia-500" />
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-violet-700 font-bold">// Donație Stripe securizată</div>
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-zinc-950 font-bold">// Donație Stripe securizată</div>
                 </div>
                 <h3 className="text-2xl font-bold tracking-tight text-slate-900 mb-4">Sumă flexibilă</h3>
 
@@ -285,8 +285,8 @@ export default function Sponsorizeaza() {
                       onClick={() => { setAmount(p); setCustomMode(false); }}
                       className={`py-2.5 text-sm font-bold rounded-lg border transition-all ${
                         !customMode && amount === p
-                          ? 'border-violet-500 bg-violet-100 text-violet-900'
-                          : 'border-slate-200 hover:border-violet-300 text-slate-700'
+                          ? 'border-zinc-950 bg-zinc-100 text-zinc-950'
+                          : 'border-slate-200 hover:border-zinc-950 text-slate-700'
                       }`}
                       data-testid={`amount-${p}`}
                     >
@@ -299,7 +299,7 @@ export default function Sponsorizeaza() {
                 <button
                   onClick={() => setCustomMode(!customMode)}
                   className={`w-full mb-4 text-xs font-semibold uppercase tracking-wider py-2 rounded-md transition-colors ${
-                    customMode ? 'text-violet-700 bg-violet-50' : 'text-slate-500 hover:text-violet-700'
+                    customMode ? 'text-zinc-950 bg-zinc-50' : 'text-slate-500 hover:text-zinc-950'
                   }`}
                   data-testid="custom-amount-toggle"
                 >
@@ -316,7 +316,7 @@ export default function Sponsorizeaza() {
                       value={customAmount}
                       onChange={(e) => setCustomAmount(e.target.value)}
                       placeholder={`min ${minAmount}`}
-                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100"
+                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-100"
                       data-testid="custom-amount-input"
                     />
                   </div>
@@ -324,7 +324,7 @@ export default function Sponsorizeaza() {
 
                 {/* Donor info (optional) */}
                 <details className="mb-4 group">
-                  <summary className="cursor-pointer text-xs font-semibold text-slate-600 hover:text-violet-700 transition-colors py-2 select-none">
+                  <summary className="cursor-pointer text-xs font-semibold text-slate-600 hover:text-zinc-950 transition-colors py-2 select-none">
                     + Detalii donator (opțional)
                   </summary>
                   <div className="space-y-2.5 pt-2">
@@ -333,7 +333,7 @@ export default function Sponsorizeaza() {
                       placeholder="Nume sau companie (opțional)"
                       value={donorName}
                       onChange={(e) => setDonorName(e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-violet-400"
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-zinc-950"
                       data-testid="donor-name-input"
                     />
                     <input
@@ -341,7 +341,7 @@ export default function Sponsorizeaza() {
                       placeholder="Email (pentru chitanță)"
                       value={donorEmail}
                       onChange={(e) => setDonorEmail(e.target.value)}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-violet-400"
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-zinc-950"
                       data-testid="donor-email-input"
                     />
                     <textarea
@@ -350,7 +350,7 @@ export default function Sponsorizeaza() {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       rows={2}
-                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-violet-400"
+                      className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-zinc-950"
                       data-testid="donor-message-input"
                     />
                   </div>
@@ -399,7 +399,7 @@ export default function Sponsorizeaza() {
       {/* Bottom — Bank transfer alternative */}
       <section className="py-12 bg-slate-50 border-t border-slate-200">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <div className="text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">// Alternativă: virament bancar direct</div>
+          <div className="text-xs uppercase tracking-[0.25em] text-zinc-600 font-semibold mb-3">// Alternativă: virament bancar direct</div>
           <h3 className="text-2xl font-bold tracking-tight text-slate-900 mb-3">Preferi transfer bancar?</h3>
           <p className="text-slate-600 mb-5 text-sm">Poți dona direct în contul Energy Project Design SRL:</p>
           <div className="inline-flex flex-col items-start text-left bg-white border border-slate-200 rounded-lg p-5 epd-shadow text-sm">
@@ -407,9 +407,9 @@ export default function Sponsorizeaza() {
               <div className="text-slate-500">Beneficiar:</div><div className="font-semibold text-slate-900">Energy Project Design S.R.L.</div>
               <div className="text-slate-500">CUI:</div><div className="font-semibold text-slate-900 font-mono">{BRAND.cui}</div>
               <div className="text-slate-500">Reg. Com.:</div><div className="font-semibold text-slate-900 font-mono">{BRAND.regCom}</div>
-              <div className="text-slate-500">IBAN RON:</div><div className="font-semibold text-violet-700 font-mono text-xs">Solicită prin email contact</div>
-              <div className="text-slate-500">IBAN EUR:</div><div className="font-semibold text-violet-700 font-mono text-xs">Solicită prin email contact</div>
-              <div className="text-slate-500">Email contact:</div><div className="font-semibold text-violet-700">{BRAND.contactEmail}</div>
+              <div className="text-slate-500">IBAN RON:</div><div className="font-semibold text-zinc-950 font-mono text-xs">Solicită prin email contact</div>
+              <div className="text-slate-500">IBAN EUR:</div><div className="font-semibold text-zinc-950 font-mono text-xs">Solicită prin email contact</div>
+              <div className="text-slate-500">Email contact:</div><div className="font-semibold text-zinc-950">{BRAND.contactEmail}</div>
             </div>
           </div>
           <p className="text-xs text-slate-500 mt-5 italic">Mențiune obligatorie: „Donație - dezvoltare platformă EPD&rdquo;</p>
@@ -420,7 +420,7 @@ export default function Sponsorizeaza() {
       <footer className="border-t border-slate-200 bg-white py-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
           <div>© {new Date().getFullYear()} {BRAND.legalName.toUpperCase()} · Toate drepturile rezervate</div>
-          <Link to="/" className="text-violet-600 hover:text-violet-900 italic">{BRAND.tagline}</Link>
+          <Link to="/" className="text-zinc-600 hover:text-zinc-950 italic">{BRAND.tagline}</Link>
         </div>
       </footer>
     </div>
