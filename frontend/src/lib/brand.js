@@ -79,9 +79,9 @@ export const BRAND = {
   caen: '7112',
   tagline: 'Redesigning projects.',
   subTagline: 'The Architects of Future Global Technology',
-  // Public version — 10.6.0000 (versiune finală pre-jurizare Emergent Prize $100K, Feb 2026)
+  // Public version — 10.6.0000 (versiune stabilă de producție, Feb 2026)
   version: '10.6.0000',
-  versionCodename: 'Pre-Jury Final',
+  versionCodename: 'Stable',
   description:
     'Platformă globală de proiectare, documentație tehnică digitală certificată și management de proiect — gaze naturale, energie regenerabilă, instalații, construcții și infrastructură.',
   mission:

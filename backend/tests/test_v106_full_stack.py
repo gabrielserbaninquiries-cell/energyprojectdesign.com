@@ -1,5 +1,5 @@
 """
-V10.6.0000 · Pre-Jury Final — Exhaustive backend regression.
+V10.6.0000 · Stable — Exhaustive backend regression.
 
 Focus (per review-request iteration 27):
   * SEO endpoints (robots.txt, sitemap.xml)

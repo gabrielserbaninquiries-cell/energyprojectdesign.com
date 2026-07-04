@@ -5,7 +5,7 @@
  * - Logo EPD (consistent peste tot)
  * - Social media discrete (Facebook, Instagram, YouTube — brand oficial EPD)
  * - Grid link-uri pentru SEO (rute publice indexabile)
- * - Version badge 10.6.0000 · Pre-Jury Final
+ * - Version badge 10.6.0000 · Stable
  * - Copyright legal + CUI + address
  */
 import { Link } from 'react-router-dom';
