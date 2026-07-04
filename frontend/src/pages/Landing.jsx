@@ -185,6 +185,9 @@ export default function Landing() {
             <Link to="/sponsorizeaza" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-fuchsia-50 hover:bg-fuchsia-100 text-fuchsia-800 border border-fuchsia-200 font-semibold rounded-md transition-colors whitespace-nowrap" title="Donații" data-testid="nav-sponsor">
               Susțineți EPD <span className="text-[13px] leading-none">♥</span>
             </Link>
+            <Link to="/investitii-bursa" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-semibold rounded-md transition-colors whitespace-nowrap" title="Investiții BVB" data-testid="nav-bvb">
+              BVB <span className="text-[10px]">↗</span>
+            </Link>
             <a href="#investitori" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-violet-50 hover:bg-violet-100 text-violet-800 border border-violet-200 font-bold rounded-md transition-colors whitespace-nowrap" data-testid="nav-investors">
               Investitori
             </a>
