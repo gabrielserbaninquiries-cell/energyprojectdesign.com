@@ -8,18 +8,18 @@
 import { useEffect, useRef } from 'react';
 
 const SYMBOLS = [
-  { proName: 'BVB:SNG',  title: 'Romgaz' },
-  { proName: 'BVB:SNP',  title: 'OMV Petrom' },
-  { proName: 'BVB:TGN',  title: 'Transgaz' },
-  { proName: 'BVB:TEL',  title: 'Transelectrica' },
-  { proName: 'BVB:EL',   title: 'Electrica' },
-  { proName: 'BVB:SNN',  title: 'Nuclearelectrica' },
-  { proName: 'BVB:H2O',  title: 'Hidroelectrica' },
-  { proName: 'BVB:COTE', title: 'Conpet' },
-  { proName: 'BVB:M',    title: 'MedLife' },
-  { proName: 'BVB:DIGI', title: 'Digi' },
-  { proName: 'BVB:TLV',  title: 'Banca Transilvania' },
-  { proName: 'BVB:PTR',  title: 'Rompetrol WS' },
+  { proName: 'NYSE:XOM',       title: 'ExxonMobil' },
+  { proName: 'NYSE:CVX',       title: 'Chevron' },
+  { proName: 'NYSE:SHEL',      title: 'Shell' },
+  { proName: 'EURONEXT:TTE',   title: 'TotalEnergies' },
+  { proName: 'NYSE:BP',        title: 'BP' },
+  { proName: 'NYSE:NEE',       title: 'NextEra Energy' },
+  { proName: 'MIL:ENEL',       title: 'Enel' },
+  { proName: 'BME:IBE',        title: 'Iberdrola' },
+  { proName: 'OMXCOP:ORSTED',  title: 'Ørsted' },
+  { proName: 'NASDAQ:TSLA',    title: 'Tesla' },
+  { proName: 'NASDAQ:NVDA',    title: 'Nvidia' },
+  { proName: 'NYSE:BRK.B',     title: 'Berkshire Hathaway' },
 ];
 
 export default function TradingViewTicker() {

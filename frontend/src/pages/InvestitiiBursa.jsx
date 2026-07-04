@@ -26,18 +26,18 @@ import TradingViewMiniChart from '../components/TradingViewMiniChart';
 import useSEO from '../hooks/useSEO';
 
 const COMPANIES = [
-  { symbol: 'BVB:SNG',  ticker: 'SNG',  name: 'Romgaz',                 sector: 'Producție gaze naturale',    icon: Flame,     bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=SNG',   desc: 'Cel mai mare producător de gaze naturale din România. Rezerve certificate 40+ mld m³.' },
-  { symbol: 'BVB:SNP',  ticker: 'SNP',  name: 'OMV Petrom',             sector: 'Petrol & Gaze integrat',     icon: Fuel,      bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=SNP',   desc: 'Cel mai mare grup integrat de petrol și gaze din sud-estul Europei.' },
-  { symbol: 'BVB:TGN',  ticker: 'TGN',  name: 'Transgaz',               sector: 'Transport gaze naturale',    icon: Building2, bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=TGN',   desc: 'Operator unic al sistemului național de transport gaze naturale (13.481 km rețea).' },
-  { symbol: 'BVB:TEL',  ticker: 'TEL',  name: 'Transelectrica',         sector: 'Transport energie electrică', icon: Zap,       bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=TEL',   desc: 'Operator unic al sistemului de transport energie electrică (8.900 km linii 220–400 kV).' },
-  { symbol: 'BVB:EL',   ticker: 'EL',   name: 'Electrica',              sector: 'Distribuție & Furnizare',    icon: Zap,       bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=EL',    desc: 'Cel mai mare distribuitor și furnizor de energie electrică din România (3.8 mil clienți).' },
-  { symbol: 'BVB:SNN',  ticker: 'SNN',  name: 'Nuclearelectrica',       sector: 'Energie nucleară',           icon: Landmark,  bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=SNN',   desc: 'Operator CNE Cernavodă (2 reactoare × 700 MW). 20% din producția României.' },
-  { symbol: 'BVB:H2O',  ticker: 'H2O',  name: 'Hidroelectrica',         sector: 'Hidroenergie',               icon: Waves,     bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=H2O',   desc: 'Cel mai mare producător de energie regenerabilă din România (6.291 MW).' },
-  { symbol: 'BVB:COTE', ticker: 'COTE', name: 'Conpet',                 sector: 'Transport țiței conducte',   icon: Building2, bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=COTE',  desc: 'Operator național transport țiței + gazolină + etan prin conducte (3.800 km).' },
-  { symbol: 'BVB:PTR',  ticker: 'PTR',  name: 'Rompetrol Well Services', sector: 'Servicii sondaj petrolier', icon: Fuel,      bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=PTR',   desc: 'Intervenție și sondaj upstream pentru industria de petrol și gaze.' },
-  { symbol: 'BVB:M',    ticker: 'M',    name: 'MedLife',                sector: 'Servicii medicale',          icon: Factory,   bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=M',     desc: 'Cea mai mare rețea privată de servicii medicale din România.' },
-  { symbol: 'BVB:DIGI', ticker: 'DIGI', name: 'Digi Communications',    sector: 'Telecom & Media',            icon: Wind,      bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=DIGI',  desc: 'Telecom integrat — internet, telefonie, TV. Expansiune ES + IT + PT.' },
-  { symbol: 'BVB:TLV',  ticker: 'TLV',  name: 'Banca Transilvania',     sector: 'Financiar-bancar',           icon: Landmark,  bvb: 'https://bvb.ro/FinancialInstruments/Details/FinancialInstrumentsDetails.aspx?s=TLV',   desc: 'Cea mai mare bancă privată din România. Finanțator strategic energie & industrie.' },
+  { symbol: 'NYSE:XOM',      ticker: 'XOM',    name: 'ExxonMobil',           sector: 'Petrol & Gaze integrat',   icon: Fuel,      exchange: 'NYSE · New York',        bvb: 'https://www.nyse.com/quote/XNYS:XOM',                                   desc: 'Cel mai mare producător integrat de petrol și gaze din SUA. Capitalizare peste 500 mld USD.' },
+  { symbol: 'NYSE:CVX',      ticker: 'CVX',    name: 'Chevron',              sector: 'Petrol & Gaze integrat',   icon: Fuel,      exchange: 'NYSE · New York',        bvb: 'https://www.nyse.com/quote/XNYS:CVX',                                   desc: 'Al doilea mare grup energetic american. Rafinare + upstream + petrochimie. Dividende constante.' },
+  { symbol: 'NYSE:SHEL',     ticker: 'SHEL',   name: 'Shell',                sector: 'Energy Major',              icon: Fuel,      exchange: 'NYSE + LSE',              bvb: 'https://www.londonstockexchange.com/stock/SHEL/shell-plc',              desc: 'Grup energetic anglo-olandez. Tranziție agresivă către LNG, hidrogen și energie regenerabilă.' },
+  { symbol: 'EURONEXT:TTE',  ticker: 'TTE',    name: 'TotalEnergies',        sector: 'Energy Major',              icon: Fuel,      exchange: 'Euronext Paris',          bvb: 'https://live.euronext.com/en/product/equities/FR0000120271-XPAR',       desc: 'Grup francez de energie integrat. Lider european în solar (SunPower) + gaz LNG.' },
+  { symbol: 'NYSE:BP',       ticker: 'BP',     name: 'BP plc',               sector: 'Energy Major',              icon: Fuel,      exchange: 'NYSE + LSE',              bvb: 'https://www.londonstockexchange.com/stock/BP./bp-plc',                  desc: 'British Petroleum. Transformare strategică către „Integrated Energy Company" cu focus regenerabile.' },
+  { symbol: 'NYSE:NEE',      ticker: 'NEE',    name: 'NextEra Energy',       sector: 'Utility · Regenerabil',    icon: Wind,      exchange: 'NYSE · New York',        bvb: 'https://www.nyse.com/quote/XNYS:NEE',                                   desc: 'Cel mai mare furnizor american de energie regenerabilă (wind + solar). Lider ESG global.' },
+  { symbol: 'MIL:ENEL',      ticker: 'ENEL',   name: 'Enel',                 sector: 'Utility · European #1',    icon: Zap,       exchange: 'Borsa Italiana',          bvb: 'https://www.borsaitaliana.it/borsa/azioni/scheda/IT0003128367.html',    desc: 'Cea mai mare utilitate energetică din Europa. Operațiuni în 30+ țări, 3B+ MW capacitate.' },
+  { symbol: 'BME:IBE',       ticker: 'IBE',    name: 'Iberdrola',            sector: 'Utility · Vânt & Solar',   icon: Wind,      exchange: 'Bolsa de Madrid',         bvb: 'https://www.bolsademadrid.es/ing/aspx/Empresas/FichaValor.aspx?ISIN=ES0144580Y14', desc: 'Lider mondial în energie eoliană onshore + offshore. Portofoliu wind 40+ GW.' },
+  { symbol: 'OMXCOP:ORSTED', ticker: 'ORSTED', name: 'Ørsted',               sector: 'Vânt Offshore #1 mondial',  icon: Waves,     exchange: 'Nasdaq Copenhagen',       bvb: 'https://www.nasdaqomxnordic.com/aktier/microsite?Instrument=CSE159843', desc: 'Cel mai mare dezvoltator de parcuri eoliene offshore din lume. Fost DONG Energy.' },
+  { symbol: 'NASDAQ:TSLA',   ticker: 'TSLA',   name: 'Tesla',                sector: 'EV · Baterii · Energy Storage', icon: Zap,  exchange: 'NASDAQ · New York',       bvb: 'https://www.nasdaq.com/market-activity/stocks/tsla',                    desc: 'Automobile electrice + Megapack storage industrial. Ecosistem energie decentralizată complet.' },
+  { symbol: 'NASDAQ:NVDA',   ticker: 'NVDA',   name: 'Nvidia',               sector: 'Semiconductoare · AI',      icon: Factory,   exchange: 'NASDAQ · New York',       bvb: 'https://www.nasdaq.com/market-activity/stocks/nvda',                    desc: 'Lider mondial cipuri AI + data center. Motor al revoluției energie-computațională.' },
+  { symbol: 'NYSE:BRK.B',    ticker: 'BRK.B',  name: 'Berkshire Hathaway',   sector: 'Conglomerat · Utilities',   icon: Landmark,  exchange: 'NYSE · New York',        bvb: 'https://www.nyse.com/quote/XNYS:BRK.B',                                 desc: 'Conglomeratul lui Warren Buffett. BHE = una din cele mai mari utilități regenerabile din SUA.' },
 ];
 
 const BROKERS = [
@@ -45,7 +45,14 @@ const BROKERS = [
     id: 'bt-capital',
     name: 'BT Capital Partners',
     tagline: 'Brokerul Băncii Transilvania',
-    highlights: ['Comision de la 0,55% · min 4,50 EUR', 'Cont demat gratuit', 'Acces BVB + burse externe', 'App mobil BT Trading'],
+    highlights: ['Cont demat gratuit', 'Acces BVB + burse externe', 'App mobil BT Trading'],
+    fees: {
+      minDeposit: '0 RON',
+      depositFee: 'Gratuit (transfer intern BT)',
+      tradeCommission: '0,55% · min 4,50 EUR',
+      withdrawalFee: 'Gratuit către cont BT',
+      referralPct: '~2% din comisioanele generate',
+    },
     url: 'https://www.btcapitalpartners.ro/deschidere-cont/',
     asf: 'PJR01SSIF/400015',
     logoText: 'BT',
@@ -55,7 +62,14 @@ const BROKERS = [
     id: 'tradeville',
     name: 'TradeVille',
     tagline: 'Broker independent · 25+ ani experiență',
-    highlights: ['Comision de la 0,50% · min 5 RON', 'Platformă TradeVille online', 'ETF-uri + acțiuni + obligațiuni', 'Analize proprii + rapoarte'],
+    highlights: ['Cont demat gratuit', 'ETF-uri + acțiuni + obligațiuni', 'Analize proprii + rapoarte'],
+    fees: {
+      minDeposit: '100 RON',
+      depositFee: 'Gratuit (transfer bancar)',
+      tradeCommission: '0,50% · min 5 RON',
+      withdrawalFee: '10 RON / operațiune',
+      referralPct: '~5% din comisioanele generate',
+    },
     url: 'https://tradeville.ro/deschidere-cont',
     asf: 'PJR01SSIF/400013',
     logoText: 'TV',
@@ -65,7 +79,14 @@ const BROKERS = [
     id: 'xtb',
     name: 'XTB Romania',
     tagline: 'Broker european · listat WSE',
-    highlights: ['0% comision acțiuni EU (până la 100k EUR/lună)', 'xStation 5 · WebTrader', 'BVB + 6000+ instrumente globale', 'Reglementat CySEC + ASF'],
+    highlights: ['xStation 5 · WebTrader', 'BVB + 6000+ instrumente globale', 'Reglementat CySEC + ASF'],
+    fees: {
+      minDeposit: '0 EUR',
+      depositFee: 'Gratuit până la 30k EUR/lună',
+      tradeCommission: '0% acțiuni EU (până la 100k EUR/lună)',
+      withdrawalFee: 'Gratuit peste 100 EUR',
+      referralPct: '30–100 EUR CPA per user activ',
+    },
     url: 'https://www.xtb.com/ro/deschide-cont-real',
     asf: 'Notificare ASF · pașaport UE',
     logoText: 'XTB',
@@ -75,7 +96,14 @@ const BROKERS = [
     id: 'goldring',
     name: 'Goldring',
     tagline: 'SSIF · membru fondator BVB',
-    highlights: ['Comision negociabil per volum', 'Consilier dedicat portofoliu', 'Servicii de administrare', 'Cabinet fizic Târgu Mureș'],
+    highlights: ['Consilier dedicat portofoliu', 'Servicii de administrare', 'Cabinet fizic Târgu Mureș'],
+    fees: {
+      minDeposit: '500 RON',
+      depositFee: 'Gratuit (transfer bancar)',
+      tradeCommission: 'Negociabil per volum (de la 0,45%)',
+      withdrawalFee: '5 RON / operațiune',
+      referralPct: '~3% din comisioanele generate',
+    },
     url: 'https://goldring.ro/contact',
     asf: 'PJR01SSIF/120004',
     logoText: 'GR',
@@ -85,7 +113,14 @@ const BROKERS = [
     id: 'ibkr',
     name: 'Interactive Brokers',
     tagline: 'Cel mai mare broker retail din SUA',
-    highlights: ['Comisioane ultra-mici (fixed + tiered)', 'Acces la 150+ piețe globale', 'Trader Workstation profesional', 'Reglementat SEC/FINRA/FCA'],
+    highlights: ['Trader Workstation profesional', 'Reglementat SEC/FINRA/FCA', 'Acces la 150+ piețe globale'],
+    fees: {
+      minDeposit: '0 USD',
+      depositFee: 'Gratuit (SEPA / SWIFT)',
+      tradeCommission: '0,05% · min 1,25 EUR (tiered)',
+      withdrawalFee: '1 gratuit/lună, apoi 10 EUR',
+      referralPct: '100–200 USD CPA per user finanțat',
+    },
     url: 'https://www.interactivebrokers.eu/ro/index.php?f=1338',
     asf: 'Notificare ASF · pașaport UE (Ireland)',
     logoText: 'IB',
@@ -95,7 +130,14 @@ const BROKERS = [
     id: 'etoro',
     name: 'eToro Romania',
     tagline: 'Social trading · copy portfolios',
-    highlights: ['0% comision acțiuni', 'Copy trading (copiază traderi TOP)', 'App mobil premiată', 'Reglementat CySEC + ASF'],
+    highlights: ['Copy trading (copiază traderi TOP)', 'App mobil premiată', 'Reglementat CySEC + ASF'],
+    fees: {
+      minDeposit: '50 USD (prima depunere 10 USD)',
+      depositFee: 'Gratuit (card / SEPA)',
+      tradeCommission: '0% acțiuni reale (spread pe CFD)',
+      withdrawalFee: '5 USD / operațiune',
+      referralPct: '150–200 USD CPA per user activ',
+    },
     url: 'https://www.etoro.com/ro/sign-up',
     asf: 'Notificare ASF · pașaport UE',
     logoText: 'eT',
@@ -114,11 +156,11 @@ const STEPS = [
 
 export default function InvestitiiBursa() {
   useSEO({
-    title: 'Investiții BVB · Prețuri live + Brokeri autorizați ASF · Energy Project Design',
-    description: 'Prețuri live TradingView pentru companiile energetice românești (Romgaz, OMV Petrom, Transgaz, Transelectrica, Electrica, Nuclearelectrica, Hidroelectrica) + director complet brokeri autorizați ASF cu link-uri directe deschidere cont: BT Capital Partners, TradeVille, XTB, Goldring, Interactive Brokers, eToro.',
+    title: 'Investiții internaționale · NYSE + NASDAQ + Euronext + LSE · Energy Project Design',
+    description: 'Prețuri LIVE TradingView pentru giganții energetici globali (ExxonMobil, Chevron, Shell, TotalEnergies, BP, NextEra, Enel, Iberdrola, Ørsted) + Tesla, Nvidia, Berkshire Hathaway. Directorul brokerilor autorizați ASF cu acces la bursele internaționale.',
     canonical: 'https://www.energyprojectdesign.com/investitii-bursa',
-    keywords: 'investiții BVB live, prețuri Romgaz SNG, TradeVille, BT Capital Partners, XTB Romania, Goldring, Interactive Brokers, eToro Romania, cum deschid cont demat, cum investesc la bursă',
-    breadcrumbs: [{ name: 'Acasă', url: '/' }, { name: 'Investiții BVB', url: '/investitii-bursa' }],
+    keywords: 'investiții internaționale, NYSE NASDAQ Euronext LSE, acțiuni ExxonMobil XOM, Chevron CVX, Shell SHEL, TotalEnergies TTE, NextEra NEE, Enel Iberdrola Ørsted, Tesla TSLA Nvidia NVDA, brokeri internaționali ASF, XTB Interactive Brokers eToro',
+    breadcrumbs: [{ name: 'Acasă', url: '/' }, { name: 'Investiții globale', url: '/investitii-bursa' }],
   });
 
   return (
@@ -173,7 +215,7 @@ export default function InvestitiiBursa() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-baseline justify-between mb-8 flex-wrap gap-3">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500 font-bold mb-2">// prețuri LIVE · click pe „vezi pe BVB" pentru raportul complet</div>
+              <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500 font-bold mb-2">// prețuri LIVE · click pe „vezi pe BVB&rdquo; pentru raportul complet</div>
               <h2 className="text-3xl lg:text-4xl font-bold tracking-[-0.03em] leading-[1.02] text-zinc-950 font-display max-w-3xl">
                 12 companii,<br/><span className="italic text-zinc-400 font-normal">actualizate în timp real.</span>
               </h2>
