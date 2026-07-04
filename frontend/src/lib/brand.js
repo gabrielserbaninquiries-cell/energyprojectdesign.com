@@ -25,6 +25,14 @@ export const BRAND_ASSETS = {
   cover2Smartcity: 'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/0juohzrp_724811747_122280139406059458_936218039712510715_n.jpg',
   cover3Office: 'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/j1pg0xlc_724061403_17971844154065237_5309602156807133894_n.jfif',
   cover4Architects: 'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/8rnh1m0d_724858614_122280136286059458_8884292619112530420_n.jfif',
+
+  // V1.2 — 3 imagini brand oficiale (upload fondator, Jul 2026)
+  // Imagine 3 (Earth-space + EPD logo + „THE ARCHITECTS OF FUTURE GLOBAL TECHNOLOGY") → Login + Banner top hero
+  brandHeroEarth: 'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/6ie58nh5_ChatGPT%20Image%20Jul%203%2C%202026%2C%2004_50_27%20AM.png',
+  // Imagine 1 (Holographic globe cu ecrane data) → „The Architects of Future" banner
+  brandHologram:   'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/ycpw6kyx_ChatGPT%20Image%20Jul%203%2C%202026%2C%2005_23_07%20AM.png',
+  // Imagine 2 (Isometric platform hub cu EPD cube + icons ecosistem) → Ecosistem section
+  brandIsometric:  'https://customer-assets.emergentagent.com/job_github-push-test/artifacts/eawtzgsp_ChatGPT%20Image%20Jul%203%2C%202026%2C%2005_23_16%20AM.png',
 };
 
 // Official EPD color palette (extracted from logo gradient)
@@ -72,8 +80,8 @@ export const BRAND = {
   tagline: 'Redesigning projects.',
   subTagline: 'The Architects of Future Global Technology',
   // Public version — resetat la V1.0 (Feb 2026); update curent = V1.1 (editorial magazine retheme)
-  version: 'V1.1',
-  versionCodename: 'Editorial Magazine',
+  version: 'V1.2',
+  versionCodename: 'Brand Cinematic',
   description:
     'Platformă globală de proiectare, documentație tehnică digitală certificată și management de proiect — gaze naturale, energie regenerabilă, instalații, construcții și infrastructură.',
   mission:

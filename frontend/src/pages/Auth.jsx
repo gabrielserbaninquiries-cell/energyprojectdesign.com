@@ -95,11 +95,11 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen grid md:grid-cols-2">
-      {/* Stânga — Brand panel cu fotografie reală de teren (V13.0: no more AI-slop) */}
+      {/* Stânga — Brand panel V1.2: Earth + EPD logo („The Architects of Future Global Technology") */}
       <div
-        className="hidden md:flex flex-col justify-between text-white p-12 relative overflow-hidden"
+        className="hidden md:flex flex-col justify-between text-white p-12 relative overflow-hidden bg-zinc-950"
         style={{
-          backgroundImage: `linear-gradient(180deg, rgba(9,9,11,0.55) 0%, rgba(9,9,11,0.85) 100%), url(https://images.unsplash.com/photo-1565954786194-d22abeaac3ae?w=1600&q=85&auto=format&fit=crop)`,
+          backgroundImage: `linear-gradient(180deg, rgba(9,9,11,0.35) 0%, rgba(9,9,11,0.75) 100%), url(${BRAND_ASSETS.brandHeroEarth})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}

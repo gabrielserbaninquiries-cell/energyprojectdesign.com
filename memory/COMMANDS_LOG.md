@@ -108,10 +108,16 @@
  - **„Completely renovate"**: eliminare violet global pe toate paginile principale (Landing + 4 subpagini + Auth + Dashboard + Contact) — palette 100% zinc-950 Swiss high-contrast
 **Verificare:** Screenshots confirmă toate 16 misiuni afișate, cele 4 noi la începutul grilei
 
-## Reamintiri active pentru user
-- ⚠️ Preview ≠ Producție → Redeploy pe `energyprojectdesign.com` pentru a vedea V1.1
-- ⚠️ Rotate cheile Live Stripe + Google după deploy
-- ℹ️ Google OAuth 403 pe preview = normal (whitelist doar producția)
+### CMD-14 · GATA · 2026-02 (V1.2 „Brand Cinematic" — 3 imagini brand oficiale)
+**Comandă literală:** „Te rog reorganizeaza site-ul sa arate asa cum ar trebui sa arate prima si singura platforma pentru toate serviciile. iti atasez si 3 poze. Te rog fa ca imaginea 3d sa fie la log in si ca banner in partea de sus a paginii, iar celelalte 2 unde crezi ca mai este cazul."
+**Ce am făcut:**
+ - Adăugate în `brand.js`: `brandHeroEarth` (Imagine 3), `brandHologram` (Imagine 1), `brandIsometric` (Imagine 2)
+ - **Auth.jsx** brand panel stânga: fost foto industrială Unsplash → **Imagine 3 (Earth space + EPD logo + „THE ARCHITECTS OF FUTURE GLOBAL TECHNOLOGY")** ✅
+ - **Landing.jsx** BANNER TOP nou creat (sub header, deasupra Hero) cu **Imagine 3** full-width 500px ✅
+ - **Landing.jsx** ECOSISTEM section: editorial split cu **Imagine 2 (isometric platform hub EPD)** — comunică literal „un singur ecosistem, totul integrat" + „Prima și singura platformă pentru toate serviciile" ✅
+ - **Landing.jsx** „The Architects" banner: solid zinc-950 → **Imagine 1 (holographic globe + data screens)** cu overlay 75-95% opacity — perfect pentru „future global technology" ✅
+ - Version bump: `V1.1 · Editorial Magazine` → **`V1.2 · Brand Cinematic`**
+**Verificare:** 4 screenshots capturate — banner top Earth+EPD, ecosistem isometric editorial, architects hologram, auth Earth ✅ toate perfect plasate
 
 ---
 

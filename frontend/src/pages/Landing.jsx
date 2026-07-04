@@ -200,11 +200,24 @@ export default function Landing() {
       </header>
 
       {/* HERO — Identitate oficială EPD (V12.7: no photo, clean pro gradient) */}
+      {/* V1.2 — BRAND BANNER TOP (Imagine 3 „Earth + EPD logo + The Architects of Future Global Technology") */}
+      <section className="relative w-full overflow-hidden bg-zinc-950 pt-16" data-testid="brand-banner-top">
+        <div className="relative w-full h-[380px] md:h-[440px] lg:h-[500px]">
+          <img
+            src={BRAND_ASSETS.brandHeroEarth}
+            alt="Energy Project Design — The Architects of Future Global Technology"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/30 via-transparent to-zinc-950" />
+        </div>
+      </section>
+
       {/* HERO — V13.5 „Cinematic" cu foto reală industrială + heavy overlay (competitor best-in-world) */}
       <section
-        className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-zinc-950"
+        className="relative pt-20 pb-20 lg:pt-24 lg:pb-28 overflow-hidden bg-zinc-950"
         style={{
-          backgroundImage: 'linear-gradient(180deg, rgba(9,9,11,0.72) 0%, rgba(9,9,11,0.92) 55%, rgba(9,9,11,0.98) 100%), url(https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=1920&q=85&auto=format&fit=crop)',
+          backgroundImage: 'linear-gradient(180deg, rgba(9,9,11,0.85) 0%, rgba(9,9,11,0.96) 55%, rgba(9,9,11,0.99) 100%), url(https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=1920&q=85&auto=format&fit=crop)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
@@ -494,10 +507,16 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Banner — The Architects V13.6 zinc premium editorial */}
-      <section className="relative py-24 lg:py-32 overflow-hidden text-white bg-zinc-950">
-        <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,1) 0%, transparent 60%)' }} />
-        <div className="max-w-5xl mx-auto px-6 lg:px-12">
+      {/* Banner — The Architects V13.6 zinc premium editorial + Imagine 1 „Holographic Globe" background */}
+      <section
+        className="relative py-24 lg:py-32 overflow-hidden text-white bg-zinc-950"
+        style={{
+          backgroundImage: `linear-gradient(180deg, rgba(9,9,11,0.75) 0%, rgba(9,9,11,0.85) 50%, rgba(9,9,11,0.95) 100%), url(${BRAND_ASSETS.brandHologram})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="max-w-5xl mx-auto px-6 lg:px-12 relative">
           <div className="text-[10px] uppercase tracking-[0.35em] text-zinc-500 font-bold mb-6">// Viziunea EPD</div>
           <h2 className="text-4xl lg:text-7xl font-bold tracking-[-0.035em] leading-[0.98] max-w-4xl mb-8 font-display">
             We are the architects<br/>
@@ -623,13 +642,28 @@ export default function Landing() {
       {/* V13.5 — ECOSISTEM COMPLET (world-class hover: grayscale-idle → color) */}
       <section id="ecosistem" className="py-24 bg-white border-b border-zinc-200" data-testid="epd-ecosystem-section">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="text-[10px] uppercase tracking-[0.35em] text-zinc-500 font-bold mb-3">// ecosistem EPD</div>
-          <h2 className="text-4xl lg:text-6xl font-bold tracking-[-0.03em] text-zinc-950 mb-4 font-display leading-[1.02]">
-            Un singur ecosistem.<br/><span className="italic text-zinc-400 font-normal">Totul integrat.</span>
-          </h2>
-          <p className="text-base lg:text-lg text-zinc-600 max-w-3xl mb-14 leading-relaxed">
-            10 categorii × zeci de servicii — de la construcții și logistică, până la marketing, evenimente, tehnologie și afaceri. Toate operează sub același brand, aceeași autentificare, aceeași experiență.
-          </p>
+          {/* V1.2 — Editorial split cu Imagine 2 „Isometric platform hub" (perfect visual metaphor) */}
+          <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-14 items-center mb-16">
+            <div className="relative order-2 lg:order-1 rounded-md overflow-hidden bg-zinc-950 shadow-2xl">
+              <img
+                src={BRAND_ASSETS.brandIsometric}
+                alt="Un singur ecosistem — hub isometric EPD conectat la toate industriile"
+                loading="lazy"
+                className="w-full h-full object-cover aspect-square"
+              />
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="text-[10px] uppercase tracking-[0.35em] text-zinc-500 font-bold mb-3">// ecosistem EPD</div>
+              <h2 className="text-4xl lg:text-6xl font-bold tracking-[-0.03em] text-zinc-950 mb-4 font-display leading-[1.02]">
+                Un singur ecosistem.<br/><span className="italic text-zinc-400 font-normal">Totul integrat.</span>
+              </h2>
+              <p className="text-base lg:text-lg text-zinc-600 max-w-2xl leading-relaxed">
+                10 categorii × zeci de servicii — de la construcții și logistică, până la marketing,
+                evenimente, tehnologie și afaceri. Toate operează sub același brand, aceeași autentificare,
+                aceeași experiență. <strong className="text-zinc-950">Prima și singura platformă pentru toate serviciile.</strong>
+              </p>
+            </div>
+          </div>
 
           {(() => {
             const categories = [...new Set(EPD_ECOSYSTEM.map(s => s.category))];
