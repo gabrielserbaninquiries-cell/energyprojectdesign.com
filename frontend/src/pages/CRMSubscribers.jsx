@@ -6,7 +6,7 @@ import { Users as UsersIcon, Plus, Trash2, Edit3, Save, X, TrendingUp, Banknote,
 
 const STATUS_META = {
   active: { label: 'Activ', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' },
-  paused: { label: 'Pauzat', color: 'text-amber-800 bg-amber-50 border-amber-200' },
+  paused: { label: 'Pauzat', color: 'text-violet-800 bg-violet-50 border-violet-200' },
   expired: { label: 'Expirat', color: 'text-gray-600 bg-gray-100 border-gray-200' },
 };
 
@@ -75,7 +75,7 @@ export default function CRMSubscribers() {
           </div>
           <div className="lg:col-span-5 grid grid-cols-3 gap-2">
             <Stat v={activeCount} l="Activi" c="text-emerald-400" />
-            <Stat v={list.filter((s) => s.status === 'paused').length} l="Pauzați" c="text-amber-400" />
+            <Stat v={list.filter((s) => s.status === 'paused').length} l="Pauzați" c="text-violet-400" />
             <Stat v={list.filter((s) => s.status === 'expired').length} l="Expirați" c="text-gray-400" />
           </div>
         </div>

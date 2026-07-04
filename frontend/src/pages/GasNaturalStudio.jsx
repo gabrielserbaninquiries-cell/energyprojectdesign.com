@@ -446,9 +446,9 @@ export default function GasNaturalStudio() {
       </div>
 
       {/* V12.1 — Banner "Pagina în dezvoltare" (transparență publică) */}
-      <div className="mb-6 border-l-4 border-amber-400 bg-amber-50/80 rounded-r-lg px-4 py-3 flex items-start gap-3" data-testid="gas-page-in-development-notice">
-        <div className="w-5 h-5 mt-0.5 shrink-0 rounded-full bg-amber-400 text-white text-xs font-bold flex items-center justify-center">i</div>
-        <div className="text-xs leading-relaxed text-amber-900">
+      <div className="mb-6 border-l-4 border-violet-400 bg-violet-50/80 rounded-r-lg px-4 py-3 flex items-start gap-3" data-testid="gas-page-in-development-notice">
+        <div className="w-5 h-5 mt-0.5 shrink-0 rounded-full bg-violet-400 text-white text-xs font-bold flex items-center justify-center">i</div>
+        <div className="text-xs leading-relaxed text-violet-900">
           <strong className="font-semibold">Pagină în dezvoltare</strong> — secțiuni funcționale disponibile pentru testare publică:
           <em className="not-italic font-semibold ml-1">„proiectare branșamente gaze naturale, extinderi de conductă și instalații de utilizare"</em>.
           Restul funcționalităților (parteneri, colaborări, integrare QES eIDAS, ștampile autorizate avansate) sunt în lucru activ.

@@ -10,7 +10,7 @@ import { ArrowRight, Mail, Sparkles, Check, Globe } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const ACCENT = {
-  amber:  { from: 'from-amber-500',  to: 'to-orange-500',   ring: 'ring-amber-200',  text: 'text-amber-700',  bg: 'bg-amber-50' },
+  amber:  { from: 'from-violet-500',  to: 'to-violet-500',   ring: 'ring-violet-200',  text: 'text-violet-700',  bg: 'bg-violet-50' },
   blue:   { from: 'from-blue-500',   to: 'to-cyan-500',     ring: 'ring-blue-200',   text: 'text-blue-700',   bg: 'bg-blue-50' },
   indigo: { from: 'from-indigo-500', to: 'to-violet-500',   ring: 'ring-indigo-200', text: 'text-indigo-700', bg: 'bg-indigo-50' },
   cyan:   { from: 'from-cyan-500',   to: 'to-sky-500',      ring: 'ring-cyan-200',   text: 'text-cyan-700',   bg: 'bg-cyan-50' },

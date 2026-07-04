@@ -70,17 +70,17 @@ export default function ComisioaneTarife() {
     <AppShell title="Comisioane & Tarife" subtitle="Listare gratuită · Taxă doar la tranzacții reușite · Transparență totală">
 
       {/* Hero promise */}
-      <section className="mb-10 border-2 border-orange-500 bg-orange-50 p-7 rounded-lg" data-testid="fees-promise">
+      <section className="mb-10 border-2 border-orange-500 bg-violet-50 p-7 rounded-lg" data-testid="fees-promise">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 flex items-center justify-center bg-orange-600 rounded">
+          <div className="w-12 h-12 flex items-center justify-center bg-violet-600 rounded">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
-            <div className="text-[10px] font-mono uppercase tracking-widest text-orange-700 mb-1">Promisiune anti-monopol</div>
+            <div className="text-[10px] font-mono uppercase tracking-widest text-violet-700 mb-1">Promisiune anti-monopol</div>
             <h2 className="text-2xl font-bold tracking-tight text-zinc-950">Listare 100% gratuită. Plătești doar când câștigi.</h2>
             <p className="text-sm text-zinc-700 mt-2 leading-relaxed max-w-3xl">
               Spre deosebire de agenții imobiliari (3-6% comision) sau platforme cu abonamente lunare obligatorii,
-              noi luăm doar o <strong className="text-orange-700">taxă mică per tranzacție reușită</strong>.
+              noi luăm doar o <strong className="text-violet-700">taxă mică per tranzacție reușită</strong>.
               Anunțul tău e gratuit la nesfârșit. Vrei să apară mai sus în listă? Cumperi un boost opțional.
             </p>
           </div>
@@ -96,7 +96,7 @@ export default function ComisioaneTarife() {
           <div key={catId} className="border border-zinc-200 bg-white rounded-lg overflow-hidden hover:border-orange-500 transition-colors" data-testid={`fee-cat-${catId}`}>
             <div className="px-5 py-4 border-b border-zinc-100 bg-zinc-50 flex items-center justify-between">
               <div>
-                <div className="text-[10px] font-mono uppercase tracking-widest text-orange-600 mb-0.5">{catId}</div>
+                <div className="text-[10px] font-mono uppercase tracking-widest text-violet-600 mb-0.5">{catId}</div>
                 <h3 className="font-bold text-base text-zinc-950">{cat.label}</h3>
               </div>
               <div className="text-right">
@@ -114,7 +114,7 @@ export default function ComisioaneTarife() {
                 {cat.subscription_required ? (
                   <div className="text-sm text-zinc-700">
                     {cat.savings_note}
-                    <Link to="/planuri-departamente" className="block mt-2 text-orange-600 hover:underline text-xs font-semibold">
+                    <Link to="/planuri-departamente" className="block mt-2 text-violet-600 hover:underline text-xs font-semibold">
                       Vezi planurile →
                     </Link>
                   </div>
@@ -183,8 +183,8 @@ export default function ComisioaneTarife() {
       {/* Live calculator */}
       <section className="mb-10 border-2 border-zinc-200 bg-white p-6 rounded-lg" data-testid="fees-calculator">
         <div className="flex items-center gap-2 mb-1">
-          <Calculator className="w-4 h-4 text-orange-600" />
-          <div className="text-[10px] font-mono uppercase tracking-widest text-orange-600">Calculator instant</div>
+          <Calculator className="w-4 h-4 text-violet-600" />
+          <div className="text-[10px] font-mono uppercase tracking-widest text-violet-600">Calculator instant</div>
         </div>
         <h3 className="text-xl font-bold tracking-tight text-zinc-950 mb-4">Vezi exact ce plătești înainte să listezi</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
@@ -204,7 +204,7 @@ export default function ComisioaneTarife() {
               className="w-full border border-zinc-300 px-3 py-2 text-sm rounded" data-testid="fees-calc-amount" />
           </div>
           <div className="flex items-end">
-            <button onClick={runCalc} className="w-full bg-zinc-950 text-white px-4 py-2 text-sm font-semibold hover:bg-orange-600 rounded transition-colors" data-testid="fees-calc-btn">
+            <button onClick={runCalc} className="w-full bg-zinc-950 text-white px-4 py-2 text-sm font-semibold hover:bg-violet-600 rounded transition-colors" data-testid="fees-calc-btn">
               Calculează
             </button>
           </div>
@@ -216,8 +216,8 @@ export default function ComisioaneTarife() {
               <div className="text-2xl font-bold tracking-tighter text-zinc-950">{calcResult.transaction_amount_eur} EUR</div>
             </div>
             <div>
-              <div className="text-[10px] font-mono uppercase tracking-widest text-orange-600">Taxă platformă</div>
-              <div className="text-2xl font-bold tracking-tighter text-orange-600">{calcResult.fee_eur} EUR</div>
+              <div className="text-[10px] font-mono uppercase tracking-widest text-violet-600">Taxă platformă</div>
+              <div className="text-2xl font-bold tracking-tighter text-violet-600">{calcResult.fee_eur} EUR</div>
               <div className="text-[10px] text-zinc-500 mt-1">plătită de: {calcResult.fee_payer}</div>
             </div>
             <div>
@@ -233,7 +233,7 @@ export default function ComisioaneTarife() {
           <h3 className="text-xl font-bold tracking-tight text-zinc-950">Întrebări despre tarife?</h3>
           <p className="text-sm text-zinc-600 mt-1">Nu există costuri ascunse. Toate taxele sunt aplicate doar la tranzacții reușite.</p>
         </div>
-        <Link to="/forum-v7" className="inline-flex items-center gap-2 bg-zinc-950 text-white px-5 py-3 text-sm font-semibold hover:bg-orange-600 transition-colors rounded-md">
+        <Link to="/forum-v7" className="inline-flex items-center gap-2 bg-zinc-950 text-white px-5 py-3 text-sm font-semibold hover:bg-violet-600 transition-colors rounded-md">
           Întreabă în Forum <ArrowUpRight className="w-4 h-4" />
         </Link>
       </section>

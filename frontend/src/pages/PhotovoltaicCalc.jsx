@@ -17,7 +17,7 @@ const ZONE_OPTIONS = [
 const CATEGORY_TONE = {
   C1: 'bg-emerald-50 text-emerald-800 border-emerald-200',
   C2: 'bg-sky-50 text-sky-800 border-sky-200',
-  C3: 'bg-amber-50 text-amber-800 border-amber-200',
+  C3: 'bg-violet-50 text-violet-800 border-violet-200',
   C4: 'bg-rose-50 text-rose-800 border-rose-200',
 };
 

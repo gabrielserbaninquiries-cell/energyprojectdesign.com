@@ -85,7 +85,7 @@ export default function GasPhaseEntropy({ data, onJumpToPhase }) {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-gray-200">
         {phases.map((p) => {
           const Icon = p.pct === 100 ? CheckCircle2 : p.pct === 0 ? Circle : AlertCircle;
-          const tone = p.pct === 100 ? 'text-emerald-600' : p.pct === 0 ? 'text-gray-300' : 'text-amber-500';
+          const tone = p.pct === 100 ? 'text-emerald-600' : p.pct === 0 ? 'text-gray-300' : 'text-violet-500';
           return (
             <button
               key={p.id}
@@ -101,7 +101,7 @@ export default function GasPhaseEntropy({ data, onJumpToPhase }) {
               <div className="text-2xl font-bold tabular-nums">{p.pct}<span className="text-sm text-gray-400">%</span></div>
               <div className="text-[10px] text-gray-500 mt-0.5">{p.filled}/{p.total} câmpuri</div>
               <div className="mt-2 h-1 bg-gray-100 overflow-hidden">
-                <div className={`h-full ${p.pct === 100 ? 'bg-emerald-500' : p.pct >= 50 ? 'bg-amber-400' : p.pct > 0 ? 'bg-orange-400' : 'bg-gray-200'} transition-all`} style={{ width: `${p.pct}%` }} />
+                <div className={`h-full ${p.pct === 100 ? 'bg-emerald-500' : p.pct >= 50 ? 'bg-violet-400' : p.pct > 0 ? 'bg-violet-400' : 'bg-gray-200'} transition-all`} style={{ width: `${p.pct}%` }} />
               </div>
             </button>
           );

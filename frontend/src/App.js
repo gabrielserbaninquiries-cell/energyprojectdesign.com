@@ -9,6 +9,7 @@ import Landing from './pages/Landing';
 import Auth from './pages/Auth';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import MissionPage from './pages/MissionPage';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import Developer from './pages/Developer';
@@ -122,6 +123,11 @@ function AppRouter() {
       {/* Kept exports for direct linking / testing safety */}
       <Route path="/legacy-login" element={<Login />} />
       <Route path="/legacy-register" element={<Register />} />
+      {/* V1.2 — Mission pages (petitii/jurnalism/renovare-blocuri) */}
+      <Route path="/petitii-campus"   element={<MissionPage />} />
+      <Route path="/petitii-sociale"  element={<MissionPage />} />
+      <Route path="/jurnalism"        element={<MissionPage />} />
+      <Route path="/renovare-blocuri" element={<MissionPage />} />
       <Route path="/pricing" element={<Pricing />} />
       {/* V11.2 — Misiuni EPD Next-Gen (presentation sites — public, no auth) */}
       <Route path="/voturi-cnp" element={<VoturiCNP />} />

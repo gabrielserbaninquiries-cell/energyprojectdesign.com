@@ -78,10 +78,10 @@ export default function UpgradeGate({ children, path }) {
           <button onClick={() => navigate(-1)} className="absolute top-3 right-3 text-white/60 hover:text-white" data-testid="upgrade-gate-close">
             <XIcon className="w-5 h-5" />
           </button>
-          <div className="w-12 h-12 flex items-center justify-center bg-orange-600 rounded mb-4">
+          <div className="w-12 h-12 flex items-center justify-center bg-violet-600 rounded mb-4">
             <Lock className="w-5 h-5 text-white" />
           </div>
-          <div className="text-[10px] font-mono uppercase tracking-widest text-orange-400 mb-1">Pagină premium</div>
+          <div className="text-[10px] font-mono uppercase tracking-widest text-violet-400 mb-1">Pagină premium</div>
           <h2 className="text-2xl font-bold tracking-tight">{page.label || 'Acces restricționat'}</h2>
           <p className="text-sm text-zinc-300 mt-2 leading-relaxed">
             {dept.description || 'Această pagină face parte dintr-un departament specializat.'}
@@ -113,7 +113,7 @@ export default function UpgradeGate({ children, path }) {
                 ))}
               </div>
               <button onClick={startCheckout} disabled={checkout}
-                className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 text-sm font-semibold inline-flex items-center justify-center gap-2 rounded-md transition-colors disabled:opacity-50"
+                className="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 text-sm font-semibold inline-flex items-center justify-center gap-2 rounded-md transition-colors disabled:opacity-50"
                 data-testid="upgrade-gate-checkout-btn">
                 {checkout ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowUpRight className="w-4 h-4" />}
                 Upgrade la {rec.name} ({rec.price_eur} €/lună)
@@ -133,7 +133,7 @@ export default function UpgradeGate({ children, path }) {
             <div className="text-center py-6">
               <p className="text-sm text-zinc-600 mb-4">Această pagină nu are un plan recomandat. Contactează-ne pentru acces.</p>
               <button onClick={() => navigate('/planuri-departamente')}
-                className="bg-zinc-950 text-white px-4 py-2 text-sm font-semibold hover:bg-orange-600 rounded-md">
+                className="bg-zinc-950 text-white px-4 py-2 text-sm font-semibold hover:bg-violet-600 rounded-md">
                 Vezi toate planurile
               </button>
             </div>

@@ -158,7 +158,7 @@ export default function GasEngineeringPanel({ data, pid }) {
                       <td className="px-1 py-1 text-center">
                         {r?.verdict === 'OK'
                           ? <span className="text-green-700 font-bold">✓ OK</span>
-                          : r?.verdict ? <span className="text-amber-700 text-[9px]" title={r.verdict}>⚠</span> : <span className="text-zinc-300">—</span>}
+                          : r?.verdict ? <span className="text-violet-700 text-[9px]" title={r.verdict}>⚠</span> : <span className="text-zinc-300">—</span>}
                       </td>
                       <td className="px-1 py-1">
                         {tronsons.length > 1 && (
@@ -245,18 +245,18 @@ export default function GasEngineeringPanel({ data, pid }) {
       </div>
 
       {/* === 3. MATERIALE AUTO-SUGGEST === */}
-      <div className="bg-white border-2 border-amber-500" data-testid="eng-materials">
+      <div className="bg-white border-2 border-violet-500" data-testid="eng-materials">
         <button
           onClick={() => setOpenSec(openSec === 'materials' ? '' : 'materials')}
-          className="w-full flex items-center justify-between px-4 py-3 border-b-2 border-amber-500 bg-amber-50 hover:bg-amber-100"
+          className="w-full flex items-center justify-between px-4 py-3 border-b-2 border-violet-500 bg-violet-50 hover:bg-violet-100"
           data-testid="eng-materials-toggle"
         >
           <div className="flex items-center gap-2">
             {openSec === 'materials' ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-            <Package className="w-4 h-4 text-amber-700" />
+            <Package className="w-4 h-4 text-violet-700" />
             <div className="text-left">
               <div className="text-sm font-bold tracking-tight">Materiale recomandate (Anexa 13)</div>
-              <div className="text-[10px] text-amber-800">Top {materials.length} din 554 itemi catalog OSD, filtrate după proiect</div>
+              <div className="text-[10px] text-violet-800">Top {materials.length} din 554 itemi catalog OSD, filtrate după proiect</div>
             </div>
           </div>
         </button>
@@ -275,7 +275,7 @@ export default function GasEngineeringPanel({ data, pid }) {
                 </thead>
                 <tbody>
                   {materials.map((m, idx) => (
-                    <tr key={idx} className="border-t border-zinc-100 hover:bg-amber-50" data-testid={`eng-mat-${idx}`}>
+                    <tr key={idx} className="border-t border-zinc-100 hover:bg-violet-50" data-testid={`eng-mat-${idx}`}>
                       <td className="px-2 py-1 font-mono text-[10px] text-zinc-600">{m.code || '—'}</td>
                       <td className="px-2 py-1">{m.name || m.denumire || '—'}</td>
                     </tr>

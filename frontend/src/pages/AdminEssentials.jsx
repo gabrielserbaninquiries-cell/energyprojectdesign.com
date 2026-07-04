@@ -270,8 +270,8 @@ export default function AdminEssentials() {
           <div className="text-2xl font-bold">{totalConfigured} / {totalIntegrations}</div>
           <div className="text-[11px] text-gray-600 mt-1">configurate complet</div>
         </div>
-        <div className="border-2 border-amber-400 bg-amber-50 p-4">
-          <div className="text-[10px] uppercase tracking-wider text-amber-700">Pending</div>
+        <div className="border-2 border-violet-400 bg-violet-50 p-4">
+          <div className="text-[10px] uppercase tracking-wider text-violet-700">Pending</div>
           <div className="text-2xl font-bold">{totalIntegrations - totalConfigured}</div>
           <div className="text-[11px] text-gray-600 mt-1">așteaptă config</div>
         </div>
@@ -308,7 +308,7 @@ export default function AdminEssentials() {
                       <CheckCircle2 className="w-3 h-3" /> Configurat
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider bg-amber-100 text-amber-700 px-2 py-0.5">
+                    <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider bg-violet-100 text-violet-700 px-2 py-0.5">
                       <AlertTriangle className="w-3 h-3" /> Neconfigurat
                     </span>
                   )}

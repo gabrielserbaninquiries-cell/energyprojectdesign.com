@@ -5,7 +5,7 @@ import { ArrowRight, Target, TrendingUp, AlertTriangle, CheckCircle2 } from 'luc
 
 const COLOR_STYLES = {
   gray:  'bg-gray-100 text-gray-700 border-gray-300',
-  amber: 'bg-amber-100 text-amber-800 border-amber-300',
+  amber: 'bg-violet-100 text-violet-800 border-violet-300',
   blue:  'bg-blue-100 text-blue-800 border-blue-300',
   green: 'bg-green-100 text-green-800 border-green-300',
   red:   'bg-red-100 text-red-800 border-red-300',
@@ -13,7 +13,7 @@ const COLOR_STYLES = {
 
 const SEVERITY_STYLES = {
   high:   { bg: 'bg-red-50 border-red-300',     icon: AlertTriangle,  iconCls: 'text-red-700' },
-  medium: { bg: 'bg-amber-50 border-amber-300', icon: Target,         iconCls: 'text-amber-700' },
+  medium: { bg: 'bg-violet-50 border-violet-300', icon: Target,         iconCls: 'text-violet-700' },
   low:    { bg: 'bg-green-50 border-green-300', icon: CheckCircle2,   iconCls: 'text-green-700' },
 };
 
@@ -74,7 +74,7 @@ export default function LifecycleWidget() {
           </div>
           <div className="mt-2 h-2 bg-gray-100 overflow-hidden">
             <div
-              className={`h-full transition-all duration-700 ${score >= 85 ? 'bg-green-500' : score >= 60 ? 'bg-amber-500' : 'bg-red-500'}`}
+              className={`h-full transition-all duration-700 ${score >= 85 ? 'bg-green-500' : score >= 60 ? 'bg-violet-500' : 'bg-red-500'}`}
               style={{ width: `${Math.min(100, Math.max(0, score))}%` }}
             />
           </div>

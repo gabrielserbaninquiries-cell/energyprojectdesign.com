@@ -9,18 +9,18 @@ import {
 } from 'lucide-react';
 
 const INDUSTRY_META = {
-  gas_engineering: { icon: Flame, color: 'text-orange-600', bg: 'bg-orange-50', accent: '#EA580C', order: 1 },
-  electrical_engineering: { icon: Zap, color: 'text-amber-600', bg: 'bg-amber-50', accent: '#D97706', order: 2 },
+  gas_engineering: { icon: Flame, color: 'text-violet-600', bg: 'bg-violet-50', accent: '#EA580C', order: 1 },
+  electrical_engineering: { icon: Zap, color: 'text-violet-600', bg: 'bg-violet-50', accent: '#D97706', order: 2 },
   telecom: { icon: Radio, color: 'text-sky-600', bg: 'bg-sky-50', accent: '#0284C7', order: 3 },
   railway_infra: { icon: TrainFront, color: 'text-slate-700', bg: 'bg-slate-100', accent: '#334155', order: 4 },
   civil_engineering: { icon: Building2, color: 'text-stone-700', bg: 'bg-stone-100', accent: '#44403C', order: 5 },
-  photovoltaic: { icon: Sun, color: 'text-yellow-600', bg: 'bg-yellow-50', accent: '#CA8A04', order: 6 },
+  photovoltaic: { icon: Sun, color: 'text-violet-600', bg: 'bg-violet-50', accent: '#CA8A04', order: 6 },
   water_sewage: { icon: Droplets, color: 'text-blue-600', bg: 'bg-blue-50', accent: '#2563EB', order: 7 },
   sanitation: { icon: Trash2, color: 'text-green-700', bg: 'bg-green-50', accent: '#15803D', order: 8 },
   hvac: { icon: Wind, color: 'text-cyan-600', bg: 'bg-cyan-50', accent: '#0891B2', order: 9 },
   environment: { icon: Leaf, color: 'text-emerald-600', bg: 'bg-emerald-50', accent: '#059669', order: 10 },
   roads_bridges: { icon: Construction, color: 'text-zinc-700', bg: 'bg-zinc-100', accent: '#3F3F46', order: 11 },
-  public_lighting: { icon: Lightbulb, color: 'text-yellow-500', bg: 'bg-yellow-50', accent: '#EAB308', order: 12 },
+  public_lighting: { icon: Lightbulb, color: 'text-violet-500', bg: 'bg-violet-50', accent: '#EAB308', order: 12 },
   construction: { icon: Building2, color: 'text-stone-700', bg: 'bg-stone-100', accent: '#44403C', order: 13 },
 };
 
@@ -141,7 +141,7 @@ export default function IndustriesHub() {
                     <CheckCircle2 className="w-3 h-3" /> Activă
                   </span>
                 ) : ind.status === 'active' ? (
-                  <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.15em] text-amber-800 bg-amber-50 border border-amber-200 px-2 py-1 font-semibold">
+                  <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.15em] text-violet-800 bg-violet-50 border border-violet-200 px-2 py-1 font-semibold">
                     <Sparkles className="w-3 h-3" /> Parțial
                   </span>
                 ) : (

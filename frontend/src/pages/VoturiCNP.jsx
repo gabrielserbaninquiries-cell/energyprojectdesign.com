@@ -279,20 +279,20 @@ export default function VoturiCNP() {
                 <li className="flex gap-3"><CheckCircle2 className="w-4 h-4 mt-0.5 text-emerald-400" /><div><strong>Programul ROUE Digital</strong> — integrare ROUE pentru identitate cetățeană.</div></li>
               </ul>
             </div>
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-6">
-              <div className="flex items-center gap-2 mb-3 text-amber-300">
+            <div className="bg-violet-500/10 border border-violet-500/30 rounded-2xl p-6">
+              <div className="flex items-center gap-2 mb-3 text-violet-300">
                 <AlertTriangle className="w-5 h-5" />
                 <span className="font-bold uppercase tracking-wider text-xs">Statut Feb 2026</span>
               </div>
-              <p className="text-sm text-amber-100/90 leading-relaxed mb-4">
+              <p className="text-sm text-violet-100/90 leading-relaxed mb-4">
                 Acest sistem este în <strong>fază de prototip & advocacy</strong>. Implementarea oficială
                 necesită aprobări Curtea Constituțională + Autoritatea Electorală Permanentă + STS.
               </p>
-              <p className="text-sm text-amber-100/90 leading-relaxed">
+              <p className="text-sm text-violet-100/90 leading-relaxed">
                 EPD susține adoptarea legislativă prin demonstrarea fezabilității tehnice cu acest demo.
                 <strong> Înscrie-te în lista de așteptare</strong> pentru a fi notificat la lansarea oficială.
               </p>
-              <Link to="/register" className="mt-5 inline-flex items-center gap-2 px-4 py-2 bg-amber-400 text-slate-900 hover:bg-amber-300 rounded-lg font-semibold text-sm transition-all" data-testid="cta-waitlist">
+              <Link to="/register" className="mt-5 inline-flex items-center gap-2 px-4 py-2 bg-violet-400 text-slate-900 hover:bg-violet-300 rounded-lg font-semibold text-sm transition-all" data-testid="cta-waitlist">
                 <Users className="w-4 h-4" /> Înscrie-te BETA waitlist <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

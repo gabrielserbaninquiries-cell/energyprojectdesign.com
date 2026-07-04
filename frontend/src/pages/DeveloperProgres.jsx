@@ -63,8 +63,8 @@ export default function DeveloperProgres() {
   if (!user.is_developer) {
     return (
       <AppShell title="Progres build" subtitle="Acces restricționat">
-        <div className="bg-amber-50 border border-amber-200 p-6 max-w-xl">
-          <AlertCircle className="w-6 h-6 text-amber-600 mb-3" />
+        <div className="bg-violet-50 border border-violet-200 p-6 max-w-xl">
+          <AlertCircle className="w-6 h-6 text-violet-600 mb-3" />
           <h3 className="font-semibold mb-1">Acces doar pentru dezvoltatori</h3>
           <p className="text-sm text-gray-700">Această pagină conține progresul build-ului și este vizibilă doar pentru contul developer.</p>
         </div>
@@ -94,7 +94,7 @@ export default function DeveloperProgres() {
                 <div key={ph.id} className="bg-white border border-gray-200 p-5">
                   <div className="flex items-center justify-between mb-2">
                     <div className="text-xs uppercase tracking-[0.15em] text-gray-500">{ph.id}</div>
-                    <StatusIcon className={`w-4 h-4 ${ph.status === 'completed' ? 'text-green-600' : 'text-amber-500'}`} />
+                    <StatusIcon className={`w-4 h-4 ${ph.status === 'completed' ? 'text-green-600' : 'text-violet-500'}`} />
                   </div>
                   <div className="font-semibold text-sm leading-tight mb-3">{ph.name}</div>
                   <div className="h-1.5 bg-gray-200 mb-2">

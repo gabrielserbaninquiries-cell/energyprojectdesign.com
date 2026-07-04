@@ -40,7 +40,7 @@ const ACCENT_CLASSES = {
   violet: 'bg-zinc-950 shadow-zinc-200/50',
   blue: 'from-blue-500 to-cyan-600 shadow-blue-200/50',
   emerald: 'from-emerald-500 to-teal-600 shadow-emerald-200/50',
-  amber: 'from-amber-500 to-orange-600 shadow-amber-200/50',
+  amber: 'from-violet-500 to-violet-600 shadow-violet-200/50',
   rose: 'from-rose-500 to-pink-600 shadow-rose-200/50',
 };
 
@@ -151,7 +151,7 @@ export default function Dashboard() {
             <div className="text-5xl font-bold tabular-nums">{completion}%</div>
             <div className="text-[10px] uppercase tracking-wider text-zinc-300 mt-1">Date proiect completate</div>
             <div className="mt-3 h-1.5 bg-white/15 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-amber-300 to-amber-200 rounded-full transition-all" style={{ width: `${completion}%` }} />
+              <div className="h-full bg-gradient-to-r from-violet-300 to-violet-200 rounded-full transition-all" style={{ width: `${completion}%` }} />
             </div>
           </div>
         </div>
@@ -289,7 +289,7 @@ export default function Dashboard() {
                 <div className="text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-2">Versiune {versionStatus.version}</div>
                 <div className="flex items-center gap-2 mb-2">
                   <div className="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-amber-300 to-amber-200 transition-all rounded-full" style={{ width: `${versionStatus.completion_percent}%` }} />
+                    <div className="h-full bg-gradient-to-r from-violet-300 to-violet-200 transition-all rounded-full" style={{ width: `${versionStatus.completion_percent}%` }} />
                   </div>
                   <span className="text-xs font-bold tabular-nums">{versionStatus.completion_percent}%</span>
                 </div>

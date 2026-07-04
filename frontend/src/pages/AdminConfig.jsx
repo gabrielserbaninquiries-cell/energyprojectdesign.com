@@ -22,7 +22,7 @@ const FEATURE_FLAGS = [
 const LEVEL_OPTIONS = [
   { v: 'info', label: 'Informativ', color: 'bg-sky-50 text-sky-700 border-sky-200' },
   { v: 'success', label: 'Succes', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  { v: 'warning', label: 'Avertisment', color: 'bg-amber-50 text-amber-800 border-amber-200' },
+  { v: 'warning', label: 'Avertisment', color: 'bg-violet-50 text-violet-800 border-violet-200' },
   { v: 'danger', label: 'Critic', color: 'bg-rose-50 text-rose-700 border-rose-200' },
 ];
 
@@ -165,7 +165,7 @@ export default function AdminConfig() {
       <div className="grid lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white border border-gray-200 p-6" data-testid="admin-maintenance">
           <div className="flex items-center gap-3 mb-4">
-            <AlertTriangle className="w-5 h-5 text-amber-600" />
+            <AlertTriangle className="w-5 h-5 text-violet-600" />
             <h3 className="font-semibold tracking-tight">Mod mentenanță</h3>
             <span className="ml-auto"><Toggle value={cfg.maintenance_mode} onChange={(v) => updateCfg({ maintenance_mode: v })} testid="toggle-maintenance" /></span>
           </div>

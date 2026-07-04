@@ -21,7 +21,7 @@ const INDUSTRY_LABELS = {
 
 function scoreColor(score) {
   if (score >= 75) return 'text-emerald-700 bg-emerald-50 border-emerald-300';
-  if (score >= 40) return 'text-amber-800 bg-amber-50 border-amber-300';
+  if (score >= 40) return 'text-violet-800 bg-violet-50 border-violet-300';
   return 'text-gray-600 bg-gray-50 border-gray-300';
 }
 

@@ -21,7 +21,7 @@ function StatusBadge({ status }) {
   const cls = status === 'LIVE'
     ? 'bg-green-100 text-green-800 border-green-300'
     : status === 'TEST'
-      ? 'bg-amber-100 text-amber-800 border-amber-300'
+      ? 'bg-violet-100 text-violet-800 border-violet-300'
       : 'bg-gray-100 text-gray-600 border-gray-300';
   return <span className={`text-[10px] font-bold uppercase tracking-wider border px-2 py-0.5 ${cls}`}>{status}</span>;
 }
@@ -156,7 +156,7 @@ export default function PaymentAccounts() {
           </div>
         </div>
 
-        <div className="bg-amber-50 border border-amber-300 text-amber-900 text-xs p-3 mt-4 mb-6 flex gap-2">
+        <div className="bg-violet-50 border border-violet-300 text-violet-900 text-xs p-3 mt-4 mb-6 flex gap-2">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
           <span>
             Notă: Stripe Checkout (card) decontează în contul tău Stripe Connected → payout în IBAN-ul configurat în Stripe Dashboard (nu aici).

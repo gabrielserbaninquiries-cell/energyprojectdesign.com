@@ -114,7 +114,7 @@ export default function ServiciiPage() {
         {[
           { id: 'craftsmen', label: 'Meseriași', icon: Wrench, color: 'border-rose-500 text-rose-700' },
           { id: 'logistics', label: 'Logistică + Transport', icon: Truck, color: 'border-blue-500 text-blue-700' },
-          { id: 'pricing',   label: 'Calculator costuri', icon: Calculator, color: 'border-amber-500 text-amber-700' },
+          { id: 'pricing',   label: 'Calculator costuri', icon: Calculator, color: 'border-violet-500 text-violet-700' },
         ].map((t) => {
           const Icon = t.icon;
           return (
@@ -166,7 +166,7 @@ export default function ServiciiPage() {
                   </div>
                   <div className="text-xs text-gray-600 mb-3 line-clamp-2">{p.description}</div>
                   <div className="flex items-center gap-3 text-[11px]">
-                    <span className="inline-flex items-center gap-1"><Star className="w-3 h-3 fill-amber-400 text-amber-400" />{p.rating_avg?.toFixed(1) || '—'}</span>
+                    <span className="inline-flex items-center gap-1"><Star className="w-3 h-3 fill-violet-400 text-violet-400" />{p.rating_avg?.toFixed(1) || '—'}</span>
                     <span className="text-gray-500">{p.rating_count || 0} review</span>
                     {p.hourly_rate_ron && <span className="ml-auto font-bold">{p.hourly_rate_ron} RON/h</span>}
                   </div>
@@ -224,7 +224,7 @@ export default function ServiciiPage() {
       {/* PRICING */}
       {tab === 'pricing' && (
         <div data-testid="pricing-section" className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1 border-2 border-amber-500 bg-amber-50 p-5">
+          <div className="lg:col-span-1 border-2 border-violet-500 bg-violet-50 p-5">
             <h3 className="font-bold mb-4">Calculator inteligent</h3>
             <div className="space-y-3">
               <div>
@@ -279,10 +279,10 @@ export default function ServiciiPage() {
                     <div className="text-2xl font-bold">{priceResult.min_native}</div>
                     <div className="text-[10px] text-gray-500">{priceResult.currency}</div>
                   </div>
-                  <div className="border-2 border-amber-500 bg-amber-50 p-3 text-center">
-                    <div className="text-[10px] uppercase text-amber-700">Recomandat</div>
-                    <div className="text-2xl font-bold text-amber-700">{priceResult.recommended_native}</div>
-                    <div className="text-[10px] text-amber-700">{priceResult.currency}</div>
+                  <div className="border-2 border-violet-500 bg-violet-50 p-3 text-center">
+                    <div className="text-[10px] uppercase text-violet-700">Recomandat</div>
+                    <div className="text-2xl font-bold text-violet-700">{priceResult.recommended_native}</div>
+                    <div className="text-[10px] text-violet-700">{priceResult.currency}</div>
                   </div>
                   <div className="border-2 border-gray-300 p-3 text-center">
                     <div className="text-[10px] uppercase text-gray-500">Max</div>

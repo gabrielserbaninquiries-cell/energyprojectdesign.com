@@ -26,7 +26,7 @@ const INDUSTRY_OPTS = [
 const STATUS_BADGE = {
   active: 'bg-green-100 text-green-800 border-green-300',
   inactive: 'bg-gray-100 text-gray-700 border-gray-300',
-  archived: 'bg-amber-100 text-amber-800 border-amber-300',
+  archived: 'bg-violet-100 text-violet-800 border-violet-300',
 };
 
 export default function Clients() {
@@ -204,7 +204,7 @@ export default function Clients() {
             {filtered.map((c) => (
               <div key={c.client_id} className="bg-white border-2 border-gray-200 hover:border-black transition-colors p-4 flex items-start justify-between gap-4" data-testid={`client-${c.client_id}`}>
                 <div className="flex items-start gap-3 flex-1 min-w-0">
-                  <div className={`w-10 h-10 flex items-center justify-center ${c.type === 'legal' ? 'bg-amber-100' : 'bg-blue-100'}`}>
+                  <div className={`w-10 h-10 flex items-center justify-center ${c.type === 'legal' ? 'bg-violet-100' : 'bg-blue-100'}`}>
                     {c.type === 'legal' ? <Building2 className="w-5 h-5" /> : <UserIcon className="w-5 h-5" />}
                   </div>
                   <div className="flex-1 min-w-0">

@@ -23,7 +23,7 @@ import {
 
 const FIELD_TYPE_COLORS = {
   tag:     { badge: 'bg-violet-100 text-violet-700 border-violet-200' },
-  blank:   { badge: 'bg-amber-100 text-amber-700 border-amber-200' },
+  blank:   { badge: 'bg-violet-100 text-violet-700 border-violet-200' },
   hint:    { badge: 'bg-blue-100 text-blue-700 border-blue-200' },
   number:  { badge: 'bg-emerald-100 text-emerald-700 border-emerald-200' },
   spec:    { badge: 'bg-indigo-100 text-indigo-700 border-indigo-200' },
@@ -466,7 +466,7 @@ export default function TemplateFillTab({ pid, projectData }) {
             </button>
           </div>
           {filledCount === 0 && (
-            <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded p-2 mt-3 flex items-center gap-2">
+            <div className="text-xs text-violet-700 bg-violet-50 border border-violet-200 rounded p-2 mt-3 flex items-center gap-2">
               <AlertCircle className="w-3 h-3" />
               Completează cel puțin un câmp pentru a activa butoanele.
             </div>

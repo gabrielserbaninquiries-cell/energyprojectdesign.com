@@ -171,7 +171,7 @@ export default function GasChronologicalStepper({ data = {} }) {
                   {/* Cerc icon */}
                   <div className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all
                     ${isDone ? 'epd-gradient text-white shadow-lg'
-                      : isSkipped ? 'bg-amber-50 border-2 border-amber-400 text-amber-700'
+                      : isSkipped ? 'bg-violet-50 border-2 border-violet-400 text-violet-700'
                       : isCurrent ? 'bg-white border-2 border-violet-500 text-violet-600 ring-4 ring-violet-100'
                       : isProgress ? 'bg-violet-100 border-2 border-violet-300 text-violet-700'
                       : 'bg-slate-100 border border-slate-300 text-slate-400'}`} title={isSkipped ? s.skippedReason || 'Etapă omisă' : ''}>
@@ -183,7 +183,7 @@ export default function GasChronologicalStepper({ data = {} }) {
                       </div>
                     )}
                     {isSkipped && (
-                      <div className="absolute -top-1 -right-1 bg-amber-500 text-white text-[8px] font-bold rounded-full px-1 py-0.5 shadow-md">
+                      <div className="absolute -top-1 -right-1 bg-violet-500 text-white text-[8px] font-bold rounded-full px-1 py-0.5 shadow-md">
                         ⏭
                       </div>
                     )}
@@ -194,9 +194,9 @@ export default function GasChronologicalStepper({ data = {} }) {
                     <div className="text-[9px] uppercase tracking-wider font-bold text-violet-600 mb-0.5">
                       Etapa {idx + 1}
                     </div>
-                    <div className={`text-xs font-semibold leading-tight ${isDone ? 'text-slate-900' : isSkipped ? 'text-amber-700' : isCurrent ? 'text-violet-900' : 'text-slate-600'}`}>
+                    <div className={`text-xs font-semibold leading-tight ${isDone ? 'text-slate-900' : isSkipped ? 'text-violet-700' : isCurrent ? 'text-violet-900' : 'text-slate-600'}`}>
                       {s.label}
-                      {isSkipped && <span className="block text-[9px] font-normal text-amber-600 mt-0.5">(omis · CU existent)</span>}
+                      {isSkipped && <span className="block text-[9px] font-normal text-violet-600 mt-0.5">(omis · CU existent)</span>}
                     </div>
                     <div className="text-[10px] text-slate-500 leading-tight mt-1 line-clamp-2">
                       {s.desc}

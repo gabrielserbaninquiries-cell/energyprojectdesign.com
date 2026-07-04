@@ -68,16 +68,16 @@ export default function PlanuriDepartamente() {
 
       <section className="mb-10 border border-zinc-200 bg-zinc-50 p-6 rounded-lg" data-testid="plans-intro">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 flex items-center justify-center bg-orange-600 rounded">
+          <div className="w-12 h-12 flex items-center justify-center bg-violet-600 rounded">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
-            <div className="text-[10px] font-mono uppercase tracking-widest text-orange-600 mb-1">Plan adaptiv</div>
+            <div className="text-[10px] font-mono uppercase tracking-widest text-violet-600 mb-1">Plan adaptiv</div>
             <h2 className="text-2xl font-bold tracking-tight text-zinc-950">Ai cumpărat doar ce folosești</h2>
             <p className="text-sm text-zinc-600 mt-2 leading-relaxed max-w-3xl">
               Spre deosebire de SaaS-urile mainstream care îți vând &laquo;all-or-nothing&raquo;, noi structurăm accesul pe
               <strong className="text-zinc-950"> 10 planuri specializate per departament</strong> (Proiectant, Executant, VGD, RTE, etc.)
-              + opțiunea <strong className="text-orange-600">Societate 349€</strong> care le include pe toate cu 5 useri.
+              + opțiunea <strong className="text-violet-600">Societate 349€</strong> care le include pe toate cu 5 useri.
               Sidebar-ul tău afișează doar paginile pe care le poți accesa cu planul curent.
             </p>
           </div>
@@ -93,15 +93,15 @@ export default function PlanuriDepartamente() {
             const p = PLAN_DETAILS[pid];
             const isPremium = pid === 'societate';
             return (
-              <div key={pid} className={`border-2 ${isPremium ? 'border-orange-500 bg-orange-50' : 'border-zinc-200 bg-white'} p-5 hover:border-orange-500 transition-colors rounded-lg`} data-testid={`plan-card-${pid}`}>
-                <div className={`text-[10px] font-mono uppercase tracking-widest mb-2 ${isPremium ? 'text-orange-700' : 'text-zinc-500'}`}>{p.label}</div>
+              <div key={pid} className={`border-2 ${isPremium ? 'border-orange-500 bg-violet-50' : 'border-zinc-200 bg-white'} p-5 hover:border-orange-500 transition-colors rounded-lg`} data-testid={`plan-card-${pid}`}>
+                <div className={`text-[10px] font-mono uppercase tracking-widest mb-2 ${isPremium ? 'text-violet-700' : 'text-zinc-500'}`}>{p.label}</div>
                 <div className="flex items-baseline gap-1 mb-2">
                   <span className="text-3xl font-bold tracking-tighter text-zinc-950">{p.price}</span>
                   <span className="text-xs text-zinc-500">€/lună</span>
                 </div>
                 <p className="text-xs text-zinc-600 leading-relaxed min-h-[2.5rem]">{p.tagline}</p>
                 {isPremium && (
-                  <div className="mt-3 inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest text-orange-700 bg-orange-100 px-2 py-1 rounded">
+                  <div className="mt-3 inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest text-violet-700 bg-violet-100 px-2 py-1 rounded">
                     <CheckCircle2 className="w-3 h-3" /> Cel mai popular
                   </div>
                 )}
@@ -140,7 +140,7 @@ export default function PlanuriDepartamente() {
                       <div className="flex flex-wrap gap-1">
                         {deptPages.map((p) => (
                           <Link key={p.key} to={p.path}
-                            className="text-[10px] font-mono uppercase tracking-wider bg-zinc-100 hover:bg-orange-100 text-zinc-700 px-2 py-1 rounded transition-colors">
+                            className="text-[10px] font-mono uppercase tracking-wider bg-zinc-100 hover:bg-violet-100 text-zinc-700 px-2 py-1 rounded transition-colors">
                             {p.label}
                           </Link>
                         ))}
@@ -156,7 +156,7 @@ export default function PlanuriDepartamente() {
                           {[...plansForDept].sort().slice(0, 5).map((pid) => {
                             const pd = PLAN_DETAILS[pid] || { label: pid, price: '?' };
                             return (
-                              <span key={pid} className="text-[10px] font-mono uppercase tracking-wider bg-orange-50 text-orange-700 px-2 py-0.5 rounded border border-orange-200">
+                              <span key={pid} className="text-[10px] font-mono uppercase tracking-wider bg-violet-50 text-violet-700 px-2 py-0.5 rounded border border-orange-200">
                                 {pd.label}
                               </span>
                             );
@@ -178,7 +178,7 @@ export default function PlanuriDepartamente() {
           <h3 className="text-xl font-bold tracking-tight text-zinc-950">Vrei toate departamentele?</h3>
           <p className="text-sm text-zinc-600 mt-1">Planul Societate (349€/lună) include toate paginile + 5 useri + suport prioritar.</p>
         </div>
-        <Link to="/pricing" className="inline-flex items-center gap-2 bg-zinc-950 text-white px-5 py-3 text-sm font-semibold hover:bg-orange-600 transition-colors rounded-md">
+        <Link to="/pricing" className="inline-flex items-center gap-2 bg-zinc-950 text-white px-5 py-3 text-sm font-semibold hover:bg-violet-600 transition-colors rounded-md">
           Vezi detalii prețuri <ArrowUpRight className="w-4 h-4" />
         </Link>
       </section>

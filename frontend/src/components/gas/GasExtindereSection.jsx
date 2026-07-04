@@ -192,7 +192,7 @@ export default function GasExtindereSection({ data, onChange }) {
       </div>
 
       {/* Branșamente nested */}
-      <div className="border border-slate-200 rounded-xl p-5 bg-gradient-to-br from-white to-amber-50/30">
+      <div className="border border-slate-200 rounded-xl p-5 bg-gradient-to-br from-white to-violet-50/30">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900">Branșamente pe extindere</h3>
           <div className="flex items-center gap-2">

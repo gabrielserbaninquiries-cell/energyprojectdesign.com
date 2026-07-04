@@ -34,7 +34,7 @@ export default function PublicStatus() {
 
   const op = status.status === 'operational';
   const StatusIcon = op ? CheckCircle2 : AlertTriangle;
-  const statusColor = op ? 'text-emerald-400' : 'text-amber-400';
+  const statusColor = op ? 'text-emerald-400' : 'text-violet-400';
   const allModulesUp = Object.values(status.modules || {}).every(Boolean);
 
   return (
@@ -62,7 +62,7 @@ export default function PublicStatus() {
             </div>
           </div>
           {status.maintenance_message && !op && (
-            <div className="max-w-2xl mx-auto bg-amber-500/10 border border-amber-500/30 px-5 py-3 text-amber-100 text-sm">
+            <div className="max-w-2xl mx-auto bg-violet-500/10 border border-violet-500/30 px-5 py-3 text-violet-100 text-sm">
               <AlertTriangle className="w-4 h-4 inline mr-2" />
               {status.maintenance_message}
             </div>
@@ -70,7 +70,7 @@ export default function PublicStatus() {
           {status.announcement_banner && (
             <div className={`max-w-2xl mx-auto mt-4 border px-5 py-3 text-sm ${
               status.announcement_level === 'danger' ? 'bg-rose-500/10 border-rose-500/30 text-rose-100' :
-              status.announcement_level === 'warning' ? 'bg-amber-500/10 border-amber-500/30 text-amber-100' :
+              status.announcement_level === 'warning' ? 'bg-violet-500/10 border-violet-500/30 text-violet-100' :
               status.announcement_level === 'success' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-100' :
               'bg-sky-500/10 border-sky-500/30 text-sky-100'
             }`}>
@@ -105,7 +105,7 @@ export default function PublicStatus() {
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-12">
           {[
-            ['Status', allModulesUp ? '✓ All Green' : 'Degraded', allModulesUp ? 'text-emerald-400' : 'text-amber-400', Activity],
+            ['Status', allModulesUp ? '✓ All Green' : 'Degraded', allModulesUp ? 'text-emerald-400' : 'text-violet-400', Activity],
             ['Utilizatori', status.totals?.users, 'text-[#FFB300]', Users],
             ['Proiecte', status.totals?.projects, 'text-sky-400', FileText],
             ['Documente', status.totals?.documents, 'text-purple-400', FileText],

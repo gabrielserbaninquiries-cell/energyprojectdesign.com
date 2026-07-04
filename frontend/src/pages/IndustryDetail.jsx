@@ -10,18 +10,18 @@ import {
 import { toast } from 'sonner';
 
 const INDUSTRY_META = {
-  gas_engineering: { icon: Flame, color: 'text-orange-600', bg: 'bg-orange-50' },
-  electrical_engineering: { icon: Zap, color: 'text-amber-600', bg: 'bg-amber-50' },
+  gas_engineering: { icon: Flame, color: 'text-violet-600', bg: 'bg-violet-50' },
+  electrical_engineering: { icon: Zap, color: 'text-violet-600', bg: 'bg-violet-50' },
   telecom: { icon: Radio, color: 'text-sky-600', bg: 'bg-sky-50' },
   railway_infra: { icon: TrainFront, color: 'text-slate-700', bg: 'bg-slate-100' },
   civil_engineering: { icon: Building2, color: 'text-stone-700', bg: 'bg-stone-100' },
-  photovoltaic: { icon: Sun, color: 'text-yellow-600', bg: 'bg-yellow-50' },
+  photovoltaic: { icon: Sun, color: 'text-violet-600', bg: 'bg-violet-50' },
   water_sewage: { icon: Droplets, color: 'text-blue-600', bg: 'bg-blue-50' },
   sanitation: { icon: Trash2, color: 'text-green-700', bg: 'bg-green-50' },
   hvac: { icon: Wind, color: 'text-cyan-600', bg: 'bg-cyan-50' },
   environment: { icon: Leaf, color: 'text-emerald-600', bg: 'bg-emerald-50' },
   roads_bridges: { icon: Construction, color: 'text-zinc-700', bg: 'bg-zinc-100' },
-  public_lighting: { icon: Lightbulb, color: 'text-yellow-500', bg: 'bg-yellow-50' },
+  public_lighting: { icon: Lightbulb, color: 'text-violet-500', bg: 'bg-violet-50' },
   construction: { icon: Building2, color: 'text-stone-700', bg: 'bg-stone-100' },
 };
 
@@ -180,7 +180,7 @@ export default function IndustryDetail() {
 
       {/* Future improvements */}
       <section>
-        <div className="bg-amber-50 border-l-4 border-[#FFB300] p-5">
+        <div className="bg-violet-50 border-l-4 border-[#FFB300] p-5">
           <div className="flex items-start gap-3">
             <BookOpen className="w-5 h-5 text-[#FFB300] shrink-0 mt-0.5" />
             <div className="flex-1">

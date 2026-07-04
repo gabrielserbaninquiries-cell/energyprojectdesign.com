@@ -92,30 +92,30 @@ export default function Pricing() {
           <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">Prețuri în EUR per utilizator/lună. Plată prin Stripe, anulați oricând. Plan Societate pentru acces total — sau alegeți doar departamentele de care aveți nevoie.</p>
 
           {/* V12.0 — Servicii și funcții în dezvoltare (transparență publică) */}
-          <section className="mb-12 border-2 border-amber-300 bg-amber-50/60 p-6 lg:p-8" data-testid="in-development-section">
+          <section className="mb-12 border-2 border-violet-300 bg-violet-50/60 p-6 lg:p-8" data-testid="in-development-section">
             <div className="flex items-center gap-3 mb-4">
-              <Hammer className="w-5 h-5 text-amber-700" />
-              <div className="label text-amber-900">// în dezvoltare</div>
+              <Hammer className="w-5 h-5 text-violet-700" />
+              <div className="label text-violet-900">// în dezvoltare</div>
             </div>
             <h2 className="text-xl lg:text-2xl font-bold tracking-tight mb-2">Servicii și funcții aflate în dezvoltare</h2>
-            <p className="text-sm text-amber-900/80 mb-6 max-w-3xl">
+            <p className="text-sm text-violet-900/80 mb-6 max-w-3xl">
               Transparență totală: lista de funcționalități pe care le construim activ. Nu sunt incluse în planurile listate jos. Vor fi anunțate public la lansare și disponibile fără cost adițional în cadrul planurilor existente.
             </p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-amber-200/60 border border-amber-200" data-testid="in-development-grid">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-violet-200/60 border border-violet-200" data-testid="in-development-grid">
               {IN_DEVELOPMENT_ITEMS.map((it, i) => {
                 const Icon = it.icon;
                 return (
                   <div key={i} className="bg-white p-4" data-testid={`dev-item-${i}`}>
                     <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 bg-amber-100 border border-amber-300 flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4 text-amber-800" />
+                      <div className="w-8 h-8 bg-violet-100 border border-violet-300 flex items-center justify-center shrink-0">
+                        <Icon className="w-4 h-4 text-violet-800" />
                       </div>
                       <div>
                         <h3 className="font-bold text-sm tracking-tight mb-1">{it.title}</h3>
                         <p className="text-xs text-gray-600 leading-relaxed">{it.desc}</p>
                       </div>
                     </div>
-                    <div className="mt-2 inline-block text-[9px] uppercase tracking-wider bg-amber-300 text-amber-900 px-2 py-0.5 font-bold">În dezvoltare</div>
+                    <div className="mt-2 inline-block text-[9px] uppercase tracking-wider bg-violet-300 text-violet-900 px-2 py-0.5 font-bold">În dezvoltare</div>
                   </div>
                 );
               })}

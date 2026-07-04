@@ -1574,7 +1574,7 @@ export default function GasNaturalProjectV2() {
                   <div className="flex items-center gap-3">
                     <Toggle value={data.are_cu_existent} onChange={upd('are_cu_existent')} />
                     {(data.are_cu_existent === 'Da' || data.are_cu_existent === true) && (
-                      <span className="text-[10px] text-amber-700 font-semibold bg-amber-50 border border-amber-300 px-2 py-1 rounded inline-flex items-center gap-1" data-testid="cu-skip-badge">
+                      <span className="text-[10px] text-violet-700 font-semibold bg-violet-50 border border-violet-300 px-2 py-1 rounded inline-flex items-center gap-1" data-testid="cu-skip-badge">
                         ⏭ Faza Avize va fi omisă în stepper
                       </span>
                     )}

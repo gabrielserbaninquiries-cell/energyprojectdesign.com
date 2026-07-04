@@ -51,7 +51,7 @@ export default function VerifyGasProject() {
 
         {proj && (
           <div className="bg-white border-2 border-gray-900" data-testid="verify-card">
-            <div className={`p-5 border-b border-gray-900 flex items-center gap-4 ${proj.status === 'signed' ? 'bg-green-50' : 'bg-amber-50'}`}>
+            <div className={`p-5 border-b border-gray-900 flex items-center gap-4 ${proj.status === 'signed' ? 'bg-green-50' : 'bg-violet-50'}`}>
               {proj.status === 'signed' ? (
                 <>
                   <ShieldCheck className="w-10 h-10 text-green-700 shrink-0" strokeWidth={2} />
@@ -62,10 +62,10 @@ export default function VerifyGasProject() {
                 </>
               ) : (
                 <>
-                  <AlertCircle className="w-10 h-10 text-amber-700 shrink-0" strokeWidth={2} />
+                  <AlertCircle className="w-10 h-10 text-violet-700 shrink-0" strokeWidth={2} />
                   <div>
-                    <div className="font-semibold text-amber-900" data-testid="verify-status-draft">PROIECT ÎN LUCRU — neSEMNAT încă</div>
-                    <div className="text-xs text-amber-700">Status: {proj.status || 'draft'}</div>
+                    <div className="font-semibold text-violet-900" data-testid="verify-status-draft">PROIECT ÎN LUCRU — neSEMNAT încă</div>
+                    <div className="text-xs text-violet-700">Status: {proj.status || 'draft'}</div>
                   </div>
                 </>
               )}

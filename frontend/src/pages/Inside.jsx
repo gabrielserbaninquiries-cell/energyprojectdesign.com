@@ -6,7 +6,7 @@ import { Lock, Unlock, Eye, EyeOff, ShieldAlert, Sparkles, Zap, Database, FileTe
 
 const RISK_BADGE = {
   high: 'bg-red-100 text-red-800 border-red-300',
-  medium: 'bg-amber-100 text-amber-800 border-amber-300',
+  medium: 'bg-violet-100 text-violet-800 border-violet-300',
   low: 'bg-green-100 text-green-800 border-green-300',
   info: 'bg-blue-100 text-blue-800 border-blue-300',
 };

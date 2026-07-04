@@ -25,10 +25,10 @@ const INDUSTRIES = [
 ];
 
 const COLOR_MAP = {
-  orange: 'border-orange-500 hover:bg-orange-50 text-orange-700',
-  yellow: 'border-yellow-500 hover:bg-yellow-50 text-yellow-700',
+  orange: 'border-orange-500 hover:bg-violet-50 text-violet-700',
+  yellow: 'border-violet-500 hover:bg-violet-50 text-violet-700',
   blue:   'border-blue-500 hover:bg-blue-50 text-blue-700',
-  amber:  'border-amber-500 hover:bg-amber-50 text-amber-700',
+  amber:  'border-violet-500 hover:bg-violet-50 text-violet-700',
   indigo: 'border-indigo-500 hover:bg-indigo-50 text-indigo-700',
   slate:  'border-slate-500 hover:bg-slate-50 text-slate-700',
   red:    'border-red-500 hover:bg-red-50 text-red-700',

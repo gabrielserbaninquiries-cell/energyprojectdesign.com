@@ -29,7 +29,7 @@ const SUBSERVICES = [
 const TAG_STYLES = {
   CORE: 'bg-violet-600 text-white',
   NEW:  'bg-emerald-500 text-white',
-  BETA: 'bg-amber-500 text-white',
+  BETA: 'bg-violet-500 text-white',
   PRO:  'bg-indigo-600 text-white',
 };
 

@@ -22,7 +22,7 @@ const FEATURE_HUB = [
 
 const STATUS_META = {
   active: { color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200', label: 'Activă', icon: CheckCircle2 },
-  partial: { color: 'text-amber-800', bg: 'bg-amber-50', border: 'border-amber-200', label: 'Parțial', icon: Loader2 },
+  partial: { color: 'text-violet-800', bg: 'bg-violet-50', border: 'border-violet-200', label: 'Parțial', icon: Loader2 },
   skeleton: { color: 'text-sky-700', bg: 'bg-sky-50', border: 'border-sky-200', label: 'Schelet', icon: Layers },
   planned: { color: 'text-gray-600', bg: 'bg-gray-50', border: 'border-gray-200', label: 'Planificat', icon: Clock },
 };
@@ -78,7 +78,7 @@ export default function FeaturesHub() {
           <div className="lg:col-span-5 grid grid-cols-2 gap-3">
             {[
               { v: counts.active, l: 'Active', c: 'text-emerald-400' },
-              { v: counts.partial, l: 'Parțiale', c: 'text-amber-400' },
+              { v: counts.partial, l: 'Parțiale', c: 'text-violet-400' },
               { v: counts.skeleton, l: 'Schelete', c: 'text-sky-400' },
               { v: counts.planned, l: 'Planificate', c: 'text-gray-400' },
             ].map((s) => (

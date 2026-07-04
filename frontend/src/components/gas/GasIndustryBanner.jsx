@@ -22,8 +22,8 @@ export default function GasIndustryBanner({ subtitle, subsectionLabel }) {
       />
       <div className="relative h-full flex flex-col justify-end p-6 lg:p-8 text-white">
         <div className="flex items-center gap-2 mb-2">
-          <Flame className="w-4 h-4 text-amber-300" />
-          <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-amber-300">Industrie Gaze Naturale</span>
+          <Flame className="w-4 h-4 text-violet-300" />
+          <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-violet-300">Industrie Gaze Naturale</span>
         </div>
         <h1 className="text-2xl lg:text-4xl font-bold tracking-tighter text-white leading-tight">
           {subsectionLabel || 'Studio Gaze Naturale'}

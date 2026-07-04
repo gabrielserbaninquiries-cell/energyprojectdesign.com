@@ -85,9 +85,9 @@ export default function ANAFInvoicing() {
             <p className="text-sm text-gray-300 max-w-xl"><strong>{invoices.length}</strong> facturi draft generate. Descarcă XML-ul oricărei facturi pentru încărcare manuală în <span className="font-mono text-[#FFB300]">e-factura.anaf.ro</span>.</p>
           </div>
           <div className="lg:col-span-4">
-            <div className="bg-amber-500/10 backdrop-blur-md border border-amber-500/30 p-3 text-xs text-amber-100">
-              <AlertTriangle className="w-4 h-4 mb-1.5 text-amber-300" />
-              <strong className="text-amber-200">Trimitere SPV manuală</strong> — în această versiune draft-ul XML se descarcă local și se încarcă manual în SPV ANAF. Integrarea OAuth2 SPV vine în următoarea iterație.
+            <div className="bg-violet-500/10 backdrop-blur-md border border-violet-500/30 p-3 text-xs text-violet-100">
+              <AlertTriangle className="w-4 h-4 mb-1.5 text-violet-300" />
+              <strong className="text-violet-200">Trimitere SPV manuală</strong> — în această versiune draft-ul XML se descarcă local și se încarcă manual în SPV ANAF. Integrarea OAuth2 SPV vine în următoarea iterație.
             </div>
           </div>
         </div>

@@ -50,7 +50,7 @@ export default function ProductSkeleton() {
                 <button
                   key={sk.id}
                   onClick={() => loadPrompt(sk)}
-                  className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${isSelected ? 'bg-amber-50' : ''}`}
+                  className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${isSelected ? 'bg-violet-50' : ''}`}
                   data-testid={`skeleton-item-${sk.id}`}
                 >
                   <div className="flex items-center justify-between gap-2 mb-1">

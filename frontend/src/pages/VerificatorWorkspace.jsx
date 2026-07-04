@@ -11,7 +11,7 @@ import {
 import useSEO from '../hooks/useSEO';
 
 const STATUS_META = {
-  pending:    { label: 'În așteptare', color: 'bg-amber-100 text-amber-800 border-amber-300', icon: Clock },
+  pending:    { label: 'În așteptare', color: 'bg-violet-100 text-violet-800 border-violet-300', icon: Clock },
   in_review:  { label: 'În analiză',   color: 'bg-blue-100 text-blue-800 border-blue-300',   icon: Search },
   approved:   { label: 'Aprobat',      color: 'bg-emerald-100 text-emerald-800 border-emerald-300', icon: CheckCircle2 },
   rejected:   { label: 'Respins',      color: 'bg-red-100 text-red-800 border-red-300',     icon: XCircle },
@@ -126,7 +126,7 @@ function DecisionModal({ project, onClose, onDone }) {
             </>
           )}
 
-          <div className="border-2 border-amber-300 bg-amber-50 p-4 text-xs text-amber-900 flex gap-3">
+          <div className="border-2 border-violet-300 bg-violet-50 p-4 text-xs text-violet-900 flex gap-3">
             <AlertTriangle className="w-5 h-5 shrink-0" />
             <div>
               <strong>QES eIDAS — integrare reală în curând.</strong> Momentan decizia se înregistrează cu hash SHA-256 + timestamp imuabil. Semnătura criptografică QES (DigiSign / certSIGN) va fi adăugată în etapa următoare.

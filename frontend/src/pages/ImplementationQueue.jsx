@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Check, X, Clock, AlertTriangle, Sparkles, GitBranch, Loader2, ListOrdered } from 'lucide-react';
 
 const STATUS_COLOR = {
-  pending:    'bg-amber-100 text-amber-800 border-amber-300',
+  pending:    'bg-violet-100 text-violet-800 border-violet-300',
   approved:   'bg-blue-100 text-blue-800 border-blue-300',
   rejected:   'bg-gray-100 text-gray-800 border-gray-300',
   applied:    'bg-green-100 text-green-800 border-green-300',
@@ -15,7 +15,7 @@ const STATUS_COLOR = {
 
 const RISK_COLOR = {
   high:   'text-red-600',
-  medium: 'text-amber-600',
+  medium: 'text-violet-600',
   low:    'text-green-600',
   info:   'text-blue-600',
 };

@@ -108,7 +108,36 @@
  - **„Completely renovate"**: eliminare violet global pe toate paginile principale (Landing + 4 subpagini + Auth + Dashboard + Contact) — palette 100% zinc-950 Swiss high-contrast
 **Verificare:** Screenshots confirmă toate 16 misiuni afișate, cele 4 noi la începutul grilei
 
-### CMD-14 · GATA · 2026-02 (V1.2 „Brand Cinematic" — 3 imagini brand oficiale)
+### CMD-15 · GATA · 2026-02 (rebrand complet + 4 pagini noi + video YouTube)
+**Comandă literală:** „P1: Creare pagini dedicate /petitii-campus, /petitii-sociale, /jurnalism, /renovare-blocuri + re-brand-uieste toate imaginile mari principale... fara sa mai fie poza cu ingineri pe prima pagina sau la log-in. Toata tema site-ului trebuie sa profesionala, alb-negru si violet pe alocuri. Fara butoane stridente in general, sau cu galben care ies in evidenta. Inlocuieste tot ce exista in site (pagini si subpagini) cu galben, sa fie cu violet. Include un videoclip https://www.youtube.com/watch?v=gsh_nFycsdc in pagina de prezentare langa scris-ul interfetei energy project design - redesigning projects."
+**Ce am făcut:**
+ - **Elimin foto ingineri** din hero Landing → aspect pur zinc-950 + subtle violet radial gradient
+ - **Elimin duplicat banner top** de pe Landing → o singură prezentare (hero cu logo+text+video)
+ - **Video YouTube gsh_nFycsdc** integrat în hero Landing, LÂNGĂ scris (grid 2 coloane, editorial split)
+ - **Global sed pe TOT proiectul**: `amber-* / yellow-* / orange-*` → `violet-*` (0 rămase). Buton „Investitori" hero devine violet, nu amber-glare
+ - **4 pagini noi create** în `/app/frontend/src/pages/MissionPage.jsx` (componentă reutilizabilă cu config obiect):
+    * `/petitii-campus` — Petiții modernizare campusuri universitare
+    * `/petitii-sociale` — Petiții de interes social
+    * `/jurnalism` — Jurnalism independent + plata contribuției
+    * `/renovare-blocuri` — Renovare blocuri (energetic + estetic)
+ - **Rute înregistrate** în App.js — toate 4 rutate
+ - **Logo unificat** — `EPDLogo` folosit în header-e Peste toate paginile Mission + subpagini rethemate
+ - **NEXT_GEN_MISSIONS** actualizat cu rutele astfel încât „Vezi pagina →" apare pe cele 4 misiuni
+
+### CMD-16 · GATA · 2026-02 (IBAN + Business partnerships)
+**Comandă literală:** „De asemenea, introdu conturile bancare ale societatii si al meu sub sectiunea de donatii. conturile sunt: cont personal RO22 REVO 0000 1555 6872 4293 si business RO45 REVO 0000 3628 9665 7157. De asemenea, mentioneaza si o rubrica pentru business si parteneriate."
+**Ce am făcut:**
+ - `Sponsorizeaza.jsx` sub Stripe checkout, adăugat **2 carduri side-by-side**:
+    * **LEFT (white)**: „Conturi Revolut oficiale" cu 2 IBAN-uri:
+       - Cont personal (Șerban Dragoș-Iulian): `RO22 REVO 0000 1555 6872 4293` + buton „Copiază"
+       - Cont business (Energy Project Design S.R.L., CUI 43151074): `RO45 REVO 0000 3628 9665 7157` + buton „Copiază" (marcat cu border violet-300, recomandat pentru donații deductibile fiscal)
+    * **RIGHT (zinc-950 with violet radial)**: „// Business & Parteneriate — Colaborăm la scară" cu 4 bullet items:
+       - Parteneriate B2B (OSD gaze, distribuitori electric, telecom)
+       - Integrări tehnologice (ANRE · ONRC · ANAF · SPV · eIDAS QES)
+       - Investitori & Fonduri (Rundă seed / A)
+       - Instituții publice (Primării · Prefecturi · ISU · ISC · MDLPA)
+    * 2 CTAs: „Scrie-ne pe email" (white) + „Pachet investitori →" (outline)
+**Verificare:** Screenshots confirmă cardurile perfect vizibile, IBAN-uri corecte, aspect trilion-dolar
 **Comandă literală:** „Te rog reorganizeaza site-ul sa arate asa cum ar trebui sa arate prima si singura platforma pentru toate serviciile. iti atasez si 3 poze. Te rog fa ca imaginea 3d sa fie la log in si ca banner in partea de sus a paginii, iar celelalte 2 unde crezi ca mai este cazul."
 **Ce am făcut:**
  - Adăugate în `brand.js`: `brandHeroEarth` (Imagine 3), `brandHologram` (Imagine 1), `brandIsometric` (Imagine 2)

@@ -240,7 +240,7 @@ export default function Companies() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <div className="font-bold">{c.name}</div>
                       {c.verified && <span className="text-green-700"><CheckCircle2 className="w-4 h-4" /></span>}
-                      {c.status === 'pending' && <span className="text-[9px] bg-amber-100 text-amber-800 px-2 py-0.5 uppercase tracking-wider">Pending</span>}
+                      {c.status === 'pending' && <span className="text-[9px] bg-violet-100 text-violet-800 px-2 py-0.5 uppercase tracking-wider">Pending</span>}
                     </div>
                     {canEdit && (
                       <div className="flex gap-1">

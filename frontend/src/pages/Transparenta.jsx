@@ -17,7 +17,7 @@ import useSEO from '../hooks/useSEO';
 
 const STATUS_ICONS = {
   live: { Icon: Check, color: 'bg-emerald-500 text-white', label: 'LIVE' },
-  beta: { Icon: AlertCircle, color: 'bg-amber-500 text-white', label: 'BETA' },
+  beta: { Icon: AlertCircle, color: 'bg-violet-500 text-white', label: 'BETA' },
   not_started: { Icon: AlertCircle, color: 'bg-slate-300 text-slate-700', label: 'PENDING' },
 };
 
@@ -323,7 +323,7 @@ function StatCard({ icon: Icon, label, value, accent, testid }) {
     violet: 'from-zinc-800 to-zinc-950',
     blue: 'from-blue-500 to-cyan-600',
     emerald: 'from-emerald-500 to-teal-600',
-    amber: 'from-amber-500 to-orange-600',
+    amber: 'from-violet-500 to-violet-600',
   }[accent] || 'from-zinc-800 to-zinc-950';
   return (
     <div className="group p-5 bg-white border border-slate-200 rounded-xl hover:border-zinc-950 hover:shadow-lg transition-all" data-testid={testid}>

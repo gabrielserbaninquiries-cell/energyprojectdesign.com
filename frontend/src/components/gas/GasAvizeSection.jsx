@@ -47,7 +47,7 @@ function AvizRow({ aviz, onChange, onRemove, idx, prefix = 'aviz' }) {
         </div>
       )}
       {soon && (
-        <div className="mt-2 flex items-center gap-2 text-xs text-amber-700 bg-amber-50 p-2 rounded">
+        <div className="mt-2 flex items-center gap-2 text-xs text-violet-700 bg-violet-50 p-2 rounded">
           <Calendar className="w-4 h-4" /> Expiră în &lt; 30 zile.
         </div>
       )}
@@ -93,7 +93,7 @@ export default function GasAvizeSection({ avize = [], cuLista = [], onChange }) 
         </div>
       </div>
 
-      <div className="border border-slate-200 rounded-xl p-5 bg-gradient-to-br from-white to-amber-50/30">
+      <div className="border border-slate-200 rounded-xl p-5 bg-gradient-to-br from-white to-violet-50/30">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900">CU / Acord administrator drum / Autorizație de construcție</h3>
           <button type="button" onClick={addCu} className="text-sm text-violet-700 font-semibold flex items-center gap-1 hover:bg-violet-50 px-2 py-1 rounded" data-testid="cu-add">

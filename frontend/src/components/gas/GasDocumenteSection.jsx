@@ -20,7 +20,7 @@ const PHASE_COLOR = {
   cu: 'from-blue-500 to-indigo-600',
   dtac: 'from-violet-500 to-purple-600',
   pt: 'from-emerald-500 to-teal-600',
-  executie: 'from-amber-500 to-orange-600',
+  executie: 'from-violet-500 to-violet-600',
   pif: 'from-rose-500 to-pink-600',
   receptie: 'from-slate-600 to-slate-800',
 };

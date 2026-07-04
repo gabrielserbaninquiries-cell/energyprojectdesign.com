@@ -12,7 +12,7 @@ import api from '../lib/api';
 
 const STATUSES = [
   { id: 'draft',    label: 'Ciornă',     class: 'border-zinc-600 text-zinc-300' },
-  { id: 'pending',  label: 'În așteptare', class: 'border-amber-500/40 text-amber-300' },
+  { id: 'pending',  label: 'În așteptare', class: 'border-violet-500/40 text-violet-300' },
   { id: 'active',   label: 'Activ',      class: 'border-emerald-500/40 text-emerald-300' },
   { id: 'closed',   label: 'Închis',     class: 'border-zinc-600 text-zinc-500' },
 ];
@@ -76,7 +76,7 @@ export default function Contracts() {
       <div className="space-y-6" data-testid="contracts-page">
         <header className="flex items-end justify-between border-b border-zinc-800 pb-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-amber-400/80">// CRM</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-violet-400/80">// CRM</p>
             <h1 className="text-4xl font-bold mt-2">Contracte</h1>
             <p className="text-sm text-zinc-400 mt-2">Gestionați contractele active, valorile recurente și legaturile cu abonații CRM.</p>
           </div>
@@ -87,7 +87,7 @@ export default function Contracts() {
         </header>
 
         <Card className="p-6 bg-zinc-950/70 border-zinc-800">
-          <h2 className="text-lg font-semibold mb-4 flex items-center gap-2"><Plus className="w-4 h-4 text-amber-400" /> Contract nou</h2>
+          <h2 className="text-lg font-semibold mb-4 flex items-center gap-2"><Plus className="w-4 h-4 text-violet-400" /> Contract nou</h2>
           <div className="grid md:grid-cols-3 gap-3">
             <Input data-testid="ctr-title" placeholder="Titlu contract" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
             <Input data-testid="ctr-value" type="number" placeholder="Valoare EUR" value={form.value_eur} onChange={e => setForm({ ...form, value_eur: e.target.value })} />
@@ -106,7 +106,7 @@ export default function Contracts() {
             </Select>
             <Textarea className="md:col-span-3" rows={2} data-testid="ctr-notes" placeholder="Note (opțional)" value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} />
           </div>
-          <Button onClick={create} data-testid="ctr-create-btn" className="mt-4 bg-amber-500 hover:bg-amber-400 text-black font-semibold">Creează contract</Button>
+          <Button onClick={create} data-testid="ctr-create-btn" className="mt-4 bg-violet-500 hover:bg-violet-400 text-black font-semibold">Creează contract</Button>
         </Card>
 
         {loading ? (

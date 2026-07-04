@@ -70,9 +70,9 @@ export const FUTURE_SERVICES = [
 export const NEXT_GEN_MISSIONS = [
   // V1.1 — 4 misiuni noi cerute explicit de fondator (Feb 2026, CMD-13)
   { id: 'petitii-campus',   icon: '🎓', label: 'Petiții modernizare campusuri universitare', desc: 'Studenții și absolvenții cer și susțin modernizări reale — infrastructură, laboratoare, cazare, alimentație — cu petiții semnate digital și follow-up public', route: '/petitii-campus' },
-  { id: 'petitii-sociale',  icon: '📜', label: 'Petiții de interes social',                   desc: 'Platformă publică pentru cauze cetățenești — semnătură digitală, urmărire răspuns instituțional, transparență totală' },
-  { id: 'jurnalism-articole', icon: '📰', label: 'Jurnalism independent + plata contributiei', desc: 'Publicare articole editorial cu remunerare direct la autor — bază pentru presă independentă, verificată, plătită corect' },
-  { id: 'renovare-blocuri', icon: '🏢', label: 'Renovare blocuri (energetic + estetic)',      desc: 'Anvelopare, ascensoare, reabilitare seismică, spații verzi — administratori de bloc conectați direct cu constructori și fonduri europene' },
+  { id: 'petitii-sociale',  icon: '📜', label: 'Petiții de interes social',                   desc: 'Platformă publică pentru cauze cetățenești — semnătură digitală, urmărire răspuns instituțional, transparență totală', route: '/petitii-sociale' },
+  { id: 'jurnalism-articole', icon: '📰', label: 'Jurnalism independent + plata contributiei', desc: 'Publicare articole editorial cu remunerare direct la autor — bază pentru presă independentă, verificată, plătită corect', route: '/jurnalism' },
+  { id: 'renovare-blocuri', icon: '🏢', label: 'Renovare blocuri (energetic + estetic)',      desc: 'Anvelopare, ascensoare, reabilitare seismică, spații verzi — administratori de bloc conectați direct cu constructori și fonduri europene', route: '/renovare-blocuri' },
   { id: 'voturi-cnp',       icon: '🗳️', label: 'Voturi live electronice', desc: 'Vot cetățenesc digital pe baza CNP — alegeri, referendumuri și sondaje publice în timp real, cu trasabilitate criptografică', route: '/voturi-cnp' },
   { id: 'event-tickets',    icon: '🎫', label: 'Bilete evenimente',        desc: 'Marketplace global pentru concerte, festivaluri, conferințe — cu QR code și revânzare etică' },
   { id: 'flight-tickets',   icon: '✈️', label: 'Bilete avion',             desc: 'Cumpărare bilete cu cel mai mic preț din ecosistem EPD, alerte cădere preț, miles loyalty' },

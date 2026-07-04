@@ -310,7 +310,7 @@ export default function AdminUsers() {
                     <td className="px-4 py-2">
                       <div className="flex gap-1">
                         {u.is_developer && <span className="text-[9px] uppercase bg-violet-100 text-violet-700 px-1.5 py-0.5 rounded" title="Developer">DEV</span>}
-                        {u.is_admin && <span className="text-[9px] uppercase bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded" title="Admin">ADMIN</span>}
+                        {u.is_admin && <span className="text-[9px] uppercase bg-violet-100 text-violet-800 px-1.5 py-0.5 rounded" title="Admin">ADMIN</span>}
                         {u.deleted && <span className="text-[9px] uppercase bg-red-100 text-red-700 px-1.5 py-0.5 rounded" title="Șters">DELETED</span>}
                       </div>
                     </td>

@@ -38,16 +38,16 @@ const MAIN_PRODUCT_HIGHLIGHTS = [
 const ACTIVE_SERVICES = [
   { id: 'gas',         icon: Flame,         title: 'Gaze Naturale',         desc: 'Proiect tehnic complet conform NTPEE 2018 + ANRE', tag: 'CORE', href: '/gaze-naturale',
     image: 'https://images.unsplash.com/photo-1773186704394-919b2aa3179a?w=900&q=80&auto=format&fit=crop',
-    gradient: 'from-orange-500 via-red-500 to-rose-600' },
+    gradient: 'from-violet-500 via-red-500 to-rose-600' },
   { id: 'electric',    icon: Zap,           title: 'Electric',              desc: 'Proiectare instalații electrice conform ANRE',    tag: 'BETA', href: '/industrii/electric',
     image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=900&q=80&auto=format&fit=crop',
-    gradient: 'from-yellow-400 via-amber-500 to-orange-600' },
+    gradient: 'from-violet-400 via-violet-500 to-violet-600' },
   { id: 'apa-canal',   icon: Droplet,       title: 'Apă-Canal',             desc: 'Branșament și racord apă potabilă & canalizare',  tag: 'BETA', href: '/industrii/apa-canal',
     image: 'https://images.unsplash.com/photo-1693907986952-3cd372e4c9d8?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-cyan-500 via-blue-500 to-indigo-600' },
   { id: 'fotovoltaice',icon: Sun,           title: 'Fotovoltaice',          desc: 'Proiecte panouri și avizare ANRE',         tag: 'NEW',  href: '/industrii/fotovoltaice',
     image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=900&q=80&auto=format&fit=crop',
-    gradient: 'from-yellow-400 via-orange-500 to-amber-600' },
+    gradient: 'from-violet-400 via-violet-500 to-violet-600' },
   { id: 'telecom',     icon: Phone,         title: 'Telecom',               desc: 'Avize Telekom, STB, NetCity',             tag: 'NEW',  href: '/industrii/telecom',
     image: 'https://images.unsplash.com/photo-1606814540563-5c02d62fd409?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-violet-500 via-purple-500 to-fuchsia-600' },
@@ -65,7 +65,7 @@ const ACTIVE_SERVICES = [
     gradient: 'from-teal-500 via-cyan-500 to-blue-600' },
   { id: 'crafts',      icon: Hammer,        title: 'Meseriași',             desc: 'Conexiuni beneficiari ↔ meșteri verificați',tag: 'NEW', href: '/servicii',
     image: 'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=900&q=80&auto=format&fit=crop',
-    gradient: 'from-amber-600 via-orange-700 to-red-700' },
+    gradient: 'from-violet-600 via-violet-700 to-red-700' },
   { id: 'logistics',   icon: Truck,         title: 'Comerț & Logistică',    desc: 'Lanț aprovizionare + transport materiale', tag: 'NEW', href: '/comert-logistica',
     image: 'https://images.unsplash.com/photo-1591768793355-74d04bb6608f?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-slate-500 via-blue-600 to-indigo-700' },
@@ -81,7 +81,7 @@ const ACTIVE_SERVICES = [
   // V10.0 — Servicii noi (cerere user: curierat, transport persoane, mediu, spitale, caritabile, biserică)
   { id: 'curierat',    icon: PackageOpen,   title: 'Curierat',              desc: 'Livrări rapide nationale, tracking real-time',tag: 'SOON', href: '/curierat',
     image: 'https://images.unsplash.com/photo-1614976523626-d598aafd4fda?w=900&q=80&auto=format&fit=crop',
-    gradient: 'from-orange-500 via-red-500 to-pink-600' },
+    gradient: 'from-violet-500 via-red-500 to-pink-600' },
   { id: 'transport',   icon: Bus,           title: 'Transport Persoane',    desc: 'Microbuze, taxi inter-orașe, partajat',     tag: 'SOON', href: '/transport-persoane',
     image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-blue-500 via-cyan-500 to-teal-600' },
@@ -90,13 +90,13 @@ const ACTIVE_SERVICES = [
     gradient: 'from-green-500 via-emerald-600 to-teal-700' },
   { id: 'spitale',     icon: HeartPulse,    title: 'Spitale & Sănătate',    desc: 'Conexiuni clinici, doctori, programări',    tag: 'SOON', href: '/spitale',
     image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=900&q=80&auto=format&fit=crop',
-    gradient: 'from-rose-500 via-red-500 to-orange-600' },
+    gradient: 'from-rose-500 via-red-500 to-violet-600' },
   { id: 'caritabile',  icon: Heart,         title: 'Cauze Caritabile',      desc: 'Donații verificate, transparență totală',   tag: 'SOON', href: '/caritabile',
     image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=900&q=80&auto=format&fit=crop',
     gradient: 'from-pink-500 via-rose-500 to-red-600' },
   { id: 'biserica',    icon: Church,        title: 'Biserică & Comunitate', desc: 'Comunități spirituale, evenimente, donații', tag: 'SOON', href: '/biserica',
     image: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=900&q=80&auto=format&fit=crop',
-    gradient: 'from-amber-500 via-yellow-600 to-orange-700' },
+    gradient: 'from-violet-500 via-violet-600 to-violet-700' },
 ];
 
 // VIITOR — 22 servicii globale planificate (per master plan EPD)
@@ -108,7 +108,7 @@ const ACTIVE_SERVICES = [
 const TAG_STYLES = {
   CORE: 'bg-zinc-950 text-white',
   NEW:  'bg-emerald-600 text-white',
-  BETA: 'bg-amber-500 text-zinc-950',
+  BETA: 'bg-violet-500 text-zinc-950',
   BIZ:  'bg-fuchsia-600 text-white',
   INFO: 'bg-zinc-200 text-zinc-800',
   SOON: 'bg-zinc-500 text-white',
@@ -184,7 +184,7 @@ export default function Landing() {
           </nav>
           <div className="flex items-center gap-2 shrink-0">
             <GlobalTranslator variant="light" />
-            <a href="#investitori" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-bold rounded-md transition-colors whitespace-nowrap" data-testid="nav-investors">
+            <a href="#investitori" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-violet-50 hover:bg-violet-100 text-violet-800 border border-violet-200 font-bold rounded-md transition-colors whitespace-nowrap" data-testid="nav-investors">
               Investitori
             </a>
             {user ? (
@@ -200,79 +200,74 @@ export default function Landing() {
       </header>
 
       {/* HERO — Identitate oficială EPD (V12.7: no photo, clean pro gradient) */}
-      {/* V1.2 — BRAND BANNER TOP (Imagine 3 „Earth + EPD logo + The Architects of Future Global Technology") */}
-      <section className="relative w-full overflow-hidden bg-zinc-950 pt-16" data-testid="brand-banner-top">
-        <div className="relative w-full h-[380px] md:h-[440px] lg:h-[500px]">
-          <img
-            src={BRAND_ASSETS.brandHeroEarth}
-            alt="Energy Project Design — The Architects of Future Global Technology"
-            className="absolute inset-0 w-full h-full object-cover"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/30 via-transparent to-zinc-950" />
-        </div>
-      </section>
-
-      {/* HERO — V13.5 „Cinematic" cu foto reală industrială + heavy overlay (competitor best-in-world) */}
-      <section
-        className="relative pt-20 pb-20 lg:pt-24 lg:pb-28 overflow-hidden bg-zinc-950"
-        style={{
-          backgroundImage: 'linear-gradient(180deg, rgba(9,9,11,0.85) 0%, rgba(9,9,11,0.96) 55%, rgba(9,9,11,0.99) 100%), url(https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=1920&q=85&auto=format&fit=crop)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      >
+      {/* HERO — V1.2 „Brand Cinematic" (fără foto ingineri) — logo + text + video oficial */}
+      <section className="relative pt-16 pb-20 lg:pt-20 lg:pb-28 overflow-hidden bg-zinc-950">
+        {/* Fundal pur zinc-950 + subtle violet radial gradient (brand palette: alb/negru + violet) */}
+        <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(124,58,237,0.20) 0%, transparent 55%), radial-gradient(circle at 85% 75%, rgba(76,29,149,0.15) 0%, transparent 50%)' }} />
         {/* Grain overlay pentru textură premium */}
         <div
           className="absolute inset-0 opacity-[0.035] pointer-events-none mix-blend-overlay"
           style={{ backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22/></filter><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/></svg>")' }}
         />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2.5 px-3 py-1.5 border border-white/20 rounded-full text-[11px] uppercase tracking-[0.28em] text-zinc-300 mb-8 backdrop-blur-sm bg-white/5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>THE ARCHITECTS OF FUTURE GLOBAL TECHNOLOGY</span>
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16 items-center">
+            {/* LEFT — Text + CTAs */}
+            <div>
+              <div className="inline-flex items-center gap-2.5 px-3 py-1.5 border border-violet-500/40 rounded-full text-[11px] uppercase tracking-[0.28em] text-violet-300 mb-8 backdrop-blur-sm bg-violet-500/5">
+                <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+                <span>THE ARCHITECTS OF FUTURE GLOBAL TECHNOLOGY</span>
+              </div>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-[-0.045em] leading-[0.98] mb-6 text-white font-display">
+                Energy Project<br/>
+                <span className="italic text-violet-400 font-normal">Design.</span>
+              </h1>
+              <p className="text-xl lg:text-2xl text-zinc-300 font-light mb-5 tracking-tight">
+                {BRAND.tagline}
+              </p>
+              <p className="text-base text-zinc-400 max-w-xl mb-10 leading-relaxed">
+                Platforma globală de proiectare și documentație tehnică digitală certificată — produs principal:
+                {' '}<span className="font-semibold text-white">documentație electronică pentru instalații gaze naturale</span>, conform NTPEE 2018, eIDAS QES, cu valoare juridică.
+              </p>
+              <div className="flex items-center gap-3 flex-wrap">
+                <Link to={user ? '/gaze-naturale' : '/auth?mode=signup&next=gas'} className="inline-flex items-center gap-2 bg-white text-zinc-950 hover:bg-violet-50 font-semibold px-7 py-3.5 rounded-md transition-all hover:-translate-y-0.5 shadow-2xl" data-testid="hero-cta-gas">
+                  <Flame className="w-5 h-5" />
+                  Începe proiect gaze naturale
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link to="/pricing" className="inline-flex items-center gap-2 text-white border border-white/25 hover:border-violet-400 hover:text-violet-300 px-6 py-3.5 rounded-md backdrop-blur-sm transition-all font-medium" data-testid="hero-cta-pricing">
+                  Vezi tarifele
+                </Link>
+              </div>
+              {/* Stats compact */}
+              <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6">
+                {[
+                  { v: '13',     l: 'Industrii' },
+                  { v: 'NTPEE',  l: 'Conform 2018' },
+                  { v: 'QES',    l: 'eIDAS certificat' },
+                  { v: '24',     l: 'Limbi suportate' },
+                ].map(s => (
+                  <div key={s.l} className="border-l-2 border-violet-500/40 pl-3.5">
+                    <div className="text-3xl lg:text-4xl font-bold tracking-tighter text-white tabular-nums font-display">{s.v}</div>
+                    <div className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 mt-1.5 font-semibold">{s.l}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-[-0.045em] leading-[0.95] mb-8 text-white font-display">
-              Energy Project<br/>
-              <span className="italic text-zinc-400 font-normal">Design.</span>
-            </h1>
-            <p className="text-xl lg:text-2xl text-zinc-300 font-light mb-5 tracking-tight max-w-2xl">
-              {BRAND.tagline}
-            </p>
-            <p className="text-base text-zinc-400 max-w-2xl mb-10 leading-relaxed">
-              Platforma globală de proiectare și documentație tehnică digitală certificată — produs principal:
-              {' '}<span className="font-semibold text-white">documentație electronică pentru instalații gaze naturale</span>, conform NTPEE 2018, eIDAS QES, cu valoare juridică.
-            </p>
-            <div className="flex items-center gap-3 flex-wrap">
-              <Link to={user ? '/gaze-naturale' : '/auth?mode=signup&next=gas'} className="inline-flex items-center gap-2 bg-white text-zinc-950 hover:bg-zinc-200 font-semibold px-7 py-3.5 rounded-md transition-all hover:-translate-y-0.5 shadow-2xl" data-testid="hero-cta-gas">
-                <Flame className="w-5 h-5" />
-                Începe proiect gaze naturale
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link to="/pricing" className="inline-flex items-center gap-2 text-white border border-white/25 hover:border-white/60 px-6 py-3.5 rounded-md backdrop-blur-sm transition-all font-medium" data-testid="hero-cta-pricing">
-                Vezi tarifele
-              </Link>
-              <a href="#investitori" className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-zinc-950 px-6 py-3.5 rounded-md transition-all font-bold" data-testid="hero-cta-investors">
-                <Sparkles className="w-4 h-4" />
-                Investitori →
-              </a>
-            </div>
-            {/* Stats — tabular Cabinet Grotesk */}
-            <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-3xl">
-              {[
-                { v: '13',     l: 'Industrii', hint: 'Gaze, electric, apă, telecom...' },
-                { v: 'NTPEE',  l: 'Conform 2018', hint: 'ANRE Ord. 89/2018' },
-                { v: 'QES',    l: 'eIDAS certificat', hint: 'Semnătură juridică UE' },
-                { v: '24',     l: 'Limbi suportate', hint: 'Motor live Google' },
-              ].map(s => (
-                <div key={s.l} className="border-l-2 border-white/15 pl-4">
-                  <div className="text-4xl lg:text-5xl font-bold tracking-tighter text-white tabular-nums font-display">{s.v}</div>
-                  <div className="text-[10px] uppercase tracking-[0.22em] text-zinc-400 mt-2 font-semibold">{s.l}</div>
-                  <div className="text-[10px] text-zinc-500 mt-1">{s.hint}</div>
-                </div>
-              ))}
+
+            {/* RIGHT — YouTube brand video (oficial EPD) */}
+            <div className="relative">
+              <div className="relative rounded-md overflow-hidden aspect-video bg-zinc-900 ring-1 ring-violet-500/30 shadow-2xl shadow-violet-950/50">
+                <iframe
+                  src="https://www.youtube.com/embed/gsh_nFycsdc?rel=0&modestbranding=1&showinfo=0"
+                  title="Energy Project Design — Brand Video"
+                  className="absolute inset-0 w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  data-testid="brand-video-hero"
+                />
+              </div>
+              <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-zinc-500 font-semibold text-right">// Videoclip oficial brand EPD</div>
             </div>
           </div>
         </div>
@@ -722,12 +717,12 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
           <div className="grid lg:grid-cols-12 gap-12 items-start">
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-amber-300 font-semibold mb-4">
+              <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-300 font-semibold mb-4">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>// Strategic capital opportunity</span>
               </div>
               <h2 className="text-4xl lg:text-6xl font-bold tracking-tighter text-white leading-[1.05] mb-6">
-                Construim cea mai <span className="bg-gradient-to-r from-amber-300 via-yellow-300 to-amber-200 bg-clip-text text-transparent">influentă platformă globală</span> de proiectare și execuție multi-industrie.
+                Construim cea mai <span className="bg-gradient-to-r from-violet-300 via-violet-300 to-violet-200 bg-clip-text text-transparent">influentă platformă globală</span> de proiectare și execuție multi-industrie.
               </h2>
               <p className="text-lg text-violet-100 leading-relaxed mb-6">
                 Astăzi: <strong className="text-white">platformă nr. 1 în România pentru documentație gaze naturale</strong> certificată
@@ -747,14 +742,14 @@ export default function Landing() {
                 ].map((m) => (
                   <div key={m.t} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-4">
                     <div className="text-[10px] uppercase tracking-[0.2em] text-violet-300 font-semibold">{m.t}</div>
-                    <div className="text-3xl font-bold text-amber-300 tabular-nums mt-1">{m.v}</div>
+                    <div className="text-3xl font-bold text-violet-300 tabular-nums mt-1">{m.v}</div>
                     <div className="text-xs text-slate-300 mt-1.5 leading-snug">{m.d}</div>
                   </div>
                 ))}
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <a href="mailto:invest@energyprojectdesign.com?subject=Investment%20interest%20-%20Energy%20Project%20Design"
-                  className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-all"
+                  className="inline-flex items-center gap-2 bg-violet-400 hover:bg-violet-300 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-all"
                   data-testid="investors-cta-email"
                 >
                   <ArrowRight className="w-4 h-4" />
@@ -773,7 +768,7 @@ export default function Landing() {
 
             <div className="lg:col-span-5">
               <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8">
-                <div className="text-[10px] uppercase tracking-[0.25em] text-amber-300 font-bold mb-2">// De ce acum</div>
+                <div className="text-[10px] uppercase tracking-[0.25em] text-violet-300 font-bold mb-2">// De ce acum</div>
                 <h3 className="text-2xl font-bold text-white mb-4">Momentul perfect pentru capital strategic.</h3>
                 <ul className="space-y-4 text-sm text-violet-100">
                   {[
@@ -784,7 +779,7 @@ export default function Landing() {
                     { t: 'Expansiune naturală', d: 'Aceleași engine de documente + plăți + roluri se aplică la electric, fotovoltaice, telecom, aviație, spațial — fără reinventare.' },
                   ].map((it) => (
                     <li key={it.t} className="flex gap-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-2 shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-violet-400 mt-2 shrink-0" />
                       <div>
                         <div className="font-bold text-white">{it.t}</div>
                         <div className="text-slate-300 leading-relaxed">{it.d}</div>

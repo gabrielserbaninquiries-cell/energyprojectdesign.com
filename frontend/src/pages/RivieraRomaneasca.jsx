@@ -73,15 +73,15 @@ export default function RivieraRomaneasca() {
             <EPDLogo variant="mark" size="sm" noLink />
             <div className="flex flex-col leading-tight">
               <span className="font-bold text-sm text-slate-900">🏖️ Riviera Românească</span>
-              <span className="text-[10px] uppercase tracking-wider text-amber-600">Misiune EPD</span>
+              <span className="text-[10px] uppercase tracking-wider text-violet-600">Misiune EPD</span>
             </div>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <Link to="/" className="text-slate-600 hover:text-amber-700">Acasă</Link>
-            <a href="#viziune" className="text-slate-600 hover:text-amber-700">Viziune</a>
-            <a href="#statiuni" className="text-slate-600 hover:text-amber-700">15 stațiuni</a>
-            <a href="#actiune" className="text-slate-600 hover:text-amber-700">Susține</a>
-            <Link to="/register" className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-400 hover:to-orange-400 rounded-lg font-semibold text-sm transition-all shadow-md">Susține misiunea</Link>
+            <Link to="/" className="text-slate-600 hover:text-violet-700">Acasă</Link>
+            <a href="#viziune" className="text-slate-600 hover:text-violet-700">Viziune</a>
+            <a href="#statiuni" className="text-slate-600 hover:text-violet-700">15 stațiuni</a>
+            <a href="#actiune" className="text-slate-600 hover:text-violet-700">Susține</a>
+            <Link to="/register" className="px-4 py-2 bg-gradient-to-r from-violet-500 to-violet-500 text-white hover:from-violet-400 hover:to-violet-400 rounded-lg font-semibold text-sm transition-all shadow-md">Susține misiunea</Link>
           </nav>
         </div>
       </header>
@@ -102,16 +102,16 @@ export default function RivieraRomaneasca() {
           </div>
           <h1 className="text-4xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-5">
             Riviera Românească. <br />
-            <span className="text-amber-100">Modernizare reală. Autenticitate.</span>
+            <span className="text-violet-100">Modernizare reală. Autenticitate.</span>
           </h1>
-          <p className="text-amber-50/90 text-base md:text-xl max-w-3xl mb-8 leading-relaxed">
+          <p className="text-violet-50/90 text-base md:text-xl max-w-3xl mb-8 leading-relaxed">
             Reabilitarea litoralului Mării Negre — de la Năvodari la Vama Veche — într-un standard contemporan, cu
             <strong> vegetație autohtonă rezistentă</strong>, infrastructură nouă și identitate carpato-pontică.
             <strong> NU vrem să furăm clienți</strong> din Grecia, Bulgaria sau Turcia. <strong>Vrem românii înapoi
             acasă</strong>, într-o destinație în care merită să-și petreacă vacanța. <strong>O misiune EPD.</strong>
           </p>
           <div className="flex flex-wrap items-center gap-3">
-            <a href="#statiuni" className="px-6 py-3 bg-white text-orange-600 hover:bg-amber-50 rounded-lg font-bold text-sm flex items-center gap-2 shadow-2xl transition-all" data-testid="cta-statiuni">
+            <a href="#statiuni" className="px-6 py-3 bg-white text-violet-600 hover:bg-violet-50 rounded-lg font-bold text-sm flex items-center gap-2 shadow-2xl transition-all" data-testid="cta-statiuni">
               Vezi cele 15 stațiuni <ArrowRight className="w-4 h-4" />
             </a>
             <a href="#actiune" className="px-6 py-3 bg-white/15 hover:bg-white/25 backdrop-blur border border-white/30 rounded-lg font-semibold text-sm transition-all">
@@ -122,7 +122,7 @@ export default function RivieraRomaneasca() {
             {KPIS.map(k => (
               <div key={k.label} data-testid={`kpi-${k.label.toLowerCase().replace(/\s+/g, '-')}`}>
                 <div className="text-4xl md:text-5xl font-bold tabular-nums">{k.value}</div>
-                <div className="text-amber-100/80 text-xs uppercase tracking-wider mt-1">{k.label}</div>
+                <div className="text-violet-100/80 text-xs uppercase tracking-wider mt-1">{k.label}</div>
               </div>
             ))}
           </div>
@@ -133,7 +133,7 @@ export default function RivieraRomaneasca() {
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-orange-600 font-bold mb-2">// Pilonii proiectului</div>
+            <div className="text-[10px] uppercase tracking-[0.25em] text-violet-600 font-bold mb-2">// Pilonii proiectului</div>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900">6 piloni care transformă litoralul.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" data-testid="riviera-pillars">
@@ -141,7 +141,7 @@ export default function RivieraRomaneasca() {
               const Icon = p.icon;
               return (
                 <div key={p.label} className="p-6 bg-white border border-slate-200 rounded-xl hover:border-orange-300 hover:shadow-lg transition-all hover-lift" data-testid={`pillar-${p.label.toLowerCase().replace(/[\s.,]+/g, '-').slice(0, 30)}`}>
-                  <div className="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 text-white mb-3 shadow-md">
+                  <div className="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-gradient-to-br from-violet-500 to-violet-600 text-white mb-3 shadow-md">
                     <Icon className="w-5 h-5" />
                   </div>
                   <div className="font-bold text-slate-900 mb-1">{p.label}</div>
@@ -154,10 +154,10 @@ export default function RivieraRomaneasca() {
       </section>
 
       {/* Cele 15 stațiuni */}
-      <section id="statiuni" className="py-20 bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50">
+      <section id="statiuni" className="py-20 bg-gradient-to-br from-violet-50 via-violet-50 to-rose-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-10">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-orange-600 font-bold mb-2">// {STATIUNI.length} stațiuni · {TOTAL_KM} km</div>
+            <div className="text-[10px] uppercase tracking-[0.25em] text-violet-600 font-bold mb-2">// {STATIUNI.length} stațiuni · {TOTAL_KM} km</div>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Riviera completă, de la Năvodari la Vama Veche.</h2>
             <p className="text-slate-600 mt-3 max-w-2xl mx-auto">
               Fiecare stațiune își păstrează identitatea unică, dar toate sunt unite prin promenada de
@@ -169,10 +169,10 @@ export default function RivieraRomaneasca() {
               <div key={s.id} className="p-5 bg-white border border-orange-200 rounded-xl hover:border-orange-400 hover:shadow-lg transition-all group" data-testid={`statiune-${s.id}`}>
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold text-xs flex items-center justify-center">{idx + 1}</span>
+                    <span className="w-7 h-7 rounded-full bg-gradient-to-br from-violet-500 to-violet-600 text-white font-bold text-xs flex items-center justify-center">{idx + 1}</span>
                     <h3 className="font-bold text-slate-900">{s.nume}</h3>
                   </div>
-                  <span className="text-xs font-bold text-orange-600 tabular-nums px-2 py-0.5 bg-orange-50 rounded">{s.km} km</span>
+                  <span className="text-xs font-bold text-violet-600 tabular-nums px-2 py-0.5 bg-violet-50 rounded">{s.km} km</span>
                 </div>
                 <p className="text-sm text-slate-500 leading-relaxed">{s.desc}</p>
               </div>
@@ -185,11 +185,11 @@ export default function RivieraRomaneasca() {
       <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, rgba(251,191,36,0.4) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(244,63,94,0.3) 0%, transparent 50%)' }} />
         <div className="relative max-w-5xl mx-auto px-6">
-          <div className="text-[10px] uppercase tracking-[0.25em] text-amber-400 font-bold mb-3">// Lecții urbanistice — nu copii de stil</div>
+          <div className="text-[10px] uppercase tracking-[0.25em] text-violet-400 font-bold mb-3">// Lecții urbanistice — nu copii de stil</div>
           <h2 className="text-3xl md:text-4xl font-bold mb-3 max-w-3xl">Studii de caz internaționale, identitate românească.</h2>
           <p className="text-slate-300 mb-8 max-w-3xl">
             Studiem ce a funcționat altundeva — în infrastructură, accesibilitate, durabilitate.
-            Stilul, gastronomia, vegetația și cultura rămân <strong className="text-amber-200">100% românești</strong>.
+            Stilul, gastronomia, vegetația și cultura rămân <strong className="text-violet-200">100% românești</strong>.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="p-5 bg-white/5 backdrop-blur border border-white/10 rounded-xl">
@@ -205,9 +205,9 @@ export default function RivieraRomaneasca() {
               <div className="text-sm text-slate-300 leading-relaxed">Identitate locală conservată riguros, fără concesii pentru turismul de masă. Aplicăm filozofia; identitatea e românească autentică.</div>
             </div>
           </div>
-          <div className="mt-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
-            <div className="text-sm text-amber-100">
-              <strong className="text-amber-300">Important:</strong> NU construim &bdquo;Mini-Grecia&rdquo; sau &bdquo;Mini-Cancun&rdquo;. Construim Riviera Românească —
+          <div className="mt-6 p-4 bg-violet-500/10 border border-violet-500/30 rounded-lg">
+            <div className="text-sm text-violet-100">
+              <strong className="text-violet-300">Important:</strong> NU construim &bdquo;Mini-Grecia&rdquo; sau &bdquo;Mini-Cancun&rdquo;. Construim Riviera Românească —
               cu arhitectură contemporană inspirată din tradiția dobrogeană, gastronomie pescărească locală, festivaluri ale identității carpato-pontice.
             </div>
           </div>
@@ -223,7 +223,7 @@ export default function RivieraRomaneasca() {
       <section id="actiune" className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-10">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-orange-600 font-bold mb-2">// Cum poți ajuta</div>
+            <div className="text-[10px] uppercase tracking-[0.25em] text-violet-600 font-bold mb-2">// Cum poți ajuta</div>
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900">5 moduri să devii parte din misiune.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4" data-testid="actiune-grid">
@@ -235,7 +235,7 @@ export default function RivieraRomaneasca() {
               { num: 5, label: 'Lobby legal', desc: 'Susține adoptarea unei Legi a Litoralului Românesc.' },
             ].map((a) => (
               <div key={a.num} className="p-5 bg-white border border-orange-200 rounded-xl hover:border-orange-400 hover:shadow-lg transition-all text-center" data-testid={`actiune-${a.num}`}>
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold text-xl flex items-center justify-center mx-auto mb-3">{a.num}</div>
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-violet-600 text-white font-bold text-xl flex items-center justify-center mx-auto mb-3">{a.num}</div>
                 <div className="font-bold text-slate-900 mb-1">{a.label}</div>
                 <div className="text-xs text-slate-500 leading-relaxed">{a.desc}</div>
               </div>
@@ -250,20 +250,20 @@ export default function RivieraRomaneasca() {
       }}>
         <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.4) 0%, transparent 60%)' }} />
         <div className="relative max-w-4xl mx-auto px-6 text-center">
-          <Waves className="w-16 h-16 mx-auto mb-4 text-amber-100" />
+          <Waves className="w-16 h-16 mx-auto mb-4 text-violet-100" />
           <h2 className="text-3xl md:text-5xl font-bold mb-4">Renașterea litoralului începe cu un click.</h2>
-          <p className="text-amber-50/90 mb-8 max-w-2xl mx-auto text-base md:text-lg">
+          <p className="text-violet-50/90 mb-8 max-w-2xl mx-auto text-base md:text-lg">
             Înscrie-te pentru actualizări săptămânale, semnează petiția și hai să schimbăm împreună litoralul nostru.
             România merită un litoral modernizat real — nu un decor copiat din alte țări.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <Link to="/register" className="px-6 py-3 bg-white text-orange-600 hover:bg-amber-50 rounded-lg font-bold text-sm flex items-center gap-2 shadow-2xl transition-all" data-testid="cta-register">
+            <Link to="/register" className="px-6 py-3 bg-white text-violet-600 hover:bg-violet-50 rounded-lg font-bold text-sm flex items-center gap-2 shadow-2xl transition-all" data-testid="cta-register">
               <Sun className="w-4 h-4" /> Înscrie-te pentru BETA
             </Link>
             <Link to="/donations" className="px-6 py-3 bg-white/15 hover:bg-white/25 backdrop-blur border border-white/30 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all" data-testid="cta-donate">
               <Heart className="w-4 h-4" /> Donează 100 RON (1 m² promenadă)
             </Link>
-            <Link to="/" className="px-6 py-3 text-amber-50 hover:text-white transition-colors font-medium text-sm">
+            <Link to="/" className="px-6 py-3 text-violet-50 hover:text-white transition-colors font-medium text-sm">
               ← Înapoi la EPD
             </Link>
           </div>

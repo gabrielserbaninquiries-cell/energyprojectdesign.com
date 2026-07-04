@@ -294,7 +294,7 @@ export default function RegistryFieldsTab({ data, onUpdateField, pid }) {
                                 <label className="flex items-start gap-1 mb-1">
                                   {isFilled
                                     ? <CheckCircle2 className="w-3 h-3 text-green-600 shrink-0 mt-0.5" />
-                                    : <AlertCircle className="w-3 h-3 text-amber-500 shrink-0 mt-0.5" />}
+                                    : <AlertCircle className="w-3 h-3 text-violet-500 shrink-0 mt-0.5" />}
                                   <span className="text-zinc-700 font-semibold flex-1 leading-tight">
                                     {f.label}
                                     {f.required && <span className="text-red-500 ml-0.5">*</span>}

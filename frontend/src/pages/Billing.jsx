@@ -14,7 +14,7 @@ import {
 const STATUS_BADGE = {
   paid:      { bg: 'bg-green-100', txt: 'text-green-800', label: 'Plătit' },
   initiated: { bg: 'bg-zinc-100',  txt: 'text-zinc-700',  label: 'Inițiat' },
-  open:      { bg: 'bg-amber-100', txt: 'text-amber-800', label: 'Deschis' },
+  open:      { bg: 'bg-violet-100', txt: 'text-violet-800', label: 'Deschis' },
   expired:   { bg: 'bg-red-100',   txt: 'text-red-800',   label: 'Expirat' },
   failed:    { bg: 'bg-red-100',   txt: 'text-red-800',   label: 'Eșuat' },
 };
@@ -68,7 +68,7 @@ export default function Billing() {
             <button onClick={load} className="text-xs flex items-center gap-1.5 px-3 py-1.5 border border-zinc-200 hover:bg-zinc-50" data-testid="billing-refresh">
               <RefreshCcw className="w-3 h-3" /> Reîncarcă
             </button>
-            <Link to="/pricing" className="text-xs flex items-center gap-1.5 px-3 py-1.5 bg-[#FFB300] text-black font-semibold hover:bg-amber-400" data-testid="billing-upgrade">
+            <Link to="/pricing" className="text-xs flex items-center gap-1.5 px-3 py-1.5 bg-[#FFB300] text-black font-semibold hover:bg-violet-400" data-testid="billing-upgrade">
               <ArrowUpRight className="w-3 h-3" /> Schimbă plan
             </Link>
           </div>

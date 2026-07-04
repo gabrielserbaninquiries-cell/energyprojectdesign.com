@@ -14,7 +14,7 @@ const TARGETS = [
   { id: 'primarie',     label: 'Primărie',                icon: Building2,    color: 'border-blue-300 hover:border-blue-500 hover:bg-blue-50 text-blue-700',
     default_subject: 'Documentație tehnică pentru autorizare',
     default_body: 'Stimată Doamnă/Domnule,\n\nVă transmitem documentația tehnică pentru emiterea Certificatului de Urbanism / Autorizației de Construire.\n\nCu stimă,' },
-  { id: 'diriginte',    label: 'Diriginte de șantier',    icon: HardHat,      color: 'border-amber-300 hover:border-amber-500 hover:bg-amber-50 text-amber-700',
+  { id: 'diriginte',    label: 'Diriginte de șantier',    icon: HardHat,      color: 'border-violet-300 hover:border-violet-500 hover:bg-violet-50 text-violet-700',
     default_subject: 'Documentație execuție lucrare gaze naturale',
     default_body: 'Domnule diriginte,\n\nVă transmitem dosarul de execuție pentru lucrarea de gaze naturale.\n\nCu stimă,' },
   { id: 'contabilitate',label: 'Contabilitate',           icon: Calculator,   color: 'border-emerald-300 hover:border-emerald-500 hover:bg-emerald-50 text-emerald-700',
@@ -142,7 +142,7 @@ export default function GasMailDispatchPanel({ documents = [] }) {
         })}
       </div>
       {documents.length === 0 && (
-        <div className="px-5 py-3 border-t border-gray-200 text-xs text-amber-700 bg-amber-50 flex items-center gap-2">
+        <div className="px-5 py-3 border-t border-gray-200 text-xs text-violet-700 bg-violet-50 flex items-center gap-2">
           <FileText className="w-3.5 h-3.5" />
           Generați mai întâi un document (DOCX) din secțiunea „Documente" pentru a putea trimite.
         </div>

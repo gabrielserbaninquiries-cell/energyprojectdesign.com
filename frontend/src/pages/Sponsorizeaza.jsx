@@ -396,23 +396,97 @@ export default function Sponsorizeaza() {
         </div>
       </section>
 
-      {/* Bottom — Bank transfer alternative */}
-      <section className="py-12 bg-slate-50 border-t border-slate-200">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <div className="text-xs uppercase tracking-[0.25em] text-zinc-600 font-semibold mb-3">// Alternativă: virament bancar direct</div>
-          <h3 className="text-2xl font-bold tracking-tight text-slate-900 mb-3">Preferi transfer bancar?</h3>
-          <p className="text-slate-600 mb-5 text-sm">Poți dona direct în contul Energy Project Design SRL:</p>
-          <div className="inline-flex flex-col items-start text-left bg-white border border-slate-200 rounded-lg p-5 epd-shadow text-sm">
-            <div className="grid grid-cols-2 gap-x-8 gap-y-1.5">
-              <div className="text-slate-500">Beneficiar:</div><div className="font-semibold text-slate-900">Energy Project Design S.R.L.</div>
-              <div className="text-slate-500">CUI:</div><div className="font-semibold text-slate-900 font-mono">{BRAND.cui}</div>
-              <div className="text-slate-500">Reg. Com.:</div><div className="font-semibold text-slate-900 font-mono">{BRAND.regCom}</div>
-              <div className="text-slate-500">IBAN RON:</div><div className="font-semibold text-zinc-950 font-mono text-xs">Solicită prin email contact</div>
-              <div className="text-slate-500">IBAN EUR:</div><div className="font-semibold text-zinc-950 font-mono text-xs">Solicită prin email contact</div>
-              <div className="text-slate-500">Email contact:</div><div className="font-semibold text-zinc-950">{BRAND.contactEmail}</div>
+      {/* V1.2 — Bank transfer + Business Partnerships (conturi reale user, Feb 2026) */}
+      <section className="py-16 bg-zinc-50 border-t border-zinc-200" data-testid="bank-and-partnerships">
+        <div className="max-w-6xl mx-auto px-6 lg:px-12">
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* CONTURI BANCARE — donații */}
+            <div className="bg-white border border-zinc-200 rounded-md p-7" data-testid="bank-accounts-card">
+              <div className="text-[10px] uppercase tracking-[0.28em] text-violet-600 font-bold mb-3">// Virament bancar direct — donații</div>
+              <h3 className="text-2xl font-bold tracking-[-0.02em] text-zinc-950 mb-4 font-display">Conturi Revolut oficiale</h3>
+              <p className="text-sm text-zinc-600 mb-5">Alternativă la Stripe. Suportă atât persoane fizice, cât și persoane juridice.</p>
+
+              {/* Cont personal — Dragoș Șerban */}
+              <div className="mb-4 p-4 bg-zinc-50 border border-zinc-200 rounded-md">
+                <div className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-semibold mb-2">Cont personal (fondator)</div>
+                <div className="text-sm text-zinc-950 font-semibold mb-1">Șerban Dragoș-Iulian</div>
+                <div className="flex items-center justify-between gap-2 mt-2">
+                  <code className="font-mono text-[13px] text-zinc-950 tracking-wide select-all" data-testid="iban-personal">RO22 REVO 0000 1555 6872 4293</code>
+                  <button
+                    onClick={() => { navigator.clipboard?.writeText('RO22REVO00001556872 4293'.replace(/\s/g, '')); }}
+                    className="px-2.5 py-1 text-[10px] uppercase tracking-wider font-bold text-violet-700 hover:text-white hover:bg-violet-700 border border-violet-300 rounded transition-all"
+                    data-testid="copy-iban-personal"
+                    title="Copiază IBAN"
+                  >Copiază</button>
+                </div>
+                <div className="text-[10px] text-zinc-500 mt-2 font-mono">Bank: Revolut · Currency: RON</div>
+              </div>
+
+              {/* Cont business — EPD SRL */}
+              <div className="p-4 bg-white border-2 border-violet-300 rounded-md">
+                <div className="text-[10px] uppercase tracking-[0.22em] text-violet-700 font-bold mb-2">Cont business — societate</div>
+                <div className="text-sm text-zinc-950 font-semibold mb-1">{BRAND.legalName}</div>
+                <div className="text-[11px] text-zinc-500 mb-2">CUI: {BRAND.cui} · Reg. Com.: {BRAND.regCom}</div>
+                <div className="flex items-center justify-between gap-2 mt-2">
+                  <code className="font-mono text-[13px] text-zinc-950 tracking-wide select-all" data-testid="iban-business">RO45 REVO 0000 3628 9665 7157</code>
+                  <button
+                    onClick={() => { navigator.clipboard?.writeText('RO45REVO0000362896657157'); }}
+                    className="px-2.5 py-1 text-[10px] uppercase tracking-wider font-bold text-white bg-violet-700 hover:bg-violet-800 rounded transition-all"
+                    data-testid="copy-iban-business"
+                    title="Copiază IBAN"
+                  >Copiază</button>
+                </div>
+                <div className="text-[10px] text-zinc-500 mt-2 font-mono">Bank: Revolut Business · Recomandat pentru donații deductibile fiscal</div>
+              </div>
+
+              <p className="text-[11px] text-zinc-500 mt-4 italic leading-relaxed">
+                Mențiune obligatorie: <strong className="text-zinc-900">„Donație — dezvoltare platformă EPD"</strong>.
+                Emitem factură/chitanță automat prin email pentru orice virament identificat.
+              </p>
+            </div>
+
+            {/* BUSINESS & PARTENERIATE */}
+            <div className="bg-zinc-950 text-white rounded-md p-7 relative overflow-hidden" data-testid="business-partnerships-card">
+              <div className="absolute inset-0 opacity-30 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(124,58,237,0.4) 0%, transparent 55%), radial-gradient(circle at 80% 80%, rgba(76,29,149,0.3) 0%, transparent 60%)' }} />
+              <div className="relative">
+                <div className="text-[10px] uppercase tracking-[0.28em] text-violet-400 font-bold mb-3">// Business & Parteneriate</div>
+                <h3 className="text-2xl font-bold tracking-[-0.02em] mb-4 font-display">Colaborăm la scară.</h3>
+                <p className="text-sm text-zinc-300 mb-6 leading-relaxed">
+                  Suntem deschiși pentru parteneriate cu operatori OSD, primării, autorități publice, firme de proiectare-execuție, investitori, integratori tehnologici și instituții financiare care doresc să facă parte din primul ecosistem digital global de documentație tehnică certificată.
+                </p>
+
+                <div className="space-y-3 text-sm">
+                  {[
+                    { k: 'Parteneriate B2B', v: 'Operatori OSD gaze, distribuitori electric, telecom' },
+                    { k: 'Integrări tehnologice', v: 'ANRE · ONRC · ANAF · SPV · eIDAS QES' },
+                    { k: 'Investitori & Fonduri', v: 'Rundă seed / A pentru extindere globală' },
+                    { k: 'Instituții publice', v: 'Primării · Prefecturi · ISU · ISC · MDLPA' },
+                  ].map(it => (
+                    <div key={it.k} className="flex items-start gap-3 py-2 border-b border-white/10">
+                      <span className="text-violet-400 font-bold text-lg leading-none">·</span>
+                      <div className="flex-1">
+                        <div className="font-semibold text-white text-sm">{it.k}</div>
+                        <div className="text-[11px] text-zinc-400">{it.v}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6 flex flex-wrap gap-2.5">
+                  <a href={`mailto:${BRAND.contactEmail}?subject=Cerere%20parteneriat%20EPD`} className="inline-flex items-center gap-2 bg-white text-zinc-950 hover:bg-violet-50 font-semibold px-5 py-2.5 rounded-md text-sm transition-all" data-testid="partnership-email-cta">
+                    Scrie-ne pe email
+                  </a>
+                  <Link to="/investitori" className="inline-flex items-center gap-2 text-white border border-white/25 hover:border-violet-400 hover:text-violet-300 px-5 py-2.5 rounded-md text-sm transition-all font-medium" data-testid="partnership-investors-cta">
+                    Pachet investitori →
+                  </Link>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-white/10 text-[11px] text-zinc-400 font-mono">
+                  {BRAND.contactEmail} · {BRAND.address}
+                </div>
+              </div>
             </div>
           </div>
-          <p className="text-xs text-slate-500 mt-5 italic">Mențiune obligatorie: „Donație - dezvoltare platformă EPD&rdquo;</p>
         </div>
       </section>
 

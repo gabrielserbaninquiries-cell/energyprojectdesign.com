@@ -14,7 +14,7 @@ function MetricCard({ label, value, unit, icon: Icon, accent = 'violet' }) {
     violet: 'from-violet-500 to-indigo-600',
     blue: 'from-blue-500 to-cyan-600',
     emerald: 'from-emerald-500 to-teal-600',
-    amber: 'from-amber-500 to-orange-600',
+    amber: 'from-violet-500 to-violet-600',
     rose: 'from-rose-500 to-pink-600',
   }[accent] || 'from-violet-500 to-indigo-600';
   return (

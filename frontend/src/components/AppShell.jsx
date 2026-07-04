@@ -70,7 +70,7 @@ export default function AppShell({ children, title, subtitle }) {
   const bannerBg = banner?.maintenance_mode || banner?.announcement_level === 'danger'
     ? 'bg-rose-600 text-white'
     : banner?.announcement_level === 'warning'
-    ? 'bg-amber-500 text-black'
+    ? 'bg-violet-500 text-black'
     : banner?.announcement_level === 'success'
     ? 'bg-emerald-600 text-white'
     : 'bg-sky-600 text-white';
@@ -131,7 +131,7 @@ export default function AppShell({ children, title, subtitle }) {
 
           {!menuLoading && (user?.is_developer || user?.is_admin) && (
             <div>
-              <div className="px-3 mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-orange-600">
+              <div className="px-3 mb-1.5 flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] text-violet-600">
                 <Terminal className="w-3 h-3" />
                 <span>Developer Tools</span>
               </div>

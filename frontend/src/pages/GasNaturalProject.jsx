@@ -88,7 +88,7 @@ function GasProjectsList() {
           {filtered.map((p) => (
             <Link key={p.pid} to={`/gaze-naturale/${p.pid}`} className="bg-white p-5 hover:bg-gray-50" data-testid={`gas-card-${p.pid}`}>
               <div className="flex items-start justify-between mb-3">
-                <div className="w-10 h-10 bg-orange-50 text-orange-600 flex items-center justify-center"><Flame className="w-5 h-5" /></div>
+                <div className="w-10 h-10 bg-violet-50 text-violet-600 flex items-center justify-center"><Flame className="w-5 h-5" /></div>
                 {p.status === 'signed' ? (
                   <span className="text-[10px] uppercase tracking-wider bg-green-50 text-green-700 px-2 py-1 flex items-center gap-1"><ShieldCheck className="w-3 h-3" />Semnat</span>
                 ) : (
@@ -96,7 +96,7 @@ function GasProjectsList() {
                 )}
               </div>
               <div className="font-semibold mb-1 line-clamp-1">{p.title}</div>
-              <div className="text-[10px] uppercase tracking-wider text-amber-700 mb-1">{p.subdomain || '—'}</div>
+              <div className="text-[10px] uppercase tracking-wider text-violet-700 mb-1">{p.subdomain || '—'}</div>
               <div className="text-xs text-gray-500 mb-3">{(p.data?.beneficiar_nume || '—')} · {p.data?.loc_consum_localitate || '—'}</div>
               <div className="flex items-center gap-2 text-xs">
                 <div className="flex-1 h-1.5 bg-gray-100 overflow-hidden">
@@ -128,7 +128,7 @@ function IndustryOverview() {
   })(); }, []);
   if (!meta) return null;
   return (
-    <div className="bg-gradient-to-br from-amber-50 to-white border border-amber-200 p-6" data-testid="gas-industry-overview">
+    <div className="bg-gradient-to-br from-violet-50 to-white border border-violet-200 p-6" data-testid="gas-industry-overview">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 bg-[#FFB300] text-black flex items-center justify-center shrink-0"><Flame className="w-6 h-6" /></div>
@@ -143,7 +143,7 @@ function IndustryOverview() {
         </div>
       </div>
       <details className="mt-4">
-        <summary className="text-xs font-semibold cursor-pointer hover:text-amber-700 flex items-center gap-1">
+        <summary className="text-xs font-semibold cursor-pointer hover:text-violet-700 flex items-center gap-1">
           <BookOpen className="w-3 h-3" /> {meta.primary_norms.length} norme legale aplicabile (click pentru detalii)
         </summary>
         <ul className="mt-2 text-xs space-y-1 list-disc list-inside text-gray-700">
@@ -209,10 +209,10 @@ function CreateWizard({ onClose, onCreated }) {
             <div className="grid sm:grid-cols-2 gap-3" data-testid="wizard-subdomains">
               {subdomains.map((s) => (
                 <button key={s.id} onClick={() => { setSubdomain(s); setStep(2); }}
-                  className="text-left border border-gray-200 hover:border-[#FFB300] hover:bg-amber-50 p-4 transition-all"
+                  className="text-left border border-gray-200 hover:border-[#FFB300] hover:bg-violet-50 p-4 transition-all"
                   data-testid={`wizard-sub-${s.id}`}>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] uppercase tracking-wider text-amber-700">{s.category}</span>
+                    <span className="text-[10px] uppercase tracking-wider text-violet-700">{s.category}</span>
                     <span className="text-[10px] mono text-gray-500">{s.phases_count} faze</span>
                   </div>
                   <div className="font-semibold text-sm mb-1">{s.name}</div>
@@ -227,7 +227,7 @@ function CreateWizard({ onClose, onCreated }) {
 
         {step === 2 && subdomain && (
           <div className="p-5 space-y-4">
-            <div className="bg-amber-50 border-l-4 border-[#FFB300] p-3 text-xs">
+            <div className="bg-violet-50 border-l-4 border-[#FFB300] p-3 text-xs">
               <strong>{subdomain.name}</strong> · {subdomain.regime}
               <div className="text-gray-600 mt-1">{subdomain.description}</div>
             </div>
@@ -334,10 +334,10 @@ function DispatchModal({ pid, phase, onClose }) {
           <button onClick={onClose} className="text-gray-400 hover:text-black"><X className="w-5 h-5" /></button>
         </div>
         <div className="p-5 space-y-4">
-          <div className="bg-amber-50 border-l-4 border-[#FFB300] p-3 text-xs">
+          <div className="bg-violet-50 border-l-4 border-[#FFB300] p-3 text-xs">
             <strong>Destinatari recomandați conform fazei:</strong>{' '}
             {phase.recipients_default?.join(', ') || '—'}
-            <button onClick={autoFill} className="ml-2 underline text-amber-700" data-testid="dispatch-autofill">auto-completează din profilul tău</button>
+            <button onClick={autoFill} className="ml-2 underline text-violet-700" data-testid="dispatch-autofill">auto-completează din profilul tău</button>
           </div>
           <div>
             <label className="block text-xs font-semibold mb-1">Destinatari principali (email, virgulă-separat) *</label>
@@ -500,7 +500,7 @@ function GasProjectStudio() {
               <div className="text-xs text-gray-400 mt-1 flex flex-wrap gap-3">
                 <span>PID: <span className="mono">{proj.pid}</span></span>
                 <span>· Țară: {proj.country}</span>
-                <span>· Subdomeniu: <strong className="text-amber-300">{proj.subdomain}</strong></span>
+                <span>· Subdomeniu: <strong className="text-violet-300">{proj.subdomain}</strong></span>
                 {subdomainMeta?.regime && <span>· Regim: {subdomainMeta.regime}</span>}
               </div>
             </div>
@@ -531,7 +531,7 @@ function GasProjectStudio() {
               const done = pct === 100;
               return (
                 <button key={p.id} onClick={() => setActivePhase(p.id)}
-                  className={`w-full text-left p-3 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 ${isActive ? 'bg-amber-50 border-l-4 border-l-[#FFB300]' : ''}`}
+                  className={`w-full text-left p-3 border-b border-gray-200 last:border-b-0 hover:bg-gray-50 ${isActive ? 'bg-violet-50 border-l-4 border-l-[#FFB300]' : ''}`}
                   data-testid={`gas-phase-tab-${p.id}`}>
                   <div className="flex items-start gap-2.5">
                     <div className="mt-0.5">
@@ -624,7 +624,7 @@ function GasProjectStudio() {
 
               {/* Deliverables + recipients suggestion */}
               <div className="grid sm:grid-cols-2 gap-3 mb-5">
-                <div className="bg-amber-50 border-l-4 border-[#FFB300] p-3 text-xs">
+                <div className="bg-violet-50 border-l-4 border-[#FFB300] p-3 text-xs">
                   <div className="font-semibold mb-1">Livrabile faza:</div>
                   <ul className="list-disc list-inside text-gray-700 space-y-0.5">
                     {phase.deliverables.map((d, i) => <li key={i}>{d}</li>)}
@@ -653,7 +653,7 @@ function GasProjectStudio() {
 
               {/* Engineering calcs (collapsible) */}
               <div className="mb-6 border-t border-gray-200 pt-4">
-                <button onClick={() => setShowCalcs(!showCalcs)} className="text-xs font-semibold flex items-center gap-2 hover:text-amber-700" data-testid="gas-toggle-calcs">
+                <button onClick={() => setShowCalcs(!showCalcs)} className="text-xs font-semibold flex items-center gap-2 hover:text-violet-700" data-testid="gas-toggle-calcs">
                   <Calculator className="w-3.5 h-3.5" />
                   {showCalcs ? 'Ascunde' : 'Arată'} calcule inginerești pentru această fază
                 </button>
@@ -863,7 +863,7 @@ function GasAvizeHub({ pid, projData }) {
                   )}
                   <div className="flex flex-wrap gap-1.5">
                     <button onClick={() => downloadZip(a.id)} disabled={busy === `zip-${a.id}`}
-                      className="text-[10px] inline-flex items-center gap-1 bg-amber-50 border border-amber-300 px-2 py-1 hover:bg-amber-100 disabled:opacity-50"
+                      className="text-[10px] inline-flex items-center gap-1 bg-violet-50 border border-violet-300 px-2 py-1 hover:bg-violet-100 disabled:opacity-50"
                       data-testid={`gas-aviz-download-${a.id}`}>
                       {busy === `zip-${a.id}` ? <Loader2 className="w-3 h-3 animate-spin" /> : <Download className="w-3 h-3" />}
                       ZIP cerere + manifest
@@ -961,7 +961,7 @@ function GasDossierPanel({ pid }) {
   }
 
   return (
-    <div className="mt-6 border-2 border-amber-200 bg-amber-50/40 p-4" data-testid="gas-dossier-panel">
+    <div className="mt-6 border-2 border-violet-200 bg-violet-50/40 p-4" data-testid="gas-dossier-panel">
       <div className="label mb-2">// dosar legal complet</div>
       <div className="text-xs text-gray-700 mb-3 leading-relaxed">
         Generează automat <strong>8 documente legale</strong> (DOCX) cu toate datele proiectului, placeholdere și condiționale <code className="bg-white px-1">if</code>, conform NTPEE 2018 + HG 907/2016 + Legea 50/1991.
@@ -984,13 +984,13 @@ function GasDossierPanel({ pid }) {
             key={t.id}
             onClick={() => downloadFile(`/gas-project/${pid}/doc/${t.id}`, `${t.id}_${pid}.docx`)}
             disabled={!!busy}
-            className="w-full text-left flex items-start gap-2 p-2 border border-gray-200 bg-white hover:bg-gray-50 hover:border-amber-300 transition-colors disabled:opacity-50"
+            className="w-full text-left flex items-start gap-2 p-2 border border-gray-200 bg-white hover:bg-gray-50 hover:border-violet-300 transition-colors disabled:opacity-50"
             data-testid={`gas-download-doc-${t.id}`}
           >
             {busy === `/gas-project/${pid}/doc/${t.id}` ? (
               <Loader2 className="w-3 h-3 animate-spin shrink-0 mt-0.5" />
             ) : (
-              <FileText className="w-3 h-3 shrink-0 mt-0.5 text-amber-600" />
+              <FileText className="w-3 h-3 shrink-0 mt-0.5 text-violet-600" />
             )}
             <div className="flex-1 min-w-0">
               <div className="text-[11px] font-semibold leading-tight">{t.label}</div>

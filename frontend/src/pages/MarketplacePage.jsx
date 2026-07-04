@@ -74,7 +74,7 @@ export default function MarketplacePage() {
           <input value={filters.q} onChange={(e) => setFilters({ ...filters, q: e.target.value })}
             onKeyDown={(e) => e.key === 'Enter' && load()}
             placeholder="Caută țeavă, robineți, servicii..."
-            className="w-full pl-9 pr-3 py-2 border border-gray-300 text-sm focus:border-amber-500 outline-none"
+            className="w-full pl-9 pr-3 py-2 border border-gray-300 text-sm focus:border-violet-500 outline-none"
             data-testid="marketplace-search" />
         </div>
         <select value={filters.category} onChange={(e) => { setFilters({ ...filters, category: e.target.value }); }}
@@ -86,7 +86,7 @@ export default function MarketplacePage() {
           onChange={(e) => setFilters({ ...filters, max_price: e.target.value })}
           className="border border-gray-300 px-3 py-2 text-sm w-32" data-testid="marketplace-maxprice" />
         <button onClick={load} className="bg-black text-white px-4 py-2 text-sm hover:bg-gray-800" data-testid="marketplace-apply-filters">Aplică filtre</button>
-        <button onClick={() => setShowCreate(true)} className="bg-amber-500 text-black px-4 py-2 text-sm font-semibold hover:bg-amber-400 inline-flex items-center gap-1" data-testid="marketplace-new-listing">
+        <button onClick={() => setShowCreate(true)} className="bg-violet-500 text-black px-4 py-2 text-sm font-semibold hover:bg-violet-400 inline-flex items-center gap-1" data-testid="marketplace-new-listing">
           <Plus className="w-4 h-4" /> Publică anunț
         </button>
       </div>
@@ -95,18 +95,18 @@ export default function MarketplacePage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {listings.map((l) => (
-          <div key={l.listing_id} className="border-2 border-gray-200 bg-white hover:border-amber-400 transition" data-testid={`listing-${l.listing_id}`}>
+          <div key={l.listing_id} className="border-2 border-gray-200 bg-white hover:border-violet-400 transition" data-testid={`listing-${l.listing_id}`}>
             {l.images?.[0] ? (
               <div className="h-40 bg-gray-100 overflow-hidden">
                 <img src={l.images[0]} alt={l.title} className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className="h-40 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
-                <ShoppingBag className="w-12 h-12 text-amber-700" />
+              <div className="h-40 bg-gradient-to-br from-violet-100 to-violet-200 flex items-center justify-center">
+                <ShoppingBag className="w-12 h-12 text-violet-700" />
               </div>
             )}
             <div className="p-4">
-              <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-amber-700 mb-1">
+              <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-violet-700 mb-1">
                 <Tag className="w-3 h-3" /> {l.category}
                 {l.condition && <span className="text-gray-400">· {l.condition}</span>}
               </div>
@@ -169,7 +169,7 @@ export default function MarketplacePage() {
             </div>
             <div className="px-5 py-3 border-t border-gray-200 flex justify-end gap-2">
               <button onClick={() => setShowCreate(false)} className="px-4 py-2 text-sm border border-gray-300 hover:bg-gray-50">Anulează</button>
-              <button onClick={submit} className="px-4 py-2 text-sm bg-amber-500 text-black font-semibold hover:bg-amber-400" data-testid="marketplace-submit-listing">Publică</button>
+              <button onClick={submit} className="px-4 py-2 text-sm bg-violet-500 text-black font-semibold hover:bg-violet-400" data-testid="marketplace-submit-listing">Publică</button>
             </div>
           </div>
         </div>

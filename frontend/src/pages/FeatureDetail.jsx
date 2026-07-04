@@ -169,7 +169,7 @@ const FEATURE_DETAILS = {
 
 const STATUS_LABELS = {
   active: { bg: 'bg-green-50', color: 'text-green-700', label: 'Activ' },
-  partial: { bg: 'bg-amber-50', color: 'text-amber-700', label: 'Parțial' },
+  partial: { bg: 'bg-violet-50', color: 'text-violet-700', label: 'Parțial' },
   skeleton: { bg: 'bg-blue-50', color: 'text-blue-700', label: 'Schelet' },
   planned: { bg: 'bg-gray-100', color: 'text-gray-600', label: 'Planificat' },
 };
@@ -261,7 +261,7 @@ export default function FeatureDetail() {
             </ul>
           </div>
 
-          <div className="bg-amber-50 border-l-4 border-[#FFB300] p-4">
+          <div className="bg-violet-50 border-l-4 border-[#FFB300] p-4">
             <BookOpen className="w-4 h-4 text-[#FFB300] mb-2" />
             <p className="text-xs text-gray-700 leading-relaxed">
               Această pagină este <strong>schelet</strong>. Funcționalitatea completă va fi implementată progresiv pe baza listei TO-DO din <span className="font-mono">/app/memory/LIST_1_TODO.md</span>.

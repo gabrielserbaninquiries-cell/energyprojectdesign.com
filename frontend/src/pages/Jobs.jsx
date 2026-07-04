@@ -84,18 +84,18 @@ export default function Jobs() {
       <div className="space-y-6" data-testid="jobs-page">
         <header className="flex items-end justify-between border-b border-zinc-800 pb-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-amber-400/80">// MARKETPLACE</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-violet-400/80">// MARKETPLACE</p>
             <h1 className="text-4xl font-bold mt-2">Job Board ANRE</h1>
             <p className="text-sm text-zinc-400 mt-2">Anunțuri publice pentru proiectanți autorizați, executanți și verificatori VGD/RTE.</p>
           </div>
-          <Badge variant="outline" className="border-amber-500/40 text-amber-300">
+          <Badge variant="outline" className="border-violet-500/40 text-violet-300">
             <Globe className="w-3.5 h-3.5 mr-1" /> {isAdmin ? 'Vizualizare ADMIN' : 'Listing public'}
           </Badge>
         </header>
 
         {isAdmin && (
           <Card className="p-6 bg-zinc-950/70 border-zinc-800" data-testid="jobs-create-card">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2"><Plus className="w-4 h-4 text-amber-400" /> Anunț nou</h2>
+            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2"><Plus className="w-4 h-4 text-violet-400" /> Anunț nou</h2>
             <div className="grid md:grid-cols-2 gap-3">
               <Input data-testid="job-title" placeholder="Titlu (ex: Proiectant gaze naturale RO)" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
               <Input data-testid="job-location" placeholder="Locație (ex: București, Cluj)" value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} />
@@ -112,7 +112,7 @@ export default function Jobs() {
                 <input type="checkbox" checked={form.is_public} onChange={e => setForm({ ...form, is_public: e.target.checked })} /> Public (vizibil în feed-ul /jobs)
               </label>
             </div>
-            <Button onClick={create} data-testid="job-publish-btn" className="mt-4 bg-amber-500 hover:bg-amber-400 text-black font-semibold">Publică anunțul</Button>
+            <Button onClick={create} data-testid="job-publish-btn" className="mt-4 bg-violet-500 hover:bg-violet-400 text-black font-semibold">Publică anunțul</Button>
           </Card>
         )}
 
@@ -172,7 +172,7 @@ export default function Jobs() {
               ) : (
                 <div className="grid md:grid-cols-2 gap-4" data-testid="jobs-list">
                   {filtered.map(job => (
-                    <Card key={job.id} className="p-5 bg-zinc-950/70 border-zinc-800 hover:border-amber-500/40 transition" data-testid={`job-${job.id}`}>
+                    <Card key={job.id} className="p-5 bg-zinc-950/70 border-zinc-800 hover:border-violet-500/40 transition" data-testid={`job-${job.id}`}>
                       <div className="flex justify-between items-start gap-3 mb-3">
                         <div>
                           <h3 className="font-semibold text-lg">{job.title}</h3>
