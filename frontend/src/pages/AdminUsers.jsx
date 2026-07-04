@@ -4,10 +4,11 @@ import api from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
 import {
-  Flame, Users, Trash2, Shield, ShieldCheck, ArrowLeft, Search, Save,
+  Users, Trash2, Shield, ShieldCheck, ArrowLeft, Search, Save,
   UserX, UserCheck, Filter, Download, TrendingUp, KeyRound,
 } from 'lucide-react';
 import useSEO from '../hooks/useSEO';
+import EPDLogo from '../components/EPDLogo';
 
 const PLAN_OPTIONS = [
   'free', 'trial', 'basic', 'operator', 'proiectant', 'executant', 'avize',
@@ -204,13 +205,10 @@ export default function AdminUsers() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white sticky top-0 z-30">
+      <header className="border-b border-zinc-200 bg-white/95 backdrop-blur-xl sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center"><Flame className="w-4 h-4" /></div>
-            <div className="font-bold tracking-tight">Energy Project<span className="text-[#FFB300]"> Design</span></div>
-          </Link>
-          <Link to="/dashboard" className="text-sm text-slate-600 hover:text-black flex items-center gap-2"><ArrowLeft className="w-4 h-4" /> Dashboard</Link>
+          <EPDLogo />
+          <Link to="/dashboard" className="text-sm text-zinc-600 hover:text-zinc-950 flex items-center gap-2"><ArrowLeft className="w-4 h-4" /> Dashboard</Link>
         </div>
       </header>
 

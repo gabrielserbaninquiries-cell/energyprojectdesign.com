@@ -3,8 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
-import { Check, Flame, ArrowLeft, Star, Hammer, ShieldCheck, FileSignature, BookOpenCheck, Vote, Palmtree, Plane, Car } from 'lucide-react';
+import { Check, ArrowLeft, Star, Hammer, ShieldCheck, FileSignature, BookOpenCheck, Vote, Palmtree, Plane, Car } from 'lucide-react';
 import useSEO from '../hooks/useSEO';
+import EPDLogo from '../components/EPDLogo';
 
 const IN_DEVELOPMENT_ITEMS = [
   { icon: FileSignature, title: 'Semnătură QES eIDAS (DigiSign / certSIGN)', desc: 'Semnare criptografică legală a documentelor pentru VGD/RTE — integrare reală în lucru.' },
@@ -75,12 +76,9 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="border-b border-gray-200">
+      <header className="border-b border-zinc-200 bg-white/95 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center"><Flame className="w-4 h-4" strokeWidth={2.5} /></div>
-            <div className="font-bold tracking-tight">Energy Project<span className="text-[#FFB300]"> Design</span></div>
-          </Link>
+          <EPDLogo />
           <Link to={user ? '/dashboard' : '/'} className="ghost-btn text-sm"><ArrowLeft className="w-4 h-4" /> Înapoi</Link>
         </div>
       </header>
@@ -89,7 +87,7 @@ export default function Pricing() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="label mb-3 text-center">// Planuri departamente</div>
           <h1 className="text-4xl lg:text-5xl font-bold tracking-tighter text-center mb-3">Planuri pentru fiecare departament tehnic.</h1>
-          <p className="text-gray-600 text-center max-w-2xl mx-auto mb-12">Prețuri în EUR per utilizator/lună. Plată prin Stripe, anulați oricând. Plan Societate pentru acces total — sau alegeți doar departamentele de care aveți nevoie.</p>
+          <p className="text-zinc-600 text-center max-w-2xl mx-auto mb-12">Prețuri în EUR per utilizator/lună. Plată prin Stripe, anulați oricând. Plan Societate pentru acces total — sau alegeți doar departamentele de care aveți nevoie.</p>
 
           {/* V12.0 — Servicii și funcții în dezvoltare (transparență publică) */}
           <section className="mb-12 border-2 border-violet-300 bg-violet-50/60 p-6 lg:p-8" data-testid="in-development-section">
@@ -128,8 +126,8 @@ export default function Pricing() {
               const isActive = user?.plan === p.id;
               const isOneTime = p.one_time || p.id === 'srl';
               return (
-                <div key={p.id} className={`bg-white p-7 flex flex-col relative ${highlight ? 'ring-2 ring-[#FFB300] ring-inset' : ''}`} data-testid={`plan-${p.id}`}>
-                  {highlight && <div className="absolute top-0 right-0 bg-[#FFB300] text-black text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 flex items-center gap-1"><Star className="w-3 h-3" /> Recomandat</div>}
+                <div key={p.id} className={`bg-white p-7 flex flex-col relative ${highlight ? 'ring-2 ring-zinc-950 ring-inset' : ''}`} data-testid={`plan-${p.id}`}>
+                  {highlight && <div className="absolute top-0 right-0 bg-zinc-950 text-white text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 flex items-center gap-1"><Star className="w-3 h-3" /> Recomandat</div>}
                   {isOneTime && <div className="absolute top-0 left-0 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1">Plată unică</div>}
                   <div className="label mb-2 mt-3">{p.label}</div>
                   <h3 className="text-2xl font-bold tracking-tight mb-3">{p.name}</h3>
@@ -152,7 +150,7 @@ export default function Pricing() {
                     onClick={() => onSelect(p.id)}
                     disabled={busy === p.id || isActive}
                     data-testid={`select-${p.id}`}
-                    className={highlight ? 'amber-btn w-full disabled:opacity-50 text-sm' : 'outline-btn w-full justify-center disabled:opacity-50 text-sm'}
+                    className={highlight ? 'epd-btn w-full disabled:opacity-50 text-sm' : 'outline-btn w-full justify-center disabled:opacity-50 text-sm'}
                   >
                     {isActive ? '✓ Plan activ' : (busy === p.id ? 'Se procesează...' : `Achiziționează — ${p.price_eur} EUR${isOneTime ? ' (unic)' : '/lună'}`)}
                   </button>

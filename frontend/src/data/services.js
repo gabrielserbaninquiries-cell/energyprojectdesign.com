@@ -115,11 +115,11 @@ export const EPD_ECOSYSTEM = [
   { category: 'Servicii cetățeni', id: 'florarii',        icon: '🌹', label: 'Florării',                     desc: 'Livrare flori worldwide + aranjamente + cadouri',
     image: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=600&q=80&auto=format&fit=crop' },
   { category: 'Servicii cetățeni', id: 'servicii-funerare', icon: '⚰️', label: 'Servicii funerare',          desc: 'Domiciliu sau locație, cu demnitate',
-    image: 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1601479604588-68d9e6d386b5?w=600&q=80&auto=format&fit=crop' },
 
   // === CONSTRUCȚII & AMENAJĂRI ===
   { category: 'Construcții & Amenajări', id: 'constructii-blocuri', icon: '🏢', label: 'Construcții blocuri',       desc: 'Rezidențial + comercial + industrial la cheie',
-    image: 'https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=600&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1591955506264-3f5a6834570a?w=600&q=80&auto=format&fit=crop' },
   { category: 'Construcții & Amenajări', id: 'anunt-lucrari',       icon: '🔨', label: 'Anunțuri lucrări',           desc: 'Vopsit bloc, reabilitare, placare polistiren, tencuială',
     image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80&auto=format&fit=crop' },
   { category: 'Construcții & Amenajări', id: 'amenajari-interioare', icon: '🛋️', label: 'Amenajări interioare',      desc: 'Design + execuție + materiale de la producători',
@@ -129,7 +129,7 @@ export const EPD_ECOSYSTEM = [
   { category: 'Construcții & Amenajări', id: 'constructii-drumuri', icon: '🛣️', label: 'Drumuri publice / autostrăzi', desc: 'Infrastructură rutieră publică cu licitații publice',
     image: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=600&q=80&auto=format&fit=crop' },
   { category: 'Construcții & Amenajări', id: 'intretinere-public',  icon: '🚧', label: 'Întreținere spațiu public',   desc: 'Iluminat, marcaje, verdeață, mobilier urban',
-    image: 'https://images.unsplash.com/photo-1519802772250-a52a9af0eacb?w=600&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1611256087036-5d67efbf983c?w=600&q=80&auto=format&fit=crop' },
 
   // === COMERȚ & E-COMMERCE ===
   { category: 'Comerț & E-commerce', id: 'mall-online',       icon: '🏬', label: 'Mall online (virtual)',      desc: 'Mall global — magazine sub un singur brand',
@@ -179,7 +179,7 @@ export const EPD_ECOSYSTEM = [
   { category: 'Muncă & Afaceri', id: 'business-locator',icon: '📍', label: 'Business Locator',                 desc: 'Găsește firma potrivită pentru orice serviciu, oriunde',
     image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80&auto=format&fit=crop' },
   { category: 'Muncă & Afaceri', id: 'b2b-affiliations',icon: '🤝', label: 'Afilieri Business-to-Business',    desc: 'Rețea de parteneriate + comisioane transparente',
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&auto=format&fit=crop' },
+    image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80&auto=format&fit=crop' },
   { category: 'Muncă & Afaceri', id: 'broker-db',       icon: '🗂️', label: 'Baze date pentru brokeraj',        desc: 'Companiile aleg liber să fie listate pentru produse/servicii',
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80&auto=format&fit=crop' },
   { category: 'Muncă & Afaceri', id: 'local-business',  icon: '🏪', label: 'Susținere afaceri locale',         desc: 'Program dedicat de vizibilitate pentru IMM-uri românești',

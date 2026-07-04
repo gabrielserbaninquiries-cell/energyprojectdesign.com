@@ -80,6 +80,7 @@ import Sponsorizeaza from './pages/Sponsorizeaza';
 import Constructii from './pages/Constructii';
 import DocumentatieElectronica from './pages/DocumentatieElectronica';
 import Contact from './pages/Contact';
+import AfaceriB2B from './pages/AfaceriB2B';
 import IndustrySeoPage from './pages/IndustrySeoPage';
 // V7.0 — High-end ecosystem pages
 import HomePageV7 from './pages/HomePageV7';
@@ -227,6 +228,8 @@ function AppRouter() {
       <Route path="/constructii" element={<Constructii />} />
       <Route path="/documentatie-electronica" element={<DocumentatieElectronica />} />
       <Route path="/contact" element={<Contact />} />
+      {/* V13.7 — Afaceri B2B (public, cerință explicită user — subpagină în navigația de sus) */}
+      <Route path="/afaceri-b2b" element={<AfaceriB2B />} />
 
       {/* V10.6 — 15+ industry SEO pages (public, multilingual, hreflang) */}
       <Route path="/investitori" element={<IndustrySeoPage />} />

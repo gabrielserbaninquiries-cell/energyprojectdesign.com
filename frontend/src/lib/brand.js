@@ -79,8 +79,8 @@ export const BRAND = {
   caen: '7112',
   tagline: 'Redesigning projects.',
   subTagline: 'The Architects of Future Global Technology',
-  // Public version — 10.6.0000 (versiune stabilă de producție, Feb 2026)
-  version: '10.6.0000',
+  // Public version — 10.7.0000 (V13.7 — Image audit + B2B subpage, Feb 2026)
+  version: '10.7.0000',
   versionCodename: 'Stable',
   description:
     'Platformă globală de proiectare, documentație tehnică digitală certificată și management de proiect — gaze naturale, energie regenerabilă, instalații, construcții și infrastructură.',

@@ -137,6 +137,34 @@ def get_pages_for_user(user_plan: str = "free", is_admin: bool = False, is_devel
     return result
 
 
+def get_all_pages_with_locks(user_plan: str = "free", is_admin: bool = False, is_developer: bool = False) -> List[Dict[str, Any]]:
+    """V13.8 — Trial preview mode.
+
+    Returnează TOATE paginile, fiecare marcată cu `locked=True/False` per plan curent.
+    Trial-ul user vede și paginile blocate (cu icoană de lacăt) — click pe ele îl duce
+    la /pricing cu banner de upgrade. Vezi cerință user (Feb 2026):
+      "pentru varianta de trial, mi-as dori sa faci disponibile toate functiile
+       developer-ului, dar sa fie limitate de executare comenzi, sa fie doar de
+       prezentare si explorare site!"
+    """
+    effective_plan = "developer" if is_developer else user_plan
+    result = []
+    for p in PAGES:
+        min_role = p.get("min_role")
+        # Determine locked state
+        role_blocked = (min_role == "admin" and not (is_admin or is_developer))
+        allowed = p["allowed_plans"]
+        plan_ok = ("*" in allowed) or (effective_plan in allowed)
+        locked = role_blocked or (not plan_ok)
+        entry = dict(p)
+        entry["locked"] = locked
+        # For locked pages, expose which plans unlock them
+        if locked:
+            entry["unlock_plans"] = [pl for pl in allowed if pl != "*"]
+        result.append(entry)
+    return result
+
+
 def group_by_department(pages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Grupează pagini pe departament, păstrând doar departamentele care au cel puțin o pagină accesibilă."""
     by_dept: Dict[str, List[Dict[str, Any]]] = {}

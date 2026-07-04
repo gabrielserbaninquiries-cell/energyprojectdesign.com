@@ -3135,19 +3135,29 @@ _menu_api = APIRouter(prefix="/api")
 
 
 @_menu_api.get("/me/menu")
-async def my_adaptive_menu(user: User = Depends(get_current_user)):
+async def my_adaptive_menu(
+    include_locked: bool = False,
+    user: User = Depends(get_current_user),
+):
     """Returnează meniul adaptat planului + rolului userului curent.
-    Frontend sidebar consumă acest JSON pentru a afișa DOAR ce poate userul accesa."""
+
+    V13.8 — cu `?include_locked=true`, returnează ALL pages (inclusiv cele blocate),
+    fiecare cu un flag `locked`. Trial-ul user poate naviga peste tot în preview mode.
+    """
     plan_id = getattr(user, "plan_id", "free") or "free"
     is_admin = bool(getattr(user, "is_admin", False))
     is_developer = bool(getattr(user, "is_developer", False))
-    pages = _rpm.get_pages_for_user(plan_id, is_admin, is_developer)
+    if include_locked:
+        pages = _rpm.get_all_pages_with_locks(plan_id, is_admin, is_developer)
+    else:
+        pages = _rpm.get_pages_for_user(plan_id, is_admin, is_developer)
     groups = _rpm.group_by_department(pages)
     return {
         "user_plan": plan_id,
         "is_admin": is_admin,
         "is_developer": is_developer,
         "total_pages": len(pages),
+        "locked_count": sum(1 for p in pages if p.get("locked")),
         "departments": groups,
     }
 

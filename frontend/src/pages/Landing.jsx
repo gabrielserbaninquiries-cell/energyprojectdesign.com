@@ -173,18 +173,18 @@ export default function Landing() {
       <header className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-zinc-200/70">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between gap-4">
           <div className="shrink-0"><EPDLogo /></div>
-          <nav className="hidden xl:flex items-center gap-5 text-[13px] font-medium whitespace-nowrap">
+          <nav className="hidden xl:flex items-center gap-6 text-[13px] font-medium whitespace-nowrap">
             <a href="#main-product" className="text-zinc-600 hover:text-zinc-950 transition-colors">Gaze Naturale</a>
-            <Link to="/constructii" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-constructii">Construcții</Link>
-            <Link to="/imobiliare" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-imobiliare">Imobiliare</Link>
-            <Link to="/documentatie-electronica" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-docs">Documentație</Link>
+            <a href="#services" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-ecosistem">Ecosistem</a>
             <Link to="/pricing" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-pricing">Tarife</Link>
-            <Link to="/transparenta" className="text-emerald-700 hover:text-emerald-900 transition-colors font-semibold" data-testid="nav-transparenta">Transparență</Link>
-            <Link to="/sponsorizeaza" className="text-fuchsia-700 hover:text-fuchsia-900 transition-colors font-semibold" data-testid="nav-sponsor">♥ Donații</Link>
+            <Link to="/afaceri-b2b" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-b2b">Afaceri B2B</Link>
             <Link to="/contact" className="text-zinc-600 hover:text-zinc-950 transition-colors" data-testid="nav-contact">Contact</Link>
           </nav>
           <div className="flex items-center gap-2 shrink-0">
             <GlobalTranslator variant="light" />
+            <Link to="/sponsorizeaza" className="hidden lg:inline-flex items-center justify-center w-8 h-8 rounded-full border border-fuchsia-200 hover:bg-fuchsia-50 text-fuchsia-700 hover:text-fuchsia-900 transition-colors" title="Donații" data-testid="nav-sponsor">
+              <span className="text-sm leading-none">♥</span>
+            </Link>
             <a href="#investitori" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-violet-50 hover:bg-violet-100 text-violet-800 border border-violet-200 font-bold rounded-md transition-colors whitespace-nowrap" data-testid="nav-investors">
               Investitori
             </a>
@@ -199,7 +199,7 @@ export default function Landing() {
           </div>
         </div>
       </header>
-
+<section data-testid="brand-banner-top" className="relative w-full overflow-hidden h-[380px] md:h-[440px] lg:h-[500px]"> <img src={BRAND_ASSETS.brandHeroEarth} alt="Energy Project Design Banner" className="absolute inset-0 w-full h-full object-cover" loading="eager" /> <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent"></div> </section> 
       {/* HERO — Identitate oficială EPD (V12.7: no photo, clean pro gradient) */}
       {/* HERO — V10.7 compact & discret (font-uri reduse, padding redus) */}
       <section className="relative pt-12 pb-14 lg:pt-16 lg:pb-20 overflow-hidden bg-zinc-950">

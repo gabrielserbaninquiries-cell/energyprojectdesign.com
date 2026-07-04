@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Flame, ShieldCheck, ShieldAlert, ExternalLink, CheckCircle2, AlertCircle } from 'lucide-react';
 import api from '../lib/api';
+import EPDLogo from '../components/EPDLogo';
 
 export default function VerifyGasProject() {
   const { pid } = useParams();
@@ -20,13 +21,10 @@ export default function VerifyGasProject() {
 
   return (
     <div className="min-h-screen bg-white text-black">
-      <header className="border-b border-gray-200 bg-white">
+      <header className="border-b border-zinc-200 bg-white/95 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5" data-testid="verify-brand">
-            <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center"><Flame className="w-4 h-4" strokeWidth={2.5} /></div>
-            <div className="font-bold tracking-tight">Energy Project<span className="text-[#FFB300]"> Design</span></div>
-          </Link>
-          <Link to="/" className="text-xs text-gray-500 hover:text-black uppercase tracking-wider">Acasă →</Link>
+          <EPDLogo />
+          <Link to="/" className="text-xs text-zinc-500 hover:text-zinc-950 uppercase tracking-wider">Acasă →</Link>
         </div>
       </header>
 

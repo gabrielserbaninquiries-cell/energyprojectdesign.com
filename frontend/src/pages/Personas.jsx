@@ -1,6 +1,7 @@
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { Flame, ArrowRight, ArrowLeft, Check, Users, User, Briefcase, Code2, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Users, User, Briefcase, Code2, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import EPDLogo from '../components/EPDLogo';
 
 const PERSONAS = {
   clienti: {
@@ -118,19 +119,16 @@ export default function Personas() {
 
   return (
     <div className="min-h-screen bg-white text-black">
-      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60">
+      <header className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-zinc-200/70">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5" data-testid="brand-link">
-            <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center"><Flame className="w-4 h-4" strokeWidth={2.5} /></div>
-            <div className="font-bold tracking-tight text-lg">Energy Project<span className="text-[#FFB300]"> Design</span></div>
-          </Link>
+          <EPDLogo />
           <nav className="flex items-center gap-2">
             {user ? (
-              <Link to="/dashboard" className="amber-btn text-sm py-2" data-testid="persona-cta-dashboard">Panou</Link>
+              <Link to="/dashboard" className="epd-btn text-sm py-2" data-testid="persona-cta-dashboard">Panou</Link>
             ) : (
               <>
-                <Link to="/login" className="ghost-btn text-sm" data-testid="persona-cta-login">Autentificare</Link>
-                <Link to="/register" className="amber-btn text-sm py-2" data-testid="persona-cta-register">Începe gratuit</Link>
+                <Link to="/auth?mode=signin" className="ghost-btn text-sm" data-testid="persona-cta-login">Autentificare</Link>
+                <Link to="/auth?mode=signup" className="epd-btn text-sm py-2" data-testid="persona-cta-register">Începe gratuit</Link>
               </>
             )}
           </nav>

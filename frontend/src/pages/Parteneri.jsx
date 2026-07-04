@@ -4,10 +4,11 @@ import api from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
 import {
-  Flame, Users, Building2, UserCircle, ShieldCheck, ArrowLeft,
+  Users, Building2, UserCircle, ShieldCheck, ArrowLeft,
   Search, Plus, Send, Check, X, MapPin, Mail, Phone,
 } from 'lucide-react';
 import useSEO from '../hooks/useSEO';
+import EPDLogo from '../components/EPDLogo';
 
 const KIND_LABEL = {
   srl: 'S.R.L.', pfa: 'PFA', angajat: 'Angajat',
@@ -230,12 +231,9 @@ export default function Parteneri() {
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="border-b border-gray-200 sticky top-0 z-30 bg-white">
+      <header className="border-b border-zinc-200 sticky top-0 z-30 bg-white/95 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center"><Flame className="w-4 h-4" /></div>
-            <div className="font-bold tracking-tight">Energy Project<span className="text-[#FFB300]"> Design</span></div>
-          </Link>
+          <EPDLogo />
           <Link to={user ? '/dashboard' : '/'} className="ghost-btn text-sm"><ArrowLeft className="w-4 h-4" /> Înapoi</Link>
         </div>
       </header>

@@ -43,7 +43,8 @@ export default function AppShell({ children, title, subtitle }) {
     let cancelled = false;
     (async () => {
       try {
-        const { data } = await api.get('/me/menu');
+        // V13.8 — include_locked=true: trial user vede ALL menu items, cu lacăt pe cele blocate.
+        const { data } = await api.get('/me/menu?include_locked=true');
         if (!cancelled) setMenuGroups(data.departments || []);
       } catch {
         // fallback: empty menu — user still has direct route access via URL
@@ -109,18 +110,25 @@ export default function AppShell({ children, title, subtitle }) {
                   {group.pages.map((n) => {
                     const Icon = ICON_MAP[n.icon] || LayoutDashboard;
                     const active = location.pathname === n.path || (n.path !== '/dashboard' && n.path !== '/acasa' && location.pathname.startsWith(n.path));
+                    const isLocked = !!n.locked;
                     return (
                       <Link
                         key={n.key}
-                        to={n.path}
+                        to={isLocked ? `/pricing?unlock=${encodeURIComponent(n.path)}` : n.path}
                         data-testid={n.tid}
-                        className={`flex items-center gap-2.5 px-3 py-1.5 text-[12.5px] transition-colors rounded-sm border-l-2 ${
-                          active ? 'bg-zinc-950 text-white border-orange-500' : 'text-zinc-700 hover:bg-zinc-100 border-transparent'
+                        title={isLocked ? `Deblocați cu planul: ${(n.unlock_plans || []).join(', ')}` : undefined}
+                        className={`flex items-center gap-2.5 px-3 py-1.5 text-[12.5px] transition-colors rounded-sm border-l-2 group ${
+                          active
+                            ? 'bg-zinc-950 text-white border-violet-500'
+                            : isLocked
+                              ? 'text-zinc-400 hover:bg-zinc-50 hover:text-zinc-700 border-transparent'
+                              : 'text-zinc-700 hover:bg-zinc-100 border-transparent'
                         }`}
                       >
                         <Icon className="w-3.5 h-3.5 shrink-0" />
                         <span className="flex-1 truncate">{n.label}</span>
-                        {active && <ChevronRight className="w-3 h-3" />}
+                        {isLocked && <Lock className="w-3 h-3 text-zinc-400 group-hover:text-violet-600" />}
+                        {active && !isLocked && <ChevronRight className="w-3 h-3" />}
                       </Link>
                     );
                   })}
