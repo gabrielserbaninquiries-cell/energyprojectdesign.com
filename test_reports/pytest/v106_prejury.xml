@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="14" skipped="0" tests="37" time="5.054" timestamp="2026-07-04T07:50:16.053126+00:00" hostname="agent-env-57bd020b-829b-4403-b2b9-09912868b634"><testcase classname="backend.tests.test_v106_prejury_final.TestSEO" name="test_robots_txt" time="0.186" /><testcase classname="backend.tests.test_v106_prejury_final.TestSEO" name="test_sitemap_xml" time="0.061" /><testcase classname="backend.tests.test_v106_prejury_final.TestAuth" name="test_owner_login" time="0.280" /><testcase classname="backend.tests.test_v106_prejury_final.TestAuth" name="test_signup_new_user_with_gdpr" time="0.271"><failure message="AssertionError: assert 'test_v106_si...d@example.com' == 'TEST_v106_si...d@example.com'&#10;  &#10;  - TEST_v106_signup_def069bd@example.com&#10;  ? ^^^^&#10;  + test_v106_signup_def069bd@example.com&#10;  ? ^^^^">backend/tests/test_v106_prejury_final.py:112: in test_signup_new_user_with_gdpr
+    assert data.get("user", {}).get("email") == email
+E   AssertionError: assert 'test_v106_si...d@example.com' == 'TEST_v106_si...d@example.com'
+E     
+E     - TEST_v106_signup_def069bd@example.com
+E     ? ^^^^
+E     + test_v106_signup_def069bd@example.com
+E     ? ^^^^</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestAuth" name="test_signup_missing_gdpr_rejected" time="0.050" /><testcase classname="backend.tests.test_v106_prejury_final.TestAuth" name="test_login_bad_password" time="0.267" /><testcase classname="backend.tests.test_v106_prejury_final.TestAuth" name="test_login_route_serves_spa" time="0.048"><failure message="assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:129: in test_login_route_serves_spa
+    assert r.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestAuth" name="test_register_route_serves_spa" time="0.051"><failure message="assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:134: in test_register_route_serves_spa
+    assert r.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestAuth" name="test_auth_endpoint_serves_spa" time="0.051"><failure message="assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:139: in test_auth_endpoint_serves_spa
+    assert r.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestPayments" name="test_plans_catalog_14_plus" time="0.048" /><testcase classname="backend.tests.test_v106_prejury_final.TestPayments" name="test_stripe_checkout_basic_returns_cs_live" time="0.864" /><testcase classname="backend.tests.test_v106_prejury_final.TestPayments" name="test_stripe_donation_5_eur" time="0.418" /><testcase classname="backend.tests.test_v106_prejury_final.TestPayments" name="test_stripe_donation_below_min_rejected" time="0.044" /><testcase classname="backend.tests.test_v106_prejury_final.TestPaymentAccounts" name="test_active_account" time="0.049" /><testcase classname="backend.tests.test_v106_prejury_final.TestPlaceholders" name="test_template_md_downloadable" time="0.046" /><testcase classname="backend.tests.test_v106_prejury_final.TestPlaceholders" name="test_template_docx_downloadable" time="0.254" /><testcase classname="backend.tests.test_v106_prejury_final.TestPlaceholders" name="test_registry_has_150plus_fields" time="0.054" /><testcase classname="backend.tests.test_v106_prejury_final.TestGasProjectE2E" name="test_project_created_with_pid" time="0.057" /><testcase classname="backend.tests.test_v106_prejury_final.TestGasProjectE2E" name="test_project_get_returns_data" time="0.044" /><testcase classname="backend.tests.test_v106_prejury_final.TestGasProjectE2E" name="test_project_patch_saves_data" time="0.088" /><testcase classname="backend.tests.test_v106_prejury_final.TestGasProjectE2E" name="test_master_docx_preview_generates" time="0.089" /><testcase classname="backend.tests.test_v106_prejury_final.TestGasProjectE2E" name="test_master_docx_by_project_id" time="0.046"><failure message="Failed: /api/gas/master-docx/gp_dbb4767e79bb6b5f returned 404 — likely field mismatch (`id` vs `pid`) in server.py:3259. Response: {&quot;detail&quot;:&quot;Proiect inexistent sau nu îți aparține&quot;}">backend/tests/test_v106_prejury_final.py:289: in test_master_docx_by_project_id
+    pytest.fail(
+E   Failed: /api/gas/master-docx/gp_dbb4767e79bb6b5f returned 404 — likely field mismatch (`id` vs `pid`) in server.py:3259. Response: {"detail":"Proiect inexistent sau nu îți aparține"}</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestGasProjectE2E" name="test_cleanup" time="0.043" /><testcase classname="backend.tests.test_v106_prejury_final.TestGasCatalog" name="test_gas_templates_catalog" time="0.047" /><testcase classname="backend.tests.test_v106_prejury_final.TestGasCatalog" name="test_doc_templates_list" time="0.051" /><testcase classname="backend.tests.test_v106_prejury_final.TestStamps" name="test_upload_and_list_stamp" time="0.485" /><testcase classname="backend.tests.test_v106_prejury_final.TestAdmin" name="test_admin_users_owner_ok" time="0.044" /><testcase classname="backend.tests.test_v106_prejury_final.TestAdmin" name="test_admin_users_basic_403" time="0.394" /><testcase classname="backend.tests.test_v106_prejury_final.TestFrontendRoutes" name="test_spa_route[/petitii-campus]" time="0.048"><failure message="AssertionError: /petitii-campus: 404&#10;assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:398: in test_spa_route
+    assert r.status_code == 200, f"{path}: {r.status_code}"
+E   AssertionError: /petitii-campus: 404
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestFrontendRoutes" name="test_spa_route[/petitii-sociale]" time="0.052"><failure message="AssertionError: /petitii-sociale: 404&#10;assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:398: in test_spa_route
+    assert r.status_code == 200, f"{path}: {r.status_code}"
+E   AssertionError: /petitii-sociale: 404
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestFrontendRoutes" name="test_spa_route[/jurnalism]" time="0.043"><failure message="AssertionError: /jurnalism: 404&#10;assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:398: in test_spa_route
+    assert r.status_code == 200, f"{path}: {r.status_code}"
+E   AssertionError: /jurnalism: 404
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestFrontendRoutes" name="test_spa_route[/renovare-blocuri]" time="0.045"><failure message="AssertionError: /renovare-blocuri: 404&#10;assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:398: in test_spa_route
+    assert r.status_code == 200, f"{path}: {r.status_code}"
+E   AssertionError: /renovare-blocuri: 404
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestFrontendRoutes" name="test_spa_route[/constructii]" time="0.048"><failure message="AssertionError: /constructii: 404&#10;assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:398: in test_spa_route
+    assert r.status_code == 200, f"{path}: {r.status_code}"
+E   AssertionError: /constructii: 404
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestFrontendRoutes" name="test_spa_route[/documentatie-electronica]" time="0.046"><failure message="AssertionError: /documentatie-electronica: 404&#10;assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:398: in test_spa_route
+    assert r.status_code == 200, f"{path}: {r.status_code}"
+E   AssertionError: /documentatie-electronica: 404
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestFrontendRoutes" name="test_spa_route[/transparenta]" time="0.046"><failure message="AssertionError: /transparenta: 404&#10;assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:398: in test_spa_route
+    assert r.status_code == 200, f"{path}: {r.status_code}"
+E   AssertionError: /transparenta: 404
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestFrontendRoutes" name="test_spa_route[/sponsorizeaza]" time="0.043"><failure message="AssertionError: /sponsorizeaza: 404&#10;assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:398: in test_spa_route
+    assert r.status_code == 200, f"{path}: {r.status_code}"
+E   AssertionError: /sponsorizeaza: 404
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase><testcase classname="backend.tests.test_v106_prejury_final.TestFrontendRoutes" name="test_spa_route[/gaze-naturale]" time="0.046"><failure message="AssertionError: /gaze-naturale: 404&#10;assert 404 == 200&#10; +  where 404 = &lt;Response [404]&gt;.status_code">backend/tests/test_v106_prejury_final.py:398: in test_spa_route
+    assert r.status_code == 200, f"{path}: {r.status_code}"
+E   AssertionError: /gaze-naturale: 404
+E   assert 404 == 200
+E    +  where 404 = &lt;Response [404]&gt;.status_code</failure></testcase></testsuite></testsuites>

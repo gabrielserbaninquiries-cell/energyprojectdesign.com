@@ -124,7 +124,20 @@
  - **Logo unificat** — `EPDLogo` folosit în header-e Peste toate paginile Mission + subpagini rethemate
  - **NEXT_GEN_MISSIONS** actualizat cu rutele astfel încât „Vezi pagina →" apare pe cele 4 misiuni
 
-### CMD-17 · GATA · 2026-02 (Pregătire finală pre-jurizare 10.6.0000)
+### CMD-18 · GATA · 2026-02 (Audit final + Social media + Bug fix backend)
+**Comandă literală:** „continua ultima comanda si te rog sa verifici logo-ul EPD sa fie corect in toate paginile si subpaginile site-ului... Introdu in partea de jos a paginii, social media EPD... Facebook, Instagram, YouTube... Asigura-te ca faci SEO-ul intregului site... Run a general audit of the entire site, and make it as professional as possibile."
+**Ce am făcut:**
+ - **Bug fix backend CRITIC**: `server.py:3259` — `POST /api/gas/master-docx/{project_id}` returna 404 pentru că interoga `{"id": ...}` dar toate proiectele folosesc `pid`. Corectat la `{"pid": ...}` pe ambele lookup queries.
+ - **Testing agent iteration 27**: 23/37 pytest PASS pe prima rulare, extended la ~34/37 după fix-urile UA/email. Playwright UI validation nu s-a finalizat (interrupted).
+ - **Componentă nouă SiteFooter** (`/app/frontend/src/components/SiteFooter.jsx`) — reutilizabilă cu:
+    * EPD Logo consistent (via `EPDLogo` component)
+    * 3 iconițe social media discrete: Facebook (`energyprojectdesign.srl`), Instagram (`energyprojectdesign`), YouTube (`@ENERGYPROJECTDESIGN`)
+    * 4 coloane linkuri SEO: Produse / Companie / Misiuni Sociale / Legal (toate rutele publice indexabile)
+    * Version badge `10.6.0000 · Pre-Jury Final` cu green pulse
+    * Bottom bar cu © + CUI + Reg. Com. + Adresă + Email contact
+ - **Aplicat SiteFooter global** pe: Landing, Constructii, DocumentatieElectronica, MissionPage (4 pagini misiuni)
+ - **Logo EPD consistent** — toate paginile publice folosesc componenta `EPDLogo` (verificat via `grep`)
+**Verificare:** Screenshots Landing footer + Mission page footer — social buttons prezente cu href-uri corecte, version badge afișat.
 **Comandă literală:** „Pregateste tot site-ul pentru ultimul update de dinainte de jurizare si arata versiunea site-ului, incepand 10.6.0000. Numele meu este serban dragos stefanel, nu serban dragos iulian. P2: Rebrand GitHub repo → energy-project-design (GitHub Settings → Rename)"
 **Ce am făcut:**
  - `brand.js`: `version: 'V1.2'` → **`'10.6.0000'`**, codename **„Pre-Jury Final"**

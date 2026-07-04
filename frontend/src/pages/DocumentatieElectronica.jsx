@@ -5,6 +5,7 @@
 import { Link } from 'react-router-dom';
 import { FileText, ArrowRight, ArrowLeft, ShieldCheck, FileSignature, Stamp } from 'lucide-react';
 import EPDLogo from '../components/EPDLogo';
+import SiteFooter from '../components/SiteFooter';
 import { BRAND } from '../lib/brand';
 import useSEO from '../hooks/useSEO';
 
@@ -97,14 +98,7 @@ export default function DocumentatieElectronica() {
         </div>
       </section>
 
-      <footer className="border-t border-zinc-200 bg-zinc-50 py-8 mt-16">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between flex-wrap gap-4 text-xs text-zinc-500">
-          <span>© {new Date().getFullYear()} {BRAND.legalName.toUpperCase()} · {BRAND.tagline} · CUI {BRAND.cui}</span>
-          <span className="inline-flex items-center gap-2 px-2 py-1 bg-white border border-zinc-200 rounded-md font-mono text-[10px]">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />{BRAND.version} · {BRAND.versionCodename}
-          </span>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

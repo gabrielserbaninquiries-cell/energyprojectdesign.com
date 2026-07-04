@@ -21,6 +21,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { BRAND, BRAND_ASSETS } from '../lib/brand';
 import EPDLogo from '../components/EPDLogo';
+import SiteFooter from '../components/SiteFooter';
 import GlobalTranslator from '../components/GlobalTranslator';
 import PublicPlansGrid from '../components/PublicPlansGrid';
 import { FUTURE_SERVICES, NEXT_GEN_MISSIONS, EPD_ECOSYSTEM } from '../data/services';
@@ -950,47 +951,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-12">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid md:grid-cols-4 gap-8 mb-10">
-            <div>
-              <EPDLogo size="sm" />
-              <p className="text-xs text-slate-500 mt-4 leading-relaxed">{BRAND.description}</p>
-            </div>
-            <div>
-              <div className="label text-violet-600 mb-3">Produse</div>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/gaze-naturale" className="text-slate-600 hover:text-violet-700">Gaze Naturale</Link></li>
-                <li><Link to="/industrii" className="text-slate-600 hover:text-violet-700">Industrii</Link></li>
-                <li><Link to="/marketplace" className="text-slate-600 hover:text-violet-700">Marketplace</Link></li>
-                <li><Link to="/pricing" className="text-slate-600 hover:text-violet-700">Planuri</Link></li>
-                <li><Link to="/sponsorizeaza" className="text-fuchsia-600 hover:text-fuchsia-800 font-semibold" data-testid="footer-sponsor">♥ Sponsorizează</Link></li>
-              </ul>
-            </div>
-            <div>
-              <div className="label text-violet-600 mb-3">Legal</div>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/termeni" className="text-slate-600 hover:text-violet-700" data-testid="footer-termeni">Termeni</Link></li>
-                <li><Link to="/confidentialitate" className="text-slate-600 hover:text-violet-700" data-testid="footer-confidentialitate">Confidențialitate</Link></li>
-                <li><Link to="/gdpr" className="text-slate-600 hover:text-violet-700" data-testid="footer-gdpr">GDPR</Link></li>
-              </ul>
-            </div>
-            <div>
-              <div className="label text-violet-600 mb-3">Contact</div>
-              <ul className="space-y-2 text-sm text-slate-600">
-                <li>{BRAND.contactEmail}</li>
-                <li>support@energyprojectdesign.com</li>
-                <li>CUI {BRAND.cui} · {BRAND.regCom}</li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-6 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-            <div>© {new Date().getFullYear()} {BRAND.legalName.toUpperCase()} · Toate drepturile rezervate</div>
-            <div className="italic text-violet-600">{BRAND.tagline}</div>
-          </div>
-        </div>
-      </footer>
+      {/* V10.6 — Footer global unificat cu social media, link-uri SEO, version badge */}
+      <SiteFooter />
     </div>
   );
 }
