@@ -18,6 +18,7 @@ import {
   Flame, Sparkles, Zap, TrendingUp, Clock, ChevronRight, Lock, Crown,
 } from 'lucide-react';
 import LifecycleWidget from '../components/LifecycleWidget';
+import FeatureExplorer from '../components/FeatureExplorer';
 
 // Maps plan_id → set of features the plan unlocks
 const FEATURE_PLAN_GATES = {
@@ -298,6 +299,11 @@ export default function Dashboard() {
             )}
           </div>
         </div>
+      </div>
+
+      {/* V13.8 — Feature Explorer: showcase ALL modules (locked + unlocked) per cerință user trial mode */}
+      <div className="mb-8">
+        <FeatureExplorer />
       </div>
 
       {/* Activity log */}

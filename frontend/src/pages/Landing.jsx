@@ -182,8 +182,8 @@ export default function Landing() {
           </nav>
           <div className="flex items-center gap-2 shrink-0">
             <GlobalTranslator variant="light" />
-            <Link to="/sponsorizeaza" className="hidden lg:inline-flex items-center justify-center w-8 h-8 rounded-full border border-fuchsia-200 hover:bg-fuchsia-50 text-fuchsia-700 hover:text-fuchsia-900 transition-colors" title="Donații" data-testid="nav-sponsor">
-              <span className="text-sm leading-none">♥</span>
+            <Link to="/sponsorizeaza" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-fuchsia-50 hover:bg-fuchsia-100 text-fuchsia-800 border border-fuchsia-200 font-semibold rounded-md transition-colors whitespace-nowrap" title="Donații" data-testid="nav-sponsor">
+              Susțineți EPD <span className="text-[13px] leading-none">♥</span>
             </Link>
             <a href="#investitori" className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-violet-50 hover:bg-violet-100 text-violet-800 border border-violet-200 font-bold rounded-md transition-colors whitespace-nowrap" data-testid="nav-investors">
               Investitori
@@ -199,7 +199,7 @@ export default function Landing() {
           </div>
         </div>
       </header>
-<section data-testid="brand-banner-top" className="relative w-full overflow-hidden h-[380px] md:h-[440px] lg:h-[500px]"> <img src={BRAND_ASSETS.brandHeroEarth} alt="Energy Project Design Banner" className="absolute inset-0 w-full h-full object-cover" loading="eager" /> <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent"></div> </section> 
+<section data-testid="brand-banner-top" className="relative w-full overflow-hidden h-[180px] md:h-[220px] lg:h-[260px]"> <img src={BRAND_ASSETS.brandHeroEarth} alt="Energy Project Design Banner" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: 'center 42%' }} loading="eager" /> <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-transparent"></div> </section> 
       {/* HERO — Identitate oficială EPD (V12.7: no photo, clean pro gradient) */}
       {/* HERO — V10.7 compact & discret (font-uri reduse, padding redus) */}
       <section className="relative pt-12 pb-14 lg:pt-16 lg:pb-20 overflow-hidden bg-zinc-950">
@@ -700,7 +700,7 @@ export default function Landing() {
 
           <div className="mt-10 py-5 border-t border-zinc-200 text-center">
             <p className="text-sm text-zinc-500 italic max-w-2xl mx-auto tracking-tight">
-              „Nu e o listă de idei. E o hartă a viitorului fiecărei industrii — livrată printr-un singur cont, o singură experiență, o singură echipă."
+              „Nu e o listă de idei. E o hartă a viitorului fiecărei industrii — livrată printr-un singur cont, o singură experiență, o singură echipă.&rdquo;
             </p>
           </div>
         </div>

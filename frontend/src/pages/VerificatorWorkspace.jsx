@@ -4,11 +4,12 @@ import api from '../lib/api';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'sonner';
 import {
-  Flame, Inbox, BookOpen, CheckCircle2, XCircle, RotateCcw,
+  Inbox, BookOpen, CheckCircle2, XCircle, RotateCcw,
   ShieldCheck, Clock, ArrowLeft, FileText, Building2, ExternalLink,
   Search, AlertTriangle,
 } from 'lucide-react';
 import useSEO from '../hooks/useSEO';
+import EPDLogo from '../components/EPDLogo';
 
 const STATUS_META = {
   pending:    { label: 'În așteptare', color: 'bg-violet-100 text-violet-800 border-violet-300', icon: Clock },
@@ -198,21 +199,18 @@ export default function VerificatorWorkspace() {
   if (!planAllowed) {
     return (
       <div className="min-h-screen bg-white">
-        <header className="border-b border-gray-200">
+        <header className="border-b border-zinc-200 bg-white/95 backdrop-blur-xl sticky top-0 z-40">
           <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center"><Flame className="w-4 h-4" /></div>
-              <div className="font-bold tracking-tight">Energy Project<span className="text-[#FFB300]"> Design</span></div>
-            </Link>
+            <EPDLogo />
             <Link to="/dashboard" className="ghost-btn text-sm"><ArrowLeft className="w-4 h-4" /> Dashboard</Link>
           </div>
         </header>
         <main className="max-w-3xl mx-auto px-6 py-16 text-center" data-testid="verif-no-access">
-          <ShieldCheck className="w-12 h-12 mx-auto text-gray-300 mb-4" />
+          <ShieldCheck className="w-12 h-12 mx-auto text-zinc-300 mb-4" />
           <div className="label mb-2">// acces restricționat</div>
           <h1 className="text-3xl font-bold tracking-tight mb-3">Plan VGD sau RTE necesar</h1>
-          <p className="text-gray-600 mb-6">Această secțiune este rezervată verificatorilor atestați ANRE (VGD) sau MDLPA (RTE). Planul tău curent: <strong>{user?.plan || 'free'}</strong>.</p>
-          <Link to="/pricing" className="amber-btn">Vezi planurile Verificator (1000 EUR/lună)</Link>
+          <p className="text-zinc-600 mb-6">Această secțiune este rezervată verificatorilor atestați ANRE (VGD) sau MDLPA (RTE). Planul tău curent: <strong>{user?.plan || 'free'}</strong>.</p>
+          <Link to="/pricing" className="epd-btn">Vezi planurile Verificator (1000 EUR/lună)</Link>
         </main>
       </div>
     );
@@ -220,14 +218,11 @@ export default function VerificatorWorkspace() {
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="border-b border-gray-200 sticky top-0 z-30 bg-white">
+      <header className="border-b border-zinc-200 sticky top-0 z-30 bg-white/95 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-black text-[#FFB300] flex items-center justify-center"><Flame className="w-4 h-4" /></div>
-            <div className="font-bold tracking-tight">Energy Project<span className="text-[#FFB300]"> Design</span></div>
-          </Link>
+          <EPDLogo />
           <div className="flex items-center gap-3">
-            <span className="text-xs text-gray-500 uppercase tracking-wider hidden md:inline">Plan: {user?.plan?.toUpperCase()}</span>
+            <span className="text-xs text-zinc-500 uppercase tracking-wider hidden md:inline">Plan: {user?.plan?.toUpperCase()}</span>
             <Link to="/dashboard" className="ghost-btn text-sm"><ArrowLeft className="w-4 h-4" /> Dashboard</Link>
           </div>
         </div>
