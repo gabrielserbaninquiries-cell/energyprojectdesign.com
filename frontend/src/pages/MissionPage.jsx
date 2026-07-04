@@ -146,31 +146,31 @@ export default function MissionPage() {
       </header>
 
       {/* HERO cinematic zinc + violet (fără foto) */}
-      <section className="relative py-24 lg:py-32 overflow-hidden text-white bg-zinc-950">
+      <section className="relative py-14 lg:py-20 overflow-hidden text-white bg-zinc-950">
         <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 15% 30%, rgba(124,58,237,0.35) 0%, transparent 55%), radial-gradient(circle at 85% 75%, rgba(76,29,149,0.25) 0%, transparent 50%)' }} />
         <div className="max-w-5xl mx-auto px-6 lg:px-12 relative">
           <div className="inline-flex items-center gap-2.5 px-3 py-1.5 border border-violet-500/40 rounded-full text-[11px] uppercase tracking-[0.28em] text-violet-300 mb-8 backdrop-blur-sm bg-violet-500/5">
             <Icon className="w-3.5 h-3.5" />
             EPD · {cfg.tag}
           </div>
-          <h1 className="text-4xl lg:text-7xl font-bold tracking-[-0.035em] leading-[0.98] mb-6 font-display">
+          <h1 className="text-3xl lg:text-5xl font-bold tracking-[-0.035em] leading-[0.98] mb-6 font-display">
             {cfg.title}<br/>
             <span className="italic text-violet-400 font-normal">{cfg.titleItalic}</span>
           </h1>
-          <p className="text-lg lg:text-xl text-zinc-300 max-w-3xl leading-relaxed mb-4">{cfg.subtitle}</p>
+          <p className="text-base lg:text-base text-zinc-300 max-w-3xl leading-relaxed mb-4">{cfg.subtitle}</p>
         </div>
       </section>
 
       {/* Descriere + features editorial split */}
-      <section className="py-24 lg:py-28">
+      <section className="py-14 lg:py-18">
         <div className="max-w-5xl mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16">
             <div>
               <div className="text-[10px] uppercase tracking-[0.32em] text-violet-600 font-bold mb-4">// Despre această misiune</div>
-              <h2 className="text-3xl lg:text-4xl font-bold tracking-[-0.02em] text-zinc-950 mb-6 font-display leading-tight">
+              <h2 className="text-2xl lg:text-3xl font-bold tracking-[-0.02em] text-zinc-950 mb-4 font-display leading-tight">
                 Cum funcționează?
               </h2>
-              <p className="text-base lg:text-lg text-zinc-600 leading-relaxed mb-6">{cfg.description}</p>
+              <p className="text-sm lg:text-base text-zinc-600 leading-relaxed mb-6">{cfg.description}</p>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-violet-50 border border-violet-200 rounded-full text-[11px] uppercase tracking-[0.22em] text-violet-800 font-bold">
                 <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
                 Status: În cercetare · Lansare Q3 2026

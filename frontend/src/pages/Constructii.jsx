@@ -51,7 +51,7 @@ export default function Constructii() {
 
       {/* HERO editorial zinc-950 + real construction site photo */}
       <section
-        className="relative py-24 lg:py-32 overflow-hidden text-white bg-zinc-950"
+        className="relative py-14 lg:py-20 overflow-hidden text-white bg-zinc-950"
         style={{
           backgroundImage: 'linear-gradient(180deg, rgba(9,9,11,0.72) 0%, rgba(9,9,11,0.94) 100%), url(https://images.unsplash.com/photo-1590274853856-f22d5ee3d228?w=1920&q=85&auto=format&fit=crop)',
           backgroundSize: 'cover', backgroundPosition: 'center',
@@ -62,11 +62,11 @@ export default function Constructii() {
             <Building2 className="w-3.5 h-3.5" />
             EPD · Construcții
           </div>
-          <h1 className="text-4xl lg:text-7xl font-bold tracking-[-0.035em] leading-[0.98] mb-6 font-display">
+          <h1 className="text-3xl lg:text-5xl font-bold tracking-[-0.035em] leading-[0.98] mb-6 font-display">
             Construcții.<br/>
             <span className="italic text-zinc-400 font-normal">Documentație. Avize. Recepție.</span>
           </h1>
-          <p className="text-lg text-zinc-300 max-w-2xl leading-relaxed">
+          <p className="text-base text-zinc-300 max-w-2xl leading-relaxed">
             Energy Project Design oferă documentație tehnică completă pentru construcții civile, industriale și speciale,
             conform Legea 50/1991, Legea 10/1995 și HG 273/1994. De la DTAC la cartea tehnică.
           </p>
@@ -77,7 +77,7 @@ export default function Constructii() {
       <section className="py-24">
         <div className="max-w-4xl mx-auto px-6 lg:px-12">
           <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500 font-bold mb-4">// Servicii Construcții</div>
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-[-0.03em] text-zinc-950 mb-10 font-display leading-[1.02]">
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-[-0.02em] text-zinc-950 mb-6 font-display leading-[1.02]">
             Documentație completă<br/><span className="italic text-zinc-400 font-normal">pentru construcții.</span>
           </h2>
           <ul className="divide-y divide-zinc-200 border-y border-zinc-200 mb-10">

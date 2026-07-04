@@ -173,7 +173,7 @@ export default function Sponsorizeaza() {
 
       {/* Hero */}
       <section
-        className="relative py-20 lg:py-28 overflow-hidden text-white"
+        className="relative py-12 lg:py-18 overflow-hidden text-white"
         style={{
           backgroundImage: `linear-gradient(135deg, rgba(15,23,42,0.92) 0%, rgba(76,29,149,0.85) 50%, rgba(30,58,138,0.9) 100%), url(${BRAND_ASSETS.cover4Architects})`,
           backgroundSize: 'cover',
@@ -185,7 +185,7 @@ export default function Sponsorizeaza() {
             <Heart className="w-3.5 h-3.5 text-fuchsia-300 fill-fuchsia-300" />
             Sponsorizează cauza EPD
           </div>
-          <h1 className="text-4xl lg:text-6xl font-bold tracking-tighter leading-[1.05] mb-5">
+          <h1 className="text-3xl lg:text-4xl font-bold tracking-tighter leading-[1.05] mb-5">
             Construim împreună<br/>
             <span className="italic text-zinc-400 font-normal">viitorul documentației tehnice.</span>
           </h1>
@@ -397,7 +397,7 @@ export default function Sponsorizeaza() {
       </section>
 
       {/* V1.2 — Bank transfer + Business Partnerships (conturi reale user, Feb 2026) */}
-      <section className="py-16 bg-zinc-50 border-t border-zinc-200" data-testid="bank-and-partnerships">
+      <section className="py-10 bg-zinc-50 border-t border-zinc-200" data-testid="bank-and-partnerships">
         <div className="max-w-6xl mx-auto px-6 lg:px-12">
           <div className="grid md:grid-cols-2 gap-8">
             {/* CONTURI BANCARE — donații */}

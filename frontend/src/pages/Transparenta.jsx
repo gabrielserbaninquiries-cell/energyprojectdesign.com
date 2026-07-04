@@ -104,7 +104,7 @@ export default function Transparenta() {
             Cifre reale.<br />
             <span className="text-zinc-300">Transparență totală.</span>
           </h1>
-          <p className="text-lg text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base text-zinc-300 max-w-2xl mx-auto leading-relaxed">
             Energy Project Design publică LIVE cifrele platformei — utilizatori, proiecte, documente, donații —
             citite direct din baza de date, fără înfrumusețare. Așa se construiește încrederea.
           </p>

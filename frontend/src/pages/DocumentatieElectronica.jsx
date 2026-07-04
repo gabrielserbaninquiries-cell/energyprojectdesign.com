@@ -47,7 +47,7 @@ export default function DocumentatieElectronica() {
 
       {/* HERO — cinematic zinc-950 + real document photo */}
       <section
-        className="relative py-24 lg:py-32 overflow-hidden text-white bg-zinc-950"
+        className="relative py-14 lg:py-20 overflow-hidden text-white bg-zinc-950"
         style={{
           backgroundImage: 'linear-gradient(180deg, rgba(9,9,11,0.75) 0%, rgba(9,9,11,0.96) 100%), url(https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=85&auto=format&fit=crop)',
           backgroundSize: 'cover', backgroundPosition: 'center',
@@ -58,11 +58,11 @@ export default function DocumentatieElectronica() {
             <FileText className="w-3.5 h-3.5" />
             EPD · Documentație Electronică Digitală
           </div>
-          <h1 className="text-4xl lg:text-7xl font-bold tracking-[-0.035em] leading-[0.98] mb-6 font-display">
+          <h1 className="text-3xl lg:text-5xl font-bold tracking-[-0.035em] leading-[0.98] mb-6 font-display">
             Documentație tehnică<br/>
             <span className="italic text-zinc-400 font-normal">electronică, certificată digital.</span>
           </h1>
-          <p className="text-lg text-zinc-300 max-w-2xl leading-relaxed">
+          <p className="text-base text-zinc-300 max-w-2xl leading-relaxed">
             Generăm automat dosare complete pentru proiecte tehnice — cu memoriu, caiete sarcini, borderouri,
             DTAC, cerere AC, PTH, carte tehnică. Cu ștampile digitale și semnătură QES eIDAS.
           </p>
@@ -73,7 +73,7 @@ export default function DocumentatieElectronica() {
       <section className="py-24">
         <div className="max-w-5xl mx-auto px-6 lg:px-12">
           <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500 font-bold mb-4">// Tehnologie</div>
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-[-0.03em] text-zinc-950 mb-10 font-display leading-[1.02]">
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-[-0.02em] text-zinc-950 mb-6 font-display leading-[1.02]">
             Cei 4 piloni ai<br/><span className="italic text-zinc-400 font-normal">documentației EPD.</span>
           </h2>
           <div className="grid sm:grid-cols-2 gap-4 mb-10">

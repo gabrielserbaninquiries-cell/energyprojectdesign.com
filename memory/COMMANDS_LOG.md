@@ -124,7 +124,22 @@
  - **Logo unificat** — `EPDLogo` folosit în header-e Peste toate paginile Mission + subpagini rethemate
  - **NEXT_GEN_MISSIONS** actualizat cu rutele astfel încât „Vezi pagina →" apare pe cele 4 misiuni
 
-### CMD-19 · GATA · 2026-02 (corectare terminologie platformă)
+### CMD-20 · GATA · 2026-02 (compactare vizuală profesională)
+**Comandă literală:** „Mai lucreaza putin la interfata vizuala. Fa site-ul mai compact, prin dimensiunea fontului si a spatiului dintre sectiuni / dimensiunilor imaginilor. Site-ul trebuie sa fie ceva mai discret si mai profesional."
+**Ce am făcut (bulk sed pe 7 pagini):**
+ - Padding vertical: `py-24 lg:py-32` → `py-14 lg:py-20` (~35% reducere)
+ - H1 hero: `text-5xl sm:text-6xl lg:text-7xl` → `text-4xl sm:text-5xl lg:text-6xl`
+ - H2 secțiuni: `text-4xl lg:text-6xl` → `text-3xl lg:text-4xl`
+ - Subtitle: `text-xl lg:text-2xl` → `text-lg` + `text-lg lg:text-xl` → `text-base lg:text-lg`
+ - Description: `text-base lg:text-lg` → `text-sm lg:text-base`
+ - Trust bar: `py-8` → `py-5`
+ - Stats grid: `text-4xl lg:text-5xl` → `text-xl lg:text-2xl` + `mt-16 gap-8` → `mt-8 gap-4`
+ - Iconițe reduse (h-5 w-5 → h-4 w-4)
+ - Container spacing: `mb-16` → `mb-10`, `mb-14` → `mb-8`, `mb-12` → `mb-8`
+ - Butoane hero: `px-7 py-3.5` → `px-5 py-2.5`, `text-base` → `text-sm`
+ - Ecosystem intro: gap-10 lg:gap-14 → gap-8 lg:gap-12
+**Aplicat pe:** Landing.jsx, MissionPage.jsx, Constructii.jsx, DocumentatieElectronica.jsx, Auth.jsx, Transparenta.jsx, Sponsorizeaza.jsx
+**Verificare:** 4 screenshots (hero, main product, ecosystem, mission page /jurnalism) — toate arată mult mai compact, dens și profesional, similar Stripe/Linear/Vercel B2B enterprise style
 **Comandă literală:** „nu mai apare redeply in emergent, ci doar publish."
 **Notat pentru referință viitoare:** Terminologia corectă pe Emergent este **„Publish"** (nu Redeploy). Toate reamintirile pentru user despre push-ul preview → producție trebuie să folosească acest termen.
 **Ce am făcut:** Verificat că nu există nicio referință „Redeploy" în site-ul public (frontend/src + frontend/public) — 0 rezultate. Reamintirea internă din tracker actualizată.

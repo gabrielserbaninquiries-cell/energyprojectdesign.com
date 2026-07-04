@@ -201,8 +201,8 @@ export default function Landing() {
       </header>
 
       {/* HERO — Identitate oficială EPD (V12.7: no photo, clean pro gradient) */}
-      {/* HERO — V1.2 „Brand Cinematic" (fără foto ingineri) — logo + text + video oficial */}
-      <section className="relative pt-16 pb-20 lg:pt-20 lg:pb-28 overflow-hidden bg-zinc-950">
+      {/* HERO — V10.7 compact & discret (font-uri reduse, padding redus) */}
+      <section className="relative pt-12 pb-14 lg:pt-16 lg:pb-20 overflow-hidden bg-zinc-950">
         {/* Fundal pur zinc-950 + subtle violet radial gradient (brand palette: alb/negru + violet) */}
         <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, rgba(124,58,237,0.20) 0%, transparent 55%), radial-gradient(circle at 85% 75%, rgba(76,29,149,0.15) 0%, transparent 50%)' }} />
         {/* Grain overlay pentru textură premium */}
@@ -211,53 +211,53 @@ export default function Landing() {
           style={{ backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22/></filter><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/></svg>")' }}
         />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 relative">
-          <div className="grid lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-8 lg:gap-12 items-center">
             {/* LEFT — Text + CTAs */}
             <div>
-              <div className="inline-flex items-center gap-2.5 px-3 py-1.5 border border-violet-500/40 rounded-full text-[11px] uppercase tracking-[0.28em] text-violet-300 mb-8 backdrop-blur-sm bg-violet-500/5">
-                <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 border border-violet-500/40 rounded-full text-[10px] uppercase tracking-[0.25em] text-violet-300 mb-5 backdrop-blur-sm bg-violet-500/5">
+                <span className="w-1 h-1 rounded-full bg-violet-400 animate-pulse" />
                 <span>THE ARCHITECTS OF FUTURE GLOBAL TECHNOLOGY</span>
               </div>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-[-0.045em] leading-[0.98] mb-6 text-white font-display">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-[-0.04em] leading-[1.02] mb-4 text-white font-display">
                 Energy Project<br/>
                 <span className="italic text-violet-400 font-normal">Design.</span>
               </h1>
-              <p className="text-xl lg:text-2xl text-zinc-300 font-light mb-5 tracking-tight">
+              <p className="text-lg text-zinc-300 font-light mb-3 tracking-tight">
                 {BRAND.tagline}
               </p>
-              <p className="text-base text-zinc-400 max-w-xl mb-10 leading-relaxed">
+              <p className="text-sm text-zinc-400 max-w-xl mb-6 leading-relaxed">
                 Platforma globală de proiectare și documentație tehnică digitală certificată — produs principal:
                 {' '}<span className="font-semibold text-white">documentație electronică pentru instalații gaze naturale</span>, conform NTPEE 2018, eIDAS QES, cu valoare juridică.
               </p>
-              <div className="flex items-center gap-3 flex-wrap">
-                <Link to={user ? '/gaze-naturale' : '/auth?mode=signup&next=gas'} className="inline-flex items-center gap-2 bg-white text-zinc-950 hover:bg-violet-50 font-semibold px-7 py-3.5 rounded-md transition-all hover:-translate-y-0.5 shadow-2xl" data-testid="hero-cta-gas">
-                  <Flame className="w-5 h-5" />
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <Link to={user ? '/gaze-naturale' : '/auth?mode=signup&next=gas'} className="inline-flex items-center gap-2 bg-white text-zinc-950 hover:bg-violet-50 font-semibold px-5 py-2.5 rounded-md text-sm transition-all hover:-translate-y-0.5 shadow-xl" data-testid="hero-cta-gas">
+                  <Flame className="w-4 h-4" />
                   Începe proiect gaze naturale
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
-                <Link to="/pricing" className="inline-flex items-center gap-2 text-white border border-white/25 hover:border-violet-400 hover:text-violet-300 px-6 py-3.5 rounded-md backdrop-blur-sm transition-all font-medium" data-testid="hero-cta-pricing">
+                <Link to="/pricing" className="inline-flex items-center gap-2 text-white border border-white/25 hover:border-violet-400 hover:text-violet-300 px-4 py-2.5 rounded-md backdrop-blur-sm transition-all text-sm font-medium" data-testid="hero-cta-pricing">
                   Vezi tarifele
                 </Link>
               </div>
-              {/* Stats compact */}
-              <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6">
+              {/* Stats compact — 4 într-o linie, mai mici */}
+              <div className="mt-8 grid grid-cols-4 gap-4">
                 {[
                   { v: '13',     l: 'Industrii' },
                   { v: 'NTPEE',  l: 'Conform 2018' },
-                  { v: 'QES',    l: 'eIDAS certificat' },
-                  { v: '24',     l: 'Limbi suportate' },
+                  { v: 'QES',    l: 'eIDAS' },
+                  { v: '24',     l: 'Limbi' },
                 ].map(s => (
-                  <div key={s.l} className="border-l-2 border-violet-500/40 pl-3.5">
-                    <div className="text-3xl lg:text-4xl font-bold tracking-tighter text-white tabular-nums font-display">{s.v}</div>
-                    <div className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 mt-1.5 font-semibold">{s.l}</div>
+                  <div key={s.l} className="border-l-2 border-violet-500/40 pl-2.5">
+                    <div className="text-xl lg:text-2xl font-bold tracking-tighter text-white tabular-nums font-display">{s.v}</div>
+                    <div className="text-[9px] uppercase tracking-[0.2em] text-zinc-500 mt-1 font-semibold">{s.l}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* RIGHT — YouTube brand video (oficial EPD) */}
+            {/* RIGHT — YouTube brand video (oficial EPD) — compact */}
             <div className="relative">
-              <div className="relative rounded-md overflow-hidden aspect-video bg-zinc-900 ring-1 ring-violet-500/30 shadow-2xl shadow-violet-950/50">
+              <div className="relative rounded-md overflow-hidden aspect-video bg-zinc-900 ring-1 ring-violet-500/30 shadow-xl shadow-violet-950/50">
                 <iframe
                   src="https://www.youtube.com/embed/gsh_nFycsdc?rel=0&modestbranding=1&showinfo=0"
                   title="Energy Project Design — Brand Video"
@@ -268,7 +268,7 @@ export default function Landing() {
                   data-testid="brand-video-hero"
                 />
               </div>
-              <div className="mt-3 text-[10px] uppercase tracking-[0.28em] text-zinc-500 font-semibold text-right">// Videoclip oficial brand EPD</div>
+              <div className="mt-2 text-[9px] uppercase tracking-[0.25em] text-zinc-500 font-semibold text-right">// Videoclip oficial brand EPD</div>
             </div>
           </div>
         </div>
@@ -305,10 +305,10 @@ export default function Landing() {
       </section>
 
       {/* V13.5 — VISION BANNER (zinc-950 premium, no gradients violet) */}
-      <section className="relative bg-white border-y border-zinc-200 py-20 lg:py-28" data-testid="vision-banner">
+      <section className="relative bg-white border-y border-zinc-200 py-14 lg:py-20" data-testid="vision-banner">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500 font-bold mb-4">// Misiunea EPD · The Architects of Future Global Technology</div>
-          <h2 className="text-4xl lg:text-6xl font-bold text-zinc-950 tracking-[-0.03em] font-display leading-[1.02]">
+          <h2 className="text-3xl lg:text-4xl font-bold text-zinc-950 tracking-[-0.03em] font-display leading-[1.02]">
             Platforma nr. 1 în lume,<br className="hidden lg:block"/>
             <span className="italic text-zinc-400 font-normal">multifuncțională.</span>
           </h2>
@@ -327,7 +327,7 @@ export default function Landing() {
       </section>
 
       {/* V13.5 — MOTTO / MANIFESTO EPD (editorial, kinetic type) */}
-      <section className="relative py-24 lg:py-32 bg-zinc-950 overflow-hidden" data-testid="epd-motto-section">
+      <section className="relative py-14 lg:py-20 bg-zinc-950 overflow-hidden" data-testid="epd-motto-section">
         <div className="max-w-4xl mx-auto px-6 lg:px-12">
           <div className="text-[10px] uppercase tracking-[0.35em] text-zinc-500 font-bold mb-10">// motto-ul platformei</div>
           <blockquote className="space-y-8 text-white">
@@ -337,7 +337,7 @@ export default function Landing() {
             <p className="text-xl lg:text-2xl text-zinc-300 leading-relaxed" data-testid="motto-q2">
               O platformă pe care o folosești pentru tot ce îți trebuie.
             </p>
-            <p className="text-lg lg:text-xl text-zinc-400 italic tracking-tight leading-relaxed" data-testid="motto-q3">
+            <p className="text-base lg:text-lg text-zinc-400 italic tracking-tight leading-relaxed" data-testid="motto-q3">
               Construcții, marketplace, cumpărături, servicii.<br/>
               Totul integrat într-o singură platformă.
             </p>
@@ -353,7 +353,7 @@ export default function Landing() {
       </section>
 
       {/* PRODUS PRINCIPAL — Gaze Naturale (flagship showcase V13.6 editorial split) */}
-      <section id="main-product" className="py-24 lg:py-32 bg-white">
+      <section id="main-product" className="py-14 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-[1.15fr_1fr] gap-12 lg:gap-16 items-center">
             {/* LEFT — Foto reală țevi gaze cu detalii */}
@@ -385,7 +385,7 @@ export default function Landing() {
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-bold">Produs principal · Operațional 100%</span>
               </div>
-              <h2 className="text-4xl lg:text-6xl font-bold tracking-[-0.035em] leading-[1.02] mb-6 text-zinc-950 font-display">
+              <h2 className="text-3xl lg:text-4xl font-bold tracking-[-0.035em] leading-[1.02] mb-6 text-zinc-950 font-display">
                 Documentație tehnică electronică<br/>
                 <span className="italic text-zinc-400 font-normal">gaze naturale.</span>
               </h2>
@@ -423,12 +423,12 @@ export default function Landing() {
       <PublicPlansGrid context="gas" />
 
       {/* ECOSISTEM EPD — toate serviciile platformei V13.6 mono */}
-      <section id="services" className="py-24 bg-zinc-50 border-y border-zinc-200">
+      <section id="services" className="py-14 bg-zinc-50 border-y border-zinc-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="flex items-end justify-between mb-14 flex-wrap gap-4">
+          <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
             <div>
               <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500 font-bold mb-4">// Ecosistem EPD · 20 servicii integrate</div>
-              <h2 className="text-4xl lg:text-6xl font-bold tracking-[-0.03em] text-zinc-950 max-w-2xl font-display leading-[1.02]">
+              <h2 className="text-3xl lg:text-4xl font-bold tracking-[-0.03em] text-zinc-950 max-w-2xl font-display leading-[1.02]">
                 Un singur cont.<br/><span className="italic text-zinc-400 font-normal">Toate serviciile.</span>
               </h2>
               <p className="text-zinc-600 mt-5 max-w-2xl leading-relaxed">
@@ -436,9 +436,9 @@ export default function Landing() {
                 execuție, comercializare, logistică, transport, sănătate și comunitate.
               </p>
             </div>
-            <div className="text-right border-l-2 border-zinc-950 pl-5">
+            <div className="text-right border-l-2 border-zinc-950 pl-4">
               <div className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 mb-1 font-semibold">// active acum</div>
-              <div className="text-6xl font-bold tabular-nums text-zinc-950 font-display tracking-tighter">20</div>
+              <div className="text-4xl font-bold tabular-nums text-zinc-950 font-display tracking-tighter">20</div>
             </div>
           </div>
 
@@ -505,7 +505,7 @@ export default function Landing() {
 
       {/* Banner — The Architects V13.6 zinc premium editorial + Imagine 1 „Holographic Globe" background */}
       <section
-        className="relative py-24 lg:py-32 overflow-hidden text-white bg-zinc-950"
+        className="relative py-14 lg:py-20 overflow-hidden text-white bg-zinc-950"
         style={{
           backgroundImage: `linear-gradient(180deg, rgba(9,9,11,0.75) 0%, rgba(9,9,11,0.85) 50%, rgba(9,9,11,0.95) 100%), url(${BRAND_ASSETS.brandHologram})`,
           backgroundSize: 'cover',
@@ -514,7 +514,7 @@ export default function Landing() {
       >
         <div className="max-w-5xl mx-auto px-6 lg:px-12 relative">
           <div className="text-[10px] uppercase tracking-[0.35em] text-zinc-500 font-bold mb-6">// Viziunea EPD</div>
-          <h2 className="text-4xl lg:text-7xl font-bold tracking-[-0.035em] leading-[0.98] max-w-4xl mb-8 font-display">
+          <h2 className="text-3xl lg:text-5xl font-bold tracking-[-0.035em] leading-[0.98] max-w-4xl mb-8 font-display">
             We are the architects<br/>
             of the <span className="italic text-zinc-400 font-normal">future global technology.</span>
           </h2>
@@ -527,20 +527,20 @@ export default function Landing() {
       </section>
 
       {/* ROADMAP 22 SERVICII VIITOARE V13.6 */}
-      <section id="roadmap" className="py-24 bg-white">
+      <section id="roadmap" className="py-14 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+          <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
             <div>
               <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500 font-bold mb-4">// roadmap global EPD</div>
-              <h2 className="text-4xl lg:text-5xl font-bold tracking-[-0.03em] text-zinc-950 max-w-3xl font-display leading-[1.02]">22 servicii globale în dezvoltare.</h2>
+              <h2 className="text-3xl lg:text-4xl font-bold tracking-[-0.02em] text-zinc-950 max-w-3xl font-display leading-[1.02]">22 servicii globale în dezvoltare.</h2>
               <p className="text-slate-600 mt-3 max-w-2xl">
                 EPD devine singura platformă din lume care unește toate produsele și serviciile esențiale —
                 un singur brand global, standarde uniforme, preț democratizat.
               </p>
             </div>
-            <div className="text-right border-l-2 border-zinc-950 pl-5">
+            <div className="text-right border-l-2 border-zinc-950 pl-4">
               <Globe className="w-8 h-8 text-zinc-950 ml-auto mb-2" strokeWidth={1.5} />
-              <div className="text-6xl font-bold tabular-nums text-zinc-950 font-display tracking-tighter">22</div>
+              <div className="text-4xl font-bold tabular-nums text-zinc-950 font-display tracking-tighter">22</div>
               <div className="text-[10px] uppercase tracking-[0.22em] text-zinc-500 mt-1 font-semibold">servicii viitoare</div>
             </div>
           </div>
@@ -564,11 +564,11 @@ export default function Landing() {
       </section>
 
       {/* V13.6 — VIZIUNI EPD NEXT-GEN (editorial zinc) */}
-      <section id="next-gen" className="py-24 bg-zinc-50 border-y border-zinc-200">
+      <section id="next-gen" className="py-14 bg-zinc-50 border-y border-zinc-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="mb-14">
             <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500 font-bold mb-4">// Viziuni EPD Next-Gen · Feb 2026</div>
-            <h2 className="text-4xl lg:text-6xl font-bold tracking-[-0.03em] text-zinc-950 max-w-4xl leading-[1.02] font-display">
+            <h2 className="text-3xl lg:text-4xl font-bold tracking-[-0.03em] text-zinc-950 max-w-4xl leading-[1.02] font-display">
               Cele 16 misiuni viitoare<br/><span className="italic text-zinc-400 font-normal">ale ecosistemului EPD.</span>
             </h2>
             <p className="text-base text-zinc-600 mt-6 max-w-3xl leading-relaxed">
@@ -636,10 +636,10 @@ export default function Landing() {
       </section>
 
       {/* V13.5 — ECOSISTEM COMPLET (world-class hover: grayscale-idle → color) */}
-      <section id="ecosistem" className="py-24 bg-white border-b border-zinc-200" data-testid="epd-ecosystem-section">
+      <section id="ecosistem" className="py-14 bg-white border-b border-zinc-200" data-testid="epd-ecosystem-section">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           {/* V1.2 — Editorial split cu Imagine 2 „Isometric platform hub" (perfect visual metaphor) */}
-          <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-14 items-center mb-16">
+          <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-14 items-center mb-10">
             <div className="relative order-2 lg:order-1 rounded-md overflow-hidden bg-zinc-950 shadow-2xl">
               <img
                 src={BRAND_ASSETS.brandIsometric}
@@ -650,10 +650,10 @@ export default function Landing() {
             </div>
             <div className="order-1 lg:order-2">
               <div className="text-[10px] uppercase tracking-[0.35em] text-zinc-500 font-bold mb-3">// ecosistem EPD</div>
-              <h2 className="text-4xl lg:text-6xl font-bold tracking-[-0.03em] text-zinc-950 mb-4 font-display leading-[1.02]">
+              <h2 className="text-3xl lg:text-4xl font-bold tracking-[-0.03em] text-zinc-950 mb-4 font-display leading-[1.02]">
                 Un singur ecosistem.<br/><span className="italic text-zinc-400 font-normal">Totul integrat.</span>
               </h2>
-              <p className="text-base lg:text-lg text-zinc-600 max-w-2xl leading-relaxed">
+              <p className="text-sm lg:text-base text-zinc-600 max-w-2xl leading-relaxed">
                 10 categorii × zeci de servicii — de la construcții și logistică, până la marketing,
                 evenimente, tehnologie și afaceri. Toate operează sub același brand, aceeași autentificare,
                 aceeași experiență. <strong className="text-zinc-950">Prima și singura platformă pentru toate serviciile.</strong>
@@ -664,7 +664,7 @@ export default function Landing() {
           {(() => {
             const categories = [...new Set(EPD_ECOSYSTEM.map(s => s.category))];
             return categories.map(cat => (
-              <div key={cat} className="mb-12 last:mb-0" data-testid={`ecosystem-category-${cat.replace(/[^a-z]/gi, '').toLowerCase()}`}>
+              <div key={cat} className="mb-8 last:mb-0" data-testid={`ecosystem-category-${cat.replace(/[^a-z]/gi, '').toLowerCase()}`}>
                 <h3 className="text-sm font-bold tracking-[0.15em] uppercase text-zinc-950 mb-5 flex items-center gap-3">
                   <span className="w-6 h-px bg-zinc-950"></span>
                   {cat}
@@ -698,7 +698,7 @@ export default function Landing() {
             ));
           })()}
 
-          <div className="mt-16 py-8 border-t border-zinc-200 text-center">
+          <div className="mt-10 py-5 border-t border-zinc-200 text-center">
             <p className="text-sm text-zinc-500 italic max-w-2xl mx-auto tracking-tight">
               „Nu e o listă de idei. E o hartă a viitorului fiecărei industrii — livrată printr-un singur cont, o singură experiență, o singură echipă."
             </p>
@@ -722,7 +722,7 @@ export default function Landing() {
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>// Strategic capital opportunity</span>
               </div>
-              <h2 className="text-4xl lg:text-6xl font-bold tracking-tighter text-white leading-[1.05] mb-6">
+              <h2 className="text-3xl lg:text-4xl font-bold tracking-tighter text-white leading-[1.05] mb-6">
                 Construim cea mai <span className="bg-gradient-to-r from-violet-300 via-violet-300 to-violet-200 bg-clip-text text-transparent">influentă platformă globală</span> de proiectare și execuție multi-industrie.
               </h2>
               <p className="text-lg text-violet-100 leading-relaxed mb-6">
@@ -795,7 +795,7 @@ export default function Landing() {
       </section>
 
       {/* V10.6.2 — FAQ Section with FAQPage schema → Google rich snippets */}
-      <section className="py-24 bg-white border-y border-slate-200" id="faq" data-testid="faq-section">
+      <section className="py-14 bg-white border-y border-slate-200" id="faq" data-testid="faq-section">
         <div className="max-w-5xl mx-auto px-6 lg:px-12">
           <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-violet-600 font-semibold mb-3">
             <Sparkles className="w-3.5 h-3.5" />
@@ -934,7 +934,7 @@ export default function Landing() {
       </section>
 
       {/* CTA final (V12.7: pure gradient, no photo) */}
-      <section className="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-blue-950 text-white relative overflow-hidden">
+      <section className="py-14 bg-gradient-to-br from-slate-900 via-slate-800 to-blue-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(124,58,237,0.35) 0%, transparent 55%), radial-gradient(circle at 80% 80%, rgba(59,130,246,0.35) 0%, transparent 55%)' }} />
         <div className="max-w-7xl mx-auto px-6 lg:px-12 grid md:grid-cols-2 gap-12 items-end relative">
           <div>
